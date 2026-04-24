@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "ai-health-monitoring-app",
+  "name": "health-app",
   "builds": [
     {
       "src": "working_app.html",
@@ -8,6 +8,10 @@
     }
   ],
   "routes": [
+    {
+      "src": "/",
+      "dest": "/working_app.html"
+    },
     {
       "src": "/working_app.html",
       "dest": "/working_app.html"
@@ -19,10 +23,12 @@
     {
       "src": "/test_registration.html",
       "dest": "/test_registration.html"
-    },
+    }
+  ],
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/working_app.html"
+      "source": "/(.*)",
+      "destination": "/working_app.html"
     }
   ]
 }
