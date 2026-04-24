@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Health App Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; background: #f0f8ff; }
+        .card { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #2196F3; text-align: center; }
+        button { background: #4CAF50; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #45a049; }
+        input { padding: 10px; margin: 5px; border: 1px solid #ddd; border-radius: 4px; width: 300px; }
+        .result { margin-top: 10px; padding: 10px; border-radius: 4px; display: none; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>🏥 Simple Health App Test Page</h1>
+
+    <div class="card">
+        <h2>Step 1: Test Login</h2>
+        <input id="email" value="testuser@example.com" placeholder="Email">
+        <input id="password" value="test123" placeholder="Password" type="password">
+        <button onclick="testLogin()">Test Login</button>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <div class="card">
+        <h2>Step 2: Add Health Metrics</h2>
+        <input id="systolic" value="120" placeholder="Systolic BP" type="number">
+        <input id="diastolic" value="80" placeholder="Diastolic BP" type="number">
+        <input id="bloodSugar" value="95" placeholder="Blood Sugar" type="number">
+        <input id="weight" value="75" placeholder="Weight (kg)" type="number">
+        <button onclick="testHealthMetrics()">Add Metrics</button>
+        <div id="metricsResult" class="result"></div>
+    </div>
+
+    <div class="card">
+        <h2>Step 3: Test Backend Health</h2>
+        <button onclick="testBackend()">Test Backend</button>
+        <div id="backendResult" class="result"></div>
+    </div>
+
+    <div class="card">
+        <h2>📋 Debug Info</h2>
+        <p><strong>Browser:</strong> <span id="browser"></span></p>
+        <p><strong>Page URL:</strong> <span id="url"></span></p>
+        <button onclick="showConsole()">Show Console Errors</button>
+        <div id="consoleInfo" style="display:none; margin-top:10px;"></div>
+    </div>
+
+    <script>
+        let authToken = null;
+
+        // Show browser info
+        document.getElementById('browser').textContent = navigator.userAgent;
+        document.getElementById('url').textContent = window.location.href;
+
+        function showResult(elementId, message, isSuccess, data) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = isSuccess ? 'result success' : 'result error';
+            let content = `<h3>${isSuccess ? '✅' : '❌'} ${message}</h3>`;
+            if (data) {
+                content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            }
+            element.innerHTML = content;
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    authToken = data.data.token;
+                    showResult('loginResult', 'Login Successful!', true, data);
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('loginResult', 'Login Failed!', false, { error: error.message });
+            }
+        }
+
+        async function testHealthMetrics() {
+            if (!authToken) {
+                showResult('metricsResult', 'Please login first!', false, {
+                    message: 'Click "Test Login" first'
+                });
+                return;
+            }
+
+            const systolic = document.getElementById('systolic').value;
+            const diastolic = document.getElementById('diastolic').value;
+            const bloodSugar = document.getElementById('bloodSugar').value;
+            const weight = document.getElementById('weight').value;
+
+            try {
+                const response = await fetch('http://localhost:5000/api/health/metrics', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        date: new Date().toISOString(),
+                        metrics: {
+                            bloodPressure: { systolic: parseInt(systolic), diastolic: parseInt(diastolic) },
+                            bloodSugar: parseInt(bloodSugar),
+                            weight: parseFloat(weight)
+                        }
+                    })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('metricsResult', 'Health Metrics Added!', true, data);
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('metricsResult', 'Failed to Add Metrics!', false, { error: error.message });
+            }
+        }
+
+        async function testBackend() {
+            try {
+                const response = await fetch('http://localhost:5000/health');
+                const data = await response.json();
+                showResult('backendResult', 'Backend is Working!', true, data);
+            } catch (error) {
+                showResult('backendResult', 'Backend Connection Failed!', false, { error: error.message });
+            }
+        }
+
+        function showConsole() {
+            const consoleInfo = document.getElementById('consoleInfo');
+            consoleInfo.style.display = 'block';
+            consoleInfo.innerHTML = `
+                <h3>🔍 How to See Browser Console Errors:</h3>
+                <ol>
+                    <li><strong>Press F12</strong> (or Right-click → Inspect)</li>
+                    <li>Click the <strong>"Console"</strong> tab</li>
+                    <li>Look for <strong style="color: red;">RED errors</strong></li>
+                    <li><strong>Copy the error text</strong> and share it with me</li>
+                </ol>
+                <p><strong>Common Errors to Look For:</strong></p>
+                <ul style="font-size: 14px; color: #666;">
+                    <li>❌ "Failed to fetch" → CORS/Network issue</li>
+                    <li>❌ "AppColors is not defined" → Missing color definitions</li>
+                    <li>❌ "404 Not Found" → Files missing</li>
+                    <li>❌ "undefined is not a function" → Code errors</li>
+                </ul>
+            `;
+        }
+
+        // Auto-test backend on load
+        window.onload = function() {
+            testBackend();
+        };
+    </script>
+</body>
+</html>

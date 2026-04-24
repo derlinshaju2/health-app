@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: health-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: healthdb
+    networks:
+      - health-network
+
+  backend:
+    build:
+      context: ./health-backend
+      dockerfile: Dockerfile
+    container_name: health-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/healthdb
+      - JWT_SECRET=health-app-super-secret-jwt-key-change-in-production
+      - JWT_EXPIRE=7d
+      - ML_SERVICE_URL=http://ml-service:8000
+      - CORS_ORIGIN=http://localhost:8080
+    volumes:
+      - ./health-backend:/app
+      - /app/node_modules
+    depends_on:
+      - mongodb
+      - ml-service
+    networks:
+      - health-network
+    command: npm run dev
+
+  ml-service:
+    build:
+      context: ./health-backend/ml-service
+      dockerfile: Dockerfile
+    container_name: health-ml-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./health-backend/ml-service:/app
+    environment:
+      - FLASK_ENV=development
+      - ML_SERVICE_PORT=8000
+    depends_on:
+      - mongodb
+    networks:
+      - health-network
+    command: python app.py
+
+  frontend:
+    build:
+      context: ./health_app
+      dockerfile: Dockerfile
+    container_name: health-frontend
+    ports:
+      - "8080:8080"
+    environment:
+      - API_URL=http://localhost:5000/api
+    volumes:
+      - ./health_app:/app
+    networks:
+      - health-network
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:
+
+networks:
+  health-network:
+    driver: bridge
