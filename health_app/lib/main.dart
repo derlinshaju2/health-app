@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'core/themes/app_theme.dart';
+import 'core/themes/vitality_theme.dart';
 import 'core/widgets/main_navigation.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
 import 'features/auth/presentation/screens/splash_screen.dart';
@@ -18,6 +18,7 @@ import 'features/profile/presentation/providers/profile_provider.dart';
 import 'features/profile/presentation/screens/profile_screen.dart';
 import 'features/yoga/presentation/providers/yoga_provider.dart';
 import 'features/yoga/presentation/screens/yoga_session_screen.dart';
+import 'screens/vitality_home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,17 +41,17 @@ class HealthApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => YogaProvider()),
       ],
       child: MaterialApp(
-        title: 'Health Monitor',
+        title: 'Vitality - Health Monitor',
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
+        theme: VitalityTheme.lightTheme,
+        darkTheme: VitalityTheme.darkTheme,
         themeMode: ThemeMode.system,
         initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreen(),
           '/login': (context) => const LoginScreen(),
           '/register': (context) => const RegisterScreen(),
-          '/dashboard': (context) => const MainNavigation(),
+          '/dashboard': (context) => const VitalityHomeScreen(),
           '/metrics/input': (context) => const MetricsInputScreen(),
           '/metrics/history': (context) => const MetricsHistoryScreen(),
           '/predictions': (context) => const PredictionResultsScreen(),
