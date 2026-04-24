@@ -19,6 +19,7 @@ import 'features/profile/presentation/screens/profile_screen.dart';
 import 'features/yoga/presentation/providers/yoga_provider.dart';
 import 'features/yoga/presentation/screens/yoga_session_screen.dart';
 import 'screens/vitality_home_screen.dart';
+import 'screens/complete_vitality_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +52,7 @@ class HealthApp extends StatelessWidget {
           '/': (context) => const SplashScreen(),
           '/login': (context) => const LoginScreen(),
           '/register': (context) => const RegisterScreen(),
-          '/dashboard': (context) => const VitalityHomeScreen(),
+          '/dashboard': (context) => const CompleteVitalityScreen(),
           '/metrics/input': (context) => const MetricsInputScreen(),
           '/metrics/history': (context) => const MetricsHistoryScreen(),
           '/predictions': (context) => const PredictionResultsScreen(),
