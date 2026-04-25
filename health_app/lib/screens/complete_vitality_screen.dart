@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/themes/vitality_theme.dart';
 import '../../../core/components/vitality_cards.dart';
 import '../../../core/components/vitality_meal_cards.dart';
+import '../../../features/auth/presentation/providers/auth_provider.dart';
 
 /// Health Monitor App with Vitality-inspired Design
 /// Modern health monitoring interface with clean, professional design
@@ -14,6 +16,39 @@ class HealthMonitorScreen extends StatefulWidget {
 
 class _HealthMonitorScreenState extends State<HealthMonitorScreen> {
   int _selectedIndex = 2; // Start on diet tab (like in Vitality app)
+
+  // Show logout confirmation dialog
+  Future<void> _showLogoutDialog() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(
+              foregroundColor: VitalityTheme.error,
+            ),
+            child: const Text('Logout'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && mounted) {
+      final authProvider = context.read<AuthProvider>();
+      await authProvider.logout();
+
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/login');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +106,15 @@ class _HealthMonitorScreenState extends State<HealthMonitorScreen> {
               ),
             ),
             const Spacer(),
-            // Notification Icon
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: VitalityTheme.primary.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.notifications_outlined,
+            // Logout Button
+            IconButton(
+              onPressed: () => _showLogoutDialog(),
+              icon: Icon(
+                Icons.logout,
                 color: VitalityTheme.primary,
                 size: 20,
               ),
+              tooltip: 'Logout',
             ),
           ],
         ),

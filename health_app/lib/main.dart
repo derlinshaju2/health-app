@@ -47,7 +47,7 @@ class HealthApp extends StatelessWidget {
         theme: VitalityTheme.lightTheme,
         darkTheme: VitalityTheme.darkTheme,
         themeMode: ThemeMode.system,
-        initialRoute: '/dashboard',
+        initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreen(),
           '/login': (context) => const LoginScreen(),

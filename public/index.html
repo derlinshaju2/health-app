@@ -1,46 +1,685 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>health_app</title>
+    <link rel="icon" type="image/png" href="favicon.png"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F9F9FC;
+            min-height: 100vh;
+        }
 
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+        /* Header */
+        .header {
+            background: white;
+            padding: 16px 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="/">
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+        .logo-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 60, 144, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="health_app">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+        .logo-avatar i {
+            font-size: 20px;
+            color: #003C90;
+        }
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: #003C90;
+            letter-spacing: -0.5px;
+        }
 
-  <title>health_app</title>
-  <link rel="manifest" href="manifest.json">
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 60, 144, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .notification-icon i {
+            font-size: 18px;
+            color: #003C90;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: #EEEFF0;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .hero-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 120px;
+            opacity: 0.05;
+            color: #003C90;
+        }
+
+        .hero-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #434653;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .hero-value {
+            font-size: 56px;
+            font-weight: 700;
+            color: #003C90;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .hero-unit {
+            font-size: 20px;
+            font-weight: 400;
+            color: #434653;
+        }
+
+        .hero-status {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(0, 109, 55, 0.15);
+            border-radius: 8px;
+            margin: 16px 0;
+            color: #006D37;
+            font-weight: 600;
+        }
+
+        .hero-description {
+            color: #434653;
+            line-height: 1.6;
+            margin-top: 16px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #E2E2E5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(0, 60, 144, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #003C90;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #434653;
+            margin-top: 4px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1A1C1E;
+            margin-bottom: 24px;
+        }
+
+        /* Meal Cards */
+        .meal-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+        }
+
+        .meal-header {
+            background: linear-gradient(135deg, #003C90, #1D59C1);
+            color: white;
+            padding: 20px 24px;
+            position: relative;
+        }
+
+        .meal-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .meal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .meal-description {
+            color: rgba(255,255,255,0.9);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .meal-info {
+            padding: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 16px;
+        }
+
+        .meal-stat {
+            text-align: center;
+        }
+
+        .meal-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #003C90;
+        }
+
+        .meal-stat-label {
+            font-size: 12px;
+            color: #434653;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* Risk Cards */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .risk-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #E2E2E5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .risk-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .risk-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1A1C1E;
+            margin-bottom: 8px;
+        }
+
+        .risk-value {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .risk-status {
+            font-size: 14px;
+            color: #434653;
+        }
+
+        .risk-low { color: #059669; }
+        .risk-medium { color: #F59E0B; }
+        .risk-high { color: #EF4444; }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px 16px;
+            box-shadow: 0 -8px 24px rgba(0,0,0,0.08);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 60, 144, 0.05);
+        }
+
+        .nav-item.active {
+            color: #003C90;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-value {
+                font-size: 40px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .risk-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .meal-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-avatar">👤</div>
+            <div class="logo-text">health_app</div>
+        </div>
+        <div class="notification-icon">🔔</div>
+    </div>
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
-  <script src="flutter_bootstrap.js" async></script>
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Home Tab -->
+        <div id="home-tab" class="tab-content active">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-icon">⚖️</div>
+                <div class="hero-label">Current Status</div>
+                <div class="hero-value">24.2 <span class="hero-unit">BMI</span></div>
+                <div class="hero-status">✅ Healthy Weight</div>
+                <p class="hero-description">You're in the optimal range. Your personalized plan focuses on maintaining lean mass and consistent energy levels.</p>
+            </div>
+
+            <!-- Health Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-value">2,150</div>
+                    <div class="stat-label">Daily Calories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💧</div>
+                    <div class="stat-value">2.8L</div>
+                    <div class="stat-label">Hydration Goal</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">❤️</div>
+                    <div class="stat-value">120/80</div>
+                    <div class="stat-label">Blood Pressure</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🩸</div>
+                    <div class="stat-value">95</div>
+                    <div class="stat-label">Blood Sugar mg/dL</div>
+                </div>
+            </div>
+
+            <!-- Meal Plans -->
+            <h2 class="section-title">Today's Meal Plan</h2>
+
+            <div class="meal-card">
+                <div class="meal-header">
+                    <span class="meal-badge">Breakfast • 08:00 AM</span>
+                    <div class="meal-title">Avocado & Poached Egg Sourdough</div>
+                    <div class="meal-description">High-fiber complex carbs with healthy fats and protein to kickstart your metabolism.</div>
+                </div>
+                <div class="meal-info">
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">420</div>
+                        <div class="meal-stat-label">Calories</div>
+                    </div>
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">18g</div>
+                        <div class="meal-stat-label">Protein</div>
+                    </div>
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">24g</div>
+                        <div class="meal-stat-label">Carbs</div>
+                    </div>
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">22g</div>
+                        <div class="meal-stat-label">Healthy Fats</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meal-card">
+                <div class="meal-header" style="background: linear-gradient(135deg, #006D37, #10B981);">
+                    <span class="meal-badge">Lunch • 01:30 PM</span>
+                    <div class="meal-title">Mediterranean Power Bowl</div>
+                    <div class="meal-description">Grilled chicken, quinoa, and fresh greens. Rich in micronutrients for afternoon energy.</div>
+                </div>
+                <div class="meal-info">
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">580</div>
+                        <div class="meal-stat-label">Calories</div>
+                    </div>
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">42g</div>
+                        <div class="meal-stat-label">Protein</div>
+                    </div>
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">55g</div>
+                        <div class="meal-stat-label">Carbs</div>
+                    </div>
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">28g</div>
+                        <div class="meal-stat-label">Healthy Fats</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Predict Tab -->
+        <div id="predict-tab" class="tab-content">
+            <div class="hero-section" style="background: linear-gradient(135deg, #10B981, #006D37);">
+                <div class="hero-icon">🤖</div>
+                <div class="hero-label" style="color: white;">AI Disease Risk Analysis</div>
+                <h2 style="color: white; font-size: 32px; margin: 16px 0;">Personalized Health Predictions</h2>
+                <p style="color: rgba(255,255,255,0.9);">Get AI-powered insights based on your health metrics and lifestyle data.</p>
+            </div>
+
+            <h2 class="section-title">Your Risk Profile</h2>
+
+            <div class="risk-grid">
+                <div class="risk-card">
+                    <div class="risk-icon">❤️</div>
+                    <div class="risk-title">Hypertension</div>
+                    <div class="risk-value risk-medium">35% Risk Score</div>
+                    <div class="risk-status">Medium Risk</div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-icon">🩸</div>
+                    <div class="risk-title">Diabetes</div>
+                    <div class="risk-value risk-low">25% Risk Score</div>
+                    <div class="risk-status">Low Risk</div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-icon">🫀</div>
+                    <div class="risk-title">Heart Disease</div>
+                    <div class="risk-value risk-low">20% Risk Score</div>
+                    <div class="risk-status">Low Risk</div>
+                </div>
+                <div class="risk-card">
+                    <div class="risk-icon">⚖️</div>
+                    <div class="risk-title">Obesity</div>
+                    <div class="risk-value risk-medium">40% Risk Score</div>
+                    <div class="risk-status">Elevated Risk</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diet Tab -->
+        <div id="diet-tab" class="tab-content">
+            <h2 class="section-title">🥗 Nutrition Tracking</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-value">1,850</div>
+                    <div class="stat-label">Calories Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value">2,150</div>
+                    <div class="stat-label">Daily Goal</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💧</div>
+                    <div class="stat-value">2.1L</div>
+                    <div class="stat-label">Water Intake</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🥩</div>
+                    <div class="stat-value">85g</div>
+                    <div class="stat-label">Protein Goal</div>
+                </div>
+            </div>
+
+            <div class="meal-card">
+                <div class="meal-header" style="background: linear-gradient(135deg, #FF9E0B, #F59E0B);">
+                    <span class="meal-badge">Dinner • 07:30 PM</span>
+                    <div class="meal-title">Wild Salmon & Charred Asparagus</div>
+                    <div class="meal-description">High in Omega-3 fatty acids for brain health. Light yet satisfying evening meal.</div>
+                </div>
+                <div class="meal-info">
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">490</div>
+                        <div class="meal-stat-label">Calories</div>
+                    </div>
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">34g</div>
+                        <div class="meal-stat-label">Protein</div>
+                    </div>
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">12g</div>
+                        <div class="meal-stat-label">Carbs</div>
+                    </div>
+                    <div class="meal-stat">
+                        <div class="meal-stat-value">26g</div>
+                        <div class="meal-stat-label">Omega-3s</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yoga Tab -->
+        <div id="yoga-tab" class="tab-content">
+            <div class="hero-section">
+                <div class="hero-icon">🧘</div>
+                <div class="hero-label">30 Day Consistency</div>
+                <div class="hero-value">12 <span class="hero-unit">Days</span></div>
+                <div class="hero-status">🔥 40% Complete</div>
+                <p class="hero-description">Your yoga journey is progressing well! Keep up the consistent practice.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Sessions Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-value">360</div>
+                    <div class="stat-label">Total Minutes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-value">2,150</div>
+                    <div class="stat-label">Calories Burned</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile-tab" class="tab-content">
+            <div class="hero-section">
+                <div class="hero-icon">👤</div>
+                <div class="hero-label">Your Profile</div>
+                <h2 style="color: #003C90; font-size: 28px; margin: 16px 0;">Health Dashboard</h2>
+                <p style="color: #434653;">Manage your health information and track your progress</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🎂</div>
+                    <div class="stat-value">28</div>
+                    <div class="stat-label">Age</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📏</div>
+                    <div class="stat-value">175</div>
+                    <div class="stat-label">Height cm</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚖️</div>
+                    <div class="stat-value">70</div>
+                    <div class="stat-label">Weight kg</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏃</div>
+                    <div class="stat-value">22.9</div>
+                    <div class="stat-label">BMI</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-items">
+            <div class="nav-item" onclick="switchTab('home')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Home</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('predict')">
+                <div class="nav-icon">🤖</div>
+                <div class="nav-label">Predict</div>
+            </div>
+            <div class="nav-item active" onclick="switchTab('diet')">
+                <div class="nav-icon">🥗</div>
+                <div class="nav-label">Diet</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('yoga')">
+                <div class="nav-icon">🧘</div>
+                <div class="nav-label">Yoga</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('profile')">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profile</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Add active class to clicked nav item
+            event.currentTarget.classList.add('active');
+        }
+    </script>
 </body>
 </html>

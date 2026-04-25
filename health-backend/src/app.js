@@ -21,9 +21,9 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
-// CORS configuration
+// CORS configuration - allow all origins for development
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || ['http://localhost:3000', 'http://localhost:8080'],
+  origin: '*', // Allow all origins for development
   credentials: true
 }));
 
