@@ -1,5 +1,44 @@
 const User = require('../models/User');
 const { generateToken } = require('../config/jwt');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Configure multer for profile picture uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = 'uploads/profile-pictures';
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    // Generate unique filename
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'profile-' + req.userId + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+// File filter to accept only images
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|gif|webp/;
+  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = allowedTypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed (jpeg, jpg, png, gif, webp)'));
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: fileFilter
+});
 
 /**
  * Register a new user
@@ -190,6 +229,103 @@ const updateProfile = async (req, res) => {
 };
 
 /**
+ * Upload profile picture
+ * @route POST /api/auth/profile/picture
+ */
+const uploadProfilePicture = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'No file uploaded'
+      });
+    }
+
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'User not found'
+      });
+    }
+
+    // Delete old profile picture if it exists
+    if (user.profile.profilePicture && user.profile.profilePicture.startsWith('/uploads/')) {
+      const oldPicturePath = path.join(__dirname, '..', '..', user.profile.profilePicture);
+      if (fs.existsSync(oldPicturePath)) {
+        fs.unlinkSync(oldPicturePath);
+      }
+    }
+
+    // Update user profile with new picture URL
+    user.profile.profilePicture = `/uploads/profile-pictures/${req.file.filename}`;
+    await user.save();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Profile picture uploaded successfully',
+      data: {
+        user: {
+          id: user._id,
+          email: user.email,
+          profile: user.profile
+        }
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: error.message
+    });
+  }
+};
+
+/**
+ * Delete profile picture
+ * @route DELETE /api/auth/profile/picture
+ */
+const deleteProfilePicture = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'User not found'
+      });
+    }
+
+    // Delete profile picture file if it exists
+    if (user.profile.profilePicture && user.profile.profilePicture.startsWith('/uploads/')) {
+      const picturePath = path.join(__dirname, '..', '..', user.profile.profilePicture);
+      if (fs.existsSync(picturePath)) {
+        fs.unlinkSync(picturePath);
+      }
+    }
+
+    // Remove profile picture reference from user profile
+    user.profile.profilePicture = undefined;
+    await user.save();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Profile picture deleted successfully',
+      data: {
+        user: {
+          id: user._id,
+          email: user.email,
+          profile: user.profile
+        }
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: error.message
+    });
+  }
+};
+
+/**
  * Logout user (client-side token removal)
  * @route POST /api/auth/logout
  */
@@ -214,5 +350,8 @@ module.exports = {
   login,
   getProfile,
   updateProfile,
-  logout
+  uploadProfilePicture,
+  deleteProfilePicture,
+  logout,
+  upload // Export multer upload middleware for use in routes
 };

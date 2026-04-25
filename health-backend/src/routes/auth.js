@@ -39,4 +39,21 @@ router.get('/me', authenticate, authController.getProfile);
  */
 router.put('/profile', authenticate, authController.updateProfile);
 
+/**
+ * @route   POST /api/auth/profile/picture
+ * @desc    Upload profile picture
+ * @access  Private
+ */
+router.post('/profile/picture', authenticate, authController.upload.single('profilePicture'), authController.uploadProfilePicture);
+
+/**
+ * @route   DELETE /api/auth/profile/picture
+ * @desc    Delete profile picture
+ * @access  Private
+ */
+router.delete('/profile/picture', authenticate, authController.deleteProfilePicture);
+
+// Serve static files from uploads directory
+router.use('/uploads', express.static('uploads'));
+
 module.exports = router;

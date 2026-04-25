@@ -112,6 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final email = user['email'] ?? 'No email';
     final bmi = profile['bmi']?.toString() ?? 'N/A';
     final activityLevel = profile['activityLevel'] ?? 'Unknown';
+    final profilePicture = profile['profilePicture'];
 
     return Card(
       elevation: 4,
@@ -127,11 +128,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 CircleAvatar(
                   radius: 50,
                   backgroundColor: AppColors.primary.withOpacity(0.1),
-                  child: Icon(
-                    Icons.person,
-                    size: 50,
-                    color: AppColors.primary,
-                  ),
+                  backgroundImage: profilePicture != null
+                      ? NetworkImage('http://localhost:5000$profilePicture')
+                      : null,
+                  child: profilePicture == null
+                      ? Icon(
+                          Icons.person,
+                          size: 50,
+                          color: AppColors.primary,
+                        )
+                      : null,
                 ),
                 Positioned(
                   bottom: 0,
@@ -174,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildQuickStat('BMI', bmi, Icons.monitor_weight),
-                _buildQuickStat('Activity', activityLevel, Icons.directions_run),
+                _buildQuickStat('Activity', _formatActivityLevel(activityLevel), Icons.directions_run),
               ],
             ),
           ],
@@ -247,6 +253,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildHealthInfoCard(Map<String, dynamic> profile) {
+    final bmi = profile['bmi'];
+    final bmiCategory = _getBMICategory(bmi);
+    final bmiColor = _getBMICategoryColor(bmi);
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -261,27 +271,144 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            _buildInfoRow('BMI', profile['bmi']?.toString() ?? 'Not set'),
-            const SizedBox(height: 12),
-            _buildInfoRow('Activity Level', profile['activityLevel'] ?? 'Not set'),
+
+            // BMI Display with Category
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: bmi != null
+                      ? [bmiColor.withOpacity(0.1), bmiColor.withOpacity(0.05)]
+                      : [Colors.grey.withOpacity(0.1), Colors.grey.withOpacity(0.05)],
+                ),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: bmi != null ? bmiColor.withOpacity(0.3) : Colors.grey.withOpacity(0.3),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'BMI',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      if (bmi != null)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: bmiColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            bmiCategory,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        bmi?.toStringAsFixed(1) ?? 'N/A',
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          color: bmi != null ? bmiColor : Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: Text(
+                          'kg/m²',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (bmi == null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        'Enter height and weight to calculate',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            _buildInfoRow('Activity Level', _formatActivityLevel(profile['activityLevel'])),
             const SizedBox(height: 12),
             _buildInfoRow(
               'Medical Conditions',
-              profile['medicalConditions']?.isNotEmpty ?? false
-                  ? profile['medicalConditions'].join(', ')
+              profile['medicalHistory']?.isNotEmpty ?? false
+                  ? profile['medicalHistory'].join(', ')
                   : 'None reported',
             ),
             const SizedBox(height: 12),
             _buildInfoRow(
-              'Allergies',
-              profile['allergies']?.isNotEmpty ?? false
-                  ? profile['allergies'].join(', ')
+              'Existing Conditions',
+              profile['existingConditions']?.isNotEmpty ?? false
+                  ? profile['existingConditions'].join(', ')
                   : 'None reported',
             ),
           ],
         ),
       ),
     );
+  }
+
+  // Helper method to get BMI category
+  String _getBMICategory(dynamic bmi) {
+    if (bmi == null) return 'Unknown';
+    final bmiValue = bmi is double ? bmi : double.tryParse(bmi.toString());
+    if (bmiValue == null) return 'Unknown';
+
+    if (bmiValue < 18.5) return 'Underweight';
+    if (bmiValue < 25) return 'Normal';
+    if (bmiValue < 30) return 'Overweight';
+    return 'Obese';
+  }
+
+  // Helper method to get BMI category color
+  Color _getBMICategoryColor(dynamic bmi) {
+    if (bmi == null) return Colors.grey;
+    final bmiValue = bmi is double ? bmi : double.tryParse(bmi.toString());
+    if (bmiValue == null) return Colors.grey;
+
+    if (bmiValue < 18.5) return Colors.orange;
+    if (bmiValue < 25) return Colors.green;
+    if (bmiValue < 30) return Colors.yellow[700]!;
+    return Colors.red;
+  }
+
+  // Helper method to format activity level
+  String _formatActivityLevel(dynamic activityLevel) {
+    if (activityLevel == null) return 'Not set';
+    return activityLevel.toString().split('_').map((word) =>
+      word[0].toUpperCase() + word.substring(1)
+    ).join(' ');
   }
 
   Widget _buildAccountActionsCard(ProfileProvider profileProvider, AuthProvider authProvider) {
@@ -411,7 +538,136 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _showEditProfileDialog(Map<String, dynamic> profile) {
-    _showFeatureComingSoon('Profile editing');
+    final nameController = TextEditingController(text: profile['name'] ?? '');
+    final ageController = TextEditingController(text: profile['age']?.toString() ?? '');
+    final heightController = TextEditingController(text: profile['height']?.toString() ?? '');
+    final weightController = TextEditingController(text: profile['weight']?.toString() ?? '');
+    String selectedGender = profile['gender'] ?? 'other';
+    String selectedActivityLevel = profile['activityLevel'] ?? 'sedentary';
+
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: const Text('Edit Profile'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Personal Information', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Name',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: ageController,
+                  decoration: const InputDecoration(
+                    labelText: 'Age',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.cake),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  value: selectedGender,
+                  decoration: const InputDecoration(
+                    labelText: 'Gender',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.wc),
+                  ),
+                  items: const [
+                    DropdownMenuItem(value: 'male', child: Text('Male')),
+                    DropdownMenuItem(value: 'female', child: Text('Female')),
+                    DropdownMenuItem(value: 'other', child: Text('Other')),
+                  ],
+                  onChanged: (value) => setState(() => selectedGender = value!),
+                ),
+                const SizedBox(height: 16),
+                const Text('Body Measurements', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: heightController,
+                  decoration: const InputDecoration(
+                    labelText: 'Height (cm)',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.height),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: weightController,
+                  decoration: const InputDecoration(
+                    labelText: 'Weight (kg)',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.monitor_weight),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  value: selectedActivityLevel,
+                  decoration: const InputDecoration(
+                    labelText: 'Activity Level',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.directions_run),
+                  ),
+                  items: const [
+                    DropdownMenuItem(value: 'sedentary', child: Text('Sedentary')),
+                    DropdownMenuItem(value: 'light', child: Text('Light Activity')),
+                    DropdownMenuItem(value: 'moderate', child: Text('Moderate Activity')),
+                    DropdownMenuItem(value: 'active', child: Text('Active')),
+                    DropdownMenuItem(value: 'very_active', child: Text('Very Active')),
+                  ],
+                  onChanged: (value) => setState(() => selectedActivityLevel = value!),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (nameController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter your name'), backgroundColor: Colors.red),
+                  );
+                  return;
+                }
+
+                final profileData = {
+                  'name': nameController.text,
+                  'age': int.tryParse(ageController.text),
+                  'gender': selectedGender,
+                  'height': double.tryParse(heightController.text),
+                  'weight': double.tryParse(weightController.text),
+                  'activityLevel': selectedActivityLevel,
+                };
+
+                Navigator.pop(context);
+                await _updateProfile(profileData);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Save Changes'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _showImageSourceBottomSheet(ProfileProvider profileProvider) {
@@ -664,6 +920,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _updateProfile(Map<String, dynamic> profileData) async {
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('Updating profile...'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final profileProvider = context.read<ProfileProvider>();
+    final success = await profileProvider.updateProfile(profileData);
+
+    if (mounted) {
+      Navigator.pop(context); // Close loading dialog
+
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Profile updated successfully! BMI has been recalculated.'),
+            backgroundColor: AppColors.success,
+          ),
+        );
+        setState(() {}); // Refresh UI
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(profileProvider.errorMessage ?? 'Failed to update profile'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   void _showFeatureComingSoon(String feature) {
