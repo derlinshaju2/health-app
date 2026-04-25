@@ -1,34 +1,4 @@
 {
   "version": 2,
-  "name": "health-app",
-  "builds": [
-    {
-      "src": "working_app.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/working_app.html"
-    },
-    {
-      "src": "/working_app.html",
-      "dest": "/working_app.html"
-    },
-    {
-      "src": "/test_login.html",
-      "dest": "/test_login.html"
-    },
-    {
-      "src": "/test_registration.html",
-      "dest": "/test_registration.html"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/working_app.html"
-    }
-  ]
+  "public": true
 }

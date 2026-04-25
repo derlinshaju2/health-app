@@ -29,6 +29,7 @@ class VitalityTheme {
   static const Color warning = Color(0xFFF59E0B); // Warning orange
   static const Color info = Color(0xFF3B82F6); // Info blue
   static const Color healthy = Color(0xFF006D37); // Healthy green
+  static const Color healthExcellent = Color(0xFF059669); // Excellent health green
   static const Color elevated = Color(0xFFFF6B6B); // Elevated red
 
   // Modern Gradients
@@ -157,6 +158,14 @@ class VitalityTheme {
     color: onSurface,
   );
 
+  static const TextStyle tiny = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.5,
+    height: 1.2,
+    color: onSurfaceVariant,
+  );
+
   // Material Design 3 Theme
   static ThemeData get lightTheme {
     return ThemeData(
@@ -181,7 +190,7 @@ class VitalityTheme {
         centerTitle: false,
         titleTextStyle: h2.copyWith(color: primary),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -241,7 +250,7 @@ class VitalityTheme {
         centerTitle: false,
         titleTextStyle: h2.copyWith(color: primaryLight),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: const Color(0xFF1E293B),
         elevation: 0,
         shape: RoundedRectangleBorder(

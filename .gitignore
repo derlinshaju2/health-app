@@ -85,3 +85,4 @@ coverage/
 
 # Claude session files
 *.claude
+.vercel

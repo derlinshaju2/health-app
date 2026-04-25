@@ -69,7 +69,7 @@ class ShadcnTheme {
         : primary;
   }
 
-  static Color primaryForeground(BuildContext context) {
+  static Color primaryForegroundColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
         ? const Color(0xFF0F172A)
         : primaryForeground;
@@ -81,7 +81,7 @@ class ShadcnTheme {
         : secondary;
   }
 
-  static Color secondaryForeground(BuildContext context) {
+  static Color secondaryForegroundColor(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
         ? const Color(0xFFF8FAFC)
         : secondaryForeground;

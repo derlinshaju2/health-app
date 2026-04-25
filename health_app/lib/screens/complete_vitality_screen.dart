@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../core/themes/vitality_theme.dart';
 import '../../../core/components/vitality_cards.dart';
 import '../../../core/components/vitality_meal_cards.dart';
-import '../../auth/presentation/providers/auth_provider.dart';
 
-/// Complete Vitality App Recreation
-/// Matches the exact design language and layout of the Vitality app
-class CompleteVitalityScreen extends StatefulWidget {
-  const CompleteVitalityScreen({super.key});
+/// Health Monitor App with Vitality-inspired Design
+/// Modern health monitoring interface with clean, professional design
+class HealthMonitorScreen extends StatefulWidget {
+  const HealthMonitorScreen({super.key});
 
   @override
-  State<CompleteVitalityScreen> createState() => _CompleteVitalityScreenState();
+  State<HealthMonitorScreen> createState() => _HealthMonitorScreenState();
 }
 
-class _CompleteVitalityScreenState extends State<CompleteVitalityScreen> {
+class _HealthMonitorScreenState extends State<HealthMonitorScreen> {
   int _selectedIndex = 2; // Start on diet tab (like in Vitality app)
 
   @override
@@ -65,7 +63,7 @@ class _CompleteVitalityScreenState extends State<CompleteVitalityScreen> {
             const SizedBox(width: 16),
             // App Name
             Text(
-              'Vitality',
+              'Health Monitor',
               style: VitalityTheme.h2.copyWith(
                 color: VitalityTheme.primary,
                 fontWeight: FontWeight.w800,
@@ -154,7 +152,7 @@ class _CompleteVitalityScreenState extends State<CompleteVitalityScreen> {
               TextButton.icon(
                 onPressed: () {},
                 icon: const Icon(Icons.chevron_right),
-                label: 'Full Weekly View',
+                label: const Text('Full Weekly View'),
                 style: TextButton.styleFrom(
                   foregroundColor: VitalityTheme.primary,
                 ),
@@ -173,7 +171,8 @@ class _CompleteVitalityScreenState extends State<CompleteVitalityScreen> {
             calories: 420,
             protein: '18g',
             carbs: '24g',
-            fats: 'Healthy Fats',
+            fats: '22g',
+            otherInfo: 'Healthy Fats',
             themeColor: VitalityTheme.primary,
           ),
           const SizedBox(height: 24),
@@ -187,7 +186,8 @@ class _CompleteVitalityScreenState extends State<CompleteVitalityScreen> {
             calories: 580,
             protein: '42g',
             carbs: '55g',
-            fats: 'Healthy Fats',
+            fats: '28g',
+            otherInfo: 'Healthy Fats',
             themeColor: VitalityTheme.accent,
           ),
           const SizedBox(height: 24),
@@ -201,7 +201,8 @@ class _CompleteVitalityScreenState extends State<CompleteVitalityScreen> {
             calories: 490,
             protein: '34g',
             carbs: '12g',
-            fats: 'Omega-3s',
+            fats: '26g',
+            otherInfo: 'Omega-3s',
             themeColor: const Color(0xFFFF9E0B),
           ),
           const SizedBox(height: 32),
@@ -785,7 +786,7 @@ class _CompleteVitalityScreenState extends State<CompleteVitalityScreen> {
             children: [
               _buildNavItem(Icons.home_outlined, 'Home', 0),
               _buildNavItem(Icons.health_and_safety_outlined, 'Predict', 1),
-              _buildNavItem(Icons.restaurant, 'Diet', 2, true), // Active state
+              _buildNavItem(Icons.restaurant, 'Diet', 2, isActive: true), // Active state
               _buildNavItem(Icons.self_improvement_outlined, 'Yoga', 3),
               _buildNavItem(Icons.person_outline, 'Profile', 4),
             ],
@@ -812,11 +813,6 @@ class _CompleteVitalityScreenState extends State<CompleteVitalityScreen> {
                   ? VitalityTheme.primary
                   : VitalityTheme.onSurfaceVariant,
               size: 24,
-              // Use filled icon for active state
-              color: isSelected
-                  ? Color(0xFF003C90)
-                  : null,
-              // ?? MaterialSymbolOutlined(fontVariation: isSelected ? FontVariation.full : FontVariation.outlined),
             ),
             const SizedBox(height: 4),
             Text(
