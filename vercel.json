@@ -1,4 +1,26 @@
 {
   "version": 2,
-  "public": true
+  "builds": [
+    {
+      "src": "health-backend/src/app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "health-backend/src/app.js"
+    },
+    {
+      "src": "/uploads/(.*)",
+      "dest": "health-backend/src/app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "health-backend/src/app.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }
