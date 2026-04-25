@@ -31,7 +31,7 @@
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 450px;
+            max-width: 500px;
             width: 100%;
             padding: 40px;
         }
@@ -77,7 +77,7 @@
             margin-bottom: 8px;
         }
 
-        .form-input {
+        .form-input, .form-select {
             width: 100%;
             padding: 12px 16px;
             border: 2px solid #E5E7EB;
@@ -86,10 +86,16 @@
             transition: all 0.3s;
         }
 
-        .form-input:focus {
+        .form-input:focus, .form-select:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
         }
 
         .btn-primary {
@@ -127,10 +133,6 @@
             color: #667eea;
             text-decoration: none;
             font-weight: 600;
-        }
-
-        .auth-link a:hover {
-            text-decoration: underline;
         }
 
         .error-message {
@@ -183,6 +185,7 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
+            color: white;
         }
 
         .logo-text {
@@ -227,40 +230,135 @@
             padding-bottom: 100px;
         }
 
-        /* Hero Section */
-        .hero-section {
+        /* Profile Section */
+        .profile-header {
             background: white;
             border-radius: 16px;
             padding: 32px;
             margin-bottom: 24px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .welcome-text {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1A1C1E;
-            margin-bottom: 16px;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-            margin-top: 24px;
-        }
-
-        .stat-box {
-            background: #F9FAFB;
-            padding: 20px;
-            border-radius: 12px;
             text-align: center;
         }
 
-        .stat-value {
-            font-size: 32px;
+        .profile-image-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            border: 4px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .profile-image-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 36px;
+            height: 36px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-size: 16px;
+        }
+
+        .profile-image-upload:hover {
+            background: #764ba2;
+        }
+
+        .profile-name {
+            font-size: 24px;
             font-weight: 700;
-            color: #667eea;
+            color: #1A1C1E;
+            margin-bottom: 4px;
+        }
+
+        .profile-email {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        /* BMI Card */
+        .bmi-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .bmi-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .bmi-value {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .bmi-status {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .bmi-description {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A1C1E;
         }
 
         .stat-label {
@@ -303,21 +401,6 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #E5E7EB;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: width 0.3s;
         }
 
         /* Bottom Navigation */
@@ -367,9 +450,50 @@
             display: block;
         }
 
+        /* Profile Form */
+        .profile-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1A1C1E;
+            margin-bottom: 20px;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed #E5E7EB;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: #667eea;
+            background: #F9FAFB;
+        }
+
+        .file-upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .file-upload-text {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
         /* Recommendations */
         .recommendation-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #10B981, #059669);
             color: white;
             border-radius: 16px;
             padding: 24px;
@@ -390,15 +514,21 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero-stats {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bmi-value {
+                font-size: 40px;
             }
         }
 
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #6B7280;
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -416,12 +546,12 @@
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
                     <input type="email" class="form-input" id="login-email" required
-                           placeholder="Enter your email" value="demo@example.com">
+                           placeholder="Enter your email">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Password</label>
                     <input type="password" class="form-input" id="login-password" required
-                           placeholder="Enter your password" value="demo123">
+                           placeholder="Enter your password">
                 </div>
                 <button type="submit" class="btn-primary" id="login-btn">
                     Login to Continue
@@ -438,38 +568,69 @@
         <div class="auth-card">
             <div class="auth-logo">
                 <div class="auth-logo-icon">✨</div>
-                <h1 class="auth-title">Create Your Account</h1>
-                <p class="auth-subtitle">Start your personalized health journey</p>
+                <h1 class="auth-title">Create Your Profile</h1>
+                <p class="auth-subtitle">Let's set up your personalized health journey</p>
             </div>
             <div id="register-error"></div>
             <form id="register-form">
                 <div class="form-group">
-                    <label class="form-label">Full Name</label>
+                    <label class="form-label">Full Name *</label>
                     <input type="text" class="form-input" id="register-name" required
                            placeholder="Enter your full name">
                 </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Age *</label>
+                        <input type="number" class="form-input" id="register-age" required
+                               placeholder="Years" min="1" max="120">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gender *</label>
+                        <select class="form-select" id="register-gender" required>
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Height (cm) *</label>
+                        <input type="number" class="form-input" id="register-height" required
+                               placeholder="170" min="100" max="250">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Weight (kg) *</label>
+                        <input type="number" class="form-input" id="register-weight" required
+                               placeholder="70" min="30" max="200">
+                    </div>
+                </div>
                 <div class="form-group">
-                    <label class="form-label">Email Address</label>
+                    <label class="form-label">Email Address *</label>
                     <input type="email" class="form-input" id="register-email" required
                            placeholder="Enter your email">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Password</label>
+                    <label class="form-label">Password *</label>
                     <input type="password" class="form-input" id="register-password" required
                            placeholder="Create a password (min 6 characters)" minlength="6">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Confirm Password</label>
+                    <label class="form-label">Confirm Password *</label>
                     <input type="password" class="form-input" id="register-confirm" required
                            placeholder="Confirm your password">
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Age (optional)</label>
-                    <input type="number" class="form-input" id="register-age"
-                           placeholder="Your age" min="1" max="120">
+
+                <!-- BMI Preview -->
+                <div id="bmi-preview" class="hidden" style="background: #F3F4F6; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: #1A1C1E;">📊 Your BMI</div>
+                    <div id="bmi-preview-value" style="font-size: 24px; font-weight: 700; color: #667eea;">--</div>
+                    <div id="bmi-preview-status" style="font-size: 14px; color: #6B7280;">Enter height and weight to calculate</div>
                 </div>
+
                 <button type="submit" class="btn-primary" id="register-btn">
-                    Create Account
+                    Create Profile
                 </button>
             </form>
             <div class="auth-link">
@@ -483,7 +644,7 @@
         <!-- Header -->
         <div class="header">
             <div class="logo">
-                <div class="logo-avatar">🏥</div>
+                <div class="logo-avatar" id="header-avatar">👤</div>
                 <div class="logo-text">health_app</div>
             </div>
             <div class="user-info">
@@ -494,33 +655,106 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Home Tab -->
-            <div id="home-tab" class="tab-content active">
-                <div class="hero-section">
-                    <h1 class="welcome-text" id="welcome-message">Welcome back! 👋</h1>
-                    <p style="color: #6B7280; margin-bottom: 24px;">
-                        Track your health metrics and get personalized recommendations powered by AI.
-                    </p>
-                    <div class="hero-stats">
-                        <div class="stat-box">
-                            <div class="stat-value" id="stat-bmi">--</div>
-                            <div class="stat-label">BMI</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value" id="stat-weight">--</div>
-                            <div class="stat-label">Weight (kg)</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value" id="stat-calories">0</div>
-                            <div class="stat-label">Calories Today</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value" id="stat-water">0</div>
-                            <div class="stat-label">Water (glasses)</div>
-                        </div>
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-content active">
+                <!-- Profile Header with Image -->
+                <div class="profile-header">
+                    <div class="profile-image-container">
+                        <div class="profile-image" id="profile-avatar">👤</div>
+                        <label class="profile-image-upload" title="Upload photo">
+                            📷
+                            <input type="file" id="profile-image-input" accept="image/*" style="display: none;" onchange="uploadProfileImage(event)">
+                        </label>
+                    </div>
+                    <h2 class="profile-name" id="profile-display-name">User Name</h2>
+                    <p class="profile-email" id="profile-display-email">user@example.com</p>
+                </div>
+
+                <!-- BMI Card -->
+                <div class="bmi-card">
+                    <div class="bmi-title">Your Body Mass Index</div>
+                    <div class="bmi-value" id="bmi-display">--</div>
+                    <div class="bmi-status" id="bmi-status-display">Enter your height and weight</div>
+                    <div class="bmi-description" id="bmi-description">
+                        Complete your profile to see your BMI and health recommendations
                     </div>
                 </div>
 
+                <!-- Profile Stats -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-icon">🎂</div>
+                        <div class="stat-value" id="stat-age">--</div>
+                        <div class="stat-label">Age</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">⚧️</div>
+                        <div class="stat-value" id="stat-gender">--</div>
+                        <div class="stat-label">Gender</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">📏</div>
+                        <div class="stat-value" id="stat-height">--</div>
+                        <div class="stat-label">Height (cm)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">⚖️</div>
+                        <div class="stat-value" id="stat-weight">--</div>
+                        <div class="stat-label">Weight (kg)</div>
+                    </div>
+                </div>
+
+                <!-- Edit Profile Section -->
+                <div class="profile-section">
+                    <h3 class="section-title">✏️ Edit Profile</h3>
+                    <form id="edit-profile-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" id="edit-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Age</label>
+                                <input type="number" class="form-input" id="edit-age" min="1" max="120">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Gender</label>
+                                <select class="form-select" id="edit-gender">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" id="edit-email" disabled>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Height (cm)</label>
+                                <input type="number" class="form-input" id="edit-height" min="100" max="250" onchange="updateBMI()">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Weight (kg)</label>
+                                <input type="number" class="form-input" id="edit-weight" min="30" max="200" step="0.1" onchange="updateBMI()">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Update Profile</button>
+                    </form>
+                </div>
+
+                <!-- Health Recommendations -->
+                <div class="recommendation-card" id="health-recommendation">
+                    <h3 class="recommendation-title">🤖 Personalized Health Insights</h3>
+                    <p class="recommendation-text" id="recommendation-text">Complete your profile to get personalized health recommendations based on your BMI and other metrics.</p>
+                </div>
+            </div>
+
+            <!-- Home Tab -->
+            <div id="home-tab" class="tab-content">
                 <div class="activity-card">
                     <h3 class="activity-title">📊 Log Today's Metrics</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
@@ -540,38 +774,6 @@
                     <button class="btn-secondary" onclick="saveMetrics()">Save Today's Metrics</button>
                 </div>
 
-                <div class="recommendation-card">
-                    <h3 class="recommendation-title">🤖 AI Health Tip</h3>
-                    <p class="recommendation-text" id="ai-tip">Start logging your daily metrics to get personalized health recommendations!</p>
-                </div>
-            </div>
-
-            <!-- Progress Tab -->
-            <div id="progress-tab" class="tab-content">
-                <h2 style="margin-bottom: 24px;">📈 Your Progress</h2>
-
-                <div class="activity-card">
-                    <h3 class="activity-title">Weekly Goals</h3>
-                    <div style="margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>Daily Calories Goal</span>
-                            <span id="calories-progress">0/2000</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="calories-bar" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>Water Intake Goal</span>
-                            <span id="water-progress">0/8 glasses</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="water-bar" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="activity-card">
                     <h3 class="activity-title">📝 Recent Activity</h3>
                     <div id="activity-log">
@@ -580,40 +782,27 @@
                 </div>
             </div>
 
-            <!-- Profile Tab -->
-            <div id="profile-tab" class="tab-content">
-                <h2 style="margin-bottom: 24px;">👤 Your Profile</h2>
-
+            <!-- Progress Tab -->
+            <div id="progress-tab" class="tab-content">
                 <div class="activity-card">
-                    <h3 class="activity-title">Personal Information</h3>
-                    <div class="form-group">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="activity-input" id="profile-name">
+                    <h3 class="activity-title">📈 Your Progress</h3>
+                    <div style="margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Daily Calories Goal</span>
+                            <span id="calories-progress">0/2000</span>
+                        </div>
+                        <div style="width: 100%; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden;">
+                            <div id="calories-bar" style="height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width 0.3s;"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="activity-input" id="profile-email" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Age</label>
-                        <input type="number" class="activity-input" id="profile-age">
-                    </div>
-                    <button class="btn-secondary" onclick="updateProfile()">Update Profile</button>
-                </div>
-
-                <div class="activity-card">
-                    <h3 class="activity-title">⚙️ App Settings</h3>
-                    <div style="margin: 12px 0;">
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="dark-mode">
-                            <span>Dark Mode (Coming Soon)</span>
-                        </label>
-                    </div>
-                    <div style="margin: 12px 0;">
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="notifications" checked>
-                            <span>Enable Notifications</span>
-                        </label>
+                    <div style="margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Water Intake Goal</span>
+                            <span id="water-progress">0/8 glasses</span>
+                        </div>
+                        <div style="width: 100%; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden;">
+                            <div id="water-bar" style="height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width 0.3s;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -621,7 +810,7 @@
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
-            <div class="nav-item active" onclick="switchTab('home')">
+            <div class="nav-item" onclick="switchTab('home')">
                 <div class="nav-icon">🏠</div>
                 <div class="nav-label">Home</div>
             </div>
@@ -629,7 +818,7 @@
                 <div class="nav-icon">📈</div>
                 <div class="nav-label">Progress</div>
             </div>
-            <div class="nav-item" onclick="switchTab('profile')">
+            <div class="nav-item active" onclick="switchTab('profile')">
                 <div class="nav-icon">👤</div>
                 <div class="nav-label">Profile</div>
             </div>
@@ -637,7 +826,7 @@
     </div>
 
     <script>
-        // ==================== AUTHENTICATION SYSTEM ====================
+        // ==================== DATABASE & AUTHENTICATION ====================
         const DB = {
             users: JSON.parse(localStorage.getItem('healthapp_users') || '[]'),
             currentUser: JSON.parse(localStorage.getItem('healthapp_currentUser') || 'null')
@@ -652,14 +841,12 @@
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
 
-        // Show specific screen
         function showScreen(screen) {
             document.getElementById('login-screen').style.display = screen === 'login' ? 'flex' : 'none';
             document.getElementById('register-screen').style.display = screen === 'register' ? 'flex' : 'none';
             document.getElementById('app-screen').style.display = screen === 'app' ? 'block' : 'none';
         }
 
-        // Check authentication on load
         function checkAuth() {
             if (DB.currentUser) {
                 showScreen('app');
@@ -669,27 +856,32 @@
             }
         }
 
-        // Register new user
-        async function register(name, email, password, age) {
+        async function register(userData) {
             try {
-                // Check if user already exists
-                if (DB.users.find(u => u.email === email)) {
+                if (DB.users.find(u => u.email === userData.email)) {
                     throw new Error('User with this email already exists');
                 }
 
-                // Create new user
+                // Calculate BMI
+                const heightInMeters = userData.height / 100;
+                const bmi = (userData.weight / (heightInMeters * heightInMeters)).toFixed(1);
+
                 const newUser = {
                     id: generateId(),
-                    name,
-                    email,
-                    password, // In production, this should be hashed
-                    age: age || null,
+                    ...userData,
+                    bmi: bmi,
+                    profileImage: null,
                     createdAt: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
                     metrics: {
-                        weight: [],
+                        weight: [{ date: new Date().toISOString(), value: userData.weight }],
                         calories: [],
                         water: [],
-                        activities: []
+                        activities: [{
+                            type: 'Profile created',
+                            date: new Date().toISOString(),
+                            bmi: bmi
+                        }]
                     },
                     preferences: {
                         notifications: true,
@@ -707,7 +899,6 @@
             }
         }
 
-        // Login user
         async function login(email, password) {
             try {
                 const user = DB.users.find(u => u.email === email && u.password === password);
@@ -725,7 +916,6 @@
             }
         }
 
-        // Logout user
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
                 DB.currentUser = null;
@@ -734,22 +924,185 @@
             }
         }
 
-        // Update user profile
-        function updateUserData(updates) {
-            if (DB.currentUser) {
-                Object.assign(DB.currentUser, updates);
+        // ==================== BMI CALCULATION ====================
+        function calculateBMI(weight, heightCm) {
+            if (!weight || !heightCm) return null;
+            const heightInMeters = heightCm / 100;
+            return (weight / (heightInMeters * heightInMeters)).toFixed(1);
+        }
 
-                // Update in users array too
-                const userIndex = DB.users.findIndex(u => u.id === DB.currentUser.id);
-                if (userIndex !== -1) {
-                    DB.users[userIndex] = DB.currentUser;
-                }
+        function getBMIStatus(bmi) {
+            if (!bmi) return { status: 'Unknown', color: '#6B7280', description: 'Enter height and weight' };
 
-                saveDB();
+            if (bmi < 18.5) {
+                return {
+                    status: 'Underweight',
+                    color: '#3B82F6',
+                    description: 'Consider consulting a nutritionist for a healthy weight gain plan.'
+                };
+            } else if (bmi >= 18.5 && bmi < 25) {
+                return {
+                    status: 'Normal Weight',
+                    color: '#10B981',
+                    description: 'Great! You\'re in the healthy range. Maintain your current lifestyle.'
+                };
+            } else if (bmi >= 25 && bmi < 30) {
+                return {
+                    status: 'Overweight',
+                    color: '#F59E0B',
+                    description: 'Consider a balanced diet and regular exercise to reach a healthy weight.'
+                };
+            } else {
+                return {
+                    status: 'Obese',
+                    color: '#EF4444',
+                    description: 'Consult a healthcare provider for a personalized weight management plan.'
+                };
             }
         }
 
+        function updateBMI() {
+            const height = parseFloat(document.getElementById('edit-height').value);
+            const weight = parseFloat(document.getElementById('edit-weight').value);
+
+            if (height && weight) {
+                const bmi = calculateBMI(weight, height);
+                const bmiInfo = getBMIStatus(bmi);
+
+                document.getElementById('bmi-display').textContent = bmi;
+                document.getElementById('bmi-status-display').textContent = bmiInfo.status;
+                document.getElementById('bmi-status-display').style.color = 'white';
+                document.getElementById('bmi-description').textContent = bmiInfo.description;
+
+                // Update recommendations
+                updateHealthRecommendations(bmi, bmiInfo);
+            }
+        }
+
+        function updateBMIPreview() {
+            const height = parseFloat(document.getElementById('register-height').value);
+            const weight = parseFloat(document.getElementById('register-weight').value);
+
+            if (height && weight) {
+                const bmi = calculateBMI(weight, height);
+                const bmiInfo = getBMIStatus(bmi);
+
+                document.getElementById('bmi-preview').classList.remove('hidden');
+                document.getElementById('bmi-preview-value').textContent = bmi;
+                document.getElementById('bmi-preview-status').textContent = bmiInfo.status;
+            } else {
+                document.getElementById('bmi-preview').classList.add('hidden');
+            }
+        }
+
+        // Add event listeners for BMI preview
+        document.getElementById('register-height').addEventListener('input', updateBMIPreview);
+        document.getElementById('register-weight').addEventListener('input', updateBMIPreview);
+
+        // ==================== PROFILE IMAGE UPLOAD ====================
+        function uploadProfileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+
+                    // Update user profile
+                    DB.currentUser.profileImage = imageData;
+
+                    // Update in users array
+                    const userIndex = DB.users.findIndex(u => u.id === DB.currentUser.id);
+                    if (userIndex !== -1) {
+                        DB.users[userIndex].profileImage = imageData;
+                    }
+
+                    saveDB();
+                    loadUserData();
+
+                    alert('Profile image uploaded successfully! 📸');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // ==================== HEALTH RECOMMENDATIONS ====================
+        function updateHealthRecommendations(bmi, bmiInfo) {
+            const recommendations = [];
+
+            if (bmi < 18.5) {
+                recommendations.push("Focus on nutrient-dense foods to gain weight healthily.");
+                recommendations.push("Include strength training exercises to build muscle mass.");
+            } else if (bmi >= 18.5 && bmi < 25) {
+                recommendations.push("Maintain your balanced diet and regular exercise routine.");
+                recommendations.push("Continue monitoring your health metrics regularly.");
+            } else if (bmi >= 25 && bmi < 30) {
+                recommendations.push("Increase physical activity to at least 150 minutes per week.");
+                recommendations.push("Reduce portion sizes and limit processed foods.");
+                recommendations.push("Focus on whole grains, fruits, and vegetables.");
+            } else {
+                recommendations.push("Consult a healthcare provider for a personalized weight loss plan.");
+                recommendations.push("Start with low-impact exercises like walking or swimming.");
+                recommendations.push("Keep a food diary to track and improve eating habits.");
+            }
+
+            // Add age-specific recommendations
+            const age = DB.currentUser.age;
+            if (age) {
+                if (age > 50) {
+                    recommendations.push("Ensure adequate calcium and vitamin D intake.");
+                    recommendations.push("Regular health check-ups are especially important.");
+                } else if (age < 30) {
+                    recommendations.push("Build healthy habits now for long-term wellness.");
+                    recommendations.push("Focus on preventive health measures.");
+                }
+            }
+
+            document.getElementById('recommendation-text').innerHTML =
+                recommendations.map(r => `• ${r}`).join('<br>');
+        }
+
         // ==================== FORM HANDLERS ====================
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('register-btn');
+            const errorDiv = document.getElementById('register-error');
+
+            const userData = {
+                name: document.getElementById('register-name').value,
+                age: parseInt(document.getElementById('register-age').value),
+                gender: document.getElementById('register-gender').value,
+                height: parseFloat(document.getElementById('register-height').value),
+                weight: parseFloat(document.getElementById('register-weight').value),
+                email: document.getElementById('register-email').value,
+                password: document.getElementById('register-password').value
+            };
+
+            const confirm = document.getElementById('register-confirm').value;
+            if (userData.password !== confirm) {
+                errorDiv.innerHTML = '<div class="error-message">Passwords do not match</div>';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Creating Profile...';
+            errorDiv.innerHTML = '';
+
+            const result = await register(userData);
+
+            if (result.success) {
+                errorDiv.innerHTML = '<div class="success-message">Profile created successfully! Your BMI is ' + result.user.bmi + '. Redirecting...</div>';
+                setTimeout(() => {
+                    showScreen('app');
+                    loadUserData();
+                }, 1500);
+            } else {
+                errorDiv.innerHTML = `<div class="error-message">${result.error}</div>`;
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Create Profile';
+        });
+
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
@@ -774,145 +1127,86 @@
             btn.textContent = 'Login to Continue';
         });
 
-        document.getElementById('register-form').addEventListener('submit', async (e) => {
+        document.getElementById('edit-profile-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const confirm = document.getElementById('register-confirm').value;
-            const age = document.getElementById('register-age').value;
-            const btn = document.getElementById('register-btn');
-            const errorDiv = document.getElementById('register-error');
 
-            if (password !== confirm) {
-                errorDiv.innerHTML = '<div class="error-message">Passwords do not match</div>';
-                return;
+            const updatedData = {
+                name: document.getElementById('edit-name').value,
+                age: parseInt(document.getElementById('edit-age').value) || null,
+                gender: document.getElementById('edit-gender').value,
+                height: parseFloat(document.getElementById('edit-height').value),
+                weight: parseFloat(document.getElementById('edit-weight').value)
+            };
+
+            // Recalculate BMI
+            if (updatedData.height && updatedData.weight) {
+                updatedData.bmi = calculateBMI(updatedData.weight, updatedData.height);
             }
 
-            btn.disabled = true;
-            btn.textContent = 'Creating Account...';
-            errorDiv.innerHTML = '';
+            // Update current user
+            Object.assign(DB.currentUser, updatedData);
 
-            const result = await register(name, email, password, age);
-
-            if (result.success) {
-                errorDiv.innerHTML = '<div class="success-message">Account created successfully! Redirecting...</div>';
-                setTimeout(() => {
-                    showScreen('app');
-                    loadUserData();
-                }, 1500);
-            } else {
-                errorDiv.innerHTML = `<div class="error-message">${result.error}</div>`;
+            // Update in users array
+            const userIndex = DB.users.findIndex(u => u.id === DB.currentUser.id);
+            if (userIndex !== -1) {
+                DB.users[userIndex] = DB.currentUser;
             }
 
-            btn.disabled = false;
-            btn.textContent = 'Create Account';
+            saveDB();
+            loadUserData();
+
+            alert('Profile updated successfully! ✅');
         });
 
         // ==================== APP FUNCTIONS ====================
         function loadUserData() {
             if (!DB.currentUser) return;
 
+            const user = DB.currentUser;
+
             // Update header
-            document.getElementById('user-greeting').textContent = `Hi, ${DB.currentUser.name}!`;
-            document.getElementById('welcome-message').textContent = `Welcome back, ${DB.currentUser.name}! 👋`;
+            document.getElementById('user-greeting').textContent = `Hi, ${user.name}!`;
 
-            // Load profile data
-            document.getElementById('profile-name').value = DB.currentUser.name;
-            document.getElementById('profile-email').value = DB.currentUser.email;
-            document.getElementById('profile-age').value = DB.currentUser.age || '';
+            // Profile header
+            document.getElementById('profile-display-name').textContent = user.name;
+            document.getElementById('profile-display-email').textContent = user.email;
 
-            // Calculate and display stats
-            updateStats();
+            // Profile image
+            if (user.profileImage) {
+                document.getElementById('profile-avatar').style.backgroundImage = `url(${user.profileImage})`;
+                document.getElementById('profile-avatar').style.backgroundSize = 'cover';
+                document.getElementById('profile-avatar').textContent = '';
+                document.getElementById('header-avatar').textContent = '';
+                document.getElementById('header-avatar').style.backgroundImage = `url(${user.profileImage})`;
+                document.getElementById('header-avatar').style.backgroundSize = 'cover';
+            }
+
+            // Stats
+            document.getElementById('stat-age').textContent = user.age || '--';
+            document.getElementById('stat-gender').textContent = user.gender || '--';
+            document.getElementById('stat-height').textContent = user.height || '--';
+            document.getElementById('stat-weight').textContent = user.weight || '--';
+
+            // BMI Display
+            if (user.bmi) {
+                const bmiInfo = getBMIStatus(user.bmi);
+                document.getElementById('bmi-display').textContent = user.bmi;
+                document.getElementById('bmi-status-display').textContent = bmiInfo.status;
+                document.getElementById('bmi-description').textContent = bmiInfo.description;
+                updateHealthRecommendations(user.bmi, bmiInfo);
+            }
+
+            // Edit form
+            document.getElementById('edit-name').value = user.name;
+            document.getElementById('edit-age').value = user.age || '';
+            document.getElementById('edit-gender').value = user.gender;
+            document.getElementById('edit-email').value = user.email;
+            document.getElementById('edit-height').value = user.height || '';
+            document.getElementById('edit-weight').value = user.weight || '';
+
+            // Update progress
             updateProgress();
             updateActivityLog();
-            generateAITip();
-        }
-
-        function updateStats() {
-            const metrics = DB.currentUser.metrics;
-            const weights = metrics.weight || [];
-            const caloriesToday = metrics.calories.filter(c => isToday(c.date));
-            const waterToday = metrics.water.filter(w => isToday(w.date));
-
-            // Calculate BMI from latest weight
-            if (weights.length > 0) {
-                const latestWeight = weights[weights.length - 1].value;
-                document.getElementById('stat-weight').textContent = latestWeight;
-
-                // Calculate BMI (assuming height around 175cm for demo)
-                const height = 1.75; // meters
-                const bmi = (latestWeight / (height * height)).toFixed(1);
-                document.getElementById('stat-bmi').textContent = bmi;
-            }
-
-            // Today's calories
-            const totalCalories = caloriesToday.reduce((sum, c) => sum + c.value, 0);
-            document.getElementById('stat-calories').textContent = totalCalories;
-
-            // Today's water
-            const totalWater = waterToday.reduce((sum, w) => sum + w.value, 0);
-            document.getElementById('stat-water').textContent = totalWater;
-        }
-
-        function updateProgress() {
-            const metrics = DB.currentUser.metrics;
-            const caloriesToday = metrics.calories.filter(c => isToday(c.date)).reduce((sum, c) => sum + c.value, 0);
-            const waterToday = metrics.water.filter(w => isToday(w.date)).reduce((sum, w) => sum + w.value, 0);
-
-            const calorieGoal = 2000;
-            const waterGoal = 8;
-
-            const caloriePercent = Math.min((caloriesToday / calorieGoal) * 100, 100);
-            const waterPercent = Math.min((waterToday / waterGoal) * 100, 100);
-
-            document.getElementById('calories-progress').textContent = `${caloriesToday}/${calorieGoal}`;
-            document.getElementById('calories-bar').style.width = `${caloriePercent}%`;
-
-            document.getElementById('water-progress').textContent = `${waterToday}/${waterGoal} glasses`;
-            document.getElementById('water-bar').style.width = `${waterPercent}%`;
-        }
-
-        function updateActivityLog() {
-            const activities = DB.currentUser.metrics.activities || [];
-            const logDiv = document.getElementById('activity-log');
-
-            if (activities.length === 0) {
-                logDiv.innerHTML = '<p style="color: #6B7280; font-size: 14px;">No recent activity. Start logging your metrics!</p>';
-                return;
-            }
-
-            const recentActivities = activities.slice(-5).reverse();
-            logDiv.innerHTML = recentActivities.map(a => `
-                <div style="padding: 12px 0; border-bottom: 1px solid #E5E7EB;">
-                    <div style="font-weight: 500; color: #1A1C1E;">${a.type}</div>
-                    <div style="font-size: 12px; color: #6B7280;">${new Date(a.date).toLocaleDateString()}</div>
-                </div>
-            `).join('');
-        }
-
-        function generateAITip() {
-            const tips = [
-                "Great job on logging your metrics! Keep tracking your weight for better BMI accuracy.",
-                "Staying hydrated is key! Aim for 8 glasses of water daily.",
-                "Your calorie intake looks good. Remember to include plenty of vegetables!",
-                "Consistency is key! Try to log your metrics at the same time every day.",
-                "Consider adding some light exercise to your daily routine for better health."
-            ];
-
-            const metrics = DB.currentUser.metrics;
-            const hasRecentData = metrics.weight.length > 0 || metrics.calories.length > 0;
-
-            if (!hasRecentData) {
-                document.getElementById('ai-tip').textContent = "Start logging your daily metrics to get personalized health recommendations!";
-            } else {
-                document.getElementById('ai-tip').textContent = tips[Math.floor(Math.random() * tips.length)];
-            }
-        }
-
-        function isToday(dateString) {
-            const today = new Date().toDateString();
-            return new Date(dateString).toDateString() === today;
         }
 
         function saveMetrics() {
@@ -929,6 +1223,11 @@
 
             if (weight) {
                 DB.currentUser.metrics.weight.push({ date: now, value: parseFloat(weight) });
+                // Update current weight and recalculate BMI
+                DB.currentUser.weight = parseFloat(weight);
+                if (DB.currentUser.height) {
+                    DB.currentUser.bmi = calculateBMI(DB.currentUser.weight, DB.currentUser.height);
+                }
             }
             if (calories) {
                 DB.currentUser.metrics.calories.push({ date: now, value: parseInt(calories) });
@@ -942,7 +1241,7 @@
                 date: now
             });
 
-            // Update in users array too
+            // Update in users array
             const userIndex = DB.users.findIndex(u => u.id === DB.currentUser.id);
             if (userIndex !== -1) {
                 DB.users[userIndex] = DB.currentUser;
@@ -956,49 +1255,71 @@
             document.getElementById('input-water').value = '';
 
             // Update UI
-            updateStats();
+            loadUserData();
             updateProgress();
             updateActivityLog();
-            generateAITip();
 
             alert('Metrics saved successfully! 🎉');
         }
 
-        function updateProfile() {
-            const name = document.getElementById('profile-name').value;
-            const age = document.getElementById('profile-age').value;
+        function updateProgress() {
+            if (!DB.currentUser) return;
 
-            if (!name) {
-                alert('Please enter your name');
+            const metrics = DB.currentUser.metrics;
+            const today = new Date().toDateString();
+
+            const caloriesToday = metrics.calories
+                .filter(c => new Date(c.date).toDateString() === today)
+                .reduce((sum, c) => sum + c.value, 0);
+
+            const waterToday = metrics.water
+                .filter(w => new Date(w.date).toDateString() === today)
+                .reduce((sum, w) => sum + w.value, 0);
+
+            const calorieGoal = 2000;
+            const waterGoal = 8;
+
+            const caloriePercent = Math.min((caloriesToday / calorieGoal) * 100, 100);
+            const waterPercent = Math.min((waterToday / waterGoal) * 100, 100);
+
+            document.getElementById('calories-progress').textContent = `${caloriesToday}/${calorieGoal}`;
+            document.getElementById('calories-bar').style.width = `${caloriePercent}%`;
+
+            document.getElementById('water-progress').textContent = `${waterToday}/${waterGoal} glasses`;
+            document.getElementById('water-bar').style.width = `${waterPercent}%`;
+        }
+
+        function updateActivityLog() {
+            if (!DB.currentUser) return;
+
+            const activities = DB.currentUser.metrics.activities || [];
+            const logDiv = document.getElementById('activity-log');
+
+            if (activities.length === 0) {
+                logDiv.innerHTML = '<p style="color: #6B7280; font-size: 14px;">No recent activity. Start logging your metrics!</p>';
                 return;
             }
 
-            updateUserData({
-                name: name,
-                age: age ? parseInt(age) : null
-            });
-
-            document.getElementById('user-greeting').textContent = `Hi, ${name}!`;
-            document.getElementById('welcome-message').textContent = `Welcome back, ${name}! 👋`;
-
-            alert('Profile updated successfully! ✅');
+            const recentActivities = activities.slice(-5).reverse();
+            logDiv.innerHTML = recentActivities.map(a => `
+                <div style="padding: 12px 0; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 500; color: #1A1C1E;">${a.type}${a.bmi ? ` (BMI: ${a.bmi})` : ''}</div>
+                    <div style="font-size: 12px; color: #6B7280;">${new Date(a.date).toLocaleDateString()}</div>
+                </div>
+            `).join('');
         }
 
         function switchTab(tab) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-            // Show selected tab
             document.getElementById(`${tab}-tab`).classList.add('active');
 
-            // Update nav items
             const navItems = document.querySelectorAll('.nav-item');
             if (tab === 'home') navItems[0].classList.add('active');
             if (tab === 'progress') navItems[1].classList.add('active');
             if (tab === 'profile') navItems[2].classList.add('active');
 
-            // Refresh data when switching tabs
             if (tab === 'progress') {
                 updateProgress();
                 updateActivityLog();
