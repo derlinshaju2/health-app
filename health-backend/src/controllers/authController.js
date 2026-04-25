@@ -58,7 +58,7 @@ const register = async (req, res) => {
     }
 
     // Calculate BMI if height and weight are provided
-    let userProfile = { ...profile };
+    let userProfile = profile ? { ...profile } : {};
     if (userProfile.height && userProfile.weight) {
       const bmi = userProfile.weight / ((userProfile.height / 100) ** 2);
       userProfile.bmi = parseFloat(bmi.toFixed(1));
