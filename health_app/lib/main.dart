@@ -42,7 +42,7 @@ class HealthApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => YogaProvider()),
       ],
       child: MaterialApp(
-        title: 'Health Monitor',
+        title: 'health_app',
         debugShowCheckedModeBanner: false,
         theme: VitalityTheme.lightTheme,
         darkTheme: VitalityTheme.darkTheme,

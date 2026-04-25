@@ -103190,7 +103190,7 @@ A.Qy.prototype={
 I(a){var s=null,r=A.b([A.vM(new A.aeD(),t.W0),A.vM(new A.aeE(),t.QX),A.vM(new A.aeF(),t.WG),A.vM(new A.aeM(),t.dS),A.vM(new A.aeN(),t.fF),A.vM(new A.aeO(),t.Te),A.vM(new A.aeP(),t.bJ)],t.Ds),q=A.aKu(B.f,!1,s,s,0,B.al,B.dH.b6(B.al)),p=A.i1(s,s,B.al,s,s,s,0,s,s,B.f,s,s,B.Lb,s,new A.cb(B.fQ,B.q),s,s,s,s,s),o=A.asu(B.a06,B.i8,B.di,B.DI,B.dH,B.kj,s,B.ex,s,B.ev,s,s,s,s,s)
 o=A.uv(q,s,new A.oq(s,B.dr,s,s,0,s,new A.cb(B.cg,new A.b0(B.dY,1,B.E,-1))),new A.os(B.as,B.al,B.f,s,s,s,s,s,s,B.ck,B.bw,s,s,s,s,s,s,B.ly,s,s,s,s,s,s,s,B.pU,B.f,s,s,B.dr,B.bw,s,s,s,s,s,s,s,s,B.bg,B.HP,s,s,s,s,s,s,s,B.f,B.m),new A.wp(p),A.aQb(B.al,s,4,s,s,s,s,s,s,s,B.f,s,s,s,s,s,s,s,s,s,s),B.lu,o,!0)
 p=A.uv(A.aKu(B.lw,!1,s,s,0,B.lg,B.dH.b6(B.lg)),s,new A.oq(s,B.lw,s,s,0,s,new A.cb(B.cg,new A.b0(B.pD,1,B.E,-1))),new A.os(B.aC,B.lg,B.bw,s,s,s,s,s,s,B.IK,B.bw,s,s,s,s,s,s,B.ly,s,s,s,s,s,s,s,B.pU,B.m,s,s,B.lw,B.Iu,s,s,s,s,s,s,s,s,B.IV,B.pD,s,s,s,s,s,s,s,B.HE,B.f),s,s,B.I9,s,!0)
-return A.b2a(new A.DV(A.aA(["/",new A.aeQ(),"/login",new A.aeR(),"/register",new A.aeS(),"/dashboard",new A.aeT(),"/metrics/input",new A.aeG(),"/metrics/history",new A.aeH(),"/predictions",new A.aeI(),"/diet",new A.aeJ(),"/profile",new A.aeK(),"/yoga",new A.aeL()],t.N,t.Ab),"/dashboard","Health Monitor",o,p,B.DU,!1,s),r)}}
+return A.b2a(new A.DV(A.aA(["/",new A.aeQ(),"/login",new A.aeR(),"/register",new A.aeS(),"/dashboard",new A.aeT(),"/metrics/input",new A.aeG(),"/metrics/history",new A.aeH(),"/predictions",new A.aeI(),"/diet",new A.aeJ(),"/profile",new A.aeK(),"/yoga",new A.aeL()],t.N,t.Ab),"/dashboard","health_app",o,p,B.DU,!1,s),r)}}
 A.aeD.prototype={
 $1(a){return new A.qA(A.vD(),$.ar())},
 $S:634}
@@ -103245,7 +103245,7 @@ $S:650}
 A.rz.prototype={
 a8(){return new A.ZP()}}
 A.ZP.prototype={
-I(a){var s,r=this,q=null,p=t.V,o=A.b([new A.bz(0,B.S,A.Z(13,B.m.m()>>>16&255,B.m.m()>>>8&255,B.m.m()&255),B.dB,4)],p),n=B.c.ac(25.5),m=A.aKB(A.Z(n,B.al.m()>>>16&255,B.al.m()>>>8&255,B.al.m()&255),A.bJ(B.mF,B.al,q,20),20),l=A.T("Health Monitor",q,q,q,B.dH.awG(B.al,B.r6,-0.5),q,q,q)
+I(a){var s,r=this,q=null,p=t.V,o=A.b([new A.bz(0,B.S,A.Z(13,B.m.m()>>>16&255,B.m.m()>>>8&255,B.m.m()&255),B.dB,4)],p),n=B.c.ac(25.5),m=A.aKB(A.Z(n,B.al.m()>>>16&255,B.al.m()>>>8&255,B.al.m()&255),A.bJ(B.mF,B.al,q,20),20),l=A.T("health_app",q,q,q,B.dH.awG(B.al,B.r6,-0.5),q,q,q)
 n=A.Z(n,B.al.m()>>>16&255,B.al.m()>>>8&255,B.al.m()&255)
 s=t.p
 o=A.bt(q,A.ns(!0,A.b3(A.b([m,B.i1,l,B.Dl,A.bt(q,A.bJ(B.Mr,B.al,q,20),B.p,q,q,new A.b9(n,q,q,q,q,q,B.cV),q,q,q,q,B.hg,q,q,q)],s),B.o,B.l,B.j,0),B.ap,!0),B.p,q,q,new A.b9(B.f,q,q,q,o,q,B.G),q,q,q,q,B.Lc,q,q,q)

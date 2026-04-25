@@ -63,7 +63,7 @@ class _HealthMonitorScreenState extends State<HealthMonitorScreen> {
             const SizedBox(width: 16),
             // App Name
             Text(
-              'Health Monitor',
+              'health_app',
               style: VitalityTheme.h2.copyWith(
                 color: VitalityTheme.primary,
                 fontWeight: FontWeight.w800,
