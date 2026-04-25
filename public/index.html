@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>health_app</title>
+    <title>health_app - AI Health Monitoring</title>
     <link rel="icon" type="image/png" href="favicon.png"/>
     <style>
         * {
@@ -14,11 +14,148 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #F9F9FC;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
 
-        /* Header */
+        /* Auth Screens */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 450px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+
+        .auth-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1A1C1E;
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .auth-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #FEE2E2;
+            color: #991B1B;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* Main App */
+        .app-container {
+            display: none;
+        }
+
         .header {
             background: white;
             padding: 16px 24px;
@@ -34,45 +171,52 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         .logo-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: rgba(0, 60, 144, 0.1);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .logo-avatar i {
-            font-size: 20px;
-            color: #003C90;
+            font-size: 18px;
         }
 
         .logo-text {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
-            color: #003C90;
-            letter-spacing: -0.5px;
+            color: #1A1C1E;
         }
 
-        .notification-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(0, 60, 144, 0.1);
+        .user-info {
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            gap: 12px;
         }
 
-        .notification-icon i {
-            font-size: 18px;
-            color: #003C90;
+        .user-name {
+            font-size: 14px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: #F3F4F6;
+            color: #374151;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #E5E7EB;
         }
 
         /* Main Content */
@@ -85,215 +229,96 @@
 
         /* Hero Section */
         .hero-section {
-            background: #EEEFF0;
+            background: white;
             border-radius: 16px;
             padding: 32px;
-            margin-bottom: 32px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .hero-icon {
-            position: absolute;
-            top: 0;
-            right: 0;
-            font-size: 120px;
-            opacity: 0.05;
-            color: #003C90;
-        }
-
-        .hero-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #434653;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-
-        .hero-value {
-            font-size: 56px;
+        .welcome-text {
+            font-size: 24px;
             font-weight: 700;
-            color: #003C90;
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
+            color: #1A1C1E;
+            margin-bottom: 16px;
         }
 
-        .hero-unit {
-            font-size: 20px;
-            font-weight: 400;
-            color: #434653;
-        }
-
-        .hero-status {
-            display: inline-block;
-            padding: 8px 16px;
-            background: rgba(0, 109, 55, 0.15);
-            border-radius: 8px;
-            margin: 16px 0;
-            color: #006D37;
-            font-weight: 600;
-        }
-
-        .hero-description {
-            color: #434653;
-            line-height: 1.6;
-            margin-top: 16px;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
+        .hero-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 16px;
-            margin: 32px 0;
+            margin-top: 24px;
         }
 
-        .stat-card {
-            background: white;
+        .stat-box {
+            background: #F9FAFB;
             padding: 20px;
             border-radius: 12px;
-            border: 1px solid #E2E2E5;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .stat-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(0, 60, 144, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 600;
-            color: #003C90;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #434653;
-            margin-top: 4px;
-        }
-
-        /* Section Title */
-        .section-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #1A1C1E;
-            margin-bottom: 24px;
-        }
-
-        /* Meal Cards */
-        .meal-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 24px;
-        }
-
-        .meal-header {
-            background: linear-gradient(135deg, #003C90, #1D59C1);
-            color: white;
-            padding: 20px 24px;
-            position: relative;
-        }
-
-        .meal-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 6px 16px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .meal-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-top: 12px;
-        }
-
-        .meal-description {
-            color: rgba(255,255,255,0.9);
-            margin-top: 8px;
-            line-height: 1.5;
-        }
-
-        .meal-info {
-            padding: 24px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 16px;
-        }
-
-        .meal-stat {
             text-align: center;
         }
 
-        .meal-stat-value {
-            font-size: 20px;
+        .stat-value {
+            font-size: 32px;
             font-weight: 700;
-            color: #003C90;
+            color: #667eea;
         }
 
-        .meal-stat-label {
+        .stat-label {
             font-size: 12px;
-            color: #434653;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #6B7280;
             margin-top: 4px;
         }
 
-        /* Risk Cards */
-        .risk-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
-            margin: 32px 0;
-        }
-
-        .risk-card {
+        /* Activity Cards */
+        .activity-card {
             background: white;
+            border-radius: 16px;
             padding: 24px;
-            border-radius: 12px;
-            border: 1px solid #E2E2E5;
+            margin-bottom: 16px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .risk-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .risk-title {
+        .activity-title {
             font-size: 18px;
             font-weight: 600;
             color: #1A1C1E;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
         }
 
-        .risk-value {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .risk-status {
+        .activity-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
             font-size: 14px;
-            color: #434653;
+            margin-bottom: 12px;
         }
 
-        .risk-low { color: #059669; }
-        .risk-medium { color: #F59E0B; }
-        .risk-high { color: #EF4444; }
+        .btn-secondary {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #E5E7EB;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s;
+        }
 
         /* Bottom Navigation */
         .bottom-nav {
@@ -302,16 +327,10 @@
             left: 0;
             right: 0;
             background: white;
-            padding: 20px 16px;
-            box-shadow: 0 -8px 24px rgba(0,0,0,0.08);
-            border-radius: 24px 24px 0 0;
-        }
-
-        .nav-items {
+            padding: 12px 16px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-around;
-            max-width: 600px;
-            margin: 0 auto;
         }
 
         .nav-item {
@@ -319,18 +338,15 @@
             flex-direction: column;
             align-items: center;
             gap: 4px;
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 12px;
-            transition: background 0.2s;
-        }
-
-        .nav-item:hover {
-            background: rgba(0, 60, 144, 0.05);
+            color: #9CA3AF;
+            transition: all 0.2s;
         }
 
         .nav-item.active {
-            color: #003C90;
+            color: #667eea;
         }
 
         .nav-icon {
@@ -338,27 +354,8 @@
         }
 
         .nav-label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-value {
-                font-size: 40px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .risk-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .meal-info {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         /* Tab Content */
@@ -369,291 +366,268 @@
         .tab-content.active {
             display: block;
         }
+
+        /* Recommendations */
+        .recommendation-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .recommendation-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-text {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #6B7280;
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="logo">
-            <div class="logo-avatar">👤</div>
-            <div class="logo-text">health_app</div>
-        </div>
-        <div class="notification-icon">🔔</div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-
-        <!-- Home Tab -->
-        <div id="home-tab" class="tab-content active">
-            <!-- Hero Section -->
-            <div class="hero-section">
-                <div class="hero-icon">⚖️</div>
-                <div class="hero-label">Current Status</div>
-                <div class="hero-value">24.2 <span class="hero-unit">BMI</span></div>
-                <div class="hero-status">✅ Healthy Weight</div>
-                <p class="hero-description">You're in the optimal range. Your personalized plan focuses on maintaining lean mass and consistent energy levels.</p>
+    <!-- Login Screen -->
+    <div id="login-screen" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="auth-logo-icon">🏥</div>
+                <h1 class="auth-title">Welcome to health_app</h1>
+                <p class="auth-subtitle">Your personal AI health monitoring companion</p>
             </div>
-
-            <!-- Health Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🔥</div>
-                    <div class="stat-value">2,150</div>
-                    <div class="stat-label">Daily Calories</div>
+            <div id="login-error"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="login-email" required
+                           placeholder="Enter your email" value="demo@example.com">
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💧</div>
-                    <div class="stat-value">2.8L</div>
-                    <div class="stat-label">Hydration Goal</div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="login-password" required
+                           placeholder="Enter your password" value="demo123">
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">❤️</div>
-                    <div class="stat-value">120/80</div>
-                    <div class="stat-label">Blood Pressure</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🩸</div>
-                    <div class="stat-value">95</div>
-                    <div class="stat-label">Blood Sugar mg/dL</div>
-                </div>
-            </div>
-
-            <!-- Meal Plans -->
-            <h2 class="section-title">Today's Meal Plan</h2>
-
-            <div class="meal-card">
-                <div class="meal-header">
-                    <span class="meal-badge">Breakfast • 08:00 AM</span>
-                    <div class="meal-title">Avocado & Poached Egg Sourdough</div>
-                    <div class="meal-description">High-fiber complex carbs with healthy fats and protein to kickstart your metabolism.</div>
-                </div>
-                <div class="meal-info">
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">420</div>
-                        <div class="meal-stat-label">Calories</div>
-                    </div>
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">18g</div>
-                        <div class="meal-stat-label">Protein</div>
-                    </div>
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">24g</div>
-                        <div class="meal-stat-label">Carbs</div>
-                    </div>
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">22g</div>
-                        <div class="meal-stat-label">Healthy Fats</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="meal-card">
-                <div class="meal-header" style="background: linear-gradient(135deg, #006D37, #10B981);">
-                    <span class="meal-badge">Lunch • 01:30 PM</span>
-                    <div class="meal-title">Mediterranean Power Bowl</div>
-                    <div class="meal-description">Grilled chicken, quinoa, and fresh greens. Rich in micronutrients for afternoon energy.</div>
-                </div>
-                <div class="meal-info">
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">580</div>
-                        <div class="meal-stat-label">Calories</div>
-                    </div>
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">42g</div>
-                        <div class="meal-stat-label">Protein</div>
-                    </div>
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">55g</div>
-                        <div class="meal-stat-label">Carbs</div>
-                    </div>
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">28g</div>
-                        <div class="meal-stat-label">Healthy Fats</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Predict Tab -->
-        <div id="predict-tab" class="tab-content">
-            <div class="hero-section" style="background: linear-gradient(135deg, #10B981, #006D37);">
-                <div class="hero-icon">🤖</div>
-                <div class="hero-label" style="color: white;">AI Disease Risk Analysis</div>
-                <h2 style="color: white; font-size: 32px; margin: 16px 0;">Personalized Health Predictions</h2>
-                <p style="color: rgba(255,255,255,0.9);">Get AI-powered insights based on your health metrics and lifestyle data.</p>
-            </div>
-
-            <h2 class="section-title">Your Risk Profile</h2>
-
-            <div class="risk-grid">
-                <div class="risk-card">
-                    <div class="risk-icon">❤️</div>
-                    <div class="risk-title">Hypertension</div>
-                    <div class="risk-value risk-medium">35% Risk Score</div>
-                    <div class="risk-status">Medium Risk</div>
-                </div>
-                <div class="risk-card">
-                    <div class="risk-icon">🩸</div>
-                    <div class="risk-title">Diabetes</div>
-                    <div class="risk-value risk-low">25% Risk Score</div>
-                    <div class="risk-status">Low Risk</div>
-                </div>
-                <div class="risk-card">
-                    <div class="risk-icon">🫀</div>
-                    <div class="risk-title">Heart Disease</div>
-                    <div class="risk-value risk-low">20% Risk Score</div>
-                    <div class="risk-status">Low Risk</div>
-                </div>
-                <div class="risk-card">
-                    <div class="risk-icon">⚖️</div>
-                    <div class="risk-title">Obesity</div>
-                    <div class="risk-value risk-medium">40% Risk Score</div>
-                    <div class="risk-status">Elevated Risk</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Diet Tab -->
-        <div id="diet-tab" class="tab-content">
-            <h2 class="section-title">🥗 Nutrition Tracking</h2>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-value">1,850</div>
-                    <div class="stat-label">Calories Today</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🎯</div>
-                    <div class="stat-value">2,150</div>
-                    <div class="stat-label">Daily Goal</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💧</div>
-                    <div class="stat-value">2.1L</div>
-                    <div class="stat-label">Water Intake</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🥩</div>
-                    <div class="stat-value">85g</div>
-                    <div class="stat-label">Protein Goal</div>
-                </div>
-            </div>
-
-            <div class="meal-card">
-                <div class="meal-header" style="background: linear-gradient(135deg, #FF9E0B, #F59E0B);">
-                    <span class="meal-badge">Dinner • 07:30 PM</span>
-                    <div class="meal-title">Wild Salmon & Charred Asparagus</div>
-                    <div class="meal-description">High in Omega-3 fatty acids for brain health. Light yet satisfying evening meal.</div>
-                </div>
-                <div class="meal-info">
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">490</div>
-                        <div class="meal-stat-label">Calories</div>
-                    </div>
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">34g</div>
-                        <div class="meal-stat-label">Protein</div>
-                    </div>
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">12g</div>
-                        <div class="meal-stat-label">Carbs</div>
-                    </div>
-                    <div class="meal-stat">
-                        <div class="meal-stat-value">26g</div>
-                        <div class="meal-stat-label">Omega-3s</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Yoga Tab -->
-        <div id="yoga-tab" class="tab-content">
-            <div class="hero-section">
-                <div class="hero-icon">🧘</div>
-                <div class="hero-label">30 Day Consistency</div>
-                <div class="hero-value">12 <span class="hero-unit">Days</span></div>
-                <div class="hero-status">🔥 40% Complete</div>
-                <p class="hero-description">Your yoga journey is progressing well! Keep up the consistent practice.</p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">✅</div>
-                    <div class="stat-value">12</div>
-                    <div class="stat-label">Sessions Completed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⏱️</div>
-                    <div class="stat-value">360</div>
-                    <div class="stat-label">Total Minutes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🔥</div>
-                    <div class="stat-value">2,150</div>
-                    <div class="stat-label">Calories Burned</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📈</div>
-                    <div class="stat-value">7</div>
-                    <div class="stat-label">Day Streak</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Profile Tab -->
-        <div id="profile-tab" class="tab-content">
-            <div class="hero-section">
-                <div class="hero-icon">👤</div>
-                <div class="hero-label">Your Profile</div>
-                <h2 style="color: #003C90; font-size: 28px; margin: 16px 0;">Health Dashboard</h2>
-                <p style="color: #434653;">Manage your health information and track your progress</p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🎂</div>
-                    <div class="stat-value">28</div>
-                    <div class="stat-label">Age</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📏</div>
-                    <div class="stat-value">175</div>
-                    <div class="stat-label">Height cm</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⚖️</div>
-                    <div class="stat-value">70</div>
-                    <div class="stat-label">Weight kg</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🏃</div>
-                    <div class="stat-value">22.9</div>
-                    <div class="stat-label">BMI</div>
-                </div>
+                <button type="submit" class="btn-primary" id="login-btn">
+                    Login to Continue
+                </button>
+            </form>
+            <div class="auth-link">
+                Don't have an account? <a href="#" onclick="showScreen('register')">Register here</a>
             </div>
         </div>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <div class="nav-items">
-            <div class="nav-item" onclick="switchTab('home')">
+    <!-- Register Screen -->
+    <div id="register-screen" class="auth-container" style="display: none;">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="auth-logo-icon">✨</div>
+                <h1 class="auth-title">Create Your Account</h1>
+                <p class="auth-subtitle">Start your personalized health journey</p>
+            </div>
+            <div id="register-error"></div>
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" id="register-name" required
+                           placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="register-email" required
+                           placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="register-password" required
+                           placeholder="Create a password (min 6 characters)" minlength="6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="form-input" id="register-confirm" required
+                           placeholder="Confirm your password">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Age (optional)</label>
+                    <input type="number" class="form-input" id="register-age"
+                           placeholder="Your age" min="1" max="120">
+                </div>
+                <button type="submit" class="btn-primary" id="register-btn">
+                    Create Account
+                </button>
+            </form>
+            <div class="auth-link">
+                Already have an account? <a href="#" onclick="showScreen('login')">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app-screen" class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-avatar">🏥</div>
+                <div class="logo-text">health_app</div>
+            </div>
+            <div class="user-info">
+                <span class="user-name" id="user-greeting">Hi, User!</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Home Tab -->
+            <div id="home-tab" class="tab-content active">
+                <div class="hero-section">
+                    <h1 class="welcome-text" id="welcome-message">Welcome back! 👋</h1>
+                    <p style="color: #6B7280; margin-bottom: 24px;">
+                        Track your health metrics and get personalized recommendations powered by AI.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-box">
+                            <div class="stat-value" id="stat-bmi">--</div>
+                            <div class="stat-label">BMI</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="stat-weight">--</div>
+                            <div class="stat-label">Weight (kg)</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="stat-calories">0</div>
+                            <div class="stat-label">Calories Today</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="stat-water">0</div>
+                            <div class="stat-label">Water (glasses)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <h3 class="activity-title">📊 Log Today's Metrics</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                        <div>
+                            <label class="form-label">Weight (kg)</label>
+                            <input type="number" class="activity-input" id="input-weight" placeholder="70" step="0.1">
+                        </div>
+                        <div>
+                            <label class="form-label">Calories</label>
+                            <input type="number" class="activity-input" id="input-calories" placeholder="2000">
+                        </div>
+                        <div>
+                            <label class="form-label">Water (glasses)</label>
+                            <input type="number" class="activity-input" id="input-water" placeholder="8">
+                        </div>
+                    </div>
+                    <button class="btn-secondary" onclick="saveMetrics()">Save Today's Metrics</button>
+                </div>
+
+                <div class="recommendation-card">
+                    <h3 class="recommendation-title">🤖 AI Health Tip</h3>
+                    <p class="recommendation-text" id="ai-tip">Start logging your daily metrics to get personalized health recommendations!</p>
+                </div>
+            </div>
+
+            <!-- Progress Tab -->
+            <div id="progress-tab" class="tab-content">
+                <h2 style="margin-bottom: 24px;">📈 Your Progress</h2>
+
+                <div class="activity-card">
+                    <h3 class="activity-title">Weekly Goals</h3>
+                    <div style="margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Daily Calories Goal</span>
+                            <span id="calories-progress">0/2000</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="calories-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Water Intake Goal</span>
+                            <span id="water-progress">0/8 glasses</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="water-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <h3 class="activity-title">📝 Recent Activity</h3>
+                    <div id="activity-log">
+                        <p style="color: #6B7280; font-size: 14px;">No recent activity. Start logging your metrics!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-content">
+                <h2 style="margin-bottom: 24px;">👤 Your Profile</h2>
+
+                <div class="activity-card">
+                    <h3 class="activity-title">Personal Information</h3>
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="activity-input" id="profile-name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="activity-input" id="profile-email" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Age</label>
+                        <input type="number" class="activity-input" id="profile-age">
+                    </div>
+                    <button class="btn-secondary" onclick="updateProfile()">Update Profile</button>
+                </div>
+
+                <div class="activity-card">
+                    <h3 class="activity-title">⚙️ App Settings</h3>
+                    <div style="margin: 12px 0;">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="dark-mode">
+                            <span>Dark Mode (Coming Soon)</span>
+                        </label>
+                    </div>
+                    <div style="margin: 12px 0;">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="notifications" checked>
+                            <span>Enable Notifications</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('home')">
                 <div class="nav-icon">🏠</div>
                 <div class="nav-label">Home</div>
             </div>
-            <div class="nav-item" onclick="switchTab('predict')">
-                <div class="nav-icon">🤖</div>
-                <div class="nav-label">Predict</div>
-            </div>
-            <div class="nav-item active" onclick="switchTab('diet')">
-                <div class="nav-icon">🥗</div>
-                <div class="nav-label">Diet</div>
-            </div>
-            <div class="nav-item" onclick="switchTab('yoga')">
-                <div class="nav-icon">🧘</div>
-                <div class="nav-label">Yoga</div>
+            <div class="nav-item" onclick="switchTab('progress')">
+                <div class="nav-icon">📈</div>
+                <div class="nav-label">Progress</div>
             </div>
             <div class="nav-item" onclick="switchTab('profile')">
                 <div class="nav-icon">👤</div>
@@ -663,23 +637,376 @@
     </div>
 
     <script>
-        function switchTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
+        // ==================== AUTHENTICATION SYSTEM ====================
+        const DB = {
+            users: JSON.parse(localStorage.getItem('healthapp_users') || '[]'),
+            currentUser: JSON.parse(localStorage.getItem('healthapp_currentUser') || 'null')
+        };
+
+        function saveDB() {
+            localStorage.setItem('healthapp_users', JSON.stringify(DB.users));
+            localStorage.setItem('healthapp_currentUser', JSON.stringify(DB.currentUser));
+        }
+
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // Show specific screen
+        function showScreen(screen) {
+            document.getElementById('login-screen').style.display = screen === 'login' ? 'flex' : 'none';
+            document.getElementById('register-screen').style.display = screen === 'register' ? 'flex' : 'none';
+            document.getElementById('app-screen').style.display = screen === 'app' ? 'block' : 'none';
+        }
+
+        // Check authentication on load
+        function checkAuth() {
+            if (DB.currentUser) {
+                showScreen('app');
+                loadUserData();
+            } else {
+                showScreen('login');
+            }
+        }
+
+        // Register new user
+        async function register(name, email, password, age) {
+            try {
+                // Check if user already exists
+                if (DB.users.find(u => u.email === email)) {
+                    throw new Error('User with this email already exists');
+                }
+
+                // Create new user
+                const newUser = {
+                    id: generateId(),
+                    name,
+                    email,
+                    password, // In production, this should be hashed
+                    age: age || null,
+                    createdAt: new Date().toISOString(),
+                    metrics: {
+                        weight: [],
+                        calories: [],
+                        water: [],
+                        activities: []
+                    },
+                    preferences: {
+                        notifications: true,
+                        darkMode: false
+                    }
+                };
+
+                DB.users.push(newUser);
+                DB.currentUser = newUser;
+                saveDB();
+
+                return { success: true, user: newUser };
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+
+        // Login user
+        async function login(email, password) {
+            try {
+                const user = DB.users.find(u => u.email === email && u.password === password);
+                if (!user) {
+                    throw new Error('Invalid email or password');
+                }
+
+                user.lastLogin = new Date().toISOString();
+                DB.currentUser = user;
+                saveDB();
+
+                return { success: true, user };
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+
+        // Logout user
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                DB.currentUser = null;
+                saveDB();
+                showScreen('login');
+            }
+        }
+
+        // Update user profile
+        function updateUserData(updates) {
+            if (DB.currentUser) {
+                Object.assign(DB.currentUser, updates);
+
+                // Update in users array too
+                const userIndex = DB.users.findIndex(u => u.id === DB.currentUser.id);
+                if (userIndex !== -1) {
+                    DB.users[userIndex] = DB.currentUser;
+                }
+
+                saveDB();
+            }
+        }
+
+        // ==================== FORM HANDLERS ====================
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const btn = document.getElementById('login-btn');
+            const errorDiv = document.getElementById('login-error');
+
+            btn.disabled = true;
+            btn.textContent = 'Logging in...';
+            errorDiv.innerHTML = '';
+
+            const result = await login(email, password);
+
+            if (result.success) {
+                showScreen('app');
+                loadUserData();
+            } else {
+                errorDiv.innerHTML = `<div class="error-message">${result.error}</div>`;
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Login to Continue';
+        });
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-confirm').value;
+            const age = document.getElementById('register-age').value;
+            const btn = document.getElementById('register-btn');
+            const errorDiv = document.getElementById('register-error');
+
+            if (password !== confirm) {
+                errorDiv.innerHTML = '<div class="error-message">Passwords do not match</div>';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Creating Account...';
+            errorDiv.innerHTML = '';
+
+            const result = await register(name, email, password, age);
+
+            if (result.success) {
+                errorDiv.innerHTML = '<div class="success-message">Account created successfully! Redirecting...</div>';
+                setTimeout(() => {
+                    showScreen('app');
+                    loadUserData();
+                }, 1500);
+            } else {
+                errorDiv.innerHTML = `<div class="error-message">${result.error}</div>`;
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Create Account';
+        });
+
+        // ==================== APP FUNCTIONS ====================
+        function loadUserData() {
+            if (!DB.currentUser) return;
+
+            // Update header
+            document.getElementById('user-greeting').textContent = `Hi, ${DB.currentUser.name}!`;
+            document.getElementById('welcome-message').textContent = `Welcome back, ${DB.currentUser.name}! 👋`;
+
+            // Load profile data
+            document.getElementById('profile-name').value = DB.currentUser.name;
+            document.getElementById('profile-email').value = DB.currentUser.email;
+            document.getElementById('profile-age').value = DB.currentUser.age || '';
+
+            // Calculate and display stats
+            updateStats();
+            updateProgress();
+            updateActivityLog();
+            generateAITip();
+        }
+
+        function updateStats() {
+            const metrics = DB.currentUser.metrics;
+            const weights = metrics.weight || [];
+            const caloriesToday = metrics.calories.filter(c => isToday(c.date));
+            const waterToday = metrics.water.filter(w => isToday(w.date));
+
+            // Calculate BMI from latest weight
+            if (weights.length > 0) {
+                const latestWeight = weights[weights.length - 1].value;
+                document.getElementById('stat-weight').textContent = latestWeight;
+
+                // Calculate BMI (assuming height around 175cm for demo)
+                const height = 1.75; // meters
+                const bmi = (latestWeight / (height * height)).toFixed(1);
+                document.getElementById('stat-bmi').textContent = bmi;
+            }
+
+            // Today's calories
+            const totalCalories = caloriesToday.reduce((sum, c) => sum + c.value, 0);
+            document.getElementById('stat-calories').textContent = totalCalories;
+
+            // Today's water
+            const totalWater = waterToday.reduce((sum, w) => sum + w.value, 0);
+            document.getElementById('stat-water').textContent = totalWater;
+        }
+
+        function updateProgress() {
+            const metrics = DB.currentUser.metrics;
+            const caloriesToday = metrics.calories.filter(c => isToday(c.date)).reduce((sum, c) => sum + c.value, 0);
+            const waterToday = metrics.water.filter(w => isToday(w.date)).reduce((sum, w) => sum + w.value, 0);
+
+            const calorieGoal = 2000;
+            const waterGoal = 8;
+
+            const caloriePercent = Math.min((caloriesToday / calorieGoal) * 100, 100);
+            const waterPercent = Math.min((waterToday / waterGoal) * 100, 100);
+
+            document.getElementById('calories-progress').textContent = `${caloriesToday}/${calorieGoal}`;
+            document.getElementById('calories-bar').style.width = `${caloriePercent}%`;
+
+            document.getElementById('water-progress').textContent = `${waterToday}/${waterGoal} glasses`;
+            document.getElementById('water-bar').style.width = `${waterPercent}%`;
+        }
+
+        function updateActivityLog() {
+            const activities = DB.currentUser.metrics.activities || [];
+            const logDiv = document.getElementById('activity-log');
+
+            if (activities.length === 0) {
+                logDiv.innerHTML = '<p style="color: #6B7280; font-size: 14px;">No recent activity. Start logging your metrics!</p>';
+                return;
+            }
+
+            const recentActivities = activities.slice(-5).reverse();
+            logDiv.innerHTML = recentActivities.map(a => `
+                <div style="padding: 12px 0; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 500; color: #1A1C1E;">${a.type}</div>
+                    <div style="font-size: 12px; color: #6B7280;">${new Date(a.date).toLocaleDateString()}</div>
+                </div>
+            `).join('');
+        }
+
+        function generateAITip() {
+            const tips = [
+                "Great job on logging your metrics! Keep tracking your weight for better BMI accuracy.",
+                "Staying hydrated is key! Aim for 8 glasses of water daily.",
+                "Your calorie intake looks good. Remember to include plenty of vegetables!",
+                "Consistency is key! Try to log your metrics at the same time every day.",
+                "Consider adding some light exercise to your daily routine for better health."
+            ];
+
+            const metrics = DB.currentUser.metrics;
+            const hasRecentData = metrics.weight.length > 0 || metrics.calories.length > 0;
+
+            if (!hasRecentData) {
+                document.getElementById('ai-tip').textContent = "Start logging your daily metrics to get personalized health recommendations!";
+            } else {
+                document.getElementById('ai-tip').textContent = tips[Math.floor(Math.random() * tips.length)];
+            }
+        }
+
+        function isToday(dateString) {
+            const today = new Date().toDateString();
+            return new Date(dateString).toDateString() === today;
+        }
+
+        function saveMetrics() {
+            const weight = document.getElementById('input-weight').value;
+            const calories = document.getElementById('input-calories').value;
+            const water = document.getElementById('input-water').value;
+
+            if (!weight && !calories && !water) {
+                alert('Please enter at least one metric');
+                return;
+            }
+
+            const now = new Date().toISOString();
+
+            if (weight) {
+                DB.currentUser.metrics.weight.push({ date: now, value: parseFloat(weight) });
+            }
+            if (calories) {
+                DB.currentUser.metrics.calories.push({ date: now, value: parseInt(calories) });
+            }
+            if (water) {
+                DB.currentUser.metrics.water.push({ date: now, value: parseInt(water) });
+            }
+
+            DB.currentUser.metrics.activities.push({
+                type: 'Metrics logged',
+                date: now
             });
 
-            // Remove active class from all nav items
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
+            // Update in users array too
+            const userIndex = DB.users.findIndex(u => u.id === DB.currentUser.id);
+            if (userIndex !== -1) {
+                DB.users[userIndex] = DB.currentUser;
+            }
+
+            saveDB();
+
+            // Clear inputs
+            document.getElementById('input-weight').value = '';
+            document.getElementById('input-calories').value = '';
+            document.getElementById('input-water').value = '';
+
+            // Update UI
+            updateStats();
+            updateProgress();
+            updateActivityLog();
+            generateAITip();
+
+            alert('Metrics saved successfully! 🎉');
+        }
+
+        function updateProfile() {
+            const name = document.getElementById('profile-name').value;
+            const age = document.getElementById('profile-age').value;
+
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+
+            updateUserData({
+                name: name,
+                age: age ? parseInt(age) : null
             });
+
+            document.getElementById('user-greeting').textContent = `Hi, ${name}!`;
+            document.getElementById('welcome-message').textContent = `Welcome back, ${name}! 👋`;
+
+            alert('Profile updated successfully! ✅');
+        }
+
+        function switchTab(tab) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
             // Show selected tab
-            document.getElementById(tabName + '-tab').classList.add('active');
+            document.getElementById(`${tab}-tab`).classList.add('active');
 
-            // Add active class to clicked nav item
-            event.currentTarget.classList.add('active');
+            // Update nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            if (tab === 'home') navItems[0].classList.add('active');
+            if (tab === 'progress') navItems[1].classList.add('active');
+            if (tab === 'profile') navItems[2].classList.add('active');
+
+            // Refresh data when switching tabs
+            if (tab === 'progress') {
+                updateProgress();
+                updateActivityLog();
+            }
         }
+
+        // Initialize app
+        checkAuth();
     </script>
 </body>
 </html>
