@@ -1,34 +1,13 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "health-backend/src/app.js",
-      "use": "@vercel/node"
+      "source": "/api/:path*",
+      "destination": "health-backend/src/app.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/app.html"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "health-backend/src/app.js"
-    },
-    {
-      "src": "/uploads/(.*)",
-      "dest": "health-backend/src/app.js"
-    },
-    {
-      "src": "/app.html",
-      "dest": "/app.html"
-    },
-    {
-      "src": "/index.html",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/app.html"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }

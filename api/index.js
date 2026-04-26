@@ -1,6 +1,5 @@
-// Vercel serverless function entry point
-// This file redirects to the main Express app
-
+// Vercel serverless function for health check
+const express = require('express');
 const app = require('../health-backend/src/app.js');
 
 module.exports = app;
