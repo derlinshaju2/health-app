@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Health Monitoring - Working Version</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 20px; }
+        h1 { color: #667eea; text-align: center; margin-bottom: 20px; }
+        h2 { color: #333; margin-bottom: 15px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; }
+        input { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; }
+        input:focus { border-color: #667eea; outline: none; }
+        button { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        .hidden { display: none; }
+        .result { margin: 20px 0; padding: 15px; border-radius: 8px; display: none; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🏥 AI Health Monitoring</h1>
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="card">
+            <h2>🔐 Login</h2>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button onclick="doLogin()" id="loginBtn">🚀 Login</button>
+            <button onclick="showRegister()" style="background: #6c757d; margin-top: 10px;">➕ Create Account</button>
+            <div id="loginResult" class="result"></div>
+        </div>
+
+        <!-- Register Section -->
+        <div id="registerSection" class="card hidden">
+            <h2>➕ Create Account</h2>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="regName" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="regEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="regPassword" placeholder="Create a password">
+            </div>
+            <button onclick="doRegister()" id="registerBtn">➕ Create Account</button>
+            <button onclick="showLogin()" style="background: #6c757d; margin-top: 10px;">← Back to Login</button>
+            <div id="registerResult" class="result"></div>
+        </div>
+
+        <!-- Main App Section -->
+        <div id="appSection" class="card hidden">
+            <h2>🎉 Welcome, <span id="userName">User</span>!</h2>
+            <p style="color: #666; margin-bottom: 15px;">Email: <span id="userEmail"></span></p>
+            <button onclick="doLogout()" style="background: #dc3545;">🚪 Logout</button>
+
+            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+                <h3>✅ Registration & Login Working!</h3>
+                <p>Your account system is functional. You can now add more features.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API configuration - auto-detect environment
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000'
+            : ''; // Empty for relative paths on Vercel
+
+        console.log('API_BASE:', API_BASE);
+        console.log('Current hostname:', window.location.hostname);
+
+        // Check for existing token on page load
+        window.onload = function() {
+            const savedToken = localStorage.getItem('auth_token');
+            if (savedToken) {
+                console.log('Found saved token, showing app...');
+                showApp();
+            }
+        };
+
+        function showResult(elementId, message, isSuccess) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = 'result ' + (isSuccess ? 'success' : 'error');
+            element.innerHTML = message;
+        }
+
+        function showRegister() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+
+        function showApp() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('appSection').classList.remove('hidden');
+
+            // Get user info from token
+            try {
+                const token = localStorage.getItem('auth_token');
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                document.getElementById('userName').textContent = payload.name || 'User';
+                document.getElementById('userEmail').textContent = payload.email || 'user@example.com';
+            } catch (e) {
+                console.error('Error parsing token:', e);
+            }
+        }
+
+        async function doRegister() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            if (!name || !email || !password) {
+                showResult('registerResult', 'Please fill all fields', false);
+                return;
+            }
+
+            const btn = document.getElementById('registerBtn');
+            btn.innerHTML = '⏳ Creating account...';
+            btn.disabled = true;
+
+            console.log('Attempting registration...');
+            console.log('API_BASE:', API_BASE);
+            console.log('Data:', { email, password, profile: { name } });
+
+            try {
+                const apiUrl = API_BASE ? API_BASE + '/api/auth/register' : '/api/auth/register';
+                console.log('API URL:', apiUrl);
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        profile: { name }
+                    })
+                });
+
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                if (data.status === 'success') {
+                    showResult('registerResult', '✅ Registration successful! Please login.', true);
+                    setTimeout(showLogin, 2000);
+                } else {
+                    showResult('registerResult', '❌ ' + (data.message || 'Registration failed'), false);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showResult('registerResult', '❌ Error: ' + error.message, false);
+            } finally {
+                btn.innerHTML = '➕ Create Account';
+                btn.disabled = false;
+            }
+        }
+
+        async function doLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showResult('loginResult', 'Please fill all fields', false);
+                return;
+            }
+
+            const btn = document.getElementById('loginBtn');
+            btn.innerHTML = '⏳ Logging in...';
+            btn.disabled = true;
+
+            console.log('Attempting login...');
+
+            try {
+                const apiUrl = API_BASE ? API_BASE + '/api/auth/login' : '/api/auth/login';
+                console.log('API URL:', apiUrl);
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                if (data.status === 'success') {
+                    localStorage.setItem('auth_token', data.data.token);
+                    showResult('loginResult', '✅ Login successful!', true);
+                    showApp();
+                } else {
+                    showResult('loginResult', '❌ ' + (data.message || 'Login failed'), false);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showResult('loginResult', '❌ Error: ' + error.message, false);
+            } finally {
+                btn.innerHTML = '🚀 Login';
+                btn.disabled = false;
+            }
+        }
+
+        function doLogout() {
+            localStorage.removeItem('auth_token');
+            location.reload();
+        }
+    </script>
+</body>
+</html>
