@@ -696,6 +696,11 @@
 
         // Auto-check for existing token on load
         window.onload = function() {
+            console.log('App loaded');
+            console.log('API_BASE:', API_BASE);
+            console.log('login function:', typeof window.login);
+            console.log('register function:', typeof window.register);
+
             const savedToken = localStorage.getItem('auth_token');
             if (savedToken) {
                 authToken = savedToken;
@@ -739,7 +744,50 @@
         }
 
         // Authentication functions
-        async function login() {
+        window.login = async function() {
+            console.log('Login function called');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showResult('loginResult', 'Please fill in all fields', false);
+                return;
+            }
+
+            const btn = document.getElementById('loginBtn');
+            btn.innerHTML = '<span class="loading"></span> Logging in...';
+            btn.disabled = true;
+
+            try {
+                console.log('Attempting login to:', API_BASE + '/api/auth/login');
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+                console.log('Login response:', data);
+
+                if (data.status === 'success') {
+                    authToken = data.data.token;
+                    currentUser = data.data.user;
+                    localStorage.setItem('auth_token', authToken);
+                    showApp();
+                    showResult('loginResult', 'Login Successful!', true, {
+                        user: data.data.user.email,
+                        name: data.data.user.name
+                    });
+                } else {
+                    throw new Error(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showResult('loginResult', 'Login Failed!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '🚀 Login';
+                btn.disabled = false;
+            }
+        };
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
@@ -780,7 +828,51 @@
             }
         }
 
-        async function register() {
+        window.register = async function() {
+            console.log('Register function called');
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            if (!name || !email || !password) {
+                showResult('registerResult', 'Please fill in all fields', false);
+                return;
+            }
+
+            const btn = document.getElementById('registerBtn');
+            btn.innerHTML = '<span class="loading"></span> Creating account...';
+            btn.disabled = true;
+
+            try {
+                console.log('Attempting registration to:', API_BASE + '/api/auth/register');
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        profile: {
+                            name
+                        }
+                    })
+                });
+                const data = await response.json();
+                console.log('Register response:', data);
+
+                if (data.status === 'success') {
+                    showResult('registerResult', 'Registration Successful! Please login.', true);
+                    setTimeout(showLogin, 2000);
+                } else {
+                    throw new Error(data.message || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showResult('registerResult', 'Registration Failed!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '➕ Create Account';
+                btn.disabled = false;
+            }
+        };
             const name = document.getElementById('regName').value;
             const email = document.getElementById('regEmail').value;
             const password = document.getElementById('regPassword').value;
@@ -822,15 +914,17 @@
             }
         }
 
-        function showRegister() {
+        window.showRegister = function() {
+            console.log('Show register called');
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('registerSection').classList.remove('hidden');
-        }
+        };
 
-        function showLogin() {
+        window.showLogin = function() {
+            console.log('Show login called');
             document.getElementById('registerSection').classList.add('hidden');
             document.getElementById('loginSection').classList.remove('hidden');
-        }
+        };
 
         function showApp() {
             document.getElementById('loginSection').classList.add('hidden');
