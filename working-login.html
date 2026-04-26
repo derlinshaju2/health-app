@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Health App</title>
+</head>
+<body style="font-family: Arial; background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 450px; width: 100%;">
+        <h1 style="color: #667eea; text-align: center; margin-bottom: 30px;">Health App</h1>
+
+        <div id="loginSection">
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #555;">Email</label>
+                <input type="email" id="email" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;" placeholder="Enter email">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #555;">Password</label>
+                <input type="password" id="password" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;" placeholder="Enter password">
+            </div>
+            <button onclick="handleLogin()" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">Login</button>
+            <p style="text-align: center; margin-top: 15px; color: #666;">
+                No account? <a href="#" onclick="showRegister(); return false;" style="color: #667eea;">Register here</a>
+            </p>
+            <div id="loginResult" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
+        </div>
+
+        <div id="registerSection" style="display: none;">
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #555;">Name</label>
+                <input type="text" id="regName" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;" placeholder="Enter name">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #555;">Email</label>
+                <input type="email" id="regEmail" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;" placeholder="Enter email">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #555;">Password</label>
+                <input type="password" id="regPassword" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box;" placeholder="Create password">
+            </div>
+            <button onclick="handleRegister()" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-bottom: 10px;">Create Account</button>
+            <button onclick="showLogin()" style="width: 100%; padding: 15px; background: #6c757d; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">Back to Login</button>
+            <div id="registerResult" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
+        </div>
+
+        <div id="dashboardSection" style="display: none; text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 15px;">🎉</div>
+            <h2 style="color: #667eea; margin-bottom: 10px;">Welcome!</h2>
+            <p id="userInfo" style="color: #666; margin-bottom: 20px;"></p>
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <p style="color: #666;">You are successfully logged in!</p>
+            </div>
+            <button onclick="handleLogout()" style="width: 100%; padding: 15px; background: #dc3545; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        var API_BASE = "";
+        var authToken = null;
+
+        function showResult(elementId, message, isSuccess) {
+            var element = document.getElementById(elementId);
+            element.style.display = "block";
+            element.style.background = isSuccess ? "#d4edda" : "#f8d7da";
+            element.style.color = isSuccess ? "#155724" : "#721c24";
+            element.textContent = message;
+        }
+
+        function showLogin() {
+            document.getElementById("loginSection").style.display = "block";
+            document.getElementById("registerSection").style.display = "none";
+            document.getElementById("dashboardSection").style.display = "none";
+        }
+
+        function showRegister() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("registerSection").style.display = "block";
+            document.getElementById("dashboardSection").style.display = "none";
+        }
+
+        function showDashboard(user) {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("registerSection").style.display = "none";
+            document.getElementById("dashboardSection").style.display = "block";
+            document.getElementById("userInfo").textContent = "Email: " + user.email;
+        }
+
+        async function handleLogin() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            if (!email || !password) {
+                showResult("loginResult", "Please enter email and password", false);
+                return;
+            }
+
+            showResult("loginResult", "Logging in...", false);
+
+            try {
+                var response = await fetch(API_BASE + "/api/auth/login", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({email: email, password: password})
+                });
+
+                var data = await response.json();
+
+                if (data.status === "success") {
+                    authToken = data.data.token;
+                    localStorage.setItem("auth_token", authToken);
+                    showResult("loginResult", "Login successful!", true);
+                    setTimeout(function() { showDashboard(data.data.user); }, 1000);
+                } else {
+                    showResult("loginResult", data.message || "Login failed", false);
+                }
+            } catch (error) {
+                showResult("loginResult", "Error: " + error.message, false);
+            }
+        }
+
+        async function handleRegister() {
+            var name = document.getElementById("regName").value;
+            var email = document.getElementById("regEmail").value;
+            var password = document.getElementById("regPassword").value;
+
+            if (!name || !email || !password) {
+                showResult("registerResult", "Please fill all fields", false);
+                return;
+            }
+
+            showResult("registerResult", "Creating account...", false);
+
+            try {
+                var response = await fetch(API_BASE + "/api/auth/register", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({email: email, password: password, profile: {name: name}})
+                });
+
+                var data = await response.json();
+
+                if (data.status === "success") {
+                    authToken = data.data.token;
+                    localStorage.setItem("auth_token", authToken);
+                    showResult("registerResult", "Account created!", true);
+                    setTimeout(function() { showDashboard(data.data.user); }, 1000);
+                } else {
+                    showResult("registerResult", data.message || "Registration failed", false);
+                }
+            } catch (error) {
+                showResult("registerResult", "Error: " + error.message, false);
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem("auth_token");
+            authToken = null;
+            showLogin();
+        }
+
+        window.onload = function() {
+            console.log("Page loaded");
+            var savedToken = localStorage.getItem("auth_token");
+            if (savedToken) {
+                authToken = savedToken;
+                showDashboard({email: "User"});
+            }
+        };
+    </script>
+</body>
+</html>
