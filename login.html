@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Health App</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 100%;
+        }
+        h1 { color: #667eea; text-align: center; margin-bottom: 30px; font-size: 28px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; font-size: 14px; }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus { outline: none; border-color: #667eea; }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        button:active { transform: translateY(0); }
+        button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        button.secondary { background: #6c757d; }
+        .hidden { display: none !important; }
+        .message { margin: 15px 0; padding: 15px; border-radius: 8px; display: none; font-size: 14px; }
+        .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .info { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
+        .divider { text-align: center; margin: 20px 0; color: #999; font-size: 14px; }
+        .link { color: #667eea; text-decoration: none; font-weight: 600; cursor: pointer; }
+        .link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 Health Monitoring App</h1>
+
+        <!-- Login Form -->
+        <div id="loginForm">
+            <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
+            </div>
+
+            <button id="loginBtn" onclick="handleLogin()">🚀 Login</button>
+
+            <div class="divider">
+                Don't have an account?
+                <span class="link" onclick="showRegisterForm()">Register here</span>
+            </div>
+
+            <div id="loginMessage" class="message"></div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="hidden">
+            <div class="form-group">
+                <label for="regName">Full Name</label>
+                <input type="text" id="regName" placeholder="Enter your full name" autocomplete="name">
+            </div>
+
+            <div class="form-group">
+                <label for="regEmail">Email Address</label>
+                <input type="email" id="regEmail" placeholder="Enter your email" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="regPassword">Password</label>
+                <input type="password" id="regPassword" placeholder="Create a password" autocomplete="new-password">
+            </div>
+
+            <button id="registerBtn" onclick="handleRegister()">➕ Create Account</button>
+
+            <button class="secondary" onclick="showLoginForm()">← Back to Login</button>
+
+            <div id="registerMessage" class="message"></div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="hidden">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 48px; margin-bottom: 10px;">🎉</div>
+                <h2 style="color: #667eea;">Welcome!</h2>
+                <p id="welcomeMessage" style="color: #666; margin: 10px 0;"></p>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <h3 style="color: #333; margin-bottom: 10px;">✅ Login Successful!</h3>
+                <p style="color: #666;">You are now logged in to the Health Monitoring App.</p>
+            </div>
+
+            <button onclick="handleLogout()" style="background: #dc3545;">🚪 Logout</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '';
+
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = 'message ' + type;
+            element.textContent = message;
+            if (type === 'success') {
+                setTimeout(() => { element.style.display = 'none'; }, 5000);
+            }
+        }
+
+        function showRegisterForm() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+        }
+
+        function showDashboard(user) {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('welcomeMessage').textContent = 'Email: ' + user.email;
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showMessage('loginMessage', 'Please enter both email and password', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Logging in...';
+            showMessage('loginMessage', 'Logging in...', 'info');
+
+            try {
+                const response = await fetch(API_BASE + '/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.status === 'success') {
+                    localStorage.setItem('auth_token', data.data.token);
+                    localStorage.setItem('user_email', data.data.user.email);
+                    showMessage('loginMessage', '✅ Login successful!', 'success');
+                    setTimeout(() => showDashboard(data.data.user), 1000);
+                } else {
+                    showMessage('loginMessage', '❌ ' + (data.message || 'Login failed'), 'error');
+                }
+            } catch (error) {
+                showMessage('loginMessage', '❌ Network error: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🚀 Login';
+            }
+        }
+
+        async function handleRegister() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            if (!name || !email || !password) {
+                showMessage('registerMessage', 'Please fill in all fields', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('registerBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Creating account...';
+            showMessage('registerMessage', 'Creating your account...', 'info');
+
+            try {
+                const response = await fetch(API_BASE + '/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, profile: { name } })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.status === 'success') {
+                    localStorage.setItem('auth_token', data.data.token);
+                    localStorage.setItem('user_email', data.data.user.email);
+                    showMessage('registerMessage', '✅ Account created!', 'success');
+                    setTimeout(() => showDashboard(data.data.user), 1000);
+                } else {
+                    showMessage('registerMessage', '❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                showMessage('registerMessage', '❌ Network error: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '➕ Create Account';
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user_email');
+            showLoginForm();
+        }
+
+        window.onload = function() {
+            const token = localStorage.getItem('auth_token');
+            const email = localStorage.getItem('user_email');
+            if (token && email) {
+                showDashboard({ email });
+            }
+        };
+    </script>
+</body>
+</html>
