@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Health Monitoring - Complete App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: var(--gray-800);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gray-700);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        button.success {
+            background: var(--success);
+        }
+
+        button.danger {
+            background: var(--danger);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .visible {
+            display: block !important;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .stat-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .stat-box h3 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .stat-box p {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .nav-tab:hover {
+            background: var(--gray-200);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .metric-item {
+            background: var(--gray-50);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .metric-item strong {
+            color: var(--gray-800);
+        }
+
+        .prediction-card {
+            background: var(--gray-50);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .risk-high {
+            border-left-color: var(--danger);
+        }
+
+        .risk-medium {
+            border-left-color: var(--warning);
+        }
+
+        .risk-low {
+            border-left-color: var(--success);
+        }
+
+        .progress-bar {
+            background: var(--gray-200);
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            transition: width 0.3s;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .meal-item {
+            background: var(--gray-50);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border-left: 4px solid var(--success);
+        }
+
+        .yoga-pose {
+            background: var(--gray-50);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--info);
+        }
+
+        .notification-item {
+            background: var(--gray-50);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border-left: 4px solid var(--warning);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        pre {
+            background: var(--gray-100);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+            border: 1px solid var(--gray-200);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .chart {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .chart-label {
+            flex: 0 0 120px;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .chart-bar-fill {
+            flex: 1;
+            height: 30px;
+            background: var(--gray-200);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .chart-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            transition: width 0.3s;
+        }
+
+        .chart-value {
+            flex: 0 0 60px;
+            text-align: right;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 AI Health Monitoring</h1>
+            <p style="color: var(--gray-600);">Complete Health Tracking & Disease Prediction System</p>
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="card">
+            <h2>🔐 Login</h2>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button onclick="login()" id="loginBtn">🚀 Login</button>
+            <button onclick="showRegister()" class="secondary" style="margin-top: 10px;">➕ Create Account</button>
+            <div id="loginResult" class="result"></div>
+        </div>
+
+        <!-- Register Section -->
+        <div id="registerSection" class="card hidden">
+            <h2>➕ Create Account</h2>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="regName" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="regEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="regPassword" placeholder="Create a password">
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="regAge" placeholder="30">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="regGender">
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Height (cm)</label>
+                    <input type="number" id="regHeight" placeholder="170">
+                </div>
+                <div class="form-group">
+                    <label>Weight (kg)</label>
+                    <input type="number" id="regWeight" placeholder="70">
+                </div>
+            </div>
+            <button onclick="register()" id="registerBtn">➕ Create Account</button>
+            <button onclick="showLogin()" class="secondary" style="margin-top: 10px;">← Back to Login</button>
+            <div id="registerResult" class="result"></div>
+        </div>
+
+        <!-- Main App Section -->
+        <div id="appSection" class="hidden">
+            <!-- Navigation -->
+            <div class="nav-tabs">
+                <div class="nav-tab active" onclick="showTab('dashboard')">📊 Dashboard</div>
+                <div class="nav-tab" onclick="showTab('metrics')">📈 Health Metrics</div>
+                <div class="nav-tab" onclick="showTab('predictions')">🤖 AI Predictions</div>
+                <div class="nav-tab" onclick="showTab('diet')">🥗 Diet & Nutrition</div>
+                <div class="nav-tab" onclick="showTab('yoga')">🧘 Yoga & Fitness</div>
+                <div class="nav-tab" onclick="showTab('profile')">👤 Profile</div>
+            </div>
+
+            <!-- Dashboard Tab -->
+            <div id="dashboardTab" class="tab-content">
+                <div class="card">
+                    <h2>👤 Welcome, <span id="userName">User</span>!</h2>
+                    <p style="color: var(--gray-600);">Email: <span id="userEmail">user@example.com</span></p>
+                    <button onclick="logout()" class="danger" style="width: auto; margin-top: 15px;">🚪 Logout</button>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Health Overview</h2>
+                    <div class="stats">
+                        <div class="stat-box">
+                            <h3 id="metricsCount">0</h3>
+                            <p>Metrics Logged</p>
+                        </div>
+                        <div class="stat-box">
+                            <h3 id="predictionsCount">0</h3>
+                            <p>AI Predictions</p>
+                        </div>
+                        <div class="stat-box">
+                            <h3 id="yogaSessions">0</h3>
+                            <p>Yoga Sessions</p>
+                        </div>
+                        <div class="stat-box">
+                            <h3 id="mealsLogged">0</h3>
+                            <p>Meals Logged</p>
+                        </div>
+                    </div>
+                    <button onclick="refreshDashboard()" style="margin-top: 20px;">🔄 Refresh Dashboard</button>
+                </div>
+
+                <div class="card">
+                    <h2>⚠️ Recent Alerts</h2>
+                    <div id="alertsList">
+                        <p style="color: var(--gray-600);">No recent alerts</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Metrics Tab -->
+            <div id="metricsTab" class="tab-content hidden">
+                <div class="card">
+                    <h2>📈 Add Health Metrics</h2>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Blood Pressure (Systolic)</label>
+                            <input type="number" id="systolic" placeholder="120">
+                        </div>
+                        <div class="form-group">
+                            <label>Blood Pressure (Diastolic)</label>
+                            <input type="number" id="diastolic" placeholder="80">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Blood Sugar (mg/dL)</label>
+                            <input type="number" id="bloodSugar" placeholder="95">
+                        </div>
+                        <div class="form-group">
+                            <label>Weight (kg)</label>
+                            <input type="number" id="weight" placeholder="70" step="0.1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Cholesterol (mg/dL)</label>
+                        <div class="grid-2">
+                            <input type="number" id="totalCholesterol" placeholder="Total: 200">
+                            <input type="number" id="ldl" placeholder="LDL: 130">
+                            <input type="number" id="hdl" placeholder="HDL: 50">
+                        </div>
+                    </div>
+                    <button onclick="addMetrics()" id="addMetricsBtn">💾 Save Health Metrics</button>
+                    <div id="metricsResult" class="result"></div>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Metrics History</h2>
+                    <button onclick="getMetricsHistory()" style="margin-bottom: 15px;">🔄 Load History</button>
+                    <div id="metricsHistory">
+                        <p style="color: var(--gray-600);">No metrics history available</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Predictions Tab -->
+            <div id="predictionsTab" class="tab-content hidden">
+                <div class="card">
+                    <h2>🤖 Generate AI Disease Predictions</h2>
+                    <p style="color: var(--gray-600); margin-bottom: 15px;">Our AI will analyze your health metrics and predict disease risks.</p>
+                    <button onclick="generatePredictions()" id="generatePredictionsBtn">🧠 Generate Predictions</button>
+                    <div id="predictionsResult" class="result"></div>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Latest Predictions</h2>
+                    <button onclick="getLatestPredictions()" style="margin-bottom: 15px;">🔄 Load Predictions</button>
+                    <div id="latestPredictions">
+                        <p style="color: var(--gray-600);">No predictions available</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📈 Risk Trends</h2>
+                    <button onclick="getRiskTrends()" style="margin-bottom: 15px;">🔄 Load Trends</button>
+                    <div id="riskTrends">
+                        <p style="color: var(--gray-600);">No trend data available</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diet & Nutrition Tab -->
+            <div id="dietTab" class="tab-content hidden">
+                <div class="card">
+                    <h2>🥗 Get Diet Recommendations</h2>
+                    <p style="color: var(--gray-600); margin-bottom: 15px;">Get personalized meal recommendations based on your health profile.</p>
+                    <button onclick="getDietRecommendations()" id="dietRecommendationsBtn">🍎 Get Recommendations</button>
+                    <div id="dietRecommendationsResult" class="result"></div>
+                </div>
+
+                <div class="card">
+                    <h2>📝 Log Food Intake</h2>
+                    <div class="form-group">
+                        <label>Meal Type</label>
+                        <select id="mealType">
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="snack">Snack</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Food Items (comma separated)</label>
+                        <textarea id="foodItems" rows="3" placeholder="e.g., Rice, Dal, Vegetables"></textarea>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Calories</label>
+                            <input type="number" id="calories" placeholder="500">
+                        </div>
+                        <div class="form-group">
+                            <label>Protein (g)</label>
+                            <input type="number" id="protein" placeholder="20">
+                        </div>
+                    </div>
+                    <button onclick="logFood()" id="logFoodBtn">💾 Log Food</button>
+                    <div id="logFoodResult" class="result"></div>
+                </div>
+
+                <div class="card">
+                    <h2>💧 Water Intake</h2>
+                    <div class="form-group">
+                        <label>Glasses of Water (8oz each)</label>
+                        <input type="number" id="waterGlasses" placeholder="8" min="0">
+                    </div>
+                    <button onclick="updateWaterIntake()" id="waterIntakeBtn">💧 Update Water Intake</button>
+                    <div id="waterIntakeResult" class="result"></div>
+                </div>
+
+                <div class="card">
+                    <h2>📅 Today's Meal Plan</h2>
+                    <button onclick="getTodaysMealPlan()" style="margin-bottom: 15px;">🔄 Load Meal Plan</button>
+                    <div id="todaysMealPlan">
+                        <p style="color: var(--gray-600);">No meal plan available</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yoga & Fitness Tab -->
+            <div id="yogaTab" class="tab-content hidden">
+                <div class="card">
+                    <h2>🧘 Start Yoga Session</h2>
+                    <div class="form-group">
+                        <label>Duration (minutes)</label>
+                        <input type="number" id="yogaDuration" placeholder="30">
+                    </div>
+                    <div class="form-group">
+                        <label>Yoga Type</label>
+                        <select id="yogaType">
+                            <option value="hatha">Hatha Yoga</option>
+                            <option value="vinyasa">Vinyasa Flow</option>
+                            <option value="ashtanga">Ashtanga Yoga</option>
+                            <option value="yin">Yin Yoga</option>
+                            <option value="restorative">Restorative Yoga</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Difficulty Level</label>
+                        <select id="yogaLevel">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <button onclick="startYogaSession()" id="yogaSessionBtn">🧘 Start Session</button>
+                    <div id="yogaSessionResult" class="result"></div>
+                </div>
+
+                <div class="card">
+                    <h2>📚 Yoga Pose Library</h2>
+                    <button onclick="getYogaPoses()" style="margin-bottom: 15px;">🔄 Load Poses</button>
+                    <div id="yogaPoses">
+                        <p style="color: var(--gray-600);">Loading pose library...</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Yoga Progress</h2>
+                    <button onclick="getYogaProgress()" style="margin-bottom: 15px;">🔄 Load Progress</button>
+                    <div id="yogaProgress">
+                        <p style="color: var(--gray-600);">No progress data available</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profileTab" class="tab-content hidden">
+                <div class="card">
+                    <h2>👤 Profile Information</h2>
+                    <div id="profileInfo">
+                        <p style="color: var(--gray-600);">Loading profile...</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>✏️ Update Profile</h2>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="updateName" placeholder="Your full name">
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Height (cm)</label>
+                            <input type="number" id="updateHeight" placeholder="170">
+                        </div>
+                        <div class="form-group">
+                            <label>Weight (kg)</label>
+                            <input type="number" id="updateWeight" placeholder="70">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Activity Level</label>
+                        <select id="updateActivity">
+                            <option value="sedentary">Sedentary</option>
+                            <option value="light">Lightly Active</option>
+                            <option value="moderate">Moderately Active</option>
+                            <option value="active">Very Active</option>
+                            <option value="extremely">Extremely Active</option>
+                        </select>
+                    </div>
+                    <button onclick="updateProfile()" id="updateProfileBtn">💾 Update Profile</button>
+                    <div id="updateProfileResult" class="result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Detect if we're on Vercel or localhost
+        const API_BASE = window.location.hostname === 'localhost'
+            ? 'http://localhost:5000'
+            : window.location.origin;
+
+        console.log('API Base URL:', API_BASE);
+
+        let authToken = null;
+        let currentUser = null;
+
+        // Auto-check for existing token on load
+        window.onload = function() {
+            const savedToken = localStorage.getItem('auth_token');
+            if (savedToken) {
+                authToken = savedToken;
+                showApp();
+            }
+        };
+
+        // Utility function to show results
+        function showResult(elementId, message, isSuccess, data) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = `result ${isSuccess ? 'success' : 'error'}`;
+            let content = `<h3>${isSuccess ? '✅' : '❌'} ${message}</h3>`;
+            if (data) {
+                content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            }
+            element.innerHTML = content;
+        }
+
+        // Tab navigation
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.remove('hidden');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+
+            // Load data for specific tabs
+            if (tabName === 'profile') loadProfile();
+            if (tabName === 'yoga') getYogaPoses();
+        }
+
+        // Authentication functions
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showResult('loginResult', 'Please fill in all fields', false);
+                return;
+            }
+
+            const btn = document.getElementById('loginBtn');
+            btn.innerHTML = '<span class="loading"></span> Logging in...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    authToken = data.data.token;
+                    currentUser = data.data.user;
+                    localStorage.setItem('auth_token', authToken);
+                    showApp();
+                    showResult('loginResult', 'Login Successful!', true, {
+                        user: data.data.user.email,
+                        name: data.data.user.name
+                    });
+                } else {
+                    throw new Error(data.message || 'Login failed');
+                }
+            } catch (error) {
+                showResult('loginResult', 'Login Failed!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '🚀 Login';
+                btn.disabled = false;
+            }
+        }
+
+        async function register() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const age = document.getElementById('regAge').value;
+            const gender = document.getElementById('regGender').value;
+            const height = document.getElementById('regHeight').value;
+            const weight = document.getElementById('regWeight').value;
+
+            if (!name || !email || !password) {
+                showResult('registerResult', 'Please fill in required fields', false);
+                return;
+            }
+
+            const btn = document.getElementById('registerBtn');
+            btn.innerHTML = '<span class="loading"></span> Creating account...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                        profile: {
+                            age: parseInt(age),
+                            gender,
+                            height: parseInt(height),
+                            weight: parseFloat(weight)
+                        }
+                    })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('registerResult', 'Registration Successful! Please login.', true);
+                    setTimeout(showLogin, 2000);
+                } else {
+                    throw new Error(data.message || 'Registration failed');
+                }
+            } catch (error) {
+                showResult('registerResult', 'Registration Failed!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '➕ Create Account';
+                btn.disabled = false;
+            }
+        }
+
+        function showRegister() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+
+        function showApp() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('appSection').classList.remove('hidden');
+
+            // Decode JWT to get user info
+            try {
+                const tokenPayload = JSON.parse(atob(authToken.split('.')[1]));
+                document.getElementById('userEmail').textContent = tokenPayload.email || 'user@example.com';
+                document.getElementById('userName').textContent = tokenPayload.name || 'User';
+            } catch (e) {
+                console.error('Error decoding token:', e);
+            }
+
+            refreshDashboard();
+        }
+
+        function logout() {
+            localStorage.removeItem('auth_token');
+            authToken = null;
+            currentUser = null;
+            document.getElementById('appSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+
+        // Dashboard functions
+        async function refreshDashboard() {
+            await Promise.all([
+                getMetricsCount(),
+                getPredictionsCount(),
+                getYogaCount(),
+                getMealsCount()
+            ]);
+        }
+
+        async function getMetricsCount() {
+            try {
+                const response = await fetch(`${API_BASE}/api/health/metrics/latest`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    document.getElementById('metricsCount').textContent = '1';
+                }
+            } catch (error) {
+                console.error('Error fetching metrics:', error);
+            }
+        }
+
+        async function getPredictionsCount() {
+            try {
+                const response = await fetch(`${API_BASE}/api/predictions/latest`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    document.getElementById('predictionsCount').textContent = '1';
+                }
+            } catch (error) {
+                console.error('Error fetching predictions:', error);
+            }
+        }
+
+        async function getYogaCount() {
+            try {
+                const response = await fetch(`${API_BASE}/api/yoga/sessions/week`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                if (data.status === 'success' && data.data) {
+                    document.getElementById('yogaSessions').textContent = data.data.length || '0';
+                }
+            } catch (error) {
+                console.error('Error fetching yoga sessions:', error);
+            }
+        }
+
+        async function getMealsCount() {
+            try {
+                const response = await fetch(`${API_BASE}/api/diet/food-log/${new Date().toISOString().split('T')[0]}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                if (data.status === 'success' && data.data) {
+                    document.getElementById('mealsLogged').textContent = data.data.foodLogs?.length || '0';
+                }
+            } catch (error) {
+                console.error('Error fetching meals:', error);
+            }
+        }
+
+        // Health Metrics functions
+        async function addMetrics() {
+            const systolic = document.getElementById('systolic').value;
+            const diastolic = document.getElementById('diastolic').value;
+            const bloodSugar = document.getElementById('bloodSugar').value;
+            const weight = document.getElementById('weight').value;
+            const totalCholesterol = document.getElementById('totalCholesterol').value;
+            const ldl = document.getElementById('ldl').value;
+            const hdl = document.getElementById('hdl').value;
+
+            const metrics = {
+                date: new Date().toISOString(),
+                metrics: {}
+            };
+
+            if (systolic && diastolic) {
+                metrics.metrics.bloodPressure = {
+                    systolic: parseInt(systolic),
+                    diastolic: parseInt(diastolic)
+                };
+            }
+            if (bloodSugar) {
+                metrics.metrics.bloodSugar = parseInt(bloodSugar);
+            }
+            if (weight) {
+                metrics.metrics.weight = parseFloat(weight);
+            }
+            if (totalCholesterol || ldl || hdl) {
+                metrics.metrics.cholesterol = {};
+                if (totalCholesterol) metrics.metrics.cholesterol.total = parseInt(totalCholesterol);
+                if (ldl) metrics.metrics.cholesterol.ldl = parseInt(ldl);
+                if (hdl) metrics.metrics.cholesterol.hdl = parseInt(hdl);
+            }
+
+            const btn = document.getElementById('addMetricsBtn');
+            btn.innerHTML = '<span class="loading"></span> Saving...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/health/metrics`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(metrics)
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('metricsResult', 'Health Metrics Saved Successfully!', true, data);
+                    refreshDashboard();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('metricsResult', 'Failed to Save Metrics!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '💾 Save Health Metrics';
+                btn.disabled = false;
+            }
+        }
+
+        async function getMetricsHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/api/health/metrics/history/week`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success' && data.data && data.data.length > 0) {
+                    const historyHTML = data.data.map(metric => `
+                        <div class="metric-item">
+                            <strong>Date:</strong> ${new Date(metric.date).toLocaleString()}<br>
+                            <strong>Metrics:</strong> ${JSON.stringify(metric.metrics, null, 2)}
+                        </div>
+                    `).join('');
+                    document.getElementById('metricsHistory').innerHTML = historyHTML;
+                } else {
+                    document.getElementById('metricsHistory').innerHTML = '<p style="color: var(--gray-600);">No metrics history available</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching metrics history:', error);
+                document.getElementById('metricsHistory').innerHTML = '<p style="color: var(--danger);">Error loading history</p>';
+            }
+        }
+
+        // AI Predictions functions
+        async function generatePredictions() {
+            const btn = document.getElementById('generatePredictionsBtn');
+            btn.innerHTML = '<span class="loading"></span> Analyzing...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/predictions/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('predictionsResult', 'Predictions Generated Successfully!', true, data);
+                    refreshDashboard();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('predictionsResult', 'Failed to Generate Predictions!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '🧠 Generate Predictions';
+                btn.disabled = false;
+            }
+        }
+
+        async function getLatestPredictions() {
+            try {
+                const response = await fetch(`${API_BASE}/api/predictions/latest`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success' && data.data) {
+                    const predictions = data.data.predictions || [];
+                    const predictionsHTML = predictions.map(pred => {
+                        const riskClass = pred.riskScore > 70 ? 'risk-high' : pred.riskScore > 40 ? 'risk-medium' : 'risk-low';
+                        const riskLevel = pred.riskScore > 70 ? 'High' : pred.riskScore > 40 ? 'Medium' : 'Low';
+                        return `
+                            <div class="prediction-card ${riskClass}">
+                                <strong>${pred.disease}</strong><br>
+                                <strong>Risk Level:</strong> ${riskLevel} (${pred.riskScore}%)<br>
+                                <strong>Likelihood:</strong> ${pred.likelihood}<br>
+                                <strong>Recommendations:</strong> ${pred.recommendations ? pred.recommendations.join(', ') : 'N/A'}
+                            </div>
+                        `;
+                    }).join('');
+                    document.getElementById('latestPredictions').innerHTML = predictionsHTML || '<p style="color: var(--gray-600);">No predictions available</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching predictions:', error);
+                document.getElementById('latestPredictions').innerHTML = '<p style="color: var(--danger);">Error loading predictions</p>';
+            }
+        }
+
+        async function getRiskTrends() {
+            try {
+                const response = await fetch(`${API_BASE}/api/predictions/trends`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success' && data.data) {
+                    const trendsHTML = data.data.map(trend => `
+                        <div class="metric-item">
+                            <strong>${trend.disease}</strong><br>
+                            <strong>Trend:</strong> ${trend.trend}<br>
+                            <strong>Previous:</strong> ${trend.previousRisk}%<br>
+                            <strong>Current:</strong> ${trend.currentRisk}%
+                        </div>
+                    `).join('');
+                    document.getElementById('riskTrends').innerHTML = trendsHTML || '<p style="color: var(--gray-600);">No trend data available</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching trends:', error);
+                document.getElementById('riskTrends').innerHTML = '<p style="color: var(--danger);">Error loading trends</p>';
+            }
+        }
+
+        // Diet & Nutrition functions
+        async function getDietRecommendations() {
+            const btn = document.getElementById('dietRecommendationsBtn');
+            btn.innerHTML = '<span class="loading"></span> Loading...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/diet/recommendations`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('dietRecommendationsResult', 'Recommendations Loaded!', true, data);
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('dietRecommendationsResult', 'Failed to Load Recommendations!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '🍎 Get Recommendations';
+                btn.disabled = false;
+            }
+        }
+
+        async function logFood() {
+            const mealType = document.getElementById('mealType').value;
+            const foodItems = document.getElementById('foodItems').value;
+            const calories = document.getElementById('calories').value;
+            const protein = document.getElementById('protein').value;
+
+            if (!foodItems) {
+                showResult('logFoodResult', 'Please enter food items', false);
+                return;
+            }
+
+            const btn = document.getElementById('logFoodBtn');
+            btn.innerHTML = '<span class="loading"></span> Saving...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/diet/food-log`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        date: new Date().toISOString(),
+                        mealType,
+                        items: foodItems.split(',').map(item => item.trim()),
+                        nutrition: {
+                            calories: parseInt(calories) || 0,
+                            protein: parseInt(protein) || 0
+                        }
+                    })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('logFoodResult', 'Food Logged Successfully!', true, data);
+                    refreshDashboard();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('logFoodResult', 'Failed to Log Food!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '💾 Log Food';
+                btn.disabled = false;
+            }
+        }
+
+        async function updateWaterIntake() {
+            const glasses = document.getElementById('waterGlasses').value;
+
+            const btn = document.getElementById('waterIntakeBtn');
+            btn.innerHTML = '<span class="loading"></span> Updating...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/diet/water-intake`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        date: new Date().toISOString(),
+                        glasses: parseInt(glasses)
+                    })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('waterIntakeResult', 'Water Intake Updated!', true, data);
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('waterIntakeResult', 'Failed to Update Water Intake!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '💧 Update Water Intake';
+                btn.disabled = false;
+            }
+        }
+
+        async function getTodaysMealPlan() {
+            const today = new Date().toISOString().split('T')[0];
+            try {
+                const response = await fetch(`${API_BASE}/api/diet/meal-plan/${today}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success' && data.data) {
+                    const plan = data.data;
+                    const mealsHTML = `
+                        <div class="meal-item">
+                            <strong>🍳 Breakfast:</strong> ${plan.breakfast || 'Not specified'}
+                        </div>
+                        <div class="meal-item">
+                            <strong>🍱 Lunch:</strong> ${plan.lunch || 'Not specified'}
+                        </div>
+                        <div class="meal-item">
+                            <strong>🍲 Dinner:</strong> ${plan.dinner || 'Not specified'}
+                        </div>
+                        <div class="meal-item">
+                            <strong>🥤 Snacks:</strong> ${plan.snacks || 'Not specified'}
+                        </div>
+                        <div class="metric-item">
+                            <strong>🎯 Daily Calorie Target:</strong> ${plan.dailyCalories || 'Not specified'} kcal
+                        </div>
+                    `;
+                    document.getElementById('todaysMealPlan').innerHTML = mealsHTML;
+                }
+            } catch (error) {
+                console.error('Error fetching meal plan:', error);
+                document.getElementById('todaysMealPlan').innerHTML = '<p style="color: var(--danger);">Error loading meal plan</p>';
+            }
+        }
+
+        // Yoga & Fitness functions
+        async function startYogaSession() {
+            const duration = document.getElementById('yogaDuration').value;
+            const yogaType = document.getElementById('yogaType').value;
+            const level = document.getElementById('yogaLevel').value;
+
+            if (!duration) {
+                showResult('yogaSessionResult', 'Please enter duration', false);
+                return;
+            }
+
+            const btn = document.getElementById('yogaSessionBtn');
+            btn.innerHTML = '<span class="loading"></span> Starting...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/yoga/session`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        date: new Date().toISOString(),
+                        duration: parseInt(duration),
+                        routineType: yogaType,
+                        level: level,
+                        poses: [],
+                        completed: true
+                    })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('yogaSessionResult', 'Yoga Session Completed!', true, data);
+                    refreshDashboard();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('yogaSessionResult', 'Failed to Start Session!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '🧘 Start Session';
+                btn.disabled = false;
+            }
+        }
+
+        async function getYogaPoses() {
+            try {
+                const response = await fetch(`${API_BASE}/api/yoga/poses`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success' && data.data) {
+                    const posesHTML = data.data.map(pose => `
+                        <div class="yoga-pose">
+                            <strong>${pose.name}</strong> (${pose.sanskritName})<br>
+                            <strong>Difficulty:</strong> ${pose.difficulty}<br>
+                            <strong>Benefits:</strong> ${pose.benefits ? pose.benefits.join(', ') : 'N/A'}<br>
+                            <strong>Duration:</strong> ${pose.duration} seconds
+                        </div>
+                    `).join('');
+                    document.getElementById('yogaPoses').innerHTML = posesHTML || '<p style="color: var(--gray-600);">No poses available</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching poses:', error);
+                document.getElementById('yogaPoses').innerHTML = '<p style="color: var(--danger);">Error loading poses</p>';
+            }
+        }
+
+        async function getYogaProgress() {
+            try {
+                const tokenPayload = JSON.parse(atob(authToken.split('.')[1]));
+                const userId = tokenPayload.userId || tokenPayload.id;
+
+                const response = await fetch(`${API_BASE}/api/yoga/progress/${userId}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success' && data.data) {
+                    const progress = data.data;
+                    const progressHTML = `
+                        <div class="stats">
+                            <div class="stat-box">
+                                <h3>${progress.totalSessions || 0}</h3>
+                                <p>Total Sessions</p>
+                            </div>
+                            <div class="stat-box">
+                                <h3>${progress.totalMinutes || 0}</h3>
+                                <p>Total Minutes</p>
+                            </div>
+                            <div class="stat-box">
+                                <h3>${progress.streak || 0}</h3>
+                                <p>Day Streak</p>
+                            </div>
+                            <div class="stat-box">
+                                <h3>${progress.caloriesBurned || 0}</h3>
+                                <p>Calories Burned</p>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('yogaProgress').innerHTML = progressHTML;
+                }
+            } catch (error) {
+                console.error('Error fetching progress:', error);
+                document.getElementById('yogaProgress').innerHTML = '<p style="color: var(--danger);">Error loading progress</p>';
+            }
+        }
+
+        // Profile functions
+        async function loadProfile() {
+            try {
+                const tokenPayload = JSON.parse(atob(authToken.split('.')[1]));
+                const profileHTML = `
+                    <div class="metric-item">
+                        <strong>Name:</strong> ${tokenPayload.name || 'Not set'}
+                    </div>
+                    <div class="metric-item">
+                        <strong>Email:</strong> ${tokenPayload.email || 'Not set'}
+                    </div>
+                    <div class="metric-item">
+                        <strong>Age:</strong> ${tokenPayload.age || 'Not set'}
+                    </div>
+                    <div class="metric-item">
+                        <strong>Gender:</strong> ${tokenPayload.gender || 'Not set'}
+                    </div>
+                    <div class="metric-item">
+                        <strong>Height:</strong> ${tokenPayload.height || 'Not set'} cm
+                    </div>
+                    <div class="metric-item">
+                        <strong>Weight:</strong> ${tokenPayload.weight || 'Not set'} kg
+                    </div>
+                    <div class="metric-item">
+                        <strong>BMI:</strong> ${tokenPayload.bmi || 'Not set'}
+                    </div>
+                `;
+                document.getElementById('profileInfo').innerHTML = profileHTML;
+
+                // Pre-fill update form
+                if (tokenPayload.name) document.getElementById('updateName').value = tokenPayload.name;
+                if (tokenPayload.height) document.getElementById('updateHeight').value = tokenPayload.height;
+                if (tokenPayload.weight) document.getElementById('updateWeight').value = tokenPayload.weight;
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                document.getElementById('profileInfo').innerHTML = '<p style="color: var(--danger);">Error loading profile</p>';
+            }
+        }
+
+        async function updateProfile() {
+            const name = document.getElementById('updateName').value;
+            const height = document.getElementById('updateHeight').value;
+            const weight = document.getElementById('updateWeight').value;
+            const activity = document.getElementById('updateActivity').value;
+
+            const btn = document.getElementById('updateProfileBtn');
+            btn.innerHTML = '<span class="loading"></span> Updating...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        name,
+                        profile: {
+                            height: parseInt(height),
+                            weight: parseFloat(weight),
+                            activityLevel: activity
+                        }
+                    })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('updateProfileResult', 'Profile Updated Successfully!', true, data);
+                    loadProfile();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('updateProfileResult', 'Failed to Update Profile!', false, { error: error.message });
+            } finally {
+                btn.innerHTML = '💾 Update Profile';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

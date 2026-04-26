@@ -16,8 +16,16 @@
       "dest": "health-backend/src/app.js"
     },
     {
+      "src": "/app.html",
+      "dest": "/app.html"
+    },
+    {
+      "src": "/index.html",
+      "dest": "/index.html"
+    },
+    {
       "src": "/(.*)",
-      "dest": "health-backend/src/app.js"
+      "dest": "/app.html"
     }
   ],
   "env": {
