@@ -12,6 +12,7 @@ const predictionRoutes = require('./routes/predictions');
 const dietRoutes = require('./routes/diet');
 const yogaRoutes = require('./routes/yoga');
 const notificationRoutes = require('./routes/notifications');
+const metricsRoutes = require('./routes/metrics');
 
 // Import middleware
 const errorHandler = require('./middleware/errorHandler');
@@ -56,6 +57,7 @@ app.use('/api/predictions', predictionRoutes);
 app.use('/api/diet', dietRoutes);
 app.use('/api/yoga', yogaRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/metrics', metricsRoutes);
 
 // 404 handler
 app.use((req, res) => {

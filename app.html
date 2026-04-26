@@ -939,37 +939,35 @@
         }
 
         // Health Metrics functions
-        async function addMetrics() {
+        window.addMetrics = async function() {
             const systolic = document.getElementById('systolic').value;
             const diastolic = document.getElementById('diastolic').value;
             const bloodSugar = document.getElementById('bloodSugar').value;
-            const weight = document.getElementById('weight').value;
             const totalCholesterol = document.getElementById('totalCholesterol').value;
             const ldl = document.getElementById('ldl').value;
             const hdl = document.getElementById('hdl').value;
 
-            const metrics = {
-                date: new Date().toISOString(),
-                metrics: {}
-            };
+            const metricsData = {};
 
             if (systolic && diastolic) {
-                metrics.metrics.bloodPressure = {
+                metricsData.bloodPressure = {
                     systolic: parseInt(systolic),
                     diastolic: parseInt(diastolic)
                 };
             }
             if (bloodSugar) {
-                metrics.metrics.bloodSugar = parseInt(bloodSugar);
-            }
-            if (weight) {
-                metrics.metrics.weight = parseFloat(weight);
+                metricsData.bloodSugar = parseInt(bloodSugar);
             }
             if (totalCholesterol || ldl || hdl) {
-                metrics.metrics.cholesterol = {};
-                if (totalCholesterol) metrics.metrics.cholesterol.total = parseInt(totalCholesterol);
-                if (ldl) metrics.metrics.cholesterol.ldl = parseInt(ldl);
-                if (hdl) metrics.metrics.cholesterol.hdl = parseInt(hdl);
+                metricsData.cholesterol = {};
+                if (totalCholesterol) metricsData.cholesterol.total = parseInt(totalCholesterol);
+                if (ldl) metricsData.cholesterol.ldl = parseInt(ldl);
+                if (hdl) metricsData.cholesterol.hdl = parseInt(hdl);
+            }
+
+            if (Object.keys(metricsData).length === 0) {
+                showResult('metricsResult', 'Please enter at least one metric', false);
+                return;
             }
 
             const btn = document.getElementById('addMetricsBtn');
@@ -977,19 +975,27 @@
             btn.disabled = true;
 
             try {
-                const response = await fetch(`${API_BASE}/api/health/metrics`, {
+                const response = await fetch(`${API_BASE}/api/metrics/add`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authToken}`
                     },
-                    body: JSON.stringify(metrics)
+                    body: JSON.stringify(metricsData)
                 });
                 const data = await response.json();
 
                 if (data.status === 'success') {
                     showResult('metricsResult', 'Health Metrics Saved Successfully!', true, data);
-                    refreshDashboard();
+                    // Clear form
+                    document.getElementById('systolic').value = '';
+                    document.getElementById('diastolic').value = '';
+                    document.getElementById('bloodSugar').value = '';
+                    document.getElementById('totalCholesterol').value = '';
+                    document.getElementById('ldl').value = '';
+                    document.getElementById('hdl').value = '';
+                    // Refresh history
+                    getMetricsHistory();
                 } else {
                     throw new Error(data.message);
                 }
@@ -999,51 +1005,96 @@
                 btn.innerHTML = '💾 Save Health Metrics';
                 btn.disabled = false;
             }
-        }
+        };
 
-        async function getMetricsHistory() {
+        window.getMetricsHistory = async function() {
             try {
-                const response = await fetch(`${API_BASE}/api/health/metrics/history/week`, {
+                const response = await fetch(`${API_BASE}/api/metrics/history`, {
                     headers: { 'Authorization': `Bearer ${authToken}` }
                 });
                 const data = await response.json();
 
-                if (data.status === 'success' && data.data && data.data.length > 0) {
-                    const historyHTML = data.data.map(metric => `
-                        <div class="metric-item">
-                            <strong>Date:</strong> ${new Date(metric.date).toLocaleString()}<br>
-                            <strong>Metrics:</strong> ${JSON.stringify(metric.metrics, null, 2)}
+                if (data.status === 'success' && data.data && data.data.metrics && data.data.metrics.length > 0) {
+                    const historyHTML = data.data.metrics.map(metric => `
+                        <div class="metric-item" style="background: var(--gray-50); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid var(--primary);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong style="color: var(--primary);">${new Date(metric.timestamp).toLocaleString()}</strong>
+                                    ${metric.bloodPressure ? `<div>Blood Pressure: ${metric.bloodPressure.systolic}/${metric.bloodPressure.diastolic} mmHg</div>` : ''}
+                                    ${metric.bloodSugar ? `<div>Blood Sugar: ${metric.bloodSugar} mg/dL</div>` : ''}
+                                    ${metric.cholesterol ? `<div>Cholesterol: Total=${metric.cholesterol.total}, LDL=${metric.cholesterol.ldl}, HDL=${metric.cholesterol.hdl} mg/dL</div>` : ''}
+                                </div>
+                            </div>
                         </div>
                     `).join('');
                     document.getElementById('metricsHistory').innerHTML = historyHTML;
                 } else {
-                    document.getElementById('metricsHistory').innerHTML = '<p style="color: var(--gray-600);">No metrics history available</p>';
+                    document.getElementById('metricsHistory').innerHTML = '<p style="color: var(--gray-600);">No metrics history available. Add your first health metrics above!</p>';
                 }
             } catch (error) {
                 console.error('Error fetching metrics history:', error);
                 document.getElementById('metricsHistory').innerHTML = '<p style="color: var(--danger);">Error loading history</p>';
             }
-        }
+        };
 
         // AI Predictions functions
-        async function generatePredictions() {
+        window.generatePredictions = async function() {
             const btn = document.getElementById('generatePredictionsBtn');
             btn.innerHTML = '<span class="loading"></span> Analyzing...';
             btn.disabled = true;
 
             try {
-                const response = await fetch(`${API_BASE}/api/predictions/generate`, {
+                // First, get the latest health metrics
+                const metricsResponse = await fetch(`${API_BASE}/api/metrics/history?limit=1`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const metricsData = await metricsResponse.json();
+
+                let healthData = {};
+
+                if (metricsData.status === 'success' && metricsData.data && metricsData.data.metrics.length > 0) {
+                    const latestMetric = metricsData.data.metrics[0];
+
+                    if (latestMetric.bloodPressure) {
+                        healthData.bloodPressure = latestMetric.bloodPressure;
+                    }
+                    if (latestMetric.bloodSugar) {
+                        healthData.bloodSugar = latestMetric.bloodSugar;
+                    }
+                    if (latestMetric.cholesterol) {
+                        healthData.cholesterol = latestMetric.cholesterol;
+                    }
+                }
+
+                // Get user profile for BMI
+                const profileResponse = await fetch(`${API_BASE}/api/auth/profile`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const profileData = await profileResponse.json();
+
+                if (profileData.status === 'success' && profileData.data) {
+                    const profile = profileData.data;
+                    if (profile.height && profile.weight) {
+                        const height = parseFloat(profile.height);
+                        const weight = parseFloat(profile.weight);
+                        healthData.bmi = weight / ((height / 100) * (height / 100));
+                    }
+                }
+
+                // Call prediction API
+                const response = await fetch(`${API_BASE}/api/predictions/predict`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authToken}`
-                    }
+                    },
+                    body: JSON.stringify(healthData)
                 });
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    showResult('predictionsResult', 'Predictions Generated Successfully!', true, data);
-                    refreshDashboard();
+                    displayPrediction(data.data);
+                    showResult('predictionsResult', 'AI Analysis Complete!', true);
                 } else {
                     throw new Error(data.message);
                 }
@@ -1053,45 +1104,40 @@
                 btn.innerHTML = '🧠 Generate Predictions';
                 btn.disabled = false;
             }
+        };
+
+        function displayPrediction(prediction) {
+            const resultDiv = document.getElementById('predictionsResult');
+            resultDiv.style.display = 'block';
+            resultDiv.style.backgroundColor = prediction.color + '20';
+            resultDiv.style.borderLeft = '5px solid ' + prediction.color;
+            resultDiv.innerHTML = `
+                <div style="padding: 20px;">
+                    <h3 style="color: ${prediction.color}; margin-bottom: 15px;">
+                        ${prediction.riskLevel === 'High' ? '🔴' : prediction.riskLevel === 'Medium' ? '🟡' : '🟢'}
+                        Risk Level: ${prediction.riskLevel}
+                    </h3>
+                    <div style="margin: 15px 0;">
+                        <strong>Risk Factors:</strong>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            ${prediction.riskFactors.map(factor => `<li>${factor}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <strong>💡 Recommendation:</strong>
+                        <p style="margin: 10px 0 0 0; color: var(--gray-700);">${prediction.recommendation}</p>
+                    </div>
+                </div>
+            `;
         }
 
-        async function getLatestPredictions() {
-            try {
-                const response = await fetch(`${API_BASE}/api/predictions/latest`, {
-                    headers: { 'Authorization': `Bearer ${authToken}` }
-                });
-                const data = await response.json();
+        window.getLatestPredictions = async function() {
+            document.getElementById('latestPredictions').innerHTML = '<p style="color: var(--gray-600);">Click "Generate Predictions" to get your latest AI health analysis!</p>';
+        };
 
-                if (data.status === 'success' && data.data) {
-                    const predictions = data.data.predictions || [];
-                    const predictionsHTML = predictions.map(pred => {
-                        const riskClass = pred.riskScore > 70 ? 'risk-high' : pred.riskScore > 40 ? 'risk-medium' : 'risk-low';
-                        const riskLevel = pred.riskScore > 70 ? 'High' : pred.riskScore > 40 ? 'Medium' : 'Low';
-                        return `
-                            <div class="prediction-card ${riskClass}">
-                                <strong>${pred.disease}</strong><br>
-                                <strong>Risk Level:</strong> ${riskLevel} (${pred.riskScore}%)<br>
-                                <strong>Likelihood:</strong> ${pred.likelihood}<br>
-                                <strong>Recommendations:</strong> ${pred.recommendations ? pred.recommendations.join(', ') : 'N/A'}
-                            </div>
-                        `;
-                    }).join('');
-                    document.getElementById('latestPredictions').innerHTML = predictionsHTML || '<p style="color: var(--gray-600);">No predictions available</p>';
-                }
-            } catch (error) {
-                console.error('Error fetching predictions:', error);
-                document.getElementById('latestPredictions').innerHTML = '<p style="color: var(--danger);">Error loading predictions</p>';
-            }
-        }
-
-        async function getRiskTrends() {
-            try {
-                const response = await fetch(`${API_BASE}/api/predictions/trends`, {
-                    headers: { 'Authorization': `Bearer ${authToken}` }
-                });
-                const data = await response.json();
-
-                if (data.status === 'success' && data.data) {
+        window.getRiskTrends = async function() {
+            document.getElementById('riskTrends').innerHTML = '<p style="color: var(--gray-600);">Risk trends will be available after multiple predictions are generated.</p>';
+        };
                     const trendsHTML = data.data.map(trend => `
                         <div class="metric-item">
                             <strong>${trend.disease}</strong><br>
