@@ -794,35 +794,25 @@
 
         async function register(userData) {
             try {
-                if (DB.users.find(u => u.email === userData.email)) {
-                    throw new Error('User with this email already exists');
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : window.location.origin;
+
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    return { success: true, user: data.data };
+                } else {
+                    throw new Error(data.message || 'Registration failed');
                 }
-
-                // Calculate BMI
-                const heightInMeters = userData.height / 100;
-                const bmi = (userData.weight / (heightInMeters * heightInMeters)).toFixed(1);
-
-                const newUser = {
-                    id: generateId(),
-                    ...userData,
-                    bmi: bmi,
-                    profileImage: null,
-                    createdAt: new Date().toISOString(),
-                    lastLogin: new Date().toISOString(),
-                    metrics: {
-                        weight: [{ date: new Date().toISOString(), value: userData.weight }],
-                        calories: [],
-                        water: [],
-                        activities: [{
-                            type: 'Profile created',
-                            date: new Date().toISOString(),
-                            bmi: bmi
-                        }]
-                    },
-                    preferences: {
-                        notifications: true,
-                        darkMode: false
-                    }
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
                 };
 
                 DB.users.push(newUser);
@@ -837,16 +827,23 @@
 
         async function login(email, password) {
             try {
-                const user = DB.users.find(u => u.email === email && u.password === password);
-                if (!user) {
-                    throw new Error('Invalid email or password');
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : window.location.origin;
+
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // Store token
+                    localStorage.setItem('auth_token', data.data.token);
+                    return { success: true, user: data.data.user };
+                } else {
+                    throw new Error(data.message || 'Login failed');
                 }
-
-                user.lastLogin = new Date().toISOString();
-                DB.currentUser = user;
-                saveDB();
-
-                return { success: true, user };
             } catch (error) {
                 return { success: false, error: error.message };
             }
@@ -1004,13 +1001,11 @@
             const errorDiv = document.getElementById('register-error');
 
             const userData = {
-                name: document.getElementById('register-name').value,
-                age: parseInt(document.getElementById('register-age').value),
-                gender: document.getElementById('register-gender').value,
-                height: parseFloat(document.getElementById('register-height').value),
-                weight: parseFloat(document.getElementById('register-weight').value),
                 email: document.getElementById('register-email').value,
-                password: document.getElementById('register-password').value
+                password: document.getElementById('register-password').value,
+                profile: {
+                    name: document.getElementById('register-name').value
+                }
             };
 
             const confirm = document.getElementById('register-confirm').value;
