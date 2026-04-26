@@ -103,7 +103,7 @@ mongodb+srv://healthapp:<password>@cluster0.xxxxx.mongodb.net/healthdb?retryWrit
 1. **Wait for deployment** (usually 1-2 minutes)
 2. **Visit**: `https://your-awesome-project.vercel.app`
 3. **Create account**: Click "Create Account"
-4. **Fill in form**: Name, email, password, age, gender, height, weight
+4. **Fill in form**: Name, email, password only
 5. **Start using**:
    - Add health metrics
    - Generate AI predictions

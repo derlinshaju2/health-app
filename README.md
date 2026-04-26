@@ -73,7 +73,7 @@ npm run dev
 ## 📱 Features Overview
 
 ### 🔐 Authentication Module
-- User registration with profile creation
+- Quick registration (name, email, password only)
 - Secure JWT-based authentication
 - Profile management and updates
 - Auto-login functionality

@@ -12,7 +12,7 @@ Your application is **FULLY FUNCTIONAL** with all features implemented and ready
 - **All Features Integrated**: Every module is accessible and functional
 
 ### 2. 🔐 **Authentication Module**
-- User registration with profile creation (name, email, password, age, gender, height, weight)
+- User registration with simplified form (name, email, password only)
 - Secure login with JWT authentication
 - Auto-login functionality
 - Profile management and updates
@@ -146,7 +146,7 @@ Your application is **FULLY FUNCTIONAL** with all features implemented and ready
 
 ### 1. Create Account
 - Fill in registration form with your details
-- Include height, weight for BMI calculation
+- Additional profile info can be added later
 - Submit to create your account
 
 ### 2. Login
