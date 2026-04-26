@@ -410,8 +410,8 @@
                 <label>Password</label>
                 <input type="password" id="password" placeholder="Enter your password">
             </div>
-            <button onclick="login()" id="loginBtn">🚀 Login</button>
-            <button onclick="showRegister()" class="secondary" style="margin-top: 10px;">➕ Create Account</button>
+            <button onclick="window.login()" id="loginBtn">🚀 Login</button>
+            <button onclick="window.showRegister()" class="secondary" style="margin-top: 10px;">➕ Create Account</button>
             <div id="loginResult" class="result"></div>
         </div>
 
@@ -430,8 +430,8 @@
                 <label>Password</label>
                 <input type="password" id="regPassword" placeholder="Create a password">
             </div>
-            <button onclick="register()" id="registerBtn">➕ Create Account</button>
-            <button onclick="showLogin()" class="secondary" style="margin-top: 10px;">← Back to Login</button>
+            <button onclick="window.register()" id="registerBtn">➕ Create Account</button>
+            <button onclick="window.showLogin()" class="secondary" style="margin-top: 10px;">← Back to Login</button>
             <div id="registerResult" class="result"></div>
         </div>
 
@@ -704,12 +704,12 @@
             const savedToken = localStorage.getItem('auth_token');
             if (savedToken) {
                 authToken = savedToken;
-                showApp();
+                window.showApp();
             }
         };
 
         // Utility function to show results
-        function showResult(elementId, message, isSuccess, data) {
+        window.showResult = function(elementId, message, isSuccess, data) {
             const element = document.getElementById(elementId);
             element.style.display = 'block';
             element.className = `result ${isSuccess ? 'success' : 'error'}`;
@@ -750,7 +750,7 @@
             const password = document.getElementById('password').value;
 
             if (!email || !password) {
-                showResult('loginResult', 'Please fill in all fields', false);
+                window.showResult('loginResult', 'Please fill in all fields', false);
                 return;
             }
 
@@ -772,8 +772,8 @@
                     authToken = data.data.token;
                     currentUser = data.data.user;
                     localStorage.setItem('auth_token', authToken);
-                    showApp();
-                    showResult('loginResult', 'Login Successful!', true, {
+                    window.showApp();
+                    window.showResult('loginResult', 'Login Successful!', true, {
                         user: data.data.user.email,
                         name: data.data.user.name
                     });
@@ -782,7 +782,7 @@
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                showResult('loginResult', 'Login Failed!', false, { error: error.message });
+                window.showResult('loginResult', 'Login Failed!', false, { error: error.message });
             } finally {
                 btn.innerHTML = '🚀 Login';
                 btn.disabled = false;
@@ -796,7 +796,7 @@
             const password = document.getElementById('regPassword').value;
 
             if (!name || !email || !password) {
-                showResult('registerResult', 'Please fill in all fields', false);
+                window.showResult('registerResult', 'Please fill in all fields', false);
                 return;
             }
 
@@ -821,14 +821,14 @@
                 console.log('Register response:', data);
 
                 if (data.status === 'success') {
-                    showResult('registerResult', 'Registration Successful! Please login.', true);
-                    setTimeout(showLogin, 2000);
+                    window.showResult('registerResult', 'Registration Successful! Please login.', true);
+                    setTimeout(window.showLogin, 2000);
                 } else {
                     throw new Error(data.message || 'Registration failed');
                 }
             } catch (error) {
                 console.error('Registration error:', error);
-                showResult('registerResult', 'Registration Failed!', false, { error: error.message });
+                window.showResult('registerResult', 'Registration Failed!', false, { error: error.message });
             } finally {
                 btn.innerHTML = '➕ Create Account';
                 btn.disabled = false;
