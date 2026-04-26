@@ -38,8 +38,8 @@
                 <label>Password</label>
                 <input type="password" id="password" placeholder="Enter your password">
             </div>
-            <button onclick="doLogin()" id="loginBtn">🚀 Login</button>
-            <button onclick="showRegister()" style="background: #6c757d; margin-top: 10px;">➕ Create Account</button>
+            <button onclick="window.doLogin()" id="loginBtn">🚀 Login</button>
+            <button onclick="window.showRegister()" style="background: #6c757d; margin-top: 10px;">➕ Create Account</button>
             <div id="loginResult" class="result"></div>
         </div>
 
@@ -58,8 +58,8 @@
                 <label>Password</label>
                 <input type="password" id="regPassword" placeholder="Create a password">
             </div>
-            <button onclick="doRegister()" id="registerBtn">➕ Create Account</button>
-            <button onclick="showLogin()" style="background: #6c757d; margin-top: 10px;">← Back to Login</button>
+            <button onclick="window.doRegister()" id="registerBtn">➕ Create Account</button>
+            <button onclick="window.showLogin()" style="background: #6c757d; margin-top: 10px;">← Back to Login</button>
             <div id="registerResult" class="result"></div>
         </div>
 
@@ -67,7 +67,7 @@
         <div id="appSection" class="card hidden">
             <h2>🎉 Welcome, <span id="userName">User</span>!</h2>
             <p style="color: #666; margin-bottom: 15px;">Email: <span id="userEmail"></span></p>
-            <button onclick="doLogout()" style="background: #dc3545;">🚪 Logout</button>
+            <button onclick="window.doLogout()" style="background: #dc3545;">🚪 Logout</button>
 
             <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
                 <h3>✅ Registration & Login Working!</h3>
@@ -90,28 +90,28 @@
             const savedToken = localStorage.getItem('auth_token');
             if (savedToken) {
                 console.log('Found saved token, showing app...');
-                showApp();
+                window.showApp();
             }
         };
 
-        function showResult(elementId, message, isSuccess) {
+        window.showResult = function(elementId, message, isSuccess) {
             const element = document.getElementById(elementId);
             element.style.display = 'block';
             element.className = 'result ' + (isSuccess ? 'success' : 'error');
             element.innerHTML = message;
-        }
+        };
 
-        function showRegister() {
+        window.showRegister = function() {
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('registerSection').classList.remove('hidden');
-        }
+        };
 
-        function showLogin() {
+        window.showLogin = function() {
             document.getElementById('registerSection').classList.add('hidden');
             document.getElementById('loginSection').classList.remove('hidden');
-        }
+        };
 
-        function showApp() {
+        window.showApp = function() {
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('appSection').classList.remove('hidden');
 
@@ -126,13 +126,13 @@
             }
         }
 
-        async function doRegister() {
+        window.doRegister = async function() {
             const name = document.getElementById('regName').value;
             const email = document.getElementById('regEmail').value;
             const password = document.getElementById('regPassword').value;
 
             if (!name || !email || !password) {
-                showResult('registerResult', 'Please fill all fields', false);
+                window.showResult('registerResult', 'Please fill all fields', false);
                 return;
             }
 
@@ -163,26 +163,26 @@
                 console.log('Response data:', data);
 
                 if (data.status === 'success') {
-                    showResult('registerResult', '✅ Registration successful! Please login.', true);
-                    setTimeout(showLogin, 2000);
+                    window.showResult('registerResult', '✅ Registration successful! Please login.', true);
+                    setTimeout(window.showLogin, 2000);
                 } else {
                     showResult('registerResult', '❌ ' + (data.message || 'Registration failed'), false);
                 }
             } catch (error) {
                 console.error('Registration error:', error);
-                showResult('registerResult', '❌ Error: ' + error.message, false);
+                window.showResult('registerResult', '❌ Error: ' + error.message, false);
             } finally {
                 btn.innerHTML = '➕ Create Account';
                 btn.disabled = false;
             }
         }
 
-        async function doLogin() {
+        window.doLogin = async function() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             if (!email || !password) {
-                showResult('loginResult', 'Please fill all fields', false);
+                window.showResult('loginResult', 'Please fill all fields', false);
                 return;
             }
 
@@ -208,21 +208,21 @@
 
                 if (data.status === 'success') {
                     localStorage.setItem('auth_token', data.data.token);
-                    showResult('loginResult', '✅ Login successful!', true);
-                    showApp();
+                    window.showResult('loginResult', '✅ Login successful!', true);
+                    window.showApp();
                 } else {
-                    showResult('loginResult', '❌ ' + (data.message || 'Login failed'), false);
+                    window.showResult('loginResult', '❌ ' + (data.message || 'Login failed'), false);
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                showResult('loginResult', '❌ Error: ' + error.message, false);
+                window.showResult('loginResult', '❌ Error: ' + error.message, false);
             } finally {
                 btn.innerHTML = '🚀 Login';
                 btn.disabled = false;
             }
         }
 
-        function doLogout() {
+        window.doLogout = function() {
             localStorage.removeItem('auth_token');
             location.reload();
         }
