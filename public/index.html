@@ -578,34 +578,6 @@
                     <input type="text" class="form-input" id="register-name" required
                            placeholder="Enter your full name">
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Age *</label>
-                        <input type="number" class="form-input" id="register-age" required
-                               placeholder="Years" min="1" max="120">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Gender *</label>
-                        <select class="form-select" id="register-gender" required>
-                            <option value="">Select</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Height (cm) *</label>
-                        <input type="number" class="form-input" id="register-height" required
-                               placeholder="170" min="100" max="250">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Weight (kg) *</label>
-                        <input type="number" class="form-input" id="register-weight" required
-                               placeholder="70" min="30" max="200">
-                    </div>
-                </div>
                 <div class="form-group">
                     <label class="form-label">Email Address *</label>
                     <input type="email" class="form-input" id="register-email" required
@@ -683,24 +655,14 @@
                 <!-- Profile Stats -->
                 <div class="stats-grid">
                     <div class="stat-box">
-                        <div class="stat-icon">🎂</div>
-                        <div class="stat-value" id="stat-age">--</div>
-                        <div class="stat-label">Age</div>
+                        <div class="stat-icon">👤</div>
+                        <div class="stat-value" id="stat-name">--</div>
+                        <div class="stat-label">Name</div>
                     </div>
                     <div class="stat-box">
-                        <div class="stat-icon">⚧️</div>
-                        <div class="stat-value" id="stat-gender">--</div>
-                        <div class="stat-label">Gender</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-icon">📏</div>
-                        <div class="stat-value" id="stat-height">--</div>
-                        <div class="stat-label">Height (cm)</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-icon">⚖️</div>
-                        <div class="stat-value" id="stat-weight">--</div>
-                        <div class="stat-label">Weight (kg)</div>
+                        <div class="stat-icon">📧</div>
+                        <div class="stat-value" id="stat-email">--</div>
+                        <div class="stat-label">Email</div>
                     </div>
                 </div>
 
@@ -708,39 +670,13 @@
                 <div class="profile-section">
                     <h3 class="section-title">✏️ Edit Profile</h3>
                     <form id="edit-profile-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Full Name</label>
-                                <input type="text" class="form-input" id="edit-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Age</label>
-                                <input type="number" class="form-input" id="edit-age" min="1" max="120">
-                            </div>
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" id="edit-name" required>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Gender</label>
-                                <select class="form-select" id="edit-gender">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-input" id="edit-email" disabled>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Height (cm)</label>
-                                <input type="number" class="form-input" id="edit-height" min="100" max="250" onchange="updateBMI()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Weight (kg)</label>
-                                <input type="number" class="form-input" id="edit-weight" min="30" max="200" step="0.1" onchange="updateBMI()">
-                            </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="edit-email" disabled>
                         </div>
                         <button type="submit" class="btn-primary">Update Profile</button>
                     </form>
@@ -1182,10 +1118,8 @@
             }
 
             // Stats
-            document.getElementById('stat-age').textContent = user.age || '--';
-            document.getElementById('stat-gender').textContent = user.gender || '--';
-            document.getElementById('stat-height').textContent = user.height || '--';
-            document.getElementById('stat-weight').textContent = user.weight || '--';
+            document.getElementById('stat-name').textContent = user.name || '--';
+            document.getElementById('stat-email').textContent = user.email || '--';
 
             // BMI Display
             if (user.bmi) {
