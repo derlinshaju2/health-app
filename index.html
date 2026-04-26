@@ -1,15 +1,218 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Health Monitoring App</title>
-    <script>
-        window.location.href = '/app2024.html';
-    </script>
+    <title>Health App Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 100%
+        }
+        h1 { color: #667eea; text-align: center; margin-bottom: 30px }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            box-sizing: border-box
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0
+        }
+        button.secondary { background: #6c757d }
+        button:hover { opacity: 0.9 }
+        .hidden { display: none !important }
+        .message {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-size: 14px
+        }
+        .success { background: #d4edda; color: #155724 }
+        .error { background: #f8d7da; color: #721c24 }
+        a { color: #667eea; cursor: pointer }
+        .center { text-align: center; margin-top: 15px; color: #666 }
+    </style>
 </head>
 <body>
-    <p>Redirecting to AI Health Monitoring App...</p>
-    <a href="/working_app.html">Click here if not redirected</a>
+    <div class="card">
+        <h1>🏥 Health App</h1>
+
+        <div id="loginSection">
+            <input type="email" id="email" placeholder="Enter your email">
+            <input type="password" id="password" placeholder="Enter your password">
+            <button onclick="handleLogin()">🚀 Login</button>
+            <div class="center">
+                No account? <a onclick="showRegister()">Register here</a>
+            </div>
+            <div id="loginMessage" class="message"></div>
+        </div>
+
+        <div id="registerSection" class="hidden">
+            <input type="text" id="name" placeholder="Enter your name">
+            <input type="email" id="regEmail" placeholder="Enter your email">
+            <input type="password" id="regPassword" placeholder="Create a password">
+            <button onclick="handleRegister()">➕ Create Account</button>
+            <button class="secondary" onclick="showLogin()">← Back to Login</button>
+            <div id="registerMessage" class="message"></div>
+        </div>
+
+        <div id="dashboardSection" class="hidden">
+            <div style="text-align: center; margin-bottom: 20px">
+                <div style="font-size: 48px">🎉</div>
+                <h2 style="color: #667eea">Welcome!</h2>
+                <p id="userInfo" style="color: #666"></p>
+            </div>
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0">
+                <p style="color: #666">✅ You are successfully logged in!</p>
+                <p style="color: #666; margin-top: 10px">Your health monitoring dashboard is ready.</p>
+            </div>
+            <button onclick="handleLogout()" style="background: #dc3545">🚪 Logout</button>
+        </div>
+    </div>
+
+    <script>
+    var API_BASE = "";
+    var authToken = null;
+
+    function showMessage(elementId, message, isSuccess) {
+        var element = document.getElementById(elementId);
+        element.style.display = "block";
+        element.className = isSuccess ? "message success" : "message error";
+        element.textContent = message;
+    }
+
+    function showLogin() {
+        document.getElementById("loginSection").classList.remove("hidden");
+        document.getElementById("registerSection").classList.add("hidden");
+        document.getElementById("dashboardSection").classList.add("hidden");
+    }
+
+    function showRegister() {
+        document.getElementById("loginSection").classList.add("hidden");
+        document.getElementById("registerSection").classList.remove("hidden");
+        document.getElementById("dashboardSection").classList.add("hidden");
+    }
+
+    function showDashboard(user) {
+        document.getElementById("loginSection").classList.add("hidden");
+        document.getElementById("registerSection").classList.add("hidden");
+        document.getElementById("dashboardSection").classList.remove("hidden");
+        document.getElementById("userInfo").textContent = "Email: " + user.email;
+    }
+
+    async function handleLogin() {
+        var email = document.getElementById("email").value.trim();
+        var password = document.getElementById("password").value;
+
+        if (!email || !password) {
+            showMessage("loginMessage", "Please enter email and password", false);
+            return;
+        }
+
+        showMessage("loginMessage", "Logging in...", false);
+
+        try {
+            var response = await fetch(API_BASE + "/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: email, password: password })
+            });
+
+            var data = await response.json();
+
+            if (data.status === "success") {
+                authToken = data.data.token;
+                localStorage.setItem("auth_token", authToken);
+                showMessage("loginMessage", "✅ Login successful!", true);
+                setTimeout(function() { showDashboard(data.data.user); }, 1000);
+            } else {
+                showMessage("loginMessage", "❌ " + (data.message || "Login failed"), false);
+            }
+        } catch (error) {
+            showMessage("loginMessage", "❌ Error: " + error.message, false);
+        }
+    }
+
+    async function handleRegister() {
+        var name = document.getElementById("name").value.trim();
+        var email = document.getElementById("regEmail").value.trim();
+        var password = document.getElementById("regPassword").value;
+
+        if (!name || !email || !password) {
+            showMessage("registerMessage", "Please fill all fields", false);
+            return;
+        }
+
+        showMessage("registerMessage", "Creating account...", false);
+
+        try {
+            var response = await fetch(API_BASE + "/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    profile: { name: name }
+                })
+            });
+
+            var data = await response.json();
+
+            if (data.status === "success") {
+                authToken = data.data.token;
+                localStorage.setItem("auth_token", authToken);
+                showMessage("registerMessage", "✅ Account created successfully!", true);
+                setTimeout(function() { showDashboard(data.data.user); }, 1000);
+            } else {
+                showMessage("registerMessage", "❌ " + data.message, false);
+            }
+        } catch (error) {
+            showMessage("registerMessage", "❌ Error: " + error.message, false);
+        }
+    }
+
+    function handleLogout() {
+        localStorage.removeItem("auth_token");
+        authToken = null;
+        showLogin();
+    }
+
+    window.onload = function() {
+        console.log("✅ Page loaded successfully");
+        console.log("✅ JavaScript is working");
+
+        var savedToken = localStorage.getItem("auth_token");
+        if (savedToken) {
+            authToken = savedToken;
+            showDashboard({ email: "User" });
+        }
+    };
+    </script>
 </body>
 </html>
