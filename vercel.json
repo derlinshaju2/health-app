@@ -1,13 +1,19 @@
 {
   "version": 2,
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/:path*",
-      "destination": "health-backend/src/app.js"
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/auth.js?path=$1"
     },
     {
-      "source": "/(.*)",
-      "destination": "/app.html"
+      "src": "/(.*)",
+      "dest": "/debug.html"
     }
   ]
 }
