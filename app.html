@@ -721,7 +721,7 @@
         }
 
         // Tab navigation
-        function showTab(tabName) {
+        window.showTab = function(tabName) {
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.add('hidden');
@@ -847,7 +847,7 @@
             document.getElementById('loginSection').classList.remove('hidden');
         };
 
-        function showApp() {
+        window.showApp = function() {
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('registerSection').classList.add('hidden');
             document.getElementById('appSection').classList.remove('hidden');
@@ -1362,7 +1362,7 @@
         }
 
         // Profile functions
-        async function loadProfile() {
+        window.loadProfile = async function() {
             try {
                 const tokenPayload = JSON.parse(atob(authToken.split('.')[1]));
                 const profileHTML = `
@@ -1383,7 +1383,7 @@
             }
         }
 
-        async function updateProfile() {
+        window.updateProfile = async function() {
             const name = document.getElementById('updateName').value;
 
             if (!name) {
