@@ -1,19 +1,9 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/auth.js?path=$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/debug.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
