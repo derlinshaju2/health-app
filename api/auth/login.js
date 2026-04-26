@@ -1,4 +1,4 @@
-// Vercel Serverless Function for Login
+// Vercel Serverless Function for Login - Enhanced Error Handling
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -7,24 +7,37 @@ const bcrypt = require('bcryptjs');
 let isConnected = false;
 
 const connectToDatabase = async () => {
-  if (isConnected) return;
+  if (isConnected) {
+    console.log('✅ Using existing MongoDB connection');
+    return;
+  }
+
+  console.log('🔄 Connecting to MongoDB...');
+  console.log('📍 MONGODB_URI exists:', !!process.env.MONGODB_URI);
+
+  if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI environment variable is not set');
+  }
 
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
     });
     isConnected = true;
-    console.log('MongoDB connected');
+    console.log('✅ MongoDB connected successfully');
   } catch (error) {
-    console.error('MongoDB connection error:', error);
+    console.error('❌ MongoDB connection error:', error);
+    isConnected = false;
     throw error;
   }
 };
 
 // User Schema
 const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   password: { type: String, required: true },
   profile: {
     name: String,
@@ -32,7 +45,8 @@ const userSchema = new mongoose.Schema({
     gender: String,
     height: Number,
     weight: Number
-  }
+  },
+  createdAt: { type: Date, default: Date.now }
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
@@ -51,60 +65,112 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== 'POST') {
-    return res.status(405).json({ status: 'error', message: 'Method not allowed' });
+    return res.status(405).json({
+      status: 'error',
+      message: 'Method not allowed. Please use POST.'
+    });
   }
 
-  try {
-    await connectToDatabase();
+  console.log('🔐 Login request received');
+  console.log('📍 Request body keys:', Object.keys(req.body));
 
+  try {
+    // Step 1: Connect to database
+    console.log('Step 1: Connecting to database...');
+    await connectToDatabase();
+    console.log('✅ Database connection successful');
+
+    // Step 2: Validate request
+    console.log('Step 2: Validating request...');
     const { email, password } = req.body;
 
     if (!email || !password) {
+      console.log('❌ Missing required fields');
       return res.status(400).json({
         status: 'error',
         message: 'Please provide email and password'
       });
     }
 
-    const user = await User.findOne({ email });
+    console.log('✅ Request validation passed');
+    console.log('📧 Email:', email);
+
+    // Step 3: Find user
+    console.log('Step 3: Finding user...');
+    const user = await User.findOne({ email: email.toLowerCase() });
+
     if (!user) {
+      console.log('❌ User not found:', email);
       return res.status(401).json({
         status: 'error',
-        message: 'Invalid credentials'
+        message: 'Invalid email or password'
       });
     }
 
+    console.log('✅ User found');
+
+    // Step 4: Verify password
+    console.log('Step 4: Verifying password...');
     const isValid = await bcrypt.compare(password, user.password);
+
     if (!isValid) {
+      console.log('❌ Invalid password');
       return res.status(401).json({
         status: 'error',
-        message: 'Invalid credentials'
+        message: 'Invalid email or password'
       });
     }
 
+    console.log('✅ Password verified');
+
+    // Step 5: Generate token
+    console.log('Step 5: Generating token...');
     const token = jwt.sign(
-      { id: user._id, email: user.email, name: user.profile?.name },
-      process.env.JWT_SECRET || 'default-secret-change-this',
+      {
+        id: user._id.toString(),
+        email: user.email,
+        name: user.profile?.name || 'User'
+      },
+      process.env.JWT_SECRET || 'default-secret-change-this-in-production',
       { expiresIn: '30d' }
     );
+    console.log('✅ Token generated');
 
+    // Step 6: Send response
+    console.log('Step 6: Sending success response...');
     return res.status(200).json({
       status: 'success',
-      message: 'Login successful',
+      message: 'Login successful! Welcome back.',
       data: {
         token,
         user: {
           email: user.email,
           name: user.profile?.name || 'User',
-          id: user._id
+          id: user._id.toString()
         }
       }
     });
+
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('❌ Login error:', error);
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
+
+    // Handle MongoDB connection errors
+    if (error.name === 'MongooseServerSelectionError') {
+      console.log('❌ MongoDB connection error');
+      return res.status(500).json({
+        status: 'error',
+        message: 'Database connection failed. Please check your MongoDB configuration.',
+        debug: 'Make sure MONGODB_URI is set correctly in Vercel environment variables'
+      });
+    }
+
+    // Generic error
     return res.status(500).json({
       status: 'error',
-      message: error.message
+      message: 'Login failed: ' + error.message,
+      debug: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 }
