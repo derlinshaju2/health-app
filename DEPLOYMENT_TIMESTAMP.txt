@@ -1,0 +1,7 @@
+AI Health Monitoring App - Deployment Timestamp
+Deployed: 2026-04-26 20:00:00 UTC
+Changes: Removed age, height, weight, gender from profile section
+Profile now only shows: Name and Email
+Registration only requires: Name, Email, Password
+
+This deployment forces Vercel to rebuild with latest changes.
