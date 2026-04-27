@@ -606,7 +606,7 @@
                 </button>
             </form>
             <div class="auth-link">
-                Already have an account? <a href="#" onclick="showLogin()"">Login here</a>
+                Already have an account? <a href="#" onclick="showLogin()">Login here</a>
             </div>
         </div>
     </div>
@@ -813,18 +813,7 @@
                 return { success: false, error: error.message };
             }
         }
-                };
-
-                DB.users.push(newUser);
-                DB.currentUser = newUser;
-                saveDB();
-
-                return { success: true, user: newUser };
-            } catch (error) {
-                return { success: false, error: error.message };
-            }
-        }
-
+               
         async function login(email, password) {
             try {
                 const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
