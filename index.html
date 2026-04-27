@@ -826,6 +826,60 @@
                     <div id="metrics-result" class="result" style="margin-top: 15px;"></div>
                 </div>
 
+                <!-- Disease Risk Prediction Card -->
+                <div class="activity-card">
+                    <h3 class="activity-title">🤖 AI Disease Risk Prediction</h3>
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 20px;">Get an instant health risk assessment based on your current metrics</p>
+
+                    <!-- Prediction Input Section -->
+                    <div style="background: #F9FAFB; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 12px; color: #1A1C1E;">Enter Your Current Metrics</h4>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px;">
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">💓 BP Systolic</label>
+                                <input type="number" class="activity-input" id="predict-bp-systolic" placeholder="120">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">💓 BP Diastolic</label>
+                                <input type="number" class="activity-input" id="predict-bp-diastolic" placeholder="80">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">🩸 Blood Sugar</label>
+                                <input type="number" class="activity-input" id="predict-blood-sugar" placeholder="95">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">⚖️ BMI</label>
+                                <input type="number" class="activity-input" id="predict-bmi" placeholder="24.5" step="0.1">
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px;">
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">🧪 LDL</label>
+                                <input type="number" class="activity-input" id="predict-chol-ldl" placeholder="100">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">🧪 HDL</label>
+                                <input type="number" class="activity-input" id="predict-chol-hdl" placeholder="50">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">🧪 Total Chol</label>
+                                <input type="number" class="activity-input" id="predict-chol-total" placeholder="200">
+                            </div>
+                        </div>
+
+                        <button class="btn-primary" onclick="getDiseasePrediction()" style="background: linear-gradient(135deg, #10B981, #059669);">
+                            🤖 Get AI Risk Prediction
+                        </button>
+                    </div>
+
+                    <!-- Prediction Result Display -->
+                    <div id="prediction-result" style="display: none;">
+                        <!-- Result will be dynamically inserted here -->
+                    </div>
+                </div>
+
                 <!-- Metrics History Card -->
                 <div class="activity-card">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -1559,6 +1613,160 @@
             document.getElementById('chol-hdl').value = '';
             document.getElementById('chol-total').value = '';
             document.getElementById('metrics-notes').value = '';
+        }
+
+        // ==================== DISEASE RISK PREDICTION ====================
+        async function getDiseasePrediction() {
+            const authToken = localStorage.getItem('auth_token');
+            if (!authToken) {
+                showPredictionResult('Please login to get disease risk prediction', false);
+                return;
+            }
+
+            // Get input values
+            const systolic = document.getElementById('predict-bp-systolic').value;
+            const diastolic = document.getElementById('predict-bp-diastolic').value;
+            const bloodSugar = document.getElementById('predict-blood-sugar').value;
+            const bmi = document.getElementById('predict-bmi').value;
+            const ldl = document.getElementById('predict-chol-ldl').value;
+            const hdl = document.getElementById('predict-chol-hdl').value;
+            const total = document.getElementById('predict-chol-total').value;
+
+            // Build prediction request
+            const predictionData = {};
+
+            if (systolic || diastolic) {
+                predictionData.bloodPressure = {
+                    systolic: parseInt(systolic) || null,
+                    diastolic: parseInt(diastolic) || null
+                };
+            }
+
+            if (bloodSugar) {
+                predictionData.bloodSugar = parseInt(bloodSugar);
+            }
+
+            if (bmi) {
+                predictionData.bmi = parseFloat(bmi);
+            }
+
+            if (ldl || hdl || total) {
+                predictionData.cholesterol = {
+                    ldl: parseInt(ldl) || null,
+                    hdl: parseInt(hdl) || null,
+                    total: parseInt(total) || null
+                };
+            }
+
+            // Validate at least one metric
+            if (!predictionData.bloodPressure && !predictionData.bloodSugar && !predictionData.bmi && !predictionData.cholesterol) {
+                showPredictionResult('Please enter at least one health metric for prediction', false);
+                return;
+            }
+
+            // Show loading state
+            const resultDiv = document.getElementById('prediction-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<div style="text-align: center; padding: 20px;"><div style="font-size: 24px;">🤖</div><div style="color: #667eea; font-weight: 600;">Analyzing your health metrics...</div></div>';
+
+            try {
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
+
+                const response = await fetch(`${API_BASE}/api/predict`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(predictionData)
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    displayPredictionResult(data.data.prediction);
+                } else {
+                    throw new Error(data.message || 'Prediction failed');
+                }
+
+            } catch (error) {
+                console.error('Prediction error:', error);
+                showPredictionResult(`❌ Error: ${error.message}`, false);
+            }
+        }
+
+        function displayPredictionResult(prediction) {
+            const resultDiv = document.getElementById('prediction-result');
+
+            const riskLevel = prediction.riskLevel;
+            const riskColor = prediction.color;
+            const riskScore = prediction.riskScore;
+            const riskFactors = prediction.riskFactors;
+            const recommendation = prediction.recommendation;
+
+            // Determine emoji and border color based on risk level
+            let emoji, borderColor;
+            if (riskLevel === 'High') {
+                emoji = '🚨';
+                borderColor = '#ef4444';
+            } else if (riskLevel === 'Medium') {
+                emoji = '⚠️';
+                borderColor = '#f59e0b';
+            } else {
+                emoji = '✅';
+                borderColor = '#10b981';
+            }
+
+            resultDiv.innerHTML = `
+                <div style="background: ${riskColor}15; border-left: 4px solid ${riskColor}; padding: 20px; border-radius: 8px;">
+                    <!-- Risk Level Header -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="font-size: 48px; margin-bottom: 10px;">${emoji}</div>
+                        <div style="font-size: 32px; font-weight: 800; color: ${riskColor};">${riskLevel} Risk</div>
+                        <div style="font-size: 14px; color: #6B7280; margin-top: 5px;">Risk Score: ${riskScore}/10</div>
+                    </div>
+
+                    <!-- Risk Factors -->
+                    <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                        <h4 style="color: #1A1C1E; margin-bottom: 12px; font-size: 16px;">📊 Risk Factors Detected</h4>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            ${riskFactors.map(factor => `
+                                <li style="padding: 8px 0; border-bottom: 1px solid #E5E7EB; color: #374151;">
+                                    <span style="color: ${riskColor};">●</span> ${factor}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <!-- Recommendation -->
+                    <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                        <h4 style="color: #1A1C1E; margin-bottom: 12px; font-size: 16px;">💡 Recommendation</h4>
+                        <p style="color: #374151; line-height: 1.5; margin: 0;">${recommendation}</p>
+                    </div>
+
+                    <!-- Timestamp -->
+                    <div style="text-align: center; font-size: 12px; color: #6B7280;">
+                        🕒 Generated on ${new Date(prediction.timestamp).toLocaleString()}
+                    </div>
+                </div>
+            `;
+        }
+
+        function showPredictionResult(message, isSuccess) {
+            const resultDiv = document.getElementById('prediction-result');
+            resultDiv.style.display = 'block';
+
+            if (isSuccess) {
+                resultDiv.innerHTML = `<div class="result success">${message}</div>`;
+            } else {
+                resultDiv.innerHTML = `<div class="result error">${message}</div>`;
+            }
+
+            setTimeout(() => {
+                if (!message.includes('Analyzing')) {
+                    resultDiv.style.display = 'none';
+                }
+            }, 5000);
         }
 
         // Initialize app

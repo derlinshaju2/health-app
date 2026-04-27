@@ -8,7 +8,7 @@ require('dotenv').config();
 // Import routes
 const authRoutes = require('./routes/auth');
 const healthRoutes = require('./routes/health');
-const predictionRoutes = require('./routes/predictions');
+const predictionRoutes = require('./routes/prediction');
 const dietRoutes = require('./routes/diet');
 const yogaRoutes = require('./routes/yoga');
 const notificationRoutes = require('./routes/notifications');
