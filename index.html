@@ -530,6 +530,14 @@
         .hidden {
             display: none;
         }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -760,6 +768,80 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Metrics Tab -->
+            <div id="metrics-tab" class="tab-content">
+                <!-- Add Health Metrics Card -->
+                <div class="activity-card">
+                    <h3 class="activity-title">📊 Add Health Metrics</h3>
+
+                    <!-- Blood Pressure -->
+                    <div style="margin-bottom: 20px;">
+                        <label class="form-label">💓 Blood Pressure (mmHg)</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div>
+                                <input type="number" class="activity-input" id="bp-systolic" placeholder="120 (Systolic)">
+                                <small style="color: #6B7280; font-size: 12px;">Systolic (Top number)</small>
+                            </div>
+                            <div>
+                                <input type="number" class="activity-input" id="bp-diastolic" placeholder="80 (Diastolic)">
+                                <small style="color: #6B7280; font-size: 12px;">Diastolic (Bottom number)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blood Sugar -->
+                    <div style="margin-bottom: 20px;">
+                        <label class="form-label">🩸 Blood Sugar (mg/dL)</label>
+                        <input type="number" class="activity-input" id="blood-sugar" placeholder="95">
+                        <small style="color: #6B7280; font-size: 12px;">Fasting blood sugar level</small>
+                    </div>
+
+                    <!-- Cholesterol -->
+                    <div style="margin-bottom: 20px;">
+                        <label class="form-label">🧪 Cholesterol (mg/dL)</label>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                            <div>
+                                <input type="number" class="activity-input" id="chol-ldl" placeholder="LDL">
+                                <small style="color: #6B7280; font-size: 12px;">LDL (Bad)</small>
+                            </div>
+                            <div>
+                                <input type="number" class="activity-input" id="chol-hdl" placeholder="HDL">
+                                <small style="color: #6B7280; font-size: 12px;">HDL (Good)</small>
+                            </div>
+                            <div>
+                                <input type="number" class="activity-input" id="chol-total" placeholder="Total">
+                                <small style="color: #6B7280; font-size: 12px;">Total</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div style="margin-bottom: 20px;">
+                        <label class="form-label">📝 Notes (Optional)</label>
+                        <textarea class="activity-input" id="metrics-notes" placeholder="Any additional notes..." rows="2"></textarea>
+                    </div>
+
+                    <button class="btn-primary" onclick="addHealthMetrics()">💾 Save Health Metrics</button>
+                    <div id="metrics-result" class="result" style="margin-top: 15px;"></div>
+                </div>
+
+                <!-- Metrics History Card -->
+                <div class="activity-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 class="activity-title">📋 Metrics History</h3>
+                        <button class="btn-secondary" onclick="loadMetricsHistory()" style="padding: 8px 16px; font-size: 14px;">🔄 Refresh</button>
+                    </div>
+
+                    <!-- Analytics Summary -->
+                    <div id="metrics-analytics" style="margin-bottom: 20px;"></div>
+
+                    <!-- History List -->
+                    <div id="metrics-history-list">
+                        <p style="color: #6B7280; font-size: 14px; text-align: center; padding: 20px;">No health metrics recorded yet. Start tracking your health!</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Bottom Navigation -->
@@ -771,6 +853,10 @@
             <div class="nav-item" onclick="switchTab('progress')">
                 <div class="nav-icon">📈</div>
                 <div class="nav-label">Progress</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('metrics')">
+                <div class="nav-icon">📊</div>
+                <div class="nav-label">Metrics</div>
             </div>
             <div class="nav-item active" onclick="switchTab('profile')">
                 <div class="nav-icon">👤</div>
@@ -1234,12 +1320,245 @@
             const navItems = document.querySelectorAll('.nav-item');
             if (tab === 'home') navItems[0].classList.add('active');
             if (tab === 'progress') navItems[1].classList.add('active');
-            if (tab === 'profile') navItems[2].classList.add('active');
+            if (tab === 'metrics') navItems[2].classList.add('active');
+            if (tab === 'profile') navItems[3].classList.add('active');
 
             if (tab === 'progress') {
                 updateProgress();
                 updateActivityLog();
             }
+
+            if (tab === 'metrics') {
+                loadMetricsHistory();
+            }
+        }
+
+        // ==================== HEALTH METRICS TRACKING ====================
+        async function addHealthMetrics() {
+            const authToken = localStorage.getItem('auth_token');
+            if (!authToken) {
+                showMetricsResult('Please login to add health metrics', false);
+                return;
+            }
+
+            const systolic = document.getElementById('bp-systolic').value;
+            const diastolic = document.getElementById('bp-diastolic').value;
+            const bloodSugar = document.getElementById('blood-sugar').value;
+            const ldl = document.getElementById('chol-ldl').value;
+            const hdl = document.getElementById('chol-hdl').value;
+            const total = document.getElementById('chol-total').value;
+            const notes = document.getElementById('metrics-notes').value;
+
+            // Build metrics object
+            const metrics = {};
+
+            if (systolic || diastolic) {
+                metrics.bloodPressure = {
+                    systolic: parseInt(systolic) || null,
+                    diastolic: parseInt(diastolic) || null
+                };
+            }
+
+            if (bloodSugar) {
+                metrics.bloodSugar = parseInt(bloodSugar);
+            }
+
+            if (ldl || hdl || total) {
+                metrics.cholesterol = {
+                    ldl: parseInt(ldl) || null,
+                    hdl: parseInt(hdl) || null,
+                    total: parseInt(total) || null
+                };
+            }
+
+            if (notes) {
+                metrics.notes = notes;
+            }
+
+            // Validate at least one metric
+            if (!metrics.bloodPressure && !metrics.bloodSugar && !metrics.cholesterol) {
+                showMetricsResult('Please enter at least one health metric', false);
+                return;
+            }
+
+            showMetricsResult('Saving health metrics...', false);
+
+            try {
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
+
+                const response = await fetch(`${API_BASE}/api/metrics/add`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(metrics)
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showMetricsResult('✅ Health metrics saved successfully!', true);
+                    clearMetricsForm();
+                    loadMetricsHistory();
+                } else {
+                    throw new Error(data.message || 'Failed to save metrics');
+                }
+            } catch (error) {
+                showMetricsResult(`❌ Error: ${error.message}`, false);
+            }
+        }
+
+        async function loadMetricsHistory() {
+            const authToken = localStorage.getItem('auth_token');
+            if (!authToken) {
+                document.getElementById('metrics-history-list').innerHTML =
+                    '<p style="color: #6B7280; font-size: 14px; text-align: center; padding: 20px;">Please login to view health metrics</p>';
+                return;
+            }
+
+            try {
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
+
+                // Load history and analytics in parallel
+                const [historyResponse, analyticsResponse] = await Promise.all([
+                    fetch(`${API_BASE}/api/metrics/history?limit=20`, {
+                        headers: { 'Authorization': `Bearer ${authToken}` }
+                    }),
+                    fetch(`${API_BASE}/api/metrics/analytics?days=30`, {
+                        headers: { 'Authorization': `Bearer ${authToken}` }
+                    })
+                ]);
+
+                const historyData = await historyResponse.json();
+                const analyticsData = await analyticsResponse.json();
+
+                if (historyData.status === 'success') {
+                    displayMetricsHistory(historyData.data.metrics);
+                }
+
+                if (analyticsData.status === 'success') {
+                    displayMetricsAnalytics(analyticsData.data);
+                }
+            } catch (error) {
+                console.error('Error loading metrics:', error);
+                document.getElementById('metrics-history-list').innerHTML =
+                    `<p style="color: #EF4444; font-size: 14px; text-align: center; padding: 20px;">Error loading metrics: ${error.message}</p>`;
+            }
+        }
+
+        function displayMetricsHistory(metrics) {
+            const historyDiv = document.getElementById('metrics-history-list');
+
+            if (!metrics || metrics.length === 0) {
+                historyDiv.innerHTML = '<p style="color: #6B7280; font-size: 14px; text-align: center; padding: 20px;">No health metrics recorded yet. Start tracking your health!</p>';
+                return;
+            }
+
+            historyDiv.innerHTML = metrics.map(metric => {
+                const date = new Date(metric.timestamp);
+                const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                let details = [];
+
+                if (metric.bloodPressure?.systolic && metric.bloodPressure?.diastolic) {
+                    details.push(`💓 BP: ${metric.bloodPressure.systolic}/${metric.bloodPressure.diastolic} mmHg`);
+                }
+
+                if (metric.bloodSugar) {
+                    details.push(`🩸 Sugar: ${metric.bloodSugar} mg/dL`);
+                }
+
+                if (metric.cholesterol?.ldl || metric.cholesterol?.hdl || metric.cholesterol?.total) {
+                    let chol = ['🧪 Cholesterol:'];
+                    if (metric.cholesterol.ldl) chol.push(`LDL: ${metric.cholesterol.ldl}`);
+                    if (metric.cholesterol.hdl) chol.push(`HDL: ${metric.cholesterol.hdl}`);
+                    if (metric.cholesterol.total) chol.push(`Total: ${metric.cholesterol.total}`);
+                    details.push(chol.join(' '));
+                }
+
+                return `
+                    <div style="background: #F9FAFB; padding: 16px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #667eea;">
+                        <div style="font-size: 12px; color: #6B7280; margin-bottom: 8px;">${dateStr}</div>
+                        <div style="font-size: 14px; color: #1A1C1E;">${details.join('<br>')}</div>
+                        ${metric.notes ? `<div style="font-size: 12px; color: #6B7280; margin-top: 8px; font-style: italic;">📝 ${metric.notes}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displayMetricsAnalytics(analytics) {
+            const analyticsDiv = document.getElementById('metrics-analytics');
+
+            if (!analytics || analytics.totalEntries === 0) {
+                analyticsDiv.innerHTML = '';
+                return;
+            }
+
+            let analyticsHTML = '<div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">';
+            analyticsHTML += `<h4 style="margin-bottom: 15px;">📈 ${analytics.dateRange.days}-Day Analytics</h4>`;
+            analyticsHTML += `<div style="font-size: 14px; margin-bottom: 10px;">📊 Total Entries: ${analytics.totalEntries}</div>`;
+
+            if (analytics.bloodPressure.readings.length > 0) {
+                analyticsHTML += `
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+                        <div style="font-weight: 600;">💓 Blood Pressure</div>
+                        <div style="font-size: 13px; margin-top: 5px;">
+                            Average: ${analytics.bloodPressure.average.systolic}/${analytics.bloodPressure.average.diastolic} mmHg<br>
+                            Range: ${analytics.bloodPressure.lowest.systolic}/${analytics.bloodPressure.lowest.diastolic} - ${analytics.bloodPressure.highest.systolic}/${analytics.bloodPressure.highest.diastolic}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (analytics.bloodSugar.readings.length > 0) {
+                analyticsHTML += `
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+                        <div style="font-weight: 600;">🩸 Blood Sugar</div>
+                        <div style="font-size: 13px; margin-top: 5px;">
+                            Average: ${analytics.bloodSugar.average} mg/dL<br>
+                            Range: ${analytics.bloodSugar.lowest} - ${analytics.bloodSugar.highest} mg/dL
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (analytics.cholesterol.total.readings.length > 0) {
+                analyticsHTML += `
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+                        <div style="font-weight: 600;">🧪 Cholesterol</div>
+                        <div style="font-size: 13px; margin-top: 5px;">
+                            ${analytics.cholesterol.ldl.average ? `LDL: ${analytics.cholesterol.ldl.average} mg/dL<br>` : ''}
+                            ${analytics.cholesterol.hdl.average ? `HDL: ${analytics.cholesterol.hdl.average} mg/dL<br>` : ''}
+                            ${analytics.cholesterol.total.average ? `Total: ${analytics.cholesterol.total.average} mg/dL` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            analyticsHTML += '</div>';
+            analyticsDiv.innerHTML = analyticsHTML;
+        }
+
+        function showMetricsResult(message, isSuccess) {
+            const resultDiv = document.getElementById('metrics-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = isSuccess ? 'result success' : 'result error';
+            resultDiv.textContent = message;
+
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function clearMetricsForm() {
+            document.getElementById('bp-systolic').value = '';
+            document.getElementById('bp-diastolic').value = '';
+            document.getElementById('blood-sugar').value = '';
+            document.getElementById('chol-ldl').value = '';
+            document.getElementById('chol-hdl').value = '';
+            document.getElementById('chol-total').value = '';
+            document.getElementById('metrics-notes').value = '';
         }
 
         // Initialize app
