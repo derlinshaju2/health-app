@@ -97,7 +97,7 @@
     </div>
 
     <script>
-    var API_BASE = "";
+    var API_BASE = "http://localhost:5000";
     var authToken = null;
 
     function showMessage(elementId, message, isSuccess) {
@@ -206,6 +206,7 @@
     window.onload = function() {
         console.log("✅ Page loaded successfully");
         console.log("✅ JavaScript is working");
+        console.log("✅ API_BASE: " + API_BASE);
 
         var savedToken = localStorage.getItem("auth_token");
         if (savedToken) {
@@ -215,4 +216,4 @@
     };
     </script>
 </body>
-</html><!-- Deployed on Mon Apr 27 09:57:34 IST 2026 -->
+</html>
