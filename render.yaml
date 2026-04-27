@@ -1,0 +1,44 @@
+services:
+  # Frontend Service
+  - type: web
+    name: health-app-frontend
+    env: static
+    buildCommand: echo "No build needed for static HTML"
+    staticPublishPath: ./
+    routes:
+      - src: /(.*)
+        dest: /index.html
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  # Backend API Service
+  - type: web
+    name: health-app-backend
+    runtime: node
+    buildCommand: cd health-backend && npm install
+    startCommand: cd health-backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false # Set this in Render Dashboard
+      - key: JWT_SECRET
+        sync: false # Set this in Render Dashboard
+      - key: ML_SERVICE_URL
+        value: http://localhost:8000
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+
+databases:
+  # MongoDB Database (Optional - can use MongoDB Atlas instead)
+  - name: health-app-mongodb
+    databaseName: healthdb
+    user: healthappuser
+    plan: free # Change to paid for production
