@@ -558,7 +558,7 @@
                 </button>
             </form>
             <div class="auth-link">
-                Don't have an account? <a href="#" onclick="showRegister()">Register here</a>
+                Don't have an account? <a href="#" onclick="showScreen('register')">Register here</a>
             </div>
         </div>
     </div>
@@ -589,6 +589,16 @@
                            placeholder="Create a password (min 6 characters)" minlength="6">
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Height (cm) *</label>
+                    <input type="number" class="form-input" id="register-height" required
+                           placeholder="Enter your height in cm">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Weight (kg) *</label>
+                    <input type="number" class="form-input" id="register-weight" required
+                           placeholder="Enter your weight in kg">
+                </div>
+                <div class="form-group">
                     <label class="form-label">Confirm Password *</label>
                     <input type="password" class="form-input" id="register-confirm" required
                            placeholder="Confirm your password">
@@ -606,7 +616,7 @@
                 </button>
             </form>
             <div class="auth-link">
-                Already have an account? <a href="#" onclick="showLogin()">Login here</a>
+                Already have an account? <a href="#" onclick="showScreen('login')">Login here</a>
             </div>
         </div>
     </div>
@@ -673,6 +683,31 @@
                         <div class="form-group">
                             <label class="form-label">Full Name</label>
                             <input type="text" class="form-input" id="edit-name" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Age</label>
+                                <input type="number" class="form-input" id="edit-age" placeholder="25">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Gender</label>
+                                <select class="form-select" id="edit-gender">
+                                    <option value="">Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Height (cm)</label>
+                                <input type="number" class="form-input" id="edit-height" placeholder="170">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Weight (kg)</label>
+                                <input type="number" class="form-input" id="edit-weight" placeholder="70" step="0.1">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Email</label>
@@ -917,9 +952,18 @@
             }
         }
 
-        // Add event listeners for BMI preview
-        document.getElementById('register-height').addEventListener('input', updateBMIPreview);
-        document.getElementById('register-weight').addEventListener('input', updateBMIPreview);
+        // Add event listeners for BMI preview when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerHeight = document.getElementById('register-height');
+            const registerWeight = document.getElementById('register-weight');
+
+            if (registerHeight) {
+                registerHeight.addEventListener('input', updateBMIPreview);
+            }
+            if (registerWeight) {
+                registerWeight.addEventListener('input', updateBMIPreview);
+            }
+        });
 
         // ==================== PROFILE IMAGE UPLOAD ====================
         function uploadProfileImage(event) {
