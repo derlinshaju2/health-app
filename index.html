@@ -3,216 +3,1249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health App Login</title>
+    <title>health_app - AI Health Monitoring</title>
+    <link rel="icon" type="image/png" href="favicon.png"/>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+        }
+
+        /* Auth Screens */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px
+            font-size: 40px;
+            margin: 0 auto 20px;
         }
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            max-width: 450px;
-            width: 100%
+
+        .auth-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1A1C1E;
+            margin-bottom: 8px;
         }
-        h1 { color: #667eea; text-align: center; margin-bottom: 30px }
-        input {
+
+        .auth-subtitle {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-select {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            box-sizing: border-box
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
         }
-        button {
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn-primary {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            margin: 10px 0
+            transition: all 0.3s;
         }
-        button.secondary { background: #6c757d }
-        button:hover { opacity: 0.9 }
-        .hidden { display: none !important }
-        .message {
-            margin: 15px 0;
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .auth-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error-message {
+            background: #FEE2E2;
+            color: #991B1B;
             padding: 12px;
             border-radius: 8px;
-            display: none;
-            font-size: 14px
+            margin-bottom: 20px;
+            font-size: 14px;
         }
-        .success { background: #d4edda; color: #155724 }
-        .error { background: #f8d7da; color: #721c24 }
-        a { color: #667eea; cursor: pointer }
-        .center { text-align: center; margin-top: 15px; color: #666 }
+
+        .success-message {
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* Main App */
+        .app-container {
+            display: none;
+        }
+
+        .header {
+            background: white;
+            padding: 16px 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1A1C1E;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: #F3F4F6;
+            color: #374151;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #E5E7EB;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+        /* Profile Section */
+        .profile-header {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .profile-image-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            border: 4px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .profile-image-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 36px;
+            height: 36px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-size: 16px;
+        }
+
+        .profile-image-upload:hover {
+            background: #764ba2;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A1C1E;
+            margin-bottom: 4px;
+        }
+
+        .profile-email {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        /* BMI Card */
+        .bmi-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .bmi-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .bmi-value {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .bmi-status {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .bmi-description {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A1C1E;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6B7280;
+            margin-top: 4px;
+        }
+
+        /* Activity Cards */
+        .activity-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .activity-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1A1C1E;
+            margin-bottom: 16px;
+        }
+
+        .activity-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 12px 16px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #9CA3AF;
+            transition: all 0.2s;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Profile Form */
+        .profile-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1A1C1E;
+            margin-bottom: 20px;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed #E5E7EB;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: #667eea;
+            background: #F9FAFB;
+        }
+
+        .file-upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .file-upload-text {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        /* Recommendations */
+        .recommendation-card {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .recommendation-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-text {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bmi-value {
+                font-size: 40px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>🏥 Health App</h1>
-
-        <div id="loginSection">
-            <input type="email" id="email" placeholder="Enter your email">
-            <input type="password" id="password" placeholder="Enter your password">
-            <button onclick="handleLogin()">🚀 Login</button>
-            <div class="center">
-                No account? <a onclick="showRegister()">Register here</a>
+    <!-- Login Screen -->
+    <div id="login-screen" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="auth-logo-icon">🏥</div>
+                <h1 class="auth-title">Welcome to health_app</h1>
+                <p class="auth-subtitle">Your personal AI health monitoring companion</p>
             </div>
-            <div id="loginMessage" class="message"></div>
+            <div id="login-error"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="login-email" required
+                           placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="login-password" required
+                           placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn-primary" id="login-btn">
+                    Login to Continue
+                </button>
+            </form>
+            <div class="auth-link">
+                Don't have an account? <a href="#" onclick="showRegister()">Register here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Screen -->
+    <div id="register-screen" class="auth-container" style="display: none;">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <div class="auth-logo-icon">✨</div>
+                <h1 class="auth-title">Create Your Profile</h1>
+                <p class="auth-subtitle">Let's set up your personalized health journey</p>
+            </div>
+            <div id="register-error"></div>
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" class="form-input" id="register-name" required
+                           placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" class="form-input" id="register-email" required
+                           placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password *</label>
+                    <input type="password" class="form-input" id="register-password" required
+                           placeholder="Create a password (min 6 characters)" minlength="6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password *</label>
+                    <input type="password" class="form-input" id="register-confirm" required
+                           placeholder="Confirm your password">
+                </div>
+
+                <!-- BMI Preview -->
+                <div id="bmi-preview" class="hidden" style="background: #F3F4F6; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: #1A1C1E;">📊 Your BMI</div>
+                    <div id="bmi-preview-value" style="font-size: 24px; font-weight: 700; color: #667eea;">--</div>
+                    <div id="bmi-preview-status" style="font-size: 14px; color: #6B7280;">Enter height and weight to calculate</div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="register-btn">
+                    Create Profile
+                </button>
+            </form>
+            <div class="auth-link">
+                Already have an account? <a href="#" onclick="showLogin()">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app-screen" class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-avatar" id="header-avatar">👤</div>
+                <div class="logo-text">health_app</div>
+            </div>
+            <div class="user-info">
+                <span class="user-name" id="user-greeting">Hi, User!</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
         </div>
 
-        <div id="registerSection" class="hidden">
-            <input type="text" id="name" placeholder="Enter your name">
-            <input type="email" id="regEmail" placeholder="Enter your email">
-            <input type="password" id="regPassword" placeholder="Create a password">
-            <button onclick="handleRegister()">➕ Create Account</button>
-            <button class="secondary" onclick="showLogin()">← Back to Login</button>
-            <div id="registerMessage" class="message"></div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-content active">
+                <!-- Profile Header with Image -->
+                <div class="profile-header">
+                    <div class="profile-image-container">
+                        <div class="profile-image" id="profile-avatar">👤</div>
+                        <label class="profile-image-upload" title="Upload photo">
+                            📷
+                            <input type="file" id="profile-image-input" accept="image/*" style="display: none;" onchange="uploadProfileImage(event)">
+                        </label>
+                    </div>
+                    <h2 class="profile-name" id="profile-display-name">User Name</h2>
+                    <p class="profile-email" id="profile-display-email">user@example.com</p>
+                </div>
+
+                <!-- BMI Card -->
+                <div class="bmi-card">
+                    <div class="bmi-title">Your Body Mass Index</div>
+                    <div class="bmi-value" id="bmi-display">--</div>
+                    <div class="bmi-status" id="bmi-status-display">Enter your height and weight</div>
+                    <div class="bmi-description" id="bmi-description">
+                        Complete your profile to see your BMI and health recommendations
+                    </div>
+                </div>
+
+                <!-- Profile Stats -->
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-icon">👤</div>
+                        <div class="stat-value" id="stat-name">--</div>
+                        <div class="stat-label">Name</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">📧</div>
+                        <div class="stat-value" id="stat-email">--</div>
+                        <div class="stat-label">Email</div>
+                    </div>
+                </div>
+
+                <!-- Edit Profile Section -->
+                <div class="profile-section">
+                    <h3 class="section-title">✏️ Edit Profile</h3>
+                    <form id="edit-profile-form">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" id="edit-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="edit-email" disabled>
+                        </div>
+                        <button type="submit" class="btn-primary">Update Profile</button>
+                    </form>
+                </div>
+
+                <!-- Health Recommendations -->
+                <div class="recommendation-card" id="health-recommendation">
+                    <h3 class="recommendation-title">🤖 Personalized Health Insights</h3>
+                    <p class="recommendation-text" id="recommendation-text">Complete your profile to get personalized health recommendations based on your BMI and other metrics.</p>
+                </div>
+            </div>
+
+            <!-- Home Tab -->
+            <div id="home-tab" class="tab-content">
+                <div class="activity-card">
+                    <h3 class="activity-title">📊 Log Today's Metrics</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                        <div>
+                            <label class="form-label">Weight (kg)</label>
+                            <input type="number" class="activity-input" id="input-weight" placeholder="70" step="0.1">
+                        </div>
+                        <div>
+                            <label class="form-label">Calories</label>
+                            <input type="number" class="activity-input" id="input-calories" placeholder="2000">
+                        </div>
+                        <div>
+                            <label class="form-label">Water (glasses)</label>
+                            <input type="number" class="activity-input" id="input-water" placeholder="8">
+                        </div>
+                    </div>
+                    <button class="btn-secondary" onclick="saveMetrics()">Save Today's Metrics</button>
+                </div>
+
+                <div class="activity-card">
+                    <h3 class="activity-title">📝 Recent Activity</h3>
+                    <div id="activity-log">
+                        <p style="color: #6B7280; font-size: 14px;">No recent activity. Start logging your metrics!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Tab -->
+            <div id="progress-tab" class="tab-content">
+                <div class="activity-card">
+                    <h3 class="activity-title">📈 Your Progress</h3>
+                    <div style="margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Daily Calories Goal</span>
+                            <span id="calories-progress">0/2000</span>
+                        </div>
+                        <div style="width: 100%; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden;">
+                            <div id="calories-bar" style="height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Water Intake Goal</span>
+                            <span id="water-progress">0/8 glasses</span>
+                        </div>
+                        <div style="width: 100%; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden;">
+                            <div id="water-bar" style="height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div id="dashboardSection" class="hidden">
-            <div style="text-align: center; margin-bottom: 20px">
-                <div style="font-size: 48px">🎉</div>
-                <h2 style="color: #667eea">Welcome!</h2>
-                <p id="userInfo" style="color: #666"></p>
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="switchTab('home')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Home</div>
             </div>
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0">
-                <p style="color: #666">✅ You are successfully logged in!</p>
-                <p style="color: #666; margin-top: 10px">Your health monitoring dashboard is ready.</p>
+            <div class="nav-item" onclick="switchTab('progress')">
+                <div class="nav-icon">📈</div>
+                <div class="nav-label">Progress</div>
             </div>
-            <button onclick="handleLogout()" style="background: #dc3545">🚪 Logout</button>
+            <div class="nav-item active" onclick="switchTab('profile')">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profile</div>
+            </div>
         </div>
     </div>
 
     <script>
-    var API_BASE = "https://health-app-backend-gq11.onrender.com";
-    var authToken = null;
+        // ==================== DATABASE & AUTHENTICATION ====================
+        const DB = {
+            users: JSON.parse(localStorage.getItem('healthapp_users') || '[]'),
+            currentUser: JSON.parse(localStorage.getItem('healthapp_currentUser') || 'null')
+        };
 
-    function showMessage(elementId, message, isSuccess) {
-        var element = document.getElementById(elementId);
-        element.style.display = "block";
-        element.className = isSuccess ? "message success" : "message error";
-        element.textContent = message;
-    }
-
-    function showLogin() {
-        document.getElementById("loginSection").classList.remove("hidden");
-        document.getElementById("registerSection").classList.add("hidden");
-        document.getElementById("dashboardSection").classList.add("hidden");
-    }
-
-    function showRegister() {
-        document.getElementById("loginSection").classList.add("hidden");
-        document.getElementById("registerSection").classList.remove("hidden");
-        document.getElementById("dashboardSection").classList.add("hidden");
-    }
-
-    function showDashboard(user) {
-        document.getElementById("loginSection").classList.add("hidden");
-        document.getElementById("registerSection").classList.add("hidden");
-        document.getElementById("dashboardSection").classList.remove("hidden");
-        document.getElementById("userInfo").textContent = "Email: " + user.email;
-    }
-
-    async function handleLogin() {
-        var email = document.getElementById("email").value.trim();
-        var password = document.getElementById("password").value;
-
-        if (!email || !password) {
-            showMessage("loginMessage", "Please enter email and password", false);
-            return;
+        function saveDB() {
+            localStorage.setItem('healthapp_users', JSON.stringify(DB.users));
+            localStorage.setItem('healthapp_currentUser', JSON.stringify(DB.currentUser));
         }
 
-        showMessage("loginMessage", "Logging in...", false);
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
 
-        try {
-            var response = await fetch(API_BASE + "/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: email, password: password })
+        function showScreen(screen) {
+            document.getElementById('login-screen').style.display = screen === 'login' ? 'flex' : 'none';
+            document.getElementById('register-screen').style.display = screen === 'register' ? 'flex' : 'none';
+            document.getElementById('app-screen').style.display = screen === 'app' ? 'block' : 'none';
+        }
+
+        function checkAuth() {
+            if (DB.currentUser) {
+                showScreen('app');
+                loadUserData();
+            } else {
+                showScreen('login');
+            }
+        }
+
+        async function register(userData) {
+            try {
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
+
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    return { success: true, user: data.data };
+                } else {
+                    throw new Error(data.message || 'Registration failed');
+                }
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+               
+        async function login(email, password) {
+            try {
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
+
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // Store token
+                    localStorage.setItem('auth_token', data.data.token);
+                    return { success: true, user: data.data.user };
+                } else {
+                    throw new Error(data.message || 'Login failed');
+                }
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                DB.currentUser = null;
+                saveDB();
+                showScreen('login');
+            }
+        }
+
+        // ==================== BMI CALCULATION ====================
+        function calculateBMI(weight, heightCm) {
+            if (!weight || !heightCm) return null;
+            const heightInMeters = heightCm / 100;
+            return (weight / (heightInMeters * heightInMeters)).toFixed(1);
+        }
+
+        function getBMIStatus(bmi) {
+            if (!bmi) return { status: 'Unknown', color: '#6B7280', description: 'Enter height and weight' };
+
+            if (bmi < 18.5) {
+                return {
+                    status: 'Underweight',
+                    color: '#3B82F6',
+                    description: 'Consider consulting a nutritionist for a healthy weight gain plan.'
+                };
+            } else if (bmi >= 18.5 && bmi < 25) {
+                return {
+                    status: 'Normal Weight',
+                    color: '#10B981',
+                    description: 'Great! You\'re in the healthy range. Maintain your current lifestyle.'
+                };
+            } else if (bmi >= 25 && bmi < 30) {
+                return {
+                    status: 'Overweight',
+                    color: '#F59E0B',
+                    description: 'Consider a balanced diet and regular exercise to reach a healthy weight.'
+                };
+            } else {
+                return {
+                    status: 'Obese',
+                    color: '#EF4444',
+                    description: 'Consult a healthcare provider for a personalized weight management plan.'
+                };
+            }
+        }
+
+        function updateBMI() {
+            const height = parseFloat(document.getElementById('edit-height').value);
+            const weight = parseFloat(document.getElementById('edit-weight').value);
+
+            if (height && weight) {
+                const bmi = calculateBMI(weight, height);
+                const bmiInfo = getBMIStatus(bmi);
+
+                document.getElementById('bmi-display').textContent = bmi;
+                document.getElementById('bmi-status-display').textContent = bmiInfo.status;
+                document.getElementById('bmi-status-display').style.color = 'white';
+                document.getElementById('bmi-description').textContent = bmiInfo.description;
+
+                // Update recommendations
+                updateHealthRecommendations(bmi, bmiInfo);
+            }
+        }
+
+        function updateBMIPreview() {
+            const height = parseFloat(document.getElementById('register-height').value);
+            const weight = parseFloat(document.getElementById('register-weight').value);
+
+            if (height && weight) {
+                const bmi = calculateBMI(weight, height);
+                const bmiInfo = getBMIStatus(bmi);
+
+                document.getElementById('bmi-preview').classList.remove('hidden');
+                document.getElementById('bmi-preview-value').textContent = bmi;
+                document.getElementById('bmi-preview-status').textContent = bmiInfo.status;
+            } else {
+                document.getElementById('bmi-preview').classList.add('hidden');
+            }
+        }
+
+        // Add event listeners for BMI preview
+        document.getElementById('register-height').addEventListener('input', updateBMIPreview);
+        document.getElementById('register-weight').addEventListener('input', updateBMIPreview);
+
+        // ==================== PROFILE IMAGE UPLOAD ====================
+        function uploadProfileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+
+                    // Update user profile
+                    DB.currentUser.profileImage = imageData;
+
+                    // Update in users array
+                    const userIndex = DB.users.findIndex(u => u.id === DB.currentUser.id);
+                    if (userIndex !== -1) {
+                        DB.users[userIndex].profileImage = imageData;
+                    }
+
+                    saveDB();
+                    loadUserData();
+
+                    alert('Profile image uploaded successfully! 📸');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // ==================== HEALTH RECOMMENDATIONS ====================
+        function updateHealthRecommendations(bmi, bmiInfo) {
+            const recommendations = [];
+
+            if (bmi < 18.5) {
+                recommendations.push("Focus on nutrient-dense foods to gain weight healthily.");
+                recommendations.push("Include strength training exercises to build muscle mass.");
+            } else if (bmi >= 18.5 && bmi < 25) {
+                recommendations.push("Maintain your balanced diet and regular exercise routine.");
+                recommendations.push("Continue monitoring your health metrics regularly.");
+            } else if (bmi >= 25 && bmi < 30) {
+                recommendations.push("Increase physical activity to at least 150 minutes per week.");
+                recommendations.push("Reduce portion sizes and limit processed foods.");
+                recommendations.push("Focus on whole grains, fruits, and vegetables.");
+            } else {
+                recommendations.push("Consult a healthcare provider for a personalized weight loss plan.");
+                recommendations.push("Start with low-impact exercises like walking or swimming.");
+                recommendations.push("Keep a food diary to track and improve eating habits.");
+            }
+
+            // Add age-specific recommendations
+            const age = DB.currentUser.age;
+            if (age) {
+                if (age > 50) {
+                    recommendations.push("Ensure adequate calcium and vitamin D intake.");
+                    recommendations.push("Regular health check-ups are especially important.");
+                } else if (age < 30) {
+                    recommendations.push("Build healthy habits now for long-term wellness.");
+                    recommendations.push("Focus on preventive health measures.");
+                }
+            }
+
+            document.getElementById('recommendation-text').innerHTML =
+                recommendations.map(r => `• ${r}`).join('<br>');
+        }
+
+        // ==================== FORM HANDLERS ====================
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('register-btn');
+            const errorDiv = document.getElementById('register-error');
+
+            const userData = {
+                email: document.getElementById('register-email').value,
+                password: document.getElementById('register-password').value,
+                profile: {
+                    name: document.getElementById('register-name').value
+                }
+            };
+
+            const confirm = document.getElementById('register-confirm').value;
+            if (userData.password !== confirm) {
+                errorDiv.innerHTML = '<div class="error-message">Passwords do not match</div>';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Creating Profile...';
+            errorDiv.innerHTML = '';
+
+            const result = await register(userData);
+
+            if (result.success) {
+                errorDiv.innerHTML = '<div class="success-message">Profile created successfully! Your BMI is ' + result.user.bmi + '. Redirecting...</div>';
+                setTimeout(() => {
+                    showScreen('app');
+                    loadUserData();
+                }, 1500);
+            } else {
+                errorDiv.innerHTML = `<div class="error-message">${result.error}</div>`;
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Create Profile';
+        });
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const btn = document.getElementById('login-btn');
+            const errorDiv = document.getElementById('login-error');
+
+            btn.disabled = true;
+            btn.textContent = 'Logging in...';
+            errorDiv.innerHTML = '';
+
+            const result = await login(email, password);
+
+            if (result.success) {
+                showScreen('app');
+                loadUserData();
+            } else {
+                errorDiv.innerHTML = `<div class="error-message">${result.error}</div>`;
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Login to Continue';
+        });
+
+        document.getElementById('edit-profile-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const updatedData = {
+                name: document.getElementById('edit-name').value,
+                age: parseInt(document.getElementById('edit-age').value) || null,
+                gender: document.getElementById('edit-gender').value,
+                height: parseFloat(document.getElementById('edit-height').value),
+                weight: parseFloat(document.getElementById('edit-weight').value)
+            };
+
+            // Recalculate BMI
+            if (updatedData.height && updatedData.weight) {
+                updatedData.bmi = calculateBMI(updatedData.weight, updatedData.height);
+            }
+
+            // Update current user
+            Object.assign(DB.currentUser, updatedData);
+
+            // Update in users array
+            const userIndex = DB.users.findIndex(u => u.id === DB.currentUser.id);
+            if (userIndex !== -1) {
+                DB.users[userIndex] = DB.currentUser;
+            }
+
+            saveDB();
+            loadUserData();
+
+            alert('Profile updated successfully! ✅');
+        });
+
+        // ==================== APP FUNCTIONS ====================
+        function loadUserData() {
+            if (!DB.currentUser) return;
+
+            const user = DB.currentUser;
+
+            // Update header
+            document.getElementById('user-greeting').textContent = `Hi, ${user.name}!`;
+
+            // Profile header
+            document.getElementById('profile-display-name').textContent = user.name;
+            document.getElementById('profile-display-email').textContent = user.email;
+
+            // Profile image
+            if (user.profileImage) {
+                document.getElementById('profile-avatar').style.backgroundImage = `url(${user.profileImage})`;
+                document.getElementById('profile-avatar').style.backgroundSize = 'cover';
+                document.getElementById('profile-avatar').textContent = '';
+                document.getElementById('header-avatar').textContent = '';
+                document.getElementById('header-avatar').style.backgroundImage = `url(${user.profileImage})`;
+                document.getElementById('header-avatar').style.backgroundSize = 'cover';
+            }
+
+            // Stats
+            document.getElementById('stat-name').textContent = user.name || '--';
+            document.getElementById('stat-email').textContent = user.email || '--';
+
+            // BMI Display
+            if (user.bmi) {
+                const bmiInfo = getBMIStatus(user.bmi);
+                document.getElementById('bmi-display').textContent = user.bmi;
+                document.getElementById('bmi-status-display').textContent = bmiInfo.status;
+                document.getElementById('bmi-description').textContent = bmiInfo.description;
+                updateHealthRecommendations(user.bmi, bmiInfo);
+            }
+
+            // Edit form
+            document.getElementById('edit-name').value = user.name;
+            document.getElementById('edit-age').value = user.age || '';
+            document.getElementById('edit-gender').value = user.gender;
+            document.getElementById('edit-email').value = user.email;
+            document.getElementById('edit-height').value = user.height || '';
+            document.getElementById('edit-weight').value = user.weight || '';
+
+            // Update progress
+            updateProgress();
+            updateActivityLog();
+        }
+
+        function saveMetrics() {
+            const weight = document.getElementById('input-weight').value;
+            const calories = document.getElementById('input-calories').value;
+            const water = document.getElementById('input-water').value;
+
+            if (!weight && !calories && !water) {
+                alert('Please enter at least one metric');
+                return;
+            }
+
+            const now = new Date().toISOString();
+
+            if (weight) {
+                DB.currentUser.metrics.weight.push({ date: now, value: parseFloat(weight) });
+                // Update current weight and recalculate BMI
+                DB.currentUser.weight = parseFloat(weight);
+                if (DB.currentUser.height) {
+                    DB.currentUser.bmi = calculateBMI(DB.currentUser.weight, DB.currentUser.height);
+                }
+            }
+            if (calories) {
+                DB.currentUser.metrics.calories.push({ date: now, value: parseInt(calories) });
+            }
+            if (water) {
+                DB.currentUser.metrics.water.push({ date: now, value: parseInt(water) });
+            }
+
+            DB.currentUser.metrics.activities.push({
+                type: 'Metrics logged',
+                date: now
             });
 
-            var data = await response.json();
-
-            if (data.status === "success") {
-                authToken = data.data.token;
-                localStorage.setItem("auth_token", authToken);
-                showMessage("loginMessage", "✅ Login successful!", true);
-                setTimeout(function() { showDashboard(data.data.user); }, 1000);
-            } else {
-                showMessage("loginMessage", "❌ " + (data.message || "Login failed"), false);
+            // Update in users array
+            const userIndex = DB.users.findIndex(u => u.id === DB.currentUser.id);
+            if (userIndex !== -1) {
+                DB.users[userIndex] = DB.currentUser;
             }
-        } catch (error) {
-            showMessage("loginMessage", "❌ Error: " + error.message, false);
+
+            saveDB();
+
+            // Clear inputs
+            document.getElementById('input-weight').value = '';
+            document.getElementById('input-calories').value = '';
+            document.getElementById('input-water').value = '';
+
+            // Update UI
+            loadUserData();
+            updateProgress();
+            updateActivityLog();
+
+            alert('Metrics saved successfully! 🎉');
         }
-    }
 
-    async function handleRegister() {
-        var name = document.getElementById("name").value.trim();
-        var email = document.getElementById("regEmail").value.trim();
-        var password = document.getElementById("regPassword").value;
+        function updateProgress() {
+            if (!DB.currentUser) return;
 
-        if (!name || !email || !password) {
-            showMessage("registerMessage", "Please fill all fields", false);
-            return;
+            const metrics = DB.currentUser.metrics;
+            const today = new Date().toDateString();
+
+            const caloriesToday = metrics.calories
+                .filter(c => new Date(c.date).toDateString() === today)
+                .reduce((sum, c) => sum + c.value, 0);
+
+            const waterToday = metrics.water
+                .filter(w => new Date(w.date).toDateString() === today)
+                .reduce((sum, w) => sum + w.value, 0);
+
+            const calorieGoal = 2000;
+            const waterGoal = 8;
+
+            const caloriePercent = Math.min((caloriesToday / calorieGoal) * 100, 100);
+            const waterPercent = Math.min((waterToday / waterGoal) * 100, 100);
+
+            document.getElementById('calories-progress').textContent = `${caloriesToday}/${calorieGoal}`;
+            document.getElementById('calories-bar').style.width = `${caloriePercent}%`;
+
+            document.getElementById('water-progress').textContent = `${waterToday}/${waterGoal} glasses`;
+            document.getElementById('water-bar').style.width = `${waterPercent}%`;
         }
 
-        showMessage("registerMessage", "Creating account...", false);
+        function updateActivityLog() {
+            if (!DB.currentUser) return;
 
-        try {
-            var response = await fetch(API_BASE + "/api/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    profile: { name: name }
-                })
-            });
+            const activities = DB.currentUser.metrics.activities || [];
+            const logDiv = document.getElementById('activity-log');
 
-            var data = await response.json();
-
-            if (data.status === "success") {
-                authToken = data.data.token;
-                localStorage.setItem("auth_token", authToken);
-                showMessage("registerMessage", "✅ Account created successfully!", true);
-                setTimeout(function() { showDashboard(data.data.user); }, 1000);
-            } else {
-                showMessage("registerMessage", "❌ " + data.message, false);
+            if (activities.length === 0) {
+                logDiv.innerHTML = '<p style="color: #6B7280; font-size: 14px;">No recent activity. Start logging your metrics!</p>';
+                return;
             }
-        } catch (error) {
-            showMessage("registerMessage", "❌ Error: " + error.message, false);
+
+            const recentActivities = activities.slice(-5).reverse();
+            logDiv.innerHTML = recentActivities.map(a => `
+                <div style="padding: 12px 0; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-weight: 500; color: #1A1C1E;">${a.type}${a.bmi ? ` (BMI: ${a.bmi})` : ''}</div>
+                    <div style="font-size: 12px; color: #6B7280;">${new Date(a.date).toLocaleDateString()}</div>
+                </div>
+            `).join('');
         }
-    }
 
-    function handleLogout() {
-        localStorage.removeItem("auth_token");
-        authToken = null;
-        showLogin();
-    }
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-    window.onload = function() {
-        console.log("✅ Page loaded successfully");
-        console.log("✅ JavaScript is working");
+            document.getElementById(`${tab}-tab`).classList.add('active');
 
-        var savedToken = localStorage.getItem("auth_token");
-        if (savedToken) {
-            authToken = savedToken;
-            showDashboard({ email: "User" });
+            const navItems = document.querySelectorAll('.nav-item');
+            if (tab === 'home') navItems[0].classList.add('active');
+            if (tab === 'progress') navItems[1].classList.add('active');
+            if (tab === 'profile') navItems[2].classList.add('active');
+
+            if (tab === 'progress') {
+                updateProgress();
+                updateActivityLog();
+            }
         }
-    };
+
+        // Initialize app
+        checkAuth();
     </script>
 </body>
 </html>
