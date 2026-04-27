@@ -589,26 +589,9 @@
                            placeholder="Create a password (min 6 characters)" minlength="6">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Height (cm) *</label>
-                    <input type="number" class="form-input" id="register-height" required
-                           placeholder="Enter your height in cm">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Weight (kg) *</label>
-                    <input type="number" class="form-input" id="register-weight" required
-                           placeholder="Enter your weight in kg">
-                </div>
-                <div class="form-group">
                     <label class="form-label">Confirm Password *</label>
                     <input type="password" class="form-input" id="register-confirm" required
                            placeholder="Confirm your password">
-                </div>
-
-                <!-- BMI Preview -->
-                <div id="bmi-preview" class="hidden" style="background: #F3F4F6; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
-                    <div style="font-weight: 600; margin-bottom: 8px; color: #1A1C1E;">📊 Your BMI</div>
-                    <div id="bmi-preview-value" style="font-size: 24px; font-weight: 700; color: #667eea;">--</div>
-                    <div id="bmi-preview-status" style="font-size: 14px; color: #6B7280;">Enter height and weight to calculate</div>
                 </div>
 
                 <button type="submit" class="btn-primary" id="register-btn">
@@ -936,35 +919,6 @@
             }
         }
 
-        function updateBMIPreview() {
-            const height = parseFloat(document.getElementById('register-height').value);
-            const weight = parseFloat(document.getElementById('register-weight').value);
-
-            if (height && weight) {
-                const bmi = calculateBMI(weight, height);
-                const bmiInfo = getBMIStatus(bmi);
-
-                document.getElementById('bmi-preview').classList.remove('hidden');
-                document.getElementById('bmi-preview-value').textContent = bmi;
-                document.getElementById('bmi-preview-status').textContent = bmiInfo.status;
-            } else {
-                document.getElementById('bmi-preview').classList.add('hidden');
-            }
-        }
-
-        // Add event listeners for BMI preview when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            const registerHeight = document.getElementById('register-height');
-            const registerWeight = document.getElementById('register-weight');
-
-            if (registerHeight) {
-                registerHeight.addEventListener('input', updateBMIPreview);
-            }
-            if (registerWeight) {
-                registerWeight.addEventListener('input', updateBMIPreview);
-            }
-        });
-
         // ==================== PROFILE IMAGE UPLOAD ====================
         function uploadProfileImage(event) {
             const file = event.target.files[0];
@@ -1054,7 +1008,7 @@
             const result = await register(userData);
 
             if (result.success) {
-                errorDiv.innerHTML = '<div class="success-message">Profile created successfully! Your BMI is ' + result.user.bmi + '. Redirecting...</div>';
+                errorDiv.innerHTML = '<div class="success-message">Profile created successfully! Redirecting...</div>';
                 setTimeout(() => {
                     showScreen('app');
                     loadUserData();
