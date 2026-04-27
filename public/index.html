@@ -558,7 +558,7 @@
                 </button>
             </form>
             <div class="auth-link">
-                Don't have an account? <a href="#" onclick="showScreen('register')">Register here</a>
+                Don't have an account? <a href="#" onclick="showRegister()">Register here</a>
             </div>
         </div>
     </div>
@@ -589,16 +589,6 @@
                            placeholder="Create a password (min 6 characters)" minlength="6">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Height (cm) *</label>
-                    <input type="number" class="form-input" id="register-height" required
-                           placeholder="Enter your height in cm">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Weight (kg) *</label>
-                    <input type="number" class="form-input" id="register-weight" required
-                           placeholder="Enter your weight in kg">
-                </div>
-                <div class="form-group">
                     <label class="form-label">Confirm Password *</label>
                     <input type="password" class="form-input" id="register-confirm" required
                            placeholder="Confirm your password">
@@ -616,7 +606,7 @@
                 </button>
             </form>
             <div class="auth-link">
-                Already have an account? <a href="#" onclick="showScreen('login')">Login here</a>
+                Already have an account? <a href="#" onclick="showLogin()">Login here</a>
             </div>
         </div>
     </div>
@@ -683,31 +673,6 @@
                         <div class="form-group">
                             <label class="form-label">Full Name</label>
                             <input type="text" class="form-input" id="edit-name" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Age</label>
-                                <input type="number" class="form-input" id="edit-age" placeholder="25">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Gender</label>
-                                <select class="form-select" id="edit-gender">
-                                    <option value="">Select</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Height (cm)</label>
-                                <input type="number" class="form-input" id="edit-height" placeholder="170">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Weight (kg)</label>
-                                <input type="number" class="form-input" id="edit-weight" placeholder="70" step="0.1">
-                            </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Email</label>
@@ -829,7 +794,7 @@
 
         async function register(userData) {
             try {
-                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
 
                 const response = await fetch(`${API_BASE}/api/auth/register`, {
                     method: 'POST',
@@ -840,36 +805,7 @@
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    // Store token
-                    localStorage.setItem('auth_token', data.data.token);
-
-                    // Create local user object
-                    const newUser = {
-                        id: generateId(),
-                        email: userData.email,
-                        name: userData.profile.name,
-                        height: parseFloat(document.getElementById('register-height').value) || null,
-                        weight: parseFloat(document.getElementById('register-weight').value) || null,
-                        bmi: null,
-                        profileImage: null,
-                        metrics: {
-                            weight: [],
-                            calories: [],
-                            water: [],
-                            activities: []
-                        }
-                    };
-
-                    // Calculate BMI
-                    if (newUser.height && newUser.weight) {
-                        newUser.bmi = calculateBMI(newUser.weight, newUser.height);
-                    }
-
-                    DB.users.push(newUser);
-                    DB.currentUser = newUser;
-                    saveDB();
-
-                    return { success: true, user: newUser };
+                    return { success: true, user: data.data };
                 } else {
                     throw new Error(data.message || 'Registration failed');
                 }
@@ -877,10 +813,10 @@
                 return { success: false, error: error.message };
             }
         }
-
+               
         async function login(email, password) {
             try {
-                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
 
                 const response = await fetch(`${API_BASE}/api/auth/login`, {
                     method: 'POST',
@@ -981,18 +917,9 @@
             }
         }
 
-        // Add event listeners for BMI preview when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            const registerHeight = document.getElementById('register-height');
-            const registerWeight = document.getElementById('register-weight');
-
-            if (registerHeight) {
-                registerHeight.addEventListener('input', updateBMIPreview);
-            }
-            if (registerWeight) {
-                registerWeight.addEventListener('input', updateBMIPreview);
-            }
-        });
+        // Add event listeners for BMI preview
+        document.getElementById('register-height').addEventListener('input', updateBMIPreview);
+        document.getElementById('register-weight').addEventListener('input', updateBMIPreview);
 
         // ==================== PROFILE IMAGE UPLOAD ====================
         function uploadProfileImage(event) {

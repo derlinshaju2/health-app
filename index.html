@@ -97,7 +97,7 @@
     </div>
 
     <script>
-    var API_BASE = "http://localhost:5000";
+    var API_BASE = "https://health-app-backend-gq11.onrender.com";
     var authToken = null;
 
     function showMessage(elementId, message, isSuccess) {
@@ -206,7 +206,6 @@
     window.onload = function() {
         console.log("✅ Page loaded successfully");
         console.log("✅ JavaScript is working");
-        console.log("✅ API_BASE: " + API_BASE);
 
         var savedToken = localStorage.getItem("auth_token");
         if (savedToken) {
