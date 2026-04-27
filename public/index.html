@@ -896,6 +896,178 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Diet Tab -->
+            <div id="diet-tab" class="tab-content">
+                <!-- Diet Recommendations Card -->
+                <div class="activity-card">
+                    <h3 class="activity-title">🥗 Personalized Diet Plan</h3>
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 20px;">Get custom nutrition recommendations based on your profile and goals</p>
+
+                    <!-- Profile Input -->
+                    <div style="background: #F9FAFB; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 12px; color: #1A1C1E;">Your Profile</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">Current BMI</label>
+                                <input type="number" class="activity-input" id="diet-bmi" placeholder="22.5" step="0.1">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">Age</label>
+                                <input type="number" class="activity-input" id="diet-age" placeholder="30">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">Gender</label>
+                                <select class="activity-input" id="diet-gender">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">Goal</label>
+                                <select class="activity-input" id="diet-goal">
+                                    <option value="maintenance">Maintain Weight</option>
+                                    <option value="weight_loss">Lose Weight</option>
+                                    <option value="weight_gain">Gain Weight</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="getDietRecommendations()" style="margin-top: 12px;">
+                            🥗 Get My Diet Plan
+                        </button>
+                    </div>
+
+                    <!-- Diet Recommendations Display -->
+                    <div id="diet-recommendations" style="display: none;">
+                        <!-- Recommendations will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <!-- Daily Diet Tracking -->
+                <div class="activity-card">
+                    <h3 class="activity-title">📝 Daily Diet Tracking</h3>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                        <div>
+                            <label class="form-label" style="font-size: 12px;">Calories Consumed</label>
+                            <input type="number" class="activity-input" id="diet-calories" placeholder="1800">
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: 12px;">Water Intake (glasses)</label>
+                            <input type="number" class="activity-input" id="diet-water" placeholder="8">
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: 12px;">Meals Logged</label>
+                            <input type="number" class="activity-input" id="diet-meals" placeholder="3">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label class="form-label" style="font-size: 12px;">Diet Notes (Optional)</label>
+                        <textarea class="activity-input" id="diet-notes" placeholder="How was your diet today?" rows="2"></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <button class="btn-primary" onclick="saveDietProgress()">💾 Save Daily Progress</button>
+                        <button class="btn-secondary" onclick="loadDietProgress()">📊 View Progress</button>
+                    </div>
+
+                    <div id="diet-progress-result" class="result" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <!-- Yoga Tab -->
+            <div id="yoga-tab" class="tab-content">
+                <!-- Yoga Recommendations Card -->
+                <div class="activity-card">
+                    <h3 class="activity-title">🧘 Personalized Yoga Routines</h3>
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 20px;">Get custom yoga recommendations based on your fitness level and goals</p>
+
+                    <!-- Profile Input -->
+                    <div style="background: #F9FAFB; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 12px; color: #1A1C1E;">Your Fitness Profile</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">Fitness Level</label>
+                                <select class="activity-input" id="yoga-fitness">
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">Age</label>
+                                <input type="number" class="activity-input" id="yoga-age" placeholder="30">
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size: 12px;">Primary Goal</label>
+                                <select class="activity-input" id="yoga-goal">
+                                    <option value="general">General Wellness</option>
+                                    <option value="flexibility">Improve Flexibility</option>
+                                    <option value="strength">Build Strength</option>
+                                    <option value="weight_loss">Weight Loss</option>
+                                    <option value="stress_relief">Stress Relief</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="getYogaRecommendations()" style="margin-top: 12px;">
+                            🧘 Get My Yoga Plan
+                        </button>
+                    </div>
+
+                    <!-- Yoga Recommendations Display -->
+                    <div id="yoga-recommendations" style="display: none;">
+                        <!-- Recommendations will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <!-- Daily Yoga Tracking -->
+                <div class="activity-card">
+                    <h3 class="activity-title">📝 Daily Yoga Practice</h3>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                        <div>
+                            <label class="form-label" style="font-size: 12px;">Duration (minutes)</label>
+                            <input type="number" class="activity-input" id="yoga-duration" placeholder="30">
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: 12px;">Poses Completed</label>
+                            <input type="number" class="activity-input" id="yoga-poses" placeholder="5">
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: 12px;">Difficulty</label>
+                            <select class="activity-input" id="yoga-difficulty">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: 12px;">Yoga Type</label>
+                            <select class="activity-input" id="yoga-type">
+                                <option value="hatha">Hatha</option>
+                                <option value="vinyasa">Vinyasa</option>
+                                <option value="ashtanga">Ashtanga</option>
+                                <option value="yin">Yin</option>
+                                <option value="restorative">Restorative</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label class="form-label" style="font-size: 12px;">Yoga Notes (Optional)</label>
+                        <textarea class="activity-input" id="yoga-notes" placeholder="How was your practice today?" rows="2"></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <button class="btn-primary" onclick="saveYogaProgress()">💾 Save Practice</button>
+                        <button class="btn-secondary" onclick="loadYogaProgress()">📊 View Progress</button>
+                    </div>
+
+                    <div id="yoga-progress-result" class="result" style="margin-top: 15px;"></div>
+                </div>
+            </div>
         </div>
 
         <!-- Bottom Navigation -->
@@ -911,6 +1083,14 @@
             <div class="nav-item" onclick="switchTab('metrics')">
                 <div class="nav-icon">📊</div>
                 <div class="nav-label">Metrics</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('diet')">
+                <div class="nav-icon">🥗</div>
+                <div class="nav-label">Diet</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('yoga')">
+                <div class="nav-icon">🧘</div>
+                <div class="nav-label">Yoga</div>
             </div>
             <div class="nav-item active" onclick="switchTab('profile')">
                 <div class="nav-icon">👤</div>
@@ -1375,7 +1555,9 @@
             if (tab === 'home') navItems[0].classList.add('active');
             if (tab === 'progress') navItems[1].classList.add('active');
             if (tab === 'metrics') navItems[2].classList.add('active');
-            if (tab === 'profile') navItems[3].classList.add('active');
+            if (tab === 'diet') navItems[3].classList.add('active');
+            if (tab === 'yoga') navItems[4].classList.add('active');
+            if (tab === 'profile') navItems[5].classList.add('active');
 
             if (tab === 'progress') {
                 updateProgress();
@@ -1767,6 +1949,437 @@
                     resultDiv.style.display = 'none';
                 }
             }, 5000);
+        }
+
+        // ==================== DIET RECOMMENDATION SYSTEM ====================
+        async function getDietRecommendations() {
+            const authToken = localStorage.getItem('auth_token');
+            if (!authToken) {
+                showDietResult('Please login to get diet recommendations', false);
+                return;
+            }
+
+            const bmi = document.getElementById('diet-bmi').value;
+            const age = document.getElementById('diet-age').value;
+            const gender = document.getElementById('diet-gender').value;
+            const goal = document.getElementById('diet-goal').value;
+
+            if (!bmi) {
+                showDietResult('Please enter your BMI for personalized recommendations', false);
+                return;
+            }
+
+            // Show loading state
+            const resultDiv = document.getElementById('diet-recommendations');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<div style="text-align: center; padding: 20px;"><div style="font-size: 24px;">🥗</div><div style="color: #667eea; font-weight: 600;">Generating your personalized diet plan...</div></div>';
+
+            try {
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
+
+                const response = await fetch(`${API_BASE}/api/diet?bmi=${bmi}&age=${age}&gender=${gender}&goal=${goal}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    displayDietRecommendations(data.data);
+                } else {
+                    throw new Error(data.message || 'Failed to get recommendations');
+                }
+
+            } catch (error) {
+                console.error('Diet recommendation error:', error);
+                showDietResult(`❌ Error: ${error.message}`, false);
+            }
+        }
+
+        function displayDietRecommendations(data) {
+            const resultDiv = document.getElementById('diet-recommendations');
+            const { userProfile, recommendations } = data;
+
+            let html = `
+                <div style="background: linear-gradient(135deg, #10B981, #059669); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px;">🎯 Your Personalized Diet Plan</h4>
+                    <div style="font-size: 14px; margin-bottom: 10px;">
+                        <strong>BMI Category:</strong> ${userProfile.bmiCategory.charAt(0).toUpperCase() + userProfile.bmiCategory.slice(1)}<br>
+                        <strong>Daily Target:</strong> ${recommendations.calorieTarget} calories<br>
+                        <strong>Water Intake:</strong> ${recommendations.waterIntake} glasses/day
+                    </div>
+                </div>
+
+                <!-- Meal Plan -->
+                <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #10B981;">
+                    <h5 style="margin-bottom: 12px; color: #1A1C1E;">📅 Daily Meal Plan</h5>
+                    <div style="display: grid; gap: 15px;">
+                        <div>
+                            <div style="font-weight: 600; color: #059669; margin-bottom: 8px;">🌅 Breakfast</div>
+                            ${recommendations.mealPlan.breakfast.map(meal => `
+                                <div style="font-size: 13px; padding: 8px 0; border-bottom: 1px solid #E5E7EB;">
+                                    <strong>${meal.name}</strong><br>
+                                    <span style="color: #6B7280; font-size: 12px;">${meal.calories} cal | Protein: ${meal.protein}g | Carbs: ${meal.carbs}g</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div>
+                            <div style="font-weight: 600; color: #059669; margin-bottom: 8px;">☀️ Lunch</div>
+                            ${recommendations.mealPlan.lunch.slice(0, 3).map(meal => `
+                                <div style="font-size: 13px; padding: 8px 0; border-bottom: 1px solid #E5E7EB;">
+                                    <strong>${meal.name}</strong><br>
+                                    <span style="color: #6B7280; font-size: 12px;">${meal.calories} cal | Protein: ${meal.protein}g</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div>
+                            <div style="font-weight: 600; color: #059669; margin-bottom: 8px;">🌙 Dinner</div>
+                            ${recommendations.mealPlan.dinner.slice(0, 3).map(meal => `
+                                <div style="font-size: 13px; padding: 8px 0; border-bottom: 1px solid #E5E7EB;">
+                                    <strong>${meal.name}</strong><br>
+                                    <span style="color: #6B7280; font-size: 12px;">${meal.calories} cal | Protein: ${meal.protein}g</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div>
+                            <div style="font-weight: 600; color: #059669; margin-bottom: 8px;">🍎 Snacks</div>
+                            ${recommendations.mealPlan.snacks.map(meal => `
+                                <div style="font-size: 13px; padding: 4px 0;">
+                                    • ${meal.name} (${meal.calories} cal)
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Food Guidelines -->
+                <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #059669;">
+                    <h5 style="margin-bottom: 12px; color: #1A1C1E;">🥗 Food Guidelines</h5>
+
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: 600; color: #10B981; margin-bottom: 8px;">✅ Foods to Eat</div>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            ${recommendations.foodRecommendations.foodsToEat.slice(0, 8).map(food =>
+                                `<li style="padding: 4px 0; color: #374151;">• ${food}</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: 600; color: #F59E0B; margin-bottom: 8px;">⚠️ Foods to Limit</div>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            ${recommendations.foodRecommendations.foodsToLimit.map(food =>
+                                `<li style="padding: 4px 0; color: #374151;">• ${food}</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div style="font-weight: 600; color: #EF4444; margin-bottom: 8px;">❌ Foods to Avoid</div>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            ${recommendations.foodRecommendations.foodsToAvoid.map(food =>
+                                `<li style="padding: 4px 0; color: #374151;">• ${food}</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tips -->
+                <div style="background: #FEF3C7; padding: 16px; border-radius: 8px;">
+                    <h5 style="margin-bottom: 12px; color: #92400E;">💡 Daily Tips</h5>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        ${recommendations.tips.map(tip =>
+                            `<li style="padding: 6px 0; color: #78350F; border-bottom: 1px solid #FDE68A;">• ${tip}</li>`
+                        ).join('')}
+                    </ul>
+                </div>
+            `;
+
+            resultDiv.innerHTML = html;
+        }
+
+        async function saveDietProgress() {
+            const authToken = localStorage.getItem('auth_token');
+            if (!authToken) {
+                showDietResult('Please login to save progress', false);
+                return;
+            }
+
+            const calories = document.getElementById('diet-calories').value;
+            const water = document.getElementById('diet-water').value;
+            const meals = document.getElementById('diet-meals').value;
+            const notes = document.getElementById('diet-notes').value;
+
+            if (!calories && !water && !meals) {
+                showDietResult('Please enter at least one tracking metric', false);
+                return;
+            }
+
+            const progressData = {
+                diet: {
+                    caloriesConsumed: parseInt(calories) || 0,
+                    waterIntake: parseInt(water) || 0,
+                    mealsLogged: parseInt(meals) || 0,
+                    dietNotes: notes
+                }
+            };
+
+            showDietResult('Saving diet progress...', false);
+
+            try {
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
+
+                const response = await fetch(`${API_BASE}/api/progress`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(progressData)
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showDietResult('✅ Diet progress saved successfully!', true);
+                    clearDietForm();
+                } else {
+                    throw new Error(data.message || 'Failed to save progress');
+                }
+
+            } catch (error) {
+                console.error('Save diet progress error:', error);
+                showDietResult(`❌ Error: ${error.message}`, false);
+            }
+        }
+
+        function showDietResult(message, isSuccess) {
+            const resultDiv = document.getElementById('diet-progress-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = isSuccess ? 'result success' : 'result error';
+            resultDiv.textContent = message;
+
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function clearDietForm() {
+            document.getElementById('diet-calories').value = '';
+            document.getElementById('diet-water').value = '';
+            document.getElementById('diet-meals').value = '';
+            document.getElementById('diet-notes').value = '';
+        }
+
+        // ==================== YOGA RECOMMENDATION SYSTEM ====================
+        async function getYogaRecommendations() {
+            const authToken = localStorage.getItem('auth_token');
+            if (!authToken) {
+                showYogaResult('Please login to get yoga recommendations', false);
+                return;
+            }
+
+            const fitnessLevel = document.getElementById('yoga-fitness').value;
+            const age = document.getElementById('yoga-age').value;
+            const goal = document.getElementById('yoga-goal').value;
+
+            // Show loading state
+            const resultDiv = document.getElementById('yoga-recommendations');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<div style="text-align: center; padding: 20px;"><div style="font-size: 24px;">🧘</div><div style="color: #667eea; font-weight: 600;">Creating your personalized yoga routine...</div></div>';
+
+            try {
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
+
+                const response = await fetch(`${API_BASE}/api/yoga?fitnessLevel=${fitnessLevel}&age=${age}&goal=${goal}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    displayYogaRecommendations(data.data);
+                } else {
+                    throw new Error(data.message || 'Failed to get recommendations');
+                }
+
+            } catch (error) {
+                console.error('Yoga recommendation error:', error);
+                showYogaResult(`❌ Error: ${error.message}`, false);
+            }
+        }
+
+        function displayYogaRecommendations(data) {
+            const resultDiv = document.getElementById('yoga-recommendations');
+            const { userProfile, recommendations } = data;
+
+            let html = `
+                <div style="background: linear-gradient(135deg, #8B5CF6, #6366F1); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px;">🧘 Your Personalized Yoga Plan</h4>
+                    <div style="font-size: 14px;">
+                        <strong>Level:</strong> ${recommendations.yogaLevel.charAt(0).toUpperCase() + recommendations.yogaLevel.slice(1)}<br>
+                        <strong>Session Duration:</strong> ${recommendations.sessionDuration} minutes<br>
+                        <strong>Poses:</strong> ${recommendations.posesCount}
+                    </div>
+                </div>
+
+                <!-- Yoga Routine -->
+                <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #8B5CF6;">
+                    <h5 style="margin-bottom: 12px; color: #1A1C1E;">📋 Today's Yoga Routine</h5>
+
+                    <!-- Warm-up -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: 600; color: #8B5CF6; margin-bottom: 8px;">🔥 Warm-up (${recommendations.warmup.length * 1} mins)</div>
+                        ${recommendations.warmup.map(warmup => `
+                            <div style="font-size: 13px; padding: 6px 0; border-bottom: 1px solid #E5E7EB;">
+                                <strong>${warmup.name}</strong> (${warmup.duration} min) - ${warmup.instructions}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- Main Poses -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: 600; color: #8B5CF6; margin-bottom: 8px;">🧘 Main Poses</div>
+                        ${recommendations.routine.map(pose => `
+                            <div style="font-size: 13px; padding: 8px; background: #F9FAFB; margin-bottom: 8px; border-radius: 6px; border-left: 3px solid #8B5CF6;">
+                                <strong>${pose.name}</strong> (${pose.duration} min)<br>
+                                <span style="color: #6B7280; font-size: 12px;">${pose.benefits}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- Breathing -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: 600; color: #8B5CF6; margin-bottom: 8px;">🌬 Breathing Exercises</div>
+                        ${recommendations.breathing.slice(0, 2).map(breath => `
+                            <div style="font-size: 13px; padding: 6px 0;">
+                                <strong>${breath.name}</strong> (${breath.duration} min) - ${breath.instructions}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- Cool-down -->
+                    <div>
+                        <div style="font-weight: 600; color: #8B5CF6; margin-bottom: 8px;">🧊 Cool-down (${recommendations.cooldown.length * 2} mins)</div>
+                        ${recommendations.cooldown.map(cool => `
+                            <div style="font-size: 13px; padding: 6px 0; border-bottom: 1px solid #E5E7EB;">
+                                <strong>${cool.name}</strong> (${cool.duration} min) - ${cool.instructions}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Weekly Schedule -->
+                <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #8B5CF6;">
+                    <h5 style="margin-bottom: 12px; color: #1A1C1E;">📅 Weekly Schedule</h5>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                        ${Object.entries(recommendations.weeklySchedule).map(([day, routine]) => `
+                            <div style="background: #F9FAFB; padding: 10px; border-radius: 6px;">
+                                <div style="font-weight: 600; color: #8B5CF6; font-size: 12px; margin-bottom: 4px;">${day.charAt(0).toUpperCase() + day.slice(1)}</div>
+                                <div style="font-size: 11px; color: #374151;">${routine}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Tips -->
+                <div style="background: #EDE9FE; padding: 16px; border-radius: 8px;">
+                    <h5 style="margin-bottom: 12px; color: #5B21B6;">💡 Yoga Tips</h5>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        ${recommendations.tips.map(tip =>
+                            `<li style="padding: 6px 0; color: #5B21B6; border-bottom: 1px solid #C4B5FD;">• ${tip}</li>`
+                        ).join('')}
+                    </ul>
+                </div>
+            `;
+
+            resultDiv.innerHTML = html;
+        }
+
+        async function saveYogaProgress() {
+            const authToken = localStorage.getItem('auth_token');
+            if (!authToken) {
+                showYogaResult('Please login to save progress', false);
+                return;
+            }
+
+            const duration = document.getElementById('yoga-duration').value;
+            const poses = document.getElementById('yoga-poses').value;
+            const difficulty = document.getElementById('yoga-difficulty').value;
+            const type = document.getElementById('yoga-type').value;
+            const notes = document.getElementById('yoga-notes').value;
+
+            if (!duration && !poses) {
+                showYogaResult('Please enter practice duration or poses completed', false);
+                return;
+            }
+
+            const progressData = {
+                yoga: {
+                    durationMinutes: parseInt(duration) || 0,
+                    posesCompleted: parseInt(poses) || 0,
+                    difficulty: difficulty,
+                    yogaType: type,
+                    yogaNotes: notes
+                }
+            };
+
+            showYogaResult('Saving yoga progress...', false);
+
+            try {
+                const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://health-app-backend-gq11.onrender.com';
+
+                const response = await fetch(`${API_BASE}/api/progress`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(progressData)
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showYogaResult('✅ Yoga practice saved successfully!', true);
+                    clearYogaForm();
+                } else {
+                    throw new Error(data.message || 'Failed to save progress');
+                }
+
+            } catch (error) {
+                console.error('Save yoga progress error:', error);
+                showYogaResult(`❌ Error: ${error.message}`, false);
+            }
+        }
+
+        function showYogaResult(message, isSuccess) {
+            const resultDiv = document.getElementById('yoga-progress-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = isSuccess ? 'result success' : 'result error';
+            resultDiv.textContent = message;
+
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function clearYogaForm() {
+            document.getElementById('yoga-duration').value = '';
+            document.getElementById('yoga-poses').value = '';
+            document.getElementById('yoga-notes').value = '';
+        }
+
+        function loadDietProgress() {
+            // Placeholder for loading progress statistics
+            showDietResult('📊 Progress tracking feature coming soon! Start logging your daily diet to see trends.', false);
+        }
+
+        function loadYogaProgress() {
+            // Placeholder for loading progress statistics
+            showYogaResult('📊 Progress tracking feature coming soon! Start logging your daily yoga to see trends.', false);
         }
 
         // Initialize app
