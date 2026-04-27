@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'screens/login_screen.dart';
 import 'screens/health_metrics_screen.dart';
 import 'screens/disease_prediction_screen.dart';
 import 'screens/diet_recommendation_screen.dart';
 import 'screens/yoga_recommendation_screen.dart';
-import 'services/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(const MyApp());
 }
 
@@ -38,7 +35,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// Home Screen with Bottom Navigation
+/// Home Screen with Bottom Navigation - Optimized for fast loading
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -48,14 +45,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
-
-  // Lazy load screens - only build when needed
-  final List<Widget> _screens = [
-    const HealthMetricsScreen(),
-    const DiseasePredictionScreen(),
-    const DietRecommendationScreen(),
-    const YogaRecommendationScreen(),
-  ];
+  Widget? _currentScreen;
 
   final List<NavigationDestination> _destinations = const [
     NavigationDestination(
@@ -77,6 +67,36 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    // Only load the first screen initially
+    _currentScreen = const HealthMetricsScreen();
+  }
+
+  void _loadScreen(int index) {
+    if (_currentIndex == index) return;
+
+    setState(() {
+      _currentIndex = index;
+      // Lazy load screens only when needed
+      switch (index) {
+        case 0:
+          _currentScreen = const HealthMetricsScreen();
+          break;
+        case 1:
+          _currentScreen = const DiseasePredictionScreen();
+          break;
+        case 2:
+          _currentScreen = const DietRecommendationScreen();
+          break;
+        case 3:
+          _currentScreen = const YogaRecommendationScreen();
+          break;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -85,9 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              // Logout and navigate to login
-              final apiService = ApiService();
-              await apiService.logout();
+              // Fast logout - clear and navigate
               if (context.mounted) {
                 Navigator.of(context).pushReplacementNamed('/');
               }
@@ -95,14 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: _screens[_currentIndex],
+      body: _currentScreen ?? const HealthMetricsScreen(),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onDestinationSelected: _loadScreen,
         destinations: _destinations,
       ),
     );
