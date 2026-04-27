@@ -10,18 +10,12 @@ import 'services/api_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize API Service
-  final apiService = ApiService();
-  await apiService.initialize();
-
-  runApp(MyApp(apiService: apiService));
+  runApp(const MyApp());
 }
 
 /// Main App Widget
 class MyApp extends StatelessWidget {
-  final ApiService apiService;
-
-  const MyApp({super.key, required this.apiService});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +49,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = const [
-    HealthMetricsScreen(),
-    DiseasePredictionScreen(),
-    DietRecommendationScreen(),
-    YogaRecommendationScreen(),
+  // Lazy load screens - only build when needed
+  final List<Widget> _screens = [
+    const HealthMetricsScreen(),
+    const DiseasePredictionScreen(),
+    const DietRecommendationScreen(),
+    const YogaRecommendationScreen(),
   ];
 
   final List<NavigationDestination> _destinations = const [

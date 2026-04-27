@@ -42,21 +42,19 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (response.isSuccess && response.data != null) {
-        // Navigate to home screen
+        // Navigate immediately without waiting
         if (mounted) {
           Navigator.of(context).pushReplacementNamed('/home');
         }
       } else {
         setState(() {
           _errorMessage = response.error ?? 'Login failed';
+          _isLoading = false;
         });
       }
     } catch (e) {
       setState(() {
         _errorMessage = 'An error occurred: $e';
-      });
-    } finally {
-      setState(() {
         _isLoading = false;
       });
     }
