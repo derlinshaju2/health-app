@@ -63,14 +63,12 @@ class ApiService {
     }
   }
 
-  /// Store JWT token in secure storage
+  /// Store JWT token in secure storage - optimized for speed
   Future<void> _storeToken(String token) async {
-    try {
-      await _secureStorage.write(key: 'auth_token', value: token);
-      _dio.options.headers['Authorization'] = 'Bearer $token';
-    } catch (e) {
-      rethrow;
-    }
+    // Set header immediately for next requests
+    _dio.options.headers['Authorization'] = 'Bearer $token';
+    // Store in background without waiting
+    _secureStorage.write(key: 'auth_token', value: token);
   }
 
   /// Clear stored token (for logout)
@@ -342,18 +340,13 @@ class ApiService {
     );
 
     if (response.status == 'success' && response.data != null) {
-      // Store token
-      final data = response.data;
-      if (data != null && data.containsKey('data')) {
-        final token = data['data']?['token'];
+      // Store token only - skip user data storage for speed
+      final responseData = response.data;
+      if (responseData != null && responseData.containsKey('data')) {
+        final token = responseData['data']?['token'];
         if (token != null) {
-          await _storeToken(token);
-
-          // Store user data
-          final userData = data['data']?['user'];
-          if (userData != null && _prefs != null) {
-            await _prefs!.setString('user_data', userData.toString());
-          }
+          // Store token asynchronously without waiting
+          _storeToken(token);
         }
       }
     }
