@@ -1,0 +1,10 @@
+.git
+flutter_app
+node_modules
+health-backend
+ml-service
+.gitignore
+*.md
+!README.md
+.env
+.env.example

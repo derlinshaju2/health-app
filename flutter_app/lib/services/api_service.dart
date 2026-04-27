@@ -42,7 +42,6 @@ class ApiService {
     // Add interceptors
     _dio.interceptors.clear();
     _dio.interceptors.add(_authInterceptor());
-    _dio.interceptors.add(_loggingInterceptor());
     _dio.interceptors.add(_errorInterceptor());
   }
 
@@ -58,10 +57,9 @@ class ApiService {
       final token = await _secureStorage.read(key: 'auth_token');
       if (token != null && token.isNotEmpty) {
         _dio.options.headers['Authorization'] = 'Bearer $token';
-        print('✅ Token loaded from secure storage');
       }
     } catch (e) {
-      print('❌ Error loading token: $e');
+      // Silent error handling
     }
   }
 
@@ -70,9 +68,7 @@ class ApiService {
     try {
       await _secureStorage.write(key: 'auth_token', value: token);
       _dio.options.headers['Authorization'] = 'Bearer $token';
-      print('✅ Token stored successfully');
     } catch (e) {
-      print('❌ Error storing token: $e');
       rethrow;
     }
   }
@@ -82,9 +78,8 @@ class ApiService {
     try {
       await _secureStorage.delete(key: 'auth_token');
       _dio.options.headers.remove('Authorization');
-      print('✅ Token cleared successfully');
     } catch (e) {
-      print('❌ Error clearing token: $e');
+      // Silent error handling
     }
   }
 
@@ -92,22 +87,12 @@ class ApiService {
   InterceptorsWrapper _authInterceptor() {
     return InterceptorsWrapper(
       onRequest: (options, handler) {
-        // Token is already added to headers, just log
-        print('📤 API Request: ${options.method} ${options.uri}');
         return handler.next(options);
       },
       onError: (error, handler) async {
         // Handle 401 errors - token expired
         if (error.response?.statusCode == 401) {
-          print('⚠️ Token expired, attempting to refresh...');
-
-          // Could implement token refresh here
-          // For now, just clear the token and let user login again
           await clearToken();
-
-          // Show notification to user to login again
-          // You can use a navigation service or event bus here
-          print('❌ Session expired. Please login again.');
         }
 
         return handler.next(error);
@@ -115,35 +100,16 @@ class ApiService {
     );
   }
 
-  /// Logging interceptor - logs requests and responses
+  /// Logging interceptor - minimal logging for performance
   InterceptorsWrapper _loggingInterceptor() {
     return InterceptorsWrapper(
       onRequest: (options, handler) {
-        print('┌────── 📤 REQUEST ───────');
-        print('│ URL: ${options.method} ${options.uri}');
-        print('│ Headers: ${options.headers}');
-        if (options.data != null) {
-          print('│ Data: ${options.data}');
-        }
-        print('└─────────────────────');
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        print('┌────── 📥 RESPONSE ──────');
-        print('│ Status: ${response.statusCode}');
-        print('│ Data: ${response.data}');
-        print('└───────────────────────');
         return handler.next(response);
       },
       onError: (error, handler) {
-        print('┌────── ❌ ERROR ─────────');
-        print('│ Type: ${error.type}');
-        print('│ Message: ${error.message}');
-        if (error.response != null) {
-          print('│ Status: ${error.response?.statusCode}');
-          print('│ Data: ${error.response?.data}');
-        }
-        print('└─────────────────────');
         return handler.next(error);
       },
     );
@@ -401,7 +367,6 @@ class ApiService {
     if (_prefs != null) {
       await _prefs!.clear();
     }
-    print('✅ User logged out successfully');
   }
 
   /// Check if user is authenticated
