@@ -5,6 +5,7 @@ import '../constants/api_constants.dart';
 
 class ApiClient {
   late Dio _dio;
+  SharedPreferences? _prefs; // Cache SharedPreferences instance
 
   ApiClient() {
     _dio = Dio(BaseOptions(
@@ -25,8 +26,9 @@ class ApiClient {
     // Request interceptor
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        // Add auth token if available
-        final prefs = await SharedPreferences.getInstance();
+        // Add auth token if available (use cached prefs)
+        final prefs = _prefs ?? await SharedPreferences.getInstance();
+        _prefs ??= prefs; // Cache instance for future use
         final token = prefs.getString('auth_token');
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';

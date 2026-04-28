@@ -7,6 +7,12 @@ const connectDatabase = async () => {
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
+      // Connection pooling optimization
+      maxPoolSize: 10, // Maintain up to 10 socket connections
+      minPoolSize: 5,  // Keep minimum 5 connections available
+      socketTimeoutMS: 45000,
+      serverSelectionTimeoutMS: 5000,
+      heartbeatFrequencyMS: 10000, // Check connection health every 10 seconds
     };
 
     await mongoose.connect(process.env.MONGODB_URI, options);

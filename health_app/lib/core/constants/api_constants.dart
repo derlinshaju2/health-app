@@ -2,7 +2,7 @@ class ApiConstants {
   // Base URL
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:5000',
+    defaultValue: 'https://health-app-backend-gq11.onrender.com',
   );
 
   // API Endpoints
@@ -46,10 +46,10 @@ class ApiConstants {
   static const String notifications = '$apiPrefix/notifications';
   static const String scheduleNotification = '$apiPrefix/notifications/schedule';
 
-  // Timeout durations
-  static const Duration connectionTimeout = Duration(seconds: 30);
-  static const Duration receiveTimeout = Duration(seconds: 30);
-  static const Duration sendTimeout = Duration(seconds: 30);
+  // Timeout durations - reduced for faster failure detection
+  static const Duration connectionTimeout = Duration(seconds: 10);
+  static const Duration receiveTimeout = Duration(seconds: 15);
+  static const Duration sendTimeout = Duration(seconds: 10);
 
   // Pagination
   static const int defaultPageSize = 20;

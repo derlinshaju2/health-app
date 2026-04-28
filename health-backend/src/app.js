@@ -59,11 +59,7 @@ app.use('/api/diet', dietRoutes);
 app.use('/api/yoga', yogaRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/metrics', metricsRoutes);
-<<<<<<< HEAD
 // app.use('/api/progress', progressRoutes); // Commented out - file not found
-=======
-//app.use('/api/progress', progressRoutes);
->>>>>>> 19685aea68b350aaea51d6b947247efc96881576
 
 // 404 handler
 app.use((req, res) => {

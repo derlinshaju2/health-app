@@ -128,10 +128,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Update last login
-    user.lastLogin = Date.now();
-    await user.save();
-
     // Generate token
     const token = generateToken(user._id);
 
