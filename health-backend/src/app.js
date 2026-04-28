@@ -8,12 +8,12 @@ require('dotenv').config();
 // Import routes
 const authRoutes = require('./routes/auth');
 const healthRoutes = require('./routes/health');
-const predictionRoutes = require('./routes/prediction');
+const predictionRoutes = require('./routes/predictions');
 const dietRoutes = require('./routes/diet');
 const yogaRoutes = require('./routes/yoga');
 const notificationRoutes = require('./routes/notifications');
 const metricsRoutes = require('./routes/metrics');
-const progressRoutes = require('./routes/progress');
+// const progressRoutes = require('./routes/progress'); // Commented out - file not found
 
 // Import middleware
 const errorHandler = require('./middleware/errorHandler');
@@ -59,7 +59,7 @@ app.use('/api/diet', dietRoutes);
 app.use('/api/yoga', yogaRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/metrics', metricsRoutes);
-app.use('/api/progress', progressRoutes);
+// app.use('/api/progress', progressRoutes); // Commented out - file not found
 
 // 404 handler
 app.use((req, res) => {
