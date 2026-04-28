@@ -1192,11 +1192,11 @@
             🌙
           </button>
 
-          <div class="profile-section" onclick="toggleProfile()">
-            <div class="avatar">A</div>
+          <div class="profile-section" onclick="logout()">
+            <div class="avatar" id="userAvatar">A</div>
             <div class="profile-details">
-              <div class="profile-name">Alex Johnson</div>
-              <div class="profile-status">Online</div>
+              <div class="profile-name" id="userName">Alex Johnson</div>
+              <div class="profile-status">Click to logout</div>
             </div>
           </div>
         </div>
@@ -1596,7 +1596,36 @@
   </div>
 
   <script>
-    // Update greeting based on time of day
+    // ============================================
+    // AUTHENTICATION CHECK - First thing to run
+    // ============================================
+    (function() {
+      const token = localStorage.getItem('token');
+      const user = localStorage.getItem('user');
+
+      if (!token || !user) {
+        // Not authenticated - redirect to login
+        window.location.href = 'instant-login.html';
+        return;
+      }
+
+      // Verify token is still valid (basic check)
+      try {
+        const userObj = JSON.parse(user);
+        if (!userObj.email || !userObj.id) {
+          throw new Error('Invalid user data');
+        }
+      } catch (e) {
+        // Invalid user data - redirect to login
+        localStorage.clear();
+        window.location.href = 'instant-login.html';
+        return;
+      }
+
+      console.log('✓ User authenticated:', JSON.parse(user).email);
+    })();
+
+    // Update greeting and user info based on authenticated user
     function updateGreeting() {
       const hour = new Date().getHours();
       let timePeriod;
@@ -1609,7 +1638,29 @@
         timePeriod = 'Evening';
       }
 
-      const userName = localStorage.getItem('userName') || 'Alex';
+      // Get user data from localStorage
+      const userStr = localStorage.getItem('user');
+      let userName = 'Alex';
+      let userEmail = '';
+
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          userName = user.profile?.name || user.email?.split('@')[0] || 'Alex';
+          userEmail = user.email || '';
+
+          // Update profile section
+          if (document.getElementById('userName')) {
+            document.getElementById('userName').textContent = userName;
+          }
+          if (document.getElementById('userAvatar')) {
+            document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
+          }
+        } catch (e) {
+          console.error('Error parsing user data:', e);
+        }
+      }
+
       document.getElementById('greeting').innerHTML = `Good <strong>${timePeriod}</strong>, <strong>${userName}</strong> 👋`;
     }
 
@@ -1774,7 +1825,21 @@
     }
 
     function toggleProfile() {
+      // Show profile menu or redirect to profile
       showToast('👤 Profile menu coming soon!');
+    }
+
+    // Logout function
+    function logout() {
+      if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('userName');
+        showToast('👋 Logged out successfully!');
+        setTimeout(() => {
+          window.location.href = 'instant-login.html';
+        }, 1000);
+      }
     }
   </script>
 </body>
