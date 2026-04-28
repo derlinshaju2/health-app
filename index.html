@@ -78,7 +78,7 @@
       overflow-x: hidden;
     }
 
-    /* Animated Background */
+    /* Animated Background - toned down */
     body::before {
       content: '';
       position: fixed;
@@ -87,9 +87,8 @@
       right: 0;
       bottom: 0;
       background:
-        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.04) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
@@ -367,7 +366,7 @@
 
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
+      50% { transform: translateY(-2px); }
     }
 
     .hero-title {
@@ -566,7 +565,7 @@
 
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+      50% { transform: translateY(-3px); }
     }
 
     .quick-stat-value {
