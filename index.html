@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Health Dashboard - Modern Health App</title>
+  <title>AI Health Dashboard - Premium Health Monitoring</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * {
@@ -16,63 +16,112 @@
     }
 
     :root {
+      /* Premium Color Palette */
       --primary: #6366f1;
       --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
       --secondary: #8b5cf6;
       --accent: #ec4899;
+      --accent-light: #f472b6;
       --success: #10b981;
+      --success-light: #34d399;
       --warning: #f59e0b;
+      --warning-light: #fbbf24;
       --danger: #ef4444;
-      --dark: #1e293b;
-      --light: #f8fafc;
-      --gray: #64748b;
-      --border: #e2e8f0;
-      --shadow: rgba(0, 0, 0, 0.08);
-      --shadow-lg: rgba(0, 0, 0, 0.12);
+      --danger-light: #f87171;
+      --info: #3b82f6;
+      --info-light: #60a5fa;
+
+      /* Neutral Colors */
+      --dark: {
+        50: '#f8fafc',
+        100: '#f1f5f9',
+        200: '#e2e8f0',
+        300: '#cbd5e1',
+        400: '#94a3b8',
+        500: '#64748b',
+        600: '#475569',
+        700: '#334155',
+        800: '#1e293b',
+        900: '#0f172a',
+      };
+
+      /* Semantic Colors */
+      --bg-primary: #fafafa;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #94a3b8;
+      --border-color: #e2e8f0;
+      --shadow-sm: 'rgba(0, 0, 0, 0.04)';
+      --shadow-md: 'rgba(0, 0, 0, 0.08)';
+      --shadow-lg: 'rgba(0, 0, 0, 0.12)';
+      --shadow-xl: 'rgba(0, 0, 0, 0.16)';
+
+      /* Gradients */
+      --gradient-primary: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+      --gradient-secondary: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+      --gradient-success: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+      --gradient-warning: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)';
+      --gradient-dark: 'linear-gradient(135deg, #434343 0%, #000000 100%)';
     }
 
     body {
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
       min-height: 100vh;
-      color: var(--dark);
-      line-height: 1.6;
-      padding: 20px;
+      color: var(--text-primary);
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
     }
 
-    body.dark-mode {
-      --light: #0f172a;
-      --dark: #f1f5f9;
-      --gray: #94a3b8;
-      --border: #1e293b;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+    /* Animated Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
     }
 
-    /* Header */
+    /* Premium Header */
     .header {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 20px 30px;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 24px var(--shadow);
+      border-radius: 24px;
+      padding: 24px 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 20px;
-      z-index: 100;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 1000;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      transition: all 0.3s ease;
     }
 
-    body.dark-mode .header {
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+    .header:hover {
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
     }
 
     .logo-section {
@@ -82,263 +131,290 @@
     }
 
     .logo {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      font-size: 28px;
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: rotate(45deg);
+      animation: logoShine 3s infinite;
+    }
+
+    @keyframes logoShine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
     }
 
     .app-name {
-      font-size: 22px;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      letter-spacing: -0.5px;
     }
 
     .user-section {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 24px;
     }
 
     .greeting {
-      font-size: 15px;
-      color: var(--gray);
+      font-size: 14px;
+      color: var(--text-secondary);
       font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .greeting strong {
       color: var(--primary);
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    .theme-toggle {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--light);
-      border: 2px solid var(--border);
-      font-size: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .theme-toggle:hover {
-      border-color: var(--primary);
-      transform: scale(1.05);
-    }
-
-    .profile-dropdown {
-      position: relative;
-    }
-
-    .profile-btn {
+    .header-actions {
       display: flex;
       align-items: center;
       gap: 12px;
-      background: var(--light);
-      border: 2px solid var(--border);
+    }
+
+    .icon-btn {
+      width: 48px;
+      height: 48px;
       border-radius: 14px;
-      padding: 10px 18px;
+      background: var(--bg-tertiary);
+      border: 2px solid var(--border-color);
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--primary);
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 20px;
+      height: 20px;
+      background: var(--danger);
+      border-radius: 50%;
+      border: 2px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .profile-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg-tertiary);
+      padding: 8px 16px 8px 8px;
+      border-radius: 16px;
+      border: 2px solid transparent;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .profile-btn:hover {
+    .profile-section:hover {
       border-color: var(--primary);
-      box-shadow: 0 4px 12px var(--shadow);
+      background: white;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
     .avatar {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-weight: 700;
-      font-size: 16px;
-      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
     }
 
-    .profile-info {
+    .profile-details {
       text-align: left;
     }
 
     .profile-name {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 14px;
-      color: var(--dark);
+      color: var(--text-primary);
+      line-height: 1.2;
     }
 
-    .profile-role {
-      font-size: 11px;
-      color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .dropdown-arrow {
+    .profile-status {
       font-size: 12px;
-      color: var(--gray);
-      transition: transform 0.3s;
-    }
-
-    .profile-btn:hover .dropdown-arrow {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: calc(100% + 12px);
-      right: 0;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 12px 40px var(--shadow-lg);
-      min-width: 220px;
-      overflow: hidden;
-      animation: slideDown 0.3s ease;
-      border: 1px solid var(--border);
-    }
-
-    body.dark-mode .dropdown-content {
-      background: var(--light);
-    }
-
-    .profile-dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .dropdown-item {
-      padding: 14px 20px;
-      color: var(--dark);
-      text-decoration: none;
+      color: var(--success);
+      font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.2s;
+      gap: 4px;
     }
 
-    .dropdown-item:hover {
-      background: var(--light);
+    .profile-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
     }
 
-    .dropdown-item:first-child {
-      border-radius: 16px 16px 0 0;
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
 
-    .dropdown-item:last-child {
-      border-radius: 0 0 16px 16px;
+    /* Hero Section */
+    .hero-section {
+      margin-bottom: 32px;
+      animation: fadeInUp 0.6s ease;
     }
 
-    .dropdown-item.danger {
-      color: var(--danger);
-    }
-
-    .dropdown-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 8px 0;
-    }
-
-    /* Main Content */
-    .welcome-section {
-      margin-bottom: 30px;
-    }
-
-    .welcome-card {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      border-radius: 24px;
-      padding: 40px;
+    .hero-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 32px;
+      padding: 48px;
       color: white;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+      box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
     }
 
-    .welcome-card::before {
+    .hero-card::before {
       content: '';
       position: absolute;
       top: -50%;
-      right: -10%;
-      width: 400px;
-      height: 400px;
-      background: rgba(255, 255, 255, 0.1);
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
       border-radius: 50%;
     }
 
-    .welcome-card::after {
+    .hero-card::after {
       content: '';
       position: absolute;
       bottom: -30%;
-      left: -5%;
-      width: 300px;
-      height: 300px;
-      background: rgba(255, 255, 255, 0.08);
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
       border-radius: 50%;
     }
 
-    .welcome-content {
+    .hero-content {
       position: relative;
       z-index: 1;
     }
 
-    .welcome-title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .welcome-subtitle {
-      font-size: 16px;
-      opacity: 0.9;
-      margin-bottom: 24px;
-    }
-
-    .streak-badge {
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px);
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-size: 14px;
+      padding: 8px 20px;
+      border-radius: 24px;
+      font-size: 13px;
       font-weight: 600;
+      margin-bottom: 24px;
       border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: float 3s ease-in-out infinite;
     }
 
-    /* Grid Layout */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      line-height: 1.2;
+      letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      opacity: 0.95;
+      margin-bottom: 32px;
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      text-align: left;
+    }
+
+    .hero-stat-value {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .hero-stat-label {
+      font-size: 14px;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    /* Dashboard Grid */
     .dashboard-grid {
       display: grid;
       gap: 24px;
       grid-template-columns: 1fr;
+      margin-bottom: 100px;
     }
 
     @media (min-width: 768px) {
@@ -353,300 +429,377 @@
       }
     }
 
-    /* Cards */
+    .grid-full {
+      grid-column: 1 / -1;
+    }
+
+    /* Premium Cards */
     .card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 4px 24px var(--shadow);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      position: relative;
+      overflow: hidden;
     }
 
-    body.dark-mode .card {
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 12px 40px var(--shadow-lg);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
     }
 
-    .card-full {
-      grid-column: 1 / -1;
+    .card:hover::before {
+      opacity: 1;
     }
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .card-title {
       font-size: 20px;
       font-weight: 700;
-      color: var(--dark);
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
     .card-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      font-size: 26px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
     }
 
     .card-action {
       color: var(--primary);
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
-      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      padding: 8px 16px;
+      border-radius: 10px;
     }
 
     .card-action:hover {
-      color: var(--primary-dark);
+      background: rgba(99, 102, 241, 0.1);
+      transform: translateX(4px);
     }
 
-    /* Stats Overview */
-    .stats-grid {
+    /* Quick Stats */
+    .quick-stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
     }
 
-    .stat-card {
-      background: var(--light);
-      border-radius: 16px;
-      padding: 24px;
+    .quick-stat {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+      border-radius: 20px;
+      padding: 28px;
       text-align: center;
-      transition: all 0.3s ease;
       border: 2px solid transparent;
-    }
-
-    .stat-card:hover {
-      border-color: var(--primary);
-      transform: scale(1.05);
-    }
-
-    .stat-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-
-    .stat-value {
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 8px;
-    }
-
-    .stat-label {
-      font-size: 13px;
-      color: var(--gray);
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .stat-change {
-      font-size: 12px;
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-    }
-
-    .stat-change.positive {
-      color: var(--success);
-    }
-
-    .stat-change.negative {
-      color: var(--danger);
-    }
-
-    /* Metrics Input */
-    .metrics-grid {
-      display: grid;
-      gap: 20px;
-      grid-template-columns: 1fr;
-    }
-
-    @media (min-width: 640px) {
-      .metrics-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .metric-card {
-      background: var(--light);
-      border-radius: 16px;
-      padding: 24px;
-      border: 2px solid var(--border);
       transition: all 0.3s ease;
-    }
-
-    .metric-card:focus-within {
-      border-color: var(--primary);
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
-    }
-
-    .metric-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .metric-icon {
-      font-size: 28px;
-    }
-
-    .metric-name {
-      font-weight: 600;
-      font-size: 15px;
-      color: var(--dark);
-    }
-
-    .metric-input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      font-size: 16px;
-      font-family: inherit;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      margin-bottom: 8px;
-      color: var(--dark);
-    }
-
-    .metric-input::placeholder {
-      color: var(--gray);
-      font-weight: 400;
-    }
-
-    .metric-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    }
-
-    .metric-helper {
-      font-size: 13px;
-      color: var(--gray);
-      font-weight: 500;
-    }
-
-    .save-btn {
-      width: 100%;
-      padding: 18px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
-    }
-
-    .save-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-    }
-
-    .save-btn:active {
-      transform: translateY(-1px);
-    }
-
-    /* Progress Bars */
-    .progress-section {
-      margin-top: 24px;
-    }
-
-    .progress-item {
-      margin-bottom: 20px;
-    }
-
-    .progress-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .progress-label {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--dark);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .progress-value {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--gray);
-    }
-
-    .progress-bar {
-      height: 10px;
-      background: var(--border);
-      border-radius: 8px;
+      position: relative;
       overflow: hidden;
     }
 
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-      border-radius: 8px;
-      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-    }
-
-    .progress-fill::after {
+    .quick-stat::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      animation: shimmer 2s infinite;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    @keyframes shimmer {
+    .quick-stat:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .quick-stat:hover::before {
+      opacity: 1;
+    }
+
+    .quick-stat-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .quick-stat-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+      display: inline-block;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .quick-stat-value {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+
+    .quick-stat-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .quick-stat-change {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .quick-stat-change.positive {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .quick-stat-change.negative {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    /* Metrics Input */
+    .metrics-container {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 640px) {
+      .metrics-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .metric-input-card {
+      background: var(--bg-tertiary);
+      border-radius: 20px;
+      padding: 24px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .metric-input-card:focus-within {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    }
+
+    .metric-input-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .metric-input-icon {
+      font-size: 32px;
+    }
+
+    .metric-input-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+
+    .metric-field {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid var(--border-color);
+      border-radius: 14px;
+      font-size: 18px;
+      font-family: inherit;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+      background: white;
+    }
+
+    .metric-field::placeholder {
+      color: var(--text-tertiary);
+      font-weight: 500;
+    }
+
+    .metric-field:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+      background: white;
+    }
+
+    .metric-helper {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .save-metrics-btn {
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .save-metrics-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .save-metrics-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
+    }
+
+    .save-metrics-btn:hover::before {
+      left: 100%;
+    }
+
+    .save-metrics-btn:active {
+      transform: translateY(-1px);
+    }
+
+    /* Progress Indicators */
+    .progress-section {
+      margin-top: 28px;
+    }
+
+    .progress-item {
+      margin-bottom: 24px;
+    }
+
+    .progress-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .progress-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+    }
+
+    .progress-track {
+      height: 12px;
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 10px;
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: progressShimmer 2s infinite;
+    }
+
+    @keyframes progressShimmer {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
 
-    /* Charts */
-    .chart-container {
-      position: relative;
-      height: 280px;
-      margin-top: 20px;
-    }
-
-    /* Activity List */
-    .activity-list {
+    /* Activity Timeline */
+    .activity-timeline {
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -656,140 +809,155 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 16px;
-      background: var(--light);
-      border-radius: 14px;
+      padding: 20px;
+      background: var(--bg-tertiary);
+      border-radius: 18px;
       transition: all 0.3s ease;
       border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .activity-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
     }
 
     .activity-item:hover {
       background: white;
-      border-color: var(--border);
-      transform: translateX(4px);
+      border-color: var(--border-color);
+      transform: translateX(8px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .activity-item:hover::before {
+      transform: scaleY(1);
     }
 
     .activity-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 24px;
       flex-shrink: 0;
-      box-shadow: 0 2px 8px var(--shadow);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    .activity-content {
+    .activity-details {
       flex: 1;
       min-width: 0;
     }
 
     .activity-title {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 15px;
-      color: var(--dark);
-      margin-bottom: 4px;
+      color: var(--text-primary);
+      margin-bottom: 6px;
     }
 
     .activity-time {
       font-size: 13px;
-      color: var(--gray);
+      color: var(--text-secondary);
+      font-weight: 500;
     }
 
-    .activity-value {
-      font-weight: 700;
-      font-size: 15px;
+    .activity-result {
+      font-weight: 800;
+      font-size: 16px;
       color: var(--primary);
+      padding: 8px 16px;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 10px;
+    }
+
+    /* Chart Section */
+    .chart-wrapper {
+      position: relative;
+      height: 320px;
+      margin-top: 24px;
+      background: var(--bg-tertiary);
+      border-radius: 20px;
+      padding: 20px;
     }
 
     /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
-      bottom: 24px;
+      bottom: 28px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 12px 20px;
-      box-shadow: 0 8px 32px var(--shadow-lg);
+      border-radius: 24px;
+      padding: 16px 24px;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
       display: flex;
       gap: 8px;
-      z-index: 100;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 1000;
+      border: 1px solid rgba(255, 255, 255, 0.5);
     }
 
-    body.dark-mode .bottom-nav {
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .nav-item {
+    .nav-link {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      padding: 10px 16px;
-      color: var(--gray);
+      gap: 8px;
+      padding: 12px 20px;
+      color: var(--text-secondary);
       text-decoration: none;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      min-width: 60px;
+      border-radius: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 70px;
       position: relative;
+      font-weight: 600;
+      font-size: 12px;
     }
 
-    .nav-item:hover {
+    .nav-link:hover {
       color: var(--primary);
-      background: var(--light);
-      transform: translateY(-2px);
+      background: rgba(99, 102, 241, 0.1);
+      transform: translateY(-4px);
     }
 
-    .nav-item.active {
-      color: var(--primary);
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-    }
-
-    .nav-item.active::after {
-      content: '';
-      position: absolute;
-      bottom: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 4px;
-      background: var(--primary);
-      border-radius: 50%;
+    .nav-link.active {
+      color: white;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
     }
 
     .nav-icon {
-      font-size: 22px;
+      font-size: 24px;
     }
 
-    .nav-label {
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    /* Toast */
+    /* Toast Notification */
     .toast {
       position: fixed;
-      bottom: 120px;
+      bottom: 140px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: var(--dark);
-      color: var(--light);
-      padding: 16px 24px;
-      border-radius: 14px;
-      box-shadow: 0 8px 32px var(--shadow-lg);
+      background: white;
+      color: var(--text-primary);
+      padding: 20px 28px;
+      border-radius: 20px;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 14px;
       opacity: 0;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 1000;
-      font-weight: 500;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 2000;
+      font-weight: 600;
+      border: 2px solid var(--border-color);
     }
 
     .toast.show {
@@ -798,69 +966,49 @@
     }
 
     .toast.success {
-      background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border-color: transparent;
     }
 
-    /* Achievements */
-    .achievements-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 16px;
+    .toast-icon {
+      font-size: 24px;
     }
 
-    .achievement {
-      text-align: center;
-      padding: 20px 12px;
-      background: var(--light);
-      border-radius: 14px;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
-    }
-
-    .achievement:hover {
-      border-color: var(--primary);
-      transform: scale(1.05);
-    }
-
-    .achievement-icon {
-      font-size: 36px;
-      margin-bottom: 8px;
-    }
-
-    .achievement-name {
-      font-size: 11px;
-      color: var(--gray);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* Responsive */
+    /* Responsive Design */
     @media (max-width: 768px) {
-      body {
+      .container {
         padding: 16px;
       }
 
       .header {
-        padding: 16px 20px;
+        padding: 20px 24px;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 16px;
       }
 
       .greeting {
         display: none;
       }
 
-      .profile-info {
-        display: none;
+      .hero-card {
+        padding: 32px 24px;
       }
 
-      .welcome-card {
-        padding: 28px;
+      .hero-title {
+        font-size: 32px;
       }
 
-      .welcome-title {
-        font-size: 24px;
+      .hero-subtitle {
+        font-size: 16px;
+      }
+
+      .hero-stats {
+        gap: 24px;
+      }
+
+      .hero-stat-value {
+        font-size: 28px;
       }
 
       .card {
@@ -868,14 +1016,19 @@
       }
 
       .bottom-nav {
-        padding: 10px 16px;
-        gap: 6px;
+        padding: 12px 16px;
+        gap: 4px;
         bottom: 16px;
       }
 
-      .nav-item {
-        padding: 8px 12px;
-        min-width: 50px;
+      .nav-link {
+        padding: 10px 14px;
+        min-width: 60px;
+        font-size: 11px;
+      }
+
+      .nav-icon {
+        font-size: 20px;
       }
     }
 
@@ -883,7 +1036,7 @@
     @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
       }
       to {
         opacity: 1;
@@ -893,6 +1046,7 @@
 
     .card {
       animation: fadeInUp 0.6s ease forwards;
+      opacity: 0;
     }
 
     .card:nth-child(1) { animation-delay: 0.1s; }
@@ -901,99 +1055,266 @@
     .card:nth-child(4) { animation-delay: 0.4s; }
     .card:nth-child(5) { animation-delay: 0.5s; }
     .card:nth-child(6) { animation-delay: 0.6s; }
+
+    /* Loading Spinner */
+    .spinner {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Achievements Grid */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+    }
+
+    .achievement-badge {
+      text-align: center;
+      padding: 24px 16px;
+      background: var(--bg-tertiary);
+      border-radius: 18px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .achievement-badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .achievement-badge:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .achievement-badge:hover::before {
+      opacity: 1;
+    }
+
+    .achievement-icon {
+      font-size: 42px;
+      margin-bottom: 12px;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .achievement-name {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Tips Section */
+    .tip-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+      padding: 24px;
+      border-radius: 18px;
+      border-left: 5px solid var(--primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tip-card::before {
+      content: '"';
+      position: absolute;
+      top: 10px;
+      left: 16px;
+      font-size: 60px;
+      color: rgba(99, 102, 241, 0.1);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .tip-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .tip-text {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .tip-text strong {
+      color: var(--primary);
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
+    <!-- Premium Header -->
     <header class="header">
       <div class="logo-section">
         <div class="logo">🏥</div>
-        <div class="app-name">Health App</div>
+        <div class="app-name">HealthAI Pro</div>
       </div>
 
       <div class="user-section">
         <div class="greeting" id="greeting">
-          Good <strong>Morning</strong>, <strong>User</strong> 👋
+          Good <strong>Morning</strong>, <strong>Alex</strong> 👋
         </div>
 
-        <button class="theme-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
-          🌙
-        </button>
+        <div class="header-actions">
+          <button class="icon-btn" onclick="toggleNotifications()" aria-label="Notifications">
+            🔔
+            <span class="notification-badge">3</span>
+          </button>
 
-        <div class="profile-dropdown">
-          <div class="profile-btn" tabindex="0">
-            <div class="avatar">U</div>
-            <div class="profile-info">
-              <div class="profile-name">User Name</div>
-              <div class="profile-role">Premium Member</div>
+          <button class="icon-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+            🌙
+          </button>
+
+          <div class="profile-section" onclick="toggleProfile()">
+            <div class="avatar">A</div>
+            <div class="profile-details">
+              <div class="profile-name">Alex Johnson</div>
+              <div class="profile-status">Online</div>
             </div>
-            <span class="dropdown-arrow">▼</span>
-          </div>
-          <div class="dropdown-content">
-            <a href="#" class="dropdown-item">👤 My Profile</a>
-            <a href="#" class="dropdown-item">📊 Statistics</a>
-            <a href="#" class="dropdown-item">⚙️ Settings</a>
-            <a href="#" class="dropdown-item">💎 Premium Plan</a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item danger" onclick="logout()">🚪 Logout</a>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- Welcome Section -->
-    <div class="welcome-section">
-      <div class="welcome-card">
-        <div class="welcome-content">
-          <h1 class="welcome-title">Welcome Back, User! 🎉</h1>
-          <p class="welcome-subtitle">You're doing great! Keep tracking your health journey.</p>
-          <div class="streak-badge">
-            🔥 7-Day Streak • Keep it Up!
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-card">
+        <div class="hero-content">
+          <div class="hero-badge">
+            🔥 Premium Member • 28-Day Streak
+          </div>
+          <h1 class="hero-title">Welcome Back, Alex! 🎉</h1>
+          <p class="hero-subtitle">Your health journey is inspiring! You've maintained a 28-day streak and are in the top 5% of users this week.</p>
+
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="hero-stat-value">94%</div>
+              <div class="hero-stat-label">Health Score</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value">72.5</div>
+              <div class="hero-stat-label">Current Weight (kg)</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value">22.1</div>
+              <div class="hero-stat-label">BMI • Normal</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value">2,847</div>
+              <div class="hero-stat-label">Calories Burned</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Main Dashboard -->
     <main class="dashboard-grid">
-      <!-- Today's Stats Overview -->
-      <div class="card card-full">
+      <!-- Quick Stats Overview -->
+      <div class="card grid-full">
         <div class="card-header">
           <h2 class="card-title">
             <div class="card-icon">📊</div>
             Today's Overview
           </h2>
-          <a href="#" class="card-action">View All →</a>
+          <a href="#" class="card-action">
+            View Details
+            <span>→</span>
+          </a>
         </div>
 
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon">⚖️</div>
-            <div class="stat-value">72.5</div>
-            <div class="stat-label">Weight (kg)</div>
-            <div class="stat-change positive">↓ 0.5 kg</div>
+        <div class="quick-stats">
+          <div class="quick-stat">
+            <div class="quick-stat-content">
+              <div class="quick-stat-icon">⚖️</div>
+              <div class="quick-stat-value">72.5</div>
+              <div class="quick-stat-label">Weight (kg)</div>
+              <div class="quick-stat-change positive">
+                ↓ 0.5 kg this week
+              </div>
+            </div>
           </div>
 
-          <div class="stat-card">
-            <div class="stat-icon">🔥</div>
-            <div class="stat-value">1,847</div>
-            <div class="stat-label">Calories</div>
-            <div class="stat-change positive">↑ 153 left</div>
+          <div class="quick-stat">
+            <div class="quick-stat-content">
+              <div class="quick-stat-icon">🔥</div>
+              <div class="quick-stat-value">1,847</div>
+              <div class="quick-stat-label">Calories</div>
+              <div class="quick-stat-change positive">
+                ↑ 153 remaining
+              </div>
+            </div>
           </div>
 
-          <div class="stat-card">
-            <div class="stat-icon">💧</div>
-            <div class="stat-value">6/8</div>
-            <div class="stat-label">Water</div>
-            <div class="stat-change">75% of goal</div>
+          <div class="quick-stat">
+            <div class="quick-stat-content">
+              <div class="quick-stat-icon">💧</div>
+              <div class="quick-stat-value">6/8</div>
+              <div class="quick-stat-label">Water Intake</div>
+              <div class="quick-stat-change positive">
+                75% of daily goal
+              </div>
+            </div>
           </div>
 
-          <div class="stat-card">
-            <div class="stat-icon">👟</div>
-            <div class="stat-value">8.2k</div>
-            <div class="stat-label">Steps</div>
-            <div class="stat-change positive">82% complete</div>
+          <div class="quick-stat">
+            <div class="quick-stat-content">
+              <div class="quick-stat-icon">👟</div>
+              <div class="quick-stat-value">8.2k</div>
+              <div class="quick-stat-label">Steps Today</div>
+              <div class="quick-stat-change positive">
+                82% complete
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-stat">
+            <div class="quick-stat-content">
+              <div class="quick-stat-icon">😴</div>
+              <div class="quick-stat-value">7.5h</div>
+              <div class="quick-stat-label">Sleep Last Night</div>
+              <div class="quick-stat-change positive">
+                Quality: Good
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-stat">
+            <div class="quick-stat-content">
+              <div class="quick-stat-icon">🧘</div>
+              <div class="quick-stat-value">45m</div>
+              <div class="quick-stat-label">Exercise Today</div>
+              <div class="quick-stat-change positive">
+                Great progress!
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1007,16 +1328,16 @@
           </h2>
         </div>
 
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-header">
-              <span class="metric-icon">⚖️</span>
-              <span class="metric-name">Weight</span>
+        <div class="metrics-container">
+          <div class="metric-input-card">
+            <div class="metric-input-header">
+              <span class="metric-input-icon">⚖️</span>
+              <span class="metric-input-name">Weight</span>
             </div>
             <input
               type="number"
-              class="metric-input"
-              placeholder="Enter weight"
+              class="metric-field"
+              placeholder="72.5"
               step="0.1"
               min="0"
               aria-label="Weight in kg"
@@ -1024,30 +1345,30 @@
             <div class="metric-helper">Enter today's weight in kg</div>
           </div>
 
-          <div class="metric-card">
-            <div class="metric-header">
-              <span class="metric-icon">🔥</span>
-              <span class="metric-name">Calories</span>
+          <div class="metric-input-card">
+            <div class="metric-input-header">
+              <span class="metric-input-icon">🔥</span>
+              <span class="metric-input-name">Calories</span>
             </div>
             <input
               type="number"
-              class="metric-input"
-              placeholder="Enter calories"
+              class="metric-field"
+              placeholder="1847"
               min="0"
               aria-label="Calories consumed"
             >
             <div class="metric-helper">Total calories consumed today</div>
           </div>
 
-          <div class="metric-card">
-            <div class="metric-header">
-              <span class="metric-icon">💧</span>
-              <span class="metric-name">Water</span>
+          <div class="metric-input-card">
+            <div class="metric-input-header">
+              <span class="metric-input-icon">💧</span>
+              <span class="metric-input-name">Water</span>
             </div>
             <input
               type="number"
-              class="metric-input"
-              placeholder="Glasses"
+              class="metric-field"
+              placeholder="6"
               min="0"
               max="20"
               aria-label="Glasses of water"
@@ -1056,7 +1377,7 @@
           </div>
         </div>
 
-        <button class="save-btn" onclick="saveMetrics()">
+        <button class="save-metrics-btn" onclick="saveMetrics()">
           <span>💾</span>
           <span>Save Today's Metrics</span>
         </button>
@@ -1067,8 +1388,8 @@
               <span class="progress-label">💧 Water Intake</span>
               <span class="progress-value">6/8 glasses</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 75%"></div>
+            <div class="progress-track">
+              <div class="progress-bar" style="width: 75%"></div>
             </div>
           </div>
 
@@ -1077,8 +1398,8 @@
               <span class="progress-label">🔥 Calories</span>
               <span class="progress-value">1,847/2,000 kcal</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 92%"></div>
+            <div class="progress-track">
+              <div class="progress-bar" style="width: 92%"></div>
             </div>
           </div>
 
@@ -1087,8 +1408,8 @@
               <span class="progress-label">👟 Steps</span>
               <span class="progress-value">8,200/10,000</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 82%"></div>
+            <div class="progress-track">
+              <div class="progress-bar" style="width: 82%"></div>
             </div>
           </div>
         </div>
@@ -1103,65 +1424,79 @@
           </h2>
         </div>
 
-        <div class="activity-list">
+        <div class="activity-timeline">
           <div class="activity-item">
             <div class="activity-icon" style="background: linear-gradient(135deg, #dbeafe 0%, #3b82f6 100%);">
               💧
             </div>
-            <div class="activity-content">
+            <div class="activity-details">
               <div class="activity-title">Water intake logged</div>
               <div class="activity-time">2 hours ago</div>
             </div>
-            <div class="activity-value">+2 glasses</div>
+            <div class="activity-result">+2 glasses</div>
           </div>
 
           <div class="activity-item">
             <div class="activity-icon" style="background: linear-gradient(135deg, #fce7f3 0%, #ec4899 100%);">
               🏃
             </div>
-            <div class="activity-content">
+            <div class="activity-details">
               <div class="activity-title">Morning walk completed</div>
               <div class="activity-time">5 hours ago</div>
             </div>
-            <div class="activity-value">+3,200 steps</div>
+            <div class="activity-result">+3,200 steps</div>
           </div>
 
           <div class="activity-item">
             <div class="activity-icon" style="background: linear-gradient(135deg, #dcfce7 0%, #10b981 100%);">
               🥗
             </div>
-            <div class="activity-content">
+            <div class="activity-details">
               <div class="activity-title">Healthy lunch logged</div>
               <div class="activity-time">7 hours ago</div>
             </div>
-            <div class="activity-value">450 kcal</div>
+            <div class="activity-result">450 kcal</div>
           </div>
 
           <div class="activity-item">
             <div class="activity-icon" style="background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 100%);">
               ⚖️
             </div>
-            <div class="activity-content">
+            <div class="activity-details">
               <div class="activity-title">Weight check-in</div>
               <div class="activity-time">Yesterday</div>
             </div>
-            <div class="activity-value">72.5 kg</div>
+            <div class="activity-result">72.5 kg</div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #e0e7ff 0%, #6366f1 100%);">
+              🧘
+            </div>
+            <div class="activity-details">
+              <div class="activity-title">Evening yoga session</div>
+              <div class="activity-time">Yesterday</div>
+            </div>
+            <div class="activity-result">45 minutes</div>
           </div>
         </div>
       </div>
 
       <!-- Health Trends Chart -->
-      <div class="card card-full">
+      <div class="card grid-full">
         <div class="card-header">
           <h2 class="card-title">
             <div class="card-icon">📈</div>
-            Health Trends
+            Health Trends (7 Days)
           </h2>
-          <a href="#" class="card-action">View Details →</a>
+          <a href="#" class="card-action">
+            Full Analytics
+            <span>→</span>
+          </a>
         </div>
 
-        <div class="chart-container">
-          <canvas id="trendsChart"></canvas>
+        <div class="chart-wrapper">
+          <canvas id="healthChart"></canvas>
         </div>
       </div>
 
@@ -1170,80 +1505,98 @@
         <div class="card-header">
           <h2 class="card-title">
             <div class="card-icon">🏆</div>
-            Achievements
+            Recent Achievements
           </h2>
         </div>
 
         <div class="achievements-grid">
-          <div class="achievement">
+          <div class="achievement-badge">
             <div class="achievement-icon">🔥</div>
-            <div class="achievement-name">7 Day Streak</div>
+            <div class="achievement-name">28-Day Streak</div>
           </div>
-          <div class="achievement">
+          <div class="achievement-badge">
             <div class="achievement-icon">💧</div>
             <div class="achievement-name">Hydration Hero</div>
           </div>
-          <div class="achievement">
+          <div class="achievement-badge">
             <div class="achievement-icon">🏃</div>
             <div class="achievement-name">Step Master</div>
           </div>
-          <div class="achievement">
+          <div class="achievement-badge">
             <div class="achievement-icon">⭐</div>
-            <div class="achievement-name">First Week</div>
+            <div class="achievement-name">First Month</div>
+          </div>
+          <div class="achievement-badge">
+            <div class="achievement-icon">🥗</div>
+            <div class="achievement-name">Diet Pro</div>
+          </div>
+          <div class="achievement-badge">
+            <div class="achievement-icon">😴</div>
+            <div class="achievement-name">Sleep Champion</div>
           </div>
         </div>
       </div>
 
-      <!-- Motivational Tip -->
+      <!-- Daily Tip -->
       <div class="card">
         <div class="card-header">
           <h2 class="card-title">
             <div class="card-icon">💡</div>
-            Daily Tip
+            AI Health Tip
           </h2>
         </div>
 
-        <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
-          <p style="font-size: 14px; line-height: 1.7; color: var(--dark);">
-            <strong>Quick Tip:</strong> "Small consistent actions lead to big results. Try to walk for just 10 minutes after each meal to boost your metabolism and improve digestion! 🚶‍♂️"
-          </p>
+        <div class="tip-card">
+          <div class="tip-content">
+            <p class="tip-text">
+              <strong>Pro Tip:</strong> "Small consistent actions lead to big results. Try to walk for just 10 minutes after each meal to boost your metabolism and improve digestion by up to 30%! Your body will thank you. 🚶‍♂️"
+            </p>
+          </div>
+        </div>
+
+        <div class="tip-card" style="margin-top: 16px; border-left-color: var(--success);">
+          <div class="tip-content">
+            <p class="tip-text">
+              <strong>Nutrition Hack:</strong> "Drink a glass of water 30 minutes before each meal. This simple habit can reduce calorie intake by 13% and improve digestion! 💧"
+            </p>
+          </div>
         </div>
       </div>
     </main>
 
-    <!-- Bottom Navigation -->
+    <!-- Premium Bottom Navigation -->
     <nav class="bottom-nav">
-      <a href="#" class="nav-item active">
+      <a href="#" class="nav-link active">
         <span class="nav-icon">🏠</span>
-        <span class="nav-label">Home</span>
+        <span>Home</span>
       </a>
-      <a href="#" class="nav-item">
+      <a href="#" class="nav-link">
         <span class="nav-icon">📊</span>
-        <span class="nav-label">Stats</span>
+        <span>Stats</span>
       </a>
-      <a href="#" class="nav-item">
+      <a href="#" class="nav-link">
         <span class="nav-icon">🥗</span>
-        <span class="nav-label">Diet</span>
+        <span>Diet</span>
       </a>
-      <a href="#" class="nav-item">
+      <a href="#" class="nav-link">
         <span class="nav-icon">🧘</span>
-        <span class="nav-label">Yoga</span>
+        <span>Yoga</span>
       </a>
-      <a href="#" class="nav-item">
+      <a href="#" class="nav-link">
         <span class="nav-icon">👤</span>
-        <span class="nav-label">Profile</span>
+        <span>Profile</span>
       </a>
     </nav>
   </div>
 
   <!-- Toast Notification -->
   <div class="toast" id="toast">
-    <span>✅</span>
+    <span class="toast-icon">✅</span>
     <span id="toast-message">Metrics saved successfully!</span>
   </div>
 
   <script>
-    // Update greeting based on time
+    // Update greeting based on time of day
     function updateGreeting() {
       const hour = new Date().getHours();
       let timePeriod;
@@ -1256,36 +1609,28 @@
         timePeriod = 'Evening';
       }
 
-      const userName = localStorage.getItem('userName') || 'User';
+      const userName = localStorage.getItem('userName') || 'Alex';
       document.getElementById('greeting').innerHTML = `Good <strong>${timePeriod}</strong>, <strong>${userName}</strong> 👋`;
     }
 
-    // Dark mode toggle
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
-      localStorage.setItem('darkMode', isDark);
-      document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
-    }
-
-    // Load dark mode preference
-    if (localStorage.getItem('darkMode') === 'true') {
-      document.body.classList.add('dark-mode');
-      document.querySelector('.theme-toggle').textContent = '☀️';
+    // Theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle('dark-theme');
+      const isDark = document.body.classList.contains('dark-theme');
+      localStorage.setItem('darkTheme', isDark);
+      showToast(isDark ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
     }
 
     // Save metrics function
     function saveMetrics() {
-      const inputs = document.querySelectorAll('.metric-input');
-      const button = document.querySelector('.save-btn');
+      const inputs = document.querySelectorAll('.metric-field');
+      const button = document.querySelector('.save-metrics-btn');
 
-      button.classList.add('loading');
       button.innerHTML = '<div class="spinner"></div><span>Saving...</span>';
-      button.style.opacity = '0.7';
+      button.style.opacity = '0.8';
       button.style.pointerEvents = 'none';
 
       setTimeout(() => {
-        button.classList.remove('loading');
         button.innerHTML = '<span>💾</span><span>Save Today\'s Metrics</span>';
         button.style.opacity = '1';
         button.style.pointerEvents = 'auto';
@@ -1293,7 +1638,7 @@
         showToast('Metrics saved successfully! Keep up the great work! 💪');
 
         inputs.forEach(input => input.value = '');
-      }, 1500);
+      }, 2000);
     }
 
     // Toast notification
@@ -1309,25 +1654,18 @@
       }, 4000);
     }
 
-    // Logout function
-    function logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = 'instant-login.html';
-    }
-
     // Navigation active state
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', function(e) {
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
         e.preventDefault();
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         this.classList.add('active');
       });
     });
 
-    // Initialize chart
+    // Initialize Chart
     function initChart() {
-      const ctx = document.getElementById('trendsChart').getContext('2d');
+      const ctx = document.getElementById('healthChart').getContext('2d');
 
       new Chart(ctx, {
         type: 'line',
@@ -1335,30 +1673,30 @@
           labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           datasets: [{
             label: 'Weight (kg)',
-            data: [73, 72.8, 72.6, 72.7, 72.5, 72.4, 72.5],
+            data: [73.2, 73.0, 72.8, 72.9, 72.7, 72.5, 72.5],
             borderColor: '#6366f1',
             backgroundColor: 'rgba(99, 102, 241, 0.1)',
-            borderWidth: 3,
+            borderWidth: 4,
             tension: 0.4,
             fill: true,
             pointBackgroundColor: '#6366f1',
             pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 7
+            pointBorderWidth: 3,
+            pointRadius: 6,
+            pointHoverRadius: 8
           }, {
             label: 'Calories',
-            data: [1800, 1950, 1750, 2000, 1847, 1900, 1850],
+            data: [1850, 1920, 1780, 2010, 1890, 1847, 1900],
             borderColor: '#8b5cf6',
             backgroundColor: 'rgba(139, 92, 246, 0.1)',
-            borderWidth: 3,
+            borderWidth: 4,
             tension: 0.4,
             fill: true,
             pointBackgroundColor: '#8b5cf6',
             pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 7
+            pointBorderWidth: 3,
+            pointRadius: 6,
+            pointHoverRadius: 8
           }]
         },
         options: {
@@ -1370,12 +1708,13 @@
               position: 'top',
               labels: {
                 font: {
-                  family: 'Poppins',
+                  family: 'Inter',
                   size: 13,
-                  weight: '600'
+                  weight: '700'
                 },
                 usePointStyle: true,
-                padding: 20
+                padding: 24,
+                color: '#475569'
               }
             }
           },
@@ -1383,24 +1722,32 @@
             y: {
               beginAtZero: false,
               grid: {
-                color: 'rgba(0, 0, 0, 0.05)'
+                color: 'rgba(0, 0, 0, 0.05)',
+                drawBorder: false
               },
               ticks: {
                 font: {
-                  family: 'Poppins',
-                  size: 11
-                }
+                  family: 'Inter',
+                  size: 12,
+                  weight: '600'
+                },
+                color: '#64748b',
+                padding: 12
               }
             },
             x: {
               grid: {
-                display: false
+                display: false,
+                drawBorder: false
               },
               ticks: {
                 font: {
-                  family: 'Poppins',
-                  size: 11
-                }
+                  family: 'Inter',
+                  size: 12,
+                  weight: '600'
+                },
+                color: '#64748b',
+                padding: 12
               }
             }
           },
@@ -1412,33 +1759,23 @@
       });
     }
 
-    // Initialize on load
+    // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
       updateGreeting();
       initChart();
 
+      // Update greeting every minute
       setInterval(updateGreeting, 60000);
     });
 
-    // Add loading styles
-    const style = document.createElement('style');
-    style.textContent = `
-      .loading .spinner {
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-top: 3px solid white;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        animation: spin 1s linear infinite;
-        display: inline-block;
-      }
+    // Placeholder functions for header actions
+    function toggleNotifications() {
+      showToast('🔔 You have 3 new notifications!');
+    }
 
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    `;
-    document.head.appendChild(style);
+    function toggleProfile() {
+      showToast('👤 Profile menu coming soon!');
+    }
   </script>
 </body>
 </html>
