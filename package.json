@@ -1,0 +1,10 @@
+{
+  "name": "health-app",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'Static files ready for deployment'",
+    "vercel-build": "echo 'Vercel build completed'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
