@@ -95659,7 +95659,7 @@ n=A.azG("",q,q,q,B.f8,q)
 m.u2$=n
 m.VM$=new A.a0p(A.aK(t.m))
 o.a=m
-o.gwa().u2$=A.azG("https://your-awesome-project.vercel.app",B.FC,A.aj(["Content-Type",p,"Accept",p],t.N,t.z),B.nH,B.f8,B.nH)
+o.gwa().u2$=A.azG("https://health-app-backend-gq11.onrender.com",B.FC,A.aj(["Content-Type",p,"Accept",p],t.N,t.z),B.nH,B.f8,B.nH)
 o.gwa().zh$.Z(0)
 n=o.gwa().zh$
 n.D(n,o.a4K())

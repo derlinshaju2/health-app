@@ -3,7 +3,7 @@ class ApiConfig {
   // Base URL - can be configured for different environments
   static const String _baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://your-awesome-project.vercel.app',
+    defaultValue: 'https://health-app-backend-gq11.onrender.com',
   );
 
   static String get baseUrl => _baseUrl;
