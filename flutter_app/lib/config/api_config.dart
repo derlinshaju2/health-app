@@ -17,10 +17,10 @@ class ApiConfig {
   static const String yoga = '/api/yoga';
   static const String progress = '/api/progress';
 
-  // Timeout durations - optimized for faster responses
-  static const Duration connectTimeout = Duration(seconds: 5);
-  static const Duration receiveTimeout = Duration(seconds: 10);
-  static const Duration sendTimeout = Duration(seconds: 10);
+  // Timeout durations - optimized for Render cold starts
+  static const Duration connectTimeout = Duration(seconds: 15);
+  static const Duration receiveTimeout = Duration(seconds: 30);
+  static const Duration sendTimeout = Duration(seconds: 15);
 
   // Retry configuration
   static const int maxRetries = 3;
