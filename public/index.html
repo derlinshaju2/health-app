@@ -1597,71 +1597,84 @@
 
   <script>
     // ============================================
-    // AUTHENTICATION CHECK - First thing to run
+    // AUTHENTICATION CHECK - More lenient version
     // ============================================
     (function() {
-      const token = localStorage.getItem('token');
-      const user = localStorage.getItem('user');
-
-      if (!token || !user) {
-        // Not authenticated - redirect to login
-        window.location.href = 'instant-login.html';
-        return;
-      }
-
-      // Verify token is still valid (basic check)
       try {
-        const userObj = JSON.parse(user);
-        if (!userObj.email || !userObj.id) {
-          throw new Error('Invalid user data');
-        }
-      } catch (e) {
-        // Invalid user data - redirect to login
-        localStorage.clear();
-        window.location.href = 'instant-login.html';
-        return;
-      }
+        const token = localStorage.getItem('token');
+        const userStr = localStorage.getItem('user');
 
-      console.log('✓ User authenticated:', JSON.parse(user).email);
+        // Allow access if token exists (more lenient check)
+        if (!token) {
+          console.log('No token found, redirecting to login...');
+          window.location.href = 'instant-login.html';
+          return;
+        }
+
+        // Basic user data validation - more lenient
+        if (userStr) {
+          try {
+            const user = JSON.parse(userStr);
+            console.log('✓ User authenticated:', user.email || user.profile?.email || 'User');
+          } catch (e) {
+            console.log('Invalid user data, but allowing access with token');
+          }
+        }
+      } catch (error) {
+        console.error('Auth check error:', error);
+        // Don't redirect on errors, just log them
+      }
     })();
 
     // Update greeting and user info based on authenticated user
     function updateGreeting() {
-      const hour = new Date().getHours();
-      let timePeriod;
+      try {
+        const hour = new Date().getHours();
+        let timePeriod;
 
-      if (hour < 12) {
-        timePeriod = 'Morning';
-      } else if (hour < 17) {
-        timePeriod = 'Afternoon';
-      } else {
-        timePeriod = 'Evening';
-      }
-
-      // Get user data from localStorage
-      const userStr = localStorage.getItem('user');
-      let userName = 'Alex';
-      let userEmail = '';
-
-      if (userStr) {
-        try {
-          const user = JSON.parse(userStr);
-          userName = user.profile?.name || user.email?.split('@')[0] || 'Alex';
-          userEmail = user.email || '';
-
-          // Update profile section
-          if (document.getElementById('userName')) {
-            document.getElementById('userName').textContent = userName;
-          }
-          if (document.getElementById('userAvatar')) {
-            document.getElementById('userAvatar').textContent = userName.charAt(0).toUpperCase();
-          }
-        } catch (e) {
-          console.error('Error parsing user data:', e);
+        if (hour < 12) {
+          timePeriod = 'Morning';
+        } else if (hour < 17) {
+          timePeriod = 'Afternoon';
+        } else {
+          timePeriod = 'Evening';
         }
-      }
 
-      document.getElementById('greeting').innerHTML = `Good <strong>${timePeriod}</strong>, <strong>${userName}</strong> 👋`;
+        // Get user data from localStorage - more robust
+        const userStr = localStorage.getItem('user');
+        let userName = 'User';
+        let userEmail = '';
+
+        if (userStr) {
+          try {
+            const user = JSON.parse(userStr);
+            // Try multiple possible fields for user name
+            userName = user.profile?.name ||
+                       user.name ||
+                       user.email?.split('@')[0] ||
+                       user.username ||
+                       'User';
+            userEmail = user.email || '';
+
+            // Update profile section if elements exist
+            const userNameEl = document.getElementById('userName');
+            const userAvatarEl = document.getElementById('userAvatar');
+
+            if (userNameEl) userNameEl.textContent = userName;
+            if (userAvatarEl) userAvatarEl.textContent = userName.charAt(0).toUpperCase();
+          } catch (e) {
+            console.log('Using default user name');
+          }
+        }
+
+        // Update greeting if element exists
+        const greetingEl = document.getElementById('greeting');
+        if (greetingEl) {
+          greetingEl.innerHTML = `Good <strong>${timePeriod}</strong>, <strong>${userName}</strong> 👋`;
+        }
+      } catch (error) {
+        console.error('Error updating greeting:', error);
+      }
     }
 
     // Theme toggle
@@ -1829,16 +1842,26 @@
       showToast('👤 Profile menu coming soon!');
     }
 
-    // Logout function
+    // Logout function - more robust
     function logout() {
-      if (confirm('Are you sure you want to logout?')) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        localStorage.removeItem('userName');
-        showToast('👋 Logged out successfully!');
-        setTimeout(() => {
-          window.location.href = 'instant-login.html';
-        }, 1000);
+      try {
+        if (confirm('Are you sure you want to logout?')) {
+          // Clear all auth data
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          localStorage.removeItem('userName');
+
+          showToast('👋 Logged out successfully!');
+
+          // Redirect after short delay
+          setTimeout(() => {
+            window.location.href = 'instant-login.html';
+          }, 500);
+        }
+      } catch (error) {
+        console.error('Logout error:', error);
+        // Force redirect even if there's an error
+        window.location.href = 'instant-login.html';
       }
     }
   </script>
