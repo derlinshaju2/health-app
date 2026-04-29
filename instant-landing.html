@@ -144,11 +144,15 @@
 
   <script>
     // Check if already logged in - instant redirect
-    if (localStorage.getItem('token')) {
-      console.log('✓ Already logged in - redirecting...');
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 500);
+    const userSession = localStorage.getItem('healthAIUser');
+    if (userSession) {
+      const user = JSON.parse(userSession);
+      if (user.isAuthenticated) {
+        console.log('✓ Already logged in - redirecting...');
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 500);
+      }
     }
 
     // Page loads instantly - no API calls, no waiting

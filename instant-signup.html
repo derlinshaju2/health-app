@@ -154,38 +154,53 @@
       showStatus('Setting up your account...', 'loading');
 
       try {
-        // Fast API call with 5 second timeout
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        // Simulate quick processing
+        await new Promise(resolve => setTimeout(resolve, 800));
 
-        const response = await fetch('https://health-app-orpin-three.vercel.app/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, profile: { name } }),
-          signal: controller.signal
-        });
+        // Create user account using localStorage
+        const users = JSON.parse(localStorage.getItem('healthAIUsers') || '[]');
 
-        clearTimeout(timeoutId);
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data.status === 'success') {
-            // Store credentials instantly
-            localStorage.setItem('token', data.data.token);
-            localStorage.setItem('user', JSON.stringify(data.data.user));
-
-            showStatus('✓ Account created! Loading your dashboard...', 'success');
-
-            // Instant redirect
-            setTimeout(() => {
-              window.location.href = 'index.html';
-            }, 500);
-          } else {
-            throw new Error(data.message);
-          }
-        } else {
-          throw new Error('Signup failed');
+        // Check if user already exists
+        if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+          showStatus('❌ An account with this email already exists', 'error');
+          signupBtn.disabled = false;
+          signupBtn.textContent = 'Create Account';
+          return;
         }
+
+        // Create new user
+        const newUser = {
+          id: 'user_' + Date.now(),
+          email: email,
+          password: password,
+          firstName: name.split(' ')[0] || name,
+          lastName: name.split(' ').slice(1).join(' ') || '',
+          createdAt: new Date().toISOString(),
+          lastLogin: null
+        };
+
+        // Save user to localStorage
+        users.push(newUser);
+        localStorage.setItem('healthAIUsers', JSON.stringify(users));
+
+        // Create user session
+        const userSession = {
+          id: newUser.id,
+          email: newUser.email,
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          isAuthenticated: true,
+          loginTime: new Date().toISOString()
+        };
+
+        localStorage.setItem('healthAIUser', JSON.stringify(userSession));
+
+        showStatus('✓ Account created! Loading your dashboard...', 'success');
+
+        // Instant redirect
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 500);
 
       } catch (error) {
         console.error('Signup error:', error);
@@ -196,11 +211,16 @@
     });
 
     // Check if already logged in
-    if (localStorage.getItem('token')) {
-      showStatus('✓ Already logged in! Redirecting...', 'success');
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1000);
+    const userSession = localStorage.getItem('healthAIUser');
+    if (userSession) {
+      const user = JSON.parse(userSession);
+      if (user.isAuthenticated) {
+        showStatus('✓ Already logged in! Redirecting...', 'success');
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1000);
+      }
+    }
     }
 
     // Page loads instantly
