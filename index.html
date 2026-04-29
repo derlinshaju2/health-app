@@ -3102,6 +3102,13 @@
   </div>
 
   <script>
+    // Authentication check - redirect to login if not authenticated
+    if (!isAuthenticated()) {
+      // Store current page for redirect after login
+      sessionStorage.setItem('redirectAfterLogin', window.location.pathname);
+      window.location.href = 'login.html';
+    }
+
     // Update greeting based on time
     function updateGreeting() {
       const hour = new Date().getHours();
@@ -3115,7 +3122,8 @@
         timePeriod = 'Evening';
       }
 
-      const userName = localStorage.getItem('userName') || 'User';
+      const currentUser = getCurrentUser();
+      const userName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : 'User';
       document.getElementById('greeting').innerHTML = `Good <strong>${timePeriod}</strong>, <strong>${userName}</strong> 👋`;
     }
 
@@ -3169,11 +3177,7 @@
     }
 
     // Logout function
-    function logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = 'instant-login.html';
-    }
+    // Logout function is handled by auth.js - no need to redefine here
 
     // Disease Prediction Function
     async function generatePrediction() {
