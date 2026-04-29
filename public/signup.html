@@ -594,7 +594,7 @@
     function checkAuth() {
       const user = JSON.parse(localStorage.getItem('healthAIUser'));
       if (user && user.isAuthenticated) {
-        window.location.href = 'dashboard.html';
+        window.location.href = 'dashboard-main.html';
         return true;
       }
       return false;
@@ -718,7 +718,7 @@
 
         // Redirect to dashboard
         setTimeout(() => {
-          window.location.href = 'dashboard.html';
+          window.location.href = 'dashboard-main.html';
         }, 1500);
 
       } catch (error) {
