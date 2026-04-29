@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Statistics - Health App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #8b5cf6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: var(--dark);
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .stats-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .stat-title {
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .stat-change {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stat-change.positive {
+      color: var(--success);
+    }
+
+    .stat-change.negative {
+      color: var(--danger);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin-top: 20px;
+    }
+
+    .period-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .period-btn {
+      padding: 8px 16px;
+      border: 2px solid var(--border);
+      background: white;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .period-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .period-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .insights-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .insight-card {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .insight-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .insight-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .insight-text {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="dashboard.html" class="back-btn">
+      ← Back to Dashboard
+    </a>
+
+    <div class="header" style="margin-top: 20px;">
+      <h1>📊 Health Statistics</h1>
+      <p>Track your progress and view detailed health analytics</p>
+    </div>
+
+    <div class="period-selector">
+      <button class="period-btn active">Week</button>
+      <button class="period-btn">Month</button>
+      <button class="period-btn">3 Months</button>
+      <button class="period-btn">Year</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3 class="stat-title">⚖️ Weight Trend</h3>
+        </div>
+        <div class="stat-value">72.5 kg</div>
+        <div class="stat-change positive">
+          ↓ 2.5 kg from last month
+        </div>
+        <div class="chart-container">
+          <canvas id="weightChart"></canvas>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3 class="stat-title">🔥 Calorie Intake</h3>
+        </div>
+        <div class="stat-value">1,847 kcal</div>
+        <div class="stat-change positive">
+          On track with daily goal
+        </div>
+        <div class="chart-container">
+          <canvas id="caloriesChart"></canvas>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3 class="stat-title">💧 Hydration</h3>
+        </div>
+        <div class="stat-value">6/8</div>
+        <div class="stat-change positive">
+          75% of daily goal
+        </div>
+        <div class="chart-container">
+          <canvas id="waterChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-header">
+        <h3 class="stat-title">💡 Health Insights</h3>
+      </div>
+      <div class="insights-grid">
+        <div class="insight-card">
+          <div class="insight-icon">🎯</div>
+          <div class="insight-title">Great Progress!</div>
+          <div class="insight-text">You've lost 2.5 kg this month. Keep up the great work!</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon">💧</div>
+          <div class="insight-title">Hydration Goal</div>
+          <div class="insight-text">You're 2 glasses away from your daily water goal. Drink up!</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon">🔥</div>
+          <div class="insight-title">Calorie Balance</div>
+          <div class="insight-text">Your calorie intake is well balanced. Great portion control!</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon">🏃</div>
+          <div class="insight-title">Stay Active</div>
+          <div class="insight-text">You're 1,800 steps short of your goal. A short walk will help!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize charts
+    document.addEventListener('DOMContentLoaded', () => {
+      // Weight chart
+      new Chart(document.getElementById('weightChart'), {
+        type: 'line',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+          datasets: [{
+            label: 'Weight (kg)',
+            data: [75, 74, 73, 72.5],
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+
+      // Calories chart
+      new Chart(document.getElementById('caloriesChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'Calories',
+            data: [1800, 1950, 1750, 2000, 1847, 1900, 1850],
+            backgroundColor: 'rgba(139, 92, 246, 0.8)',
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+
+      // Water chart
+      new Chart(document.getElementById('waterChart'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Consumed', 'Remaining'],
+          datasets: [{
+            data: [6, 2],
+            backgroundColor: ['#3b82f6', '#e2e8f0'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

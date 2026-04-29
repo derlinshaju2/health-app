@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Speed Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .test-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      padding: 40px;
+      max-width: 600px;
+    }
+    h1 { color: #667eea; margin-bottom: 20px; }
+    .test-result {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    .test-result.fast { background: #e8f5e9; color: #2e7d32; }
+    .test-result.slow { background: #ffebee; color: #c62828; }
+    .test-result.medium { background: #fff3e0; color: #ef6c00; }
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+    .speed-grade {
+      font-size: 48px;
+      font-weight: bold;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .grade-a { color: #4CAF50; }
+    .grade-b { color: #FF9800; }
+    .grade-c { color: #f44336; }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🚀 API Speed Test</h1>
+    <p style="color: #666; margin-bottom: 20px;">Test your API response speed</p>
+
+    <button onclick="testAPI()">⚡ Test API Speed Now</button>
+
+    <div id="results"></div>
+    <div id="grade"></div>
+  </div>
+
+  <script>
+    async function testAPI() {
+      const resultsDiv = document.getElementById('results');
+      const gradeDiv = document.getElementById('grade');
+
+      resultsDiv.innerHTML = '<div class="test-result">Testing API speed...</div>';
+
+      const tests = [
+        { name: 'Health Check', url: 'https://health-app-orpin-three.vercel.app/health' },
+        { name: 'Backend API', url: 'https://health-app-backend-gq11.onrender.com/health' }
+      ];
+
+      let allResults = [];
+      let totalTime = 0;
+
+      for (const test of tests) {
+        const startTime = Date.now();
+        try {
+          const response = await fetch(test.url, {
+            signal: AbortSignal.timeout(10000)
+          });
+          const endTime = Date.now();
+          const duration = endTime - startTime;
+          allResults.push({ name: test.name, duration, success: true });
+          totalTime += duration;
+        } catch (error) {
+          allResults.push({ name: test.name, duration: 10000, success: false });
+          totalTime += 10000;
+        }
+      }
+
+      // Display results
+      let resultsHTML = '<h3>Test Results:</h3>';
+      allResults.forEach(result => {
+        let speedClass = 'fast';
+        if (result.duration > 5000) speedClass = 'slow';
+        else if (result.duration > 2000) speedClass = 'medium';
+
+        const status = result.success ? '✓' : '❌';
+        resultsHTML += `<div class="test-result ${speedClass}">
+          ${status} ${result.name}: ${result.duration}ms
+        </div>`;
+      });
+
+      const avgTime = totalTime / allResults.length;
+
+      // Grade the performance
+      let grade = 'A';
+      let gradeClass = 'grade-a';
+      if (avgTime > 5000) { grade = 'C'; gradeClass = 'grade-c'; }
+      else if (avgTime > 2000) { grade = 'B'; gradeClass = 'grade-b'; }
+
+      gradeDiv.innerHTML = `<div class="speed-grade ${gradeClass}">${grade}</div>
+        <p style="text-align: center; color: #666;">Average: ${Math.round(avgTime)}ms</p>`;
+
+      resultsDiv.innerHTML = resultsHTML;
+
+      // Recommendations
+      let recommendations = '<h3>💡 Recommendations:</h3><ul style="color: #666;">';
+      if (avgTime > 5000) {
+        recommendations += '<li>❌ API is too slow - Consider using Vercel for both frontend and backend</li>';
+        recommendations += '<li>❌ Current setup: Vercel frontend + Render backend (slow)</li>';
+        recommendations += '<li>✅ Recommended: Vercel frontend + Vercel backend (fast)</li>';
+      } else if (avgTime > 2000) {
+        recommendations += '<li>⚠️ API response is acceptable but could be faster</li>';
+        recommendations += '<li>💡 Consider caching and optimization</li>';
+      } else {
+        recommendations += '<li>✅ Excellent speed! Your app is performing well.</li>';
+      }
+      recommendations += '</ul>';
+
+      resultsDiv.innerHTML += recommendations;
+    }
+
+    // Auto-test on page load
+    window.addEventListener('load', () => {
+      setTimeout(testAPI, 1000);
+    });
+  </script>
+</body>
+</html>

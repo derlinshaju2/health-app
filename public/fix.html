@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quick Fix Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        button { padding: 15px 30px; font-size: 16px; cursor: pointer; border: none; border-radius: 5px; background: #667eea; color: white; width: 100%; }
+        .result { margin: 15px 0; padding: 15px; border-radius: 5px; display: none; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+        .warning { background: #fff3cd; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #e0e0e0; border-radius: 5px; box-sizing: border-box; }
+        .step { margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Registration Fix</h1>
+
+        <div class="step">
+            <h3>Step 1: Test Database</h3>
+            <button onclick="testDB()">Test Database Connection</button>
+            <div id="dbResult" class="result"></div>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Register</h3>
+            <input type="text" id="name" placeholder="Name">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="register()">Register Account</button>
+            <div id="regResult" class="result"></div>
+        </div>
+
+        <div class="step">
+            <h3>💡 Solutions</h3>
+            <div id="solutions"></div>
+        </div>
+    </div>
+
+    <script>
+        function show(id, msg, type) {
+            const el = document.getElementById(id);
+            el.style.display = 'block';
+            el.className = 'result ' + type;
+            el.innerHTML = msg;
+        }
+
+        async function testDB() {
+            show('dbResult', 'Testing...', 'warning');
+            try {
+                const res = await fetch('/api/health');
+                const data = await res.json();
+
+                if (data.database === 'Connected') {
+                    show('dbResult', '✅ Database connected!', 'success');
+                    document.getElementById('solutions').innerHTML = '<p>✅ <strong>Great!</strong> Database is working. Try registering now.</p>';
+                } else {
+                    show('dbResult', '⚠️ ' + JSON.stringify(data), 'error');
+                    document.getElementById('solutions').innerHTML = '<p><strong>Fix:</strong> Check MONGODB_URI in Vercel environment variables.</p>';
+                }
+            } catch (error) {
+                show('dbResult', '❌ ' + error.message, 'error');
+                document.getElementById('solutions').innerHTML = '<p><strong>Fix:</strong><br>1. Go to Vercel → Settings → Environment Variables<br>2. Add MONGODB_URI<br>3. Redeploy</p>';
+            }
+        }
+
+        async function register() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!name || !email || !password) {
+                show('regResult', '❌ Fill all fields', 'error');
+                return;
+            }
+
+            show('regResult', 'Registering...', 'warning');
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        profile: { name }
+                    })
+                });
+
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    show('regResult', '🎉 Success! Account created for ' + data.data.user.email, 'success');
+                    document.getElementById('solutions').innerHTML = '<p>✅ <strong>Perfect!</strong> Go to <a href="/simple.html">Simple App</a> to login.</p>';
+                } else {
+                    show('regResult', '⚠️ ' + data.message, 'error');
+                    if (data.message.includes('already exists')) {
+                        document.getElementById('solutions').innerHTML = '<p>✅ <strong>Good news!</strong> API is working! Just use a different email or login with this one.</p>';
+                    }
+                }
+            } catch (error) {
+                show('regResult', '❌ ' + error.message, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

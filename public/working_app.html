@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Health Monitoring - Working App</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #667eea; margin-bottom: 10px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card h2 { color: #333; margin-bottom: 20px; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; }
+        input { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        input:focus { border-color: #667eea; outline: none; }
+        button { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .result { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .hidden { display: none; }
+        .visible { display: block; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; font-size: 12px; border: 1px solid #dee2e6; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .stat-box { background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #dee2e6; }
+        .stat-box h3 { color: #667eea; font-size: 24px; margin-bottom: 5px; }
+        .stat-box p { color: #666; font-size: 14px; margin: 0; }
+        .metrics-list { margin-top: 20px; }
+        .metric-item { background: #f8f9fa; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #667eea; }
+        .metric-item strong { color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 AI Health Monitoring</h1>
+            <p style="color: #666;">Complete Health Tracking System</p>
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="card">
+            <h2>🔐 Login</h2>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="email" value="testuser@example.com" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" value="test123" placeholder="Enter your password">
+            </div>
+            <button onclick="login()">🚀 Login</button>
+            <div id="loginResult" class="result"></div>
+        </div>
+
+        <!-- Main App Section (hidden initially) -->
+        <div id="appSection" class="hidden">
+            <div class="card">
+                <h2>👤 Welcome, <span id="userName">User</span>!</h2>
+                <p style="color: #666; margin-bottom: 15px;">Email: <span id="userEmail">testuser@example.com</span></p>
+                <button onclick="logout()" style="background: #6c757d;">🚪 Logout</button>
+            </div>
+
+            <!-- Add Health Metrics -->
+            <div class="card">
+                <h2>📊 Add Health Metrics</h2>
+                <div class="form-group">
+                    <label>Blood Pressure (Systolic/Diastolic)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="systolic" placeholder="120" value="120">
+                        <input type="number" id="diastolic" placeholder="80" value="80">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Blood Sugar (mg/dL)</label>
+                    <input type="number" id="bloodSugar" placeholder="95" value="95">
+                </div>
+                <div class="form-group">
+                    <label>Weight (kg)</label>
+                    <input type="number" id="weight" placeholder="75" value="75" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label>Cholesterol (mg/dL)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="totalCholesterol" placeholder="Total" value="200">
+                        <input type="number" id="ldl" placeholder="LDL" value="130">
+                        <input type="number" id="hdl" placeholder="HDL" value="50">
+                    </div>
+                </div>
+                <button onclick="addMetrics()">💾 Save Health Metrics</button>
+                <div id="metricsResult" class="result"></div>
+            </div>
+
+            <!-- Health Dashboard -->
+            <div class="card">
+                <h2>📈 Your Health Dashboard</h2>
+                <div class="stats">
+                    <div class="stat-box">
+                        <h3 id="metricsCount">0</h3>
+                        <p>Metrics Logged</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3 id="lastUpdate">Never</h3>
+                        <p>Last Update</p>
+                    </div>
+                </div>
+                <button onclick="getMetrics()" style="margin-top: 15px;">🔄 Refresh Dashboard</button>
+                <div id="dashboardResult" class="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://health-app-backend-gq11.onrender.com';
+        let authToken = null;
+
+        // Auto-check for existing token
+        window.onload = function() {
+            const savedToken = localStorage.getItem('auth_token');
+            if (savedToken) {
+                authToken = savedToken;
+                showApp();
+            }
+        };
+
+        function showResult(elementId, message, isSuccess, data) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = isSuccess ? 'result success' : 'result error';
+            let content = `<h3>${isSuccess ? '✅' : '❌'} ${message}</h3>`;
+            if (data) {
+                content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            }
+            element.innerHTML = content;
+        }
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    authToken = data.data.token;
+                    localStorage.setItem('auth_token', authToken);
+                    showApp();
+                    showResult('loginResult', 'Login Successful!', true, {
+                        user: data.data.user.email,
+                        token: authToken.substring(0, 30) + '...'
+                    });
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('loginResult', 'Login Failed!', false, { error: error.message });
+            }
+        }
+
+        function showApp() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('appSection').classList.remove('hidden');
+            document.getElementById('userEmail').textContent = JSON.parse(atob(authToken.split('.')[1])).email || 'testuser@example.com';
+            getMetrics();
+        }
+
+        async function addMetrics() {
+            const systolic = document.getElementById('systolic').value;
+            const diastolic = document.getElementById('diastolic').value;
+            const bloodSugar = document.getElementById('bloodSugar').value;
+            const weight = document.getElementById('weight').value;
+            const totalCholesterol = document.getElementById('totalCholesterol').value;
+            const ldl = document.getElementById('ldl').value;
+            const hdl = document.getElementById('hdl').value;
+
+            const metrics = {
+                date: new Date().toISOString(),
+                metrics: {}
+            };
+
+            if (systolic && diastolic) {
+                metrics.metrics.bloodPressure = {
+                    systolic: parseInt(systolic),
+                    diastolic: parseInt(diastolic)
+                };
+            }
+            if (bloodSugar) {
+                metrics.metrics.bloodSugar = parseInt(bloodSugar);
+            }
+            if (weight) {
+                metrics.metrics.weight = parseFloat(weight);
+            }
+            if (totalCholesterol || ldl || hdl) {
+                metrics.metrics.cholesterol = {};
+                if (totalCholesterol) metrics.metrics.cholesterol.total = parseInt(totalCholesterol);
+                if (ldl) metrics.metrics.cholesterol.ldl = parseInt(ldl);
+                if (hdl) metrics.metrics.cholesterol.hdl = parseInt(hdl);
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/health/metrics`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(metrics)
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('metricsResult', 'Health Metrics Saved!', true, data);
+                    getMetrics();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult('metricsResult', 'Failed to Save Metrics!', false, { error: error.message });
+            }
+        }
+
+        async function getMetrics() {
+            try {
+                const response = await fetch(`${API_BASE}/api/health/metrics/latest`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    updateDashboard(data.data);
+                }
+            } catch (error) {
+                console.error('Failed to fetch metrics:', error);
+            }
+        }
+
+        function updateDashboard(data) {
+            if (data && data.healthMetric) {
+                document.getElementById('metricsCount').textContent = '1';
+                const date = new Date(data.healthMetric.date);
+                document.getElementById('lastUpdate').textContent = date.toLocaleDateString();
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('auth_token');
+            authToken = null;
+            document.getElementById('appSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

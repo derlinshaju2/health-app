@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="AI Health Monitoring App">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="health_app">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Health App</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Smart Loading Screen -->
+  <style>
+    #auth-check {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .auth-content {
+      text-align: center;
+      color: white;
+    }
+    .spinner {
+      border: 8px solid rgba(255, 255, 255, 0.3);
+      border-top: 8px solid white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .auth-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    #app-loading {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9998;
+    }
+    .loading-content {
+      text-align: center;
+      color: white;
+    }
+    .progress {
+      width: 200px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      margin: 20px auto 0;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: white;
+      width: 0%;
+      animation: progress 3s ease-in-out forwards;
+    }
+    @keyframes progress {
+      0% { width: 0%; }
+      70% { width: 80%; }
+      100% { width: 95%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Auth Check Screen -->
+  <div id="auth-check">
+    <div class="auth-content">
+      <div class="spinner"></div>
+      <div class="auth-text">🏥 Health App</div>
+      <div style="font-size: 14px; margin-top: 8px; opacity: 0.9;">Checking authentication...</div>
+    </div>
+  </div>
+
+  <!-- App Loading Screen -->
+  <div id="app-loading" style="display: none;">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <div class="auth-text">Loading your dashboard...</div>
+      <div class="progress">
+        <div class="progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Smart authentication check
+    (function() {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        // Not logged in - redirect to fast login immediately
+        console.log('No token found, redirecting to login...');
+        setTimeout(() => {
+          window.location.href = 'fast-login.html';
+        }, 500);
+      } else {
+        // Logged in - load Flutter app
+        console.log('Token found, loading Flutter app...');
+        setTimeout(() => {
+          document.getElementById('auth-check').style.display = 'none';
+          document.getElementById('app-loading').style.display = 'flex';
+
+          // Load Flutter app
+          setTimeout(() => {
+            document.getElementById('app-loading').classList.add('hidden');
+            setTimeout(() => {
+              document.getElementById('app-loading').style.display = 'none';
+            }, 500);
+          }, 2000);
+        }, 500);
+      }
+    })();
+  </script>
+
+  <!-- Flutter App -->
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

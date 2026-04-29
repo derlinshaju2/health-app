@@ -1,90 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Health App Test</title>
+    <title>API Test Page</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        h1 {
-            color: #667eea;
-            text-align: center;
-        }
-        .status {
-            text-align: center;
-            padding: 20px;
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .feature {
-            padding: 15px;
-            margin: 10px 0;
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            border-radius: 4px;
-        }
-        .button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        .test-section { margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px; }
+        button { padding: 15px 30px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 5px; background: #667eea; color: white; }
+        .result { margin: 15px 0; padding: 15px; border-radius: 5px; display: none; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .loading { background: #fff3cd; color: #856404; }
+        input { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; }
+        .env-info { background: #e7f3ff; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🏥 health_app</h1>
-        <div class="status">
-            ✅ App is successfully deployed to Vercel!
+        <h1>🔍 API Diagnostic Tool</h1>
+        <p>This will test your application step by step.</p>
+
+        <div class="env-info">
+            <h3>📍 Environment:</h3>
+            <div id="envInfo"></div>
         </div>
 
-        <h2>🎯 Features</h2>
-        <div class="feature">
-            <strong>🏠 Home Tab</strong> - BMI tracking, health metrics, personalized diet plans
-        </div>
-        <div class="feature">
-            <strong>🤖 Predict Tab</strong> - AI disease risk analysis and predictions
-        </div>
-        <div class="feature">
-            <strong>🥗 Diet Tab</strong> - Meal planning and nutrition tracking
-        </div>
-        <div class="feature">
-            <strong>🧘 Yoga Tab</strong> - 30-day consistency progress tracking
-        </div>
-        <div class="feature">
-            <strong>👤 Profile Tab</strong> - User health statistics and settings
+        <div class="test-section">
+            <h3>Test 1: API Health Check</h3>
+            <button onclick="testHealth()">Test API Health</button>
+            <div id="healthResult" class="result"></div>
         </div>
 
-        <h2>🔗 Quick Links</h2>
-        <a href="https://your-awesome-project.vercel.app" class="button">🚀 Launch health_app</a>
-        <a href="https://vercel.com/derlin-shajus-projects/your-awesome-project" class="button">📊 View Dashboard</a>
+        <div class="test-section">
+            <h3>Test 2: Register</h3>
+            <input type="email" id="regEmail" placeholder="Email">
+            <input type="password" id="regPassword" placeholder="Password">
+            <input type="text" id="regName" placeholder="Name">
+            <button onclick="testRegister()">Test Registration</button>
+            <div id="regResult" class="result"></div>
+        </div>
 
-        <div class="status">
-            <strong>Status:</strong> All systems operational! 🟢
+        <div class="test-section">
+            <h3>Test 3: Login</h3>
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPassword" placeholder="Password">
+            <button onclick="testLogin()">Test Login</button>
+            <div id="loginResult" class="result"></div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('envInfo').innerHTML = `
+            <strong>URL:</strong> ${window.location.href}<br>
+            <strong>Health API:</strong> /api/health<br>
+            <strong>Register API:</strong> /api/auth/register<br>
+            <strong>Login API:</strong> /api/auth/login
+        `;
+
+        function showResult(id, msg, type) {
+            const el = document.getElementById(id);
+            el.style.display = 'block';
+            el.className = 'result ' + type;
+            el.innerHTML = msg;
+        }
+
+        async function testHealth() {
+            showResult('healthResult', 'Testing...', 'loading');
+            try {
+                const res = await fetch('/api/health');
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showResult('healthResult', '✅ API is working! Database: ' + (data.database || 'Unknown'), 'success');
+                } else {
+                    showResult('healthResult', '⚠️ ' + JSON.stringify(data), 'error');
+                }
+            } catch (error) {
+                showResult('healthResult', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        async function testRegister() {
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const name = document.getElementById('regName').value;
+            
+            if (!email || !password || !name) {
+                showResult('regResult', '❌ Fill all fields', 'error');
+                return;
+            }
+
+            showResult('regResult', 'Testing...', 'loading');
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, profile: { name } })
+                });
+                const data = await res.json();
+                
+                if (data.status === 'success') {
+                    showResult('regResult', '✅ Registration successful! User: ' + data.data.user.email, 'success');
+                    // Auto-fill login
+                    document.getElementById('loginEmail').value = email;
+                    document.getElementById('loginPassword').value = password;
+                } else {
+                    showResult('regResult', '⚠️ ' + data.message, 'error');
+                }
+            } catch (error) {
+                showResult('regResult', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showResult('loginResult', '❌ Fill all fields', 'error');
+                return;
+            }
+
+            showResult('loginResult', 'Testing...', 'loading');
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                
+                if (data.status === 'success') {
+                    showResult('loginResult', '✅ Login successful! Welcome: ' + data.data.user.name, 'success');
+                    localStorage.setItem('auth_token', data.data.token);
+                } else {
+                    showResult('loginResult', '⚠️ ' + data.message, 'error');
+                }
+            } catch (error) {
+                showResult('loginResult', '❌ Error: ' + error.message, 'error');
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Registration</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        button { background: #4CAF50; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%; }
+        button:hover { background: #45a049; }
+        #result { margin-top: 20px; padding: 15px; border-radius: 5px; background: #f0f0f0; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        pre { background: #fff; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🏥 Test Backend Registration</h1>
+    <p>This form tests if the backend API is working from your browser:</p>
+
+    <form onsubmit="register(event)">
+        <input id="email" placeholder="Email (e.g., test@example.com)" type="email" required>
+        <input id="password" placeholder="Password (e.g., test123)" type="password" required>
+        <button type="submit">Register Account</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+    function register(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const resultDiv = document.getElementById('result');
+
+        resultDiv.innerHTML = '<p>⏳ Registering...</p>';
+
+        fetch('http://localhost:5000/api/auth/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email, password})
+        })
+        .then(response => response.json())
+        .then(data => {
+            resultDiv.className = 'success';
+            resultDiv.innerHTML = `
+                <h3>✅ Registration Successful!</h3>
+                <p><strong>Email:</strong> ${data.data.user.email}</p>
+                <p><strong>User ID:</strong> ${data.data.user.id}</p>
+                <p><strong>Token:</strong> ${data.data.token.substring(0, 20)}...</p>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+        })
+        .catch(error => {
+            resultDiv.className = 'error';
+            resultDiv.innerHTML = `
+                <h3>❌ Registration Failed!</h3>
+                <p><strong>Error:</strong> ${error.message}</p>
+                <p>Check browser console (F12) for more details.</p>
+            `;
+        });
+    }
+    </script>
+</body>
+</html>

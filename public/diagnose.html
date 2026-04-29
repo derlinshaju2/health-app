@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Backend Connection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        button { padding: 15px 30px; background: #667eea; color: white; border: none; border-radius: 5px; margin: 10px; cursor: pointer; }
+        button:hover { background: #764ba2; }
+        .result { margin: 20px 0; padding: 15px; border-radius: 5px; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+        .loading { background: #fff3cd; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Backend Diagnosis Tool</h1>
+
+        <div class="test-section">
+            <h3>Test 1: Backend Health Check</h3>
+            <button onclick="testBackendHealth()">Test Backend</button>
+            <div id="healthResult" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Test 2: MongoDB Connection</h3>
+            <button onclick="testMongoConnection()">Test Database</button>
+            <div id="mongoResult" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Test 3: Registration API</h3>
+            <button onclick="testRegistration()">Test Registration</button>
+            <div id="registrationResult" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Test 4: Login API</h3>
+            <button onclick="testLogin()">Test Login</button>
+            <div id="loginResult" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Check Your Configuration</h3>
+            <p><strong>Current URL:</strong> <span id="currentUrl"></span></p>
+            <p><strong>API Base:</strong> <span id="apiBase"></span></p>
+            <p><strong>Environment:</strong> <span id="environment"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Detect environment
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const API_BASE = isLocalhost ? 'http://localhost:5000' : '';
+
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('apiBase').textContent = API_BASE || '(relative paths on production)';
+        document.getElementById('environment').textContent = isLocalhost ? 'Local Development' : 'Production (Vercel)';
+
+        function showResult(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = 'result ' + type;
+            element.innerHTML = message;
+        }
+
+        async function testBackendHealth() {
+            showResult('healthResult', 'Testing...', 'loading');
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                showResult('healthResult', '✅ Backend is running!<br>Message: ' + data.message, 'success');
+            } catch (error) {
+                showResult('healthResult', '❌ Backend not reachable!<br>Error: ' + error.message, 'error');
+            }
+        }
+
+        async function testMongoConnection() {
+            showResult('mongoResult', 'Testing MongoDB connection...', 'loading');
+            try {
+                // Try to register a test user to test MongoDB
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'mongo-test-' + Date.now() + '@example.com',
+                        password: 'test123',
+                        profile: { name: 'Mongo Test' }
+                    })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success' || data.message.includes('already exists')) {
+                    showResult('mongoResult', '✅ MongoDB is connected!<br>Database is working properly.', 'success');
+                } else {
+                    showResult('mongoResult', '⚠️ MongoDB response unexpected:<br>' + JSON.stringify(data), 'error');
+                }
+            } catch (error) {
+                showResult('mongoResult', '❌ MongoDB connection failed!<br>Error: ' + error.message, 'error');
+            }
+        }
+
+        async function testRegistration() {
+            showResult('registrationResult', 'Testing registration...', 'loading');
+            const testEmail = 'test-' + Date.now() + '@example.com';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: testEmail,
+                        password: 'test123',
+                        profile: { name: 'Test User' }
+                    })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('registrationResult', '✅ Registration works!<br>User created successfully.<br>Email: ' + testEmail, 'success');
+                } else {
+                    showResult('registrationResult', '⚠️ Registration returned:<br>' + JSON.stringify(data), 'error');
+                }
+            } catch (error) {
+                showResult('registrationResult', '❌ Registration failed!<br>Error: ' + error.message, 'error');
+            }
+        }
+
+        async function testLogin() {
+            showResult('loginResult', 'Testing login...', 'loading');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'testuser@example.com',
+                        password: 'test123'
+                    })
+                });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    showResult('loginResult', '✅ Login works!<br>Token: ' + data.data.token.substring(0, 30) + '...', 'success');
+                } else {
+                    showResult('loginResult', '⚠️ Login returned:<br>' + JSON.stringify(data), 'error');
+                }
+            } catch (error) {
+                showResult('loginResult', '❌ Login failed!<br>Error: ' + error.message, 'error');
+            }
+        }
+
+        // Auto-run health check on load
+        window.onload = function() {
+            testBackendHealth();
+        };
+    </script>
+</body>
+</html>

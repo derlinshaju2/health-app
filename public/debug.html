@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        button { padding: 15px 30px; margin: 10px; font-size: 16px; cursor: pointer; border: none; border-radius: 5px; }
+        .test1 { background: #28a745; color: white; }
+        .test2 { background: #007bff; color: white; }
+        .test3 { background: #dc3545; color: white; }
+        .result { margin: 20px 0; padding: 15px; border-radius: 5px; display: none; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Login Debug Page</h1>
+        <p>This page will help identify the exact problem:</p>
+
+        <h3>Step 1: Test JavaScript</h3>
+        <button class="test1" onclick="testJavaScript()">Test if JavaScript Works</button>
+        <div id="jsResult" class="result"></div>
+
+        <h3>Step 2: Test API Connection</h3>
+        <button class="test2" onclick="testAPI()">Test Backend API</button>
+        <div id="apiResult" class="result"></div>
+
+        <h3>Step 3: Test Registration</h3>
+        <input type="email" id="testEmail" placeholder="Enter email">
+        <input type="password" id="testPassword" placeholder="Enter password">
+        <input type="text" id="testName" placeholder="Enter name">
+        <button class="test3" onclick="testRegistration()">Test Registration API</button>
+        <div id="regResult" class="result"></div>
+
+        <h3>Step 4: Test Login</h3>
+        <button class="test3" onclick="testLogin()">Test Login API</button>
+        <div id="loginResult" class="result"></div>
+
+        <h3>Current Environment Info:</h3>
+        <div id="envInfo" style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 10px;"></div>
+    </div>
+
+    <script>
+        // API configuration
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:5000'
+            : '';
+
+        // Show environment info
+        document.getElementById('envInfo').innerHTML = `
+            <strong>Current URL:</strong> ${window.location.href}<br>
+            <strong>Hostname:</strong> ${window.location.hostname}<br>
+            <strong>API Base:</strong> "${API_BASE}" (empty means relative paths)<br>
+            <strong>Expected Login API:</strong> ${API_BASE}/api/auth/login
+        `;
+
+        function showResult(elementId, message, isSuccess) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = 'result ' + (isSuccess ? 'success' : 'error');
+            element.innerHTML = message;
+        }
+
+        function testJavaScript() {
+            console.log('✅ JavaScript is working!');
+            alert('✅ JavaScript is working! Buttons are clickable!');
+            showResult('jsResult', '✅ SUCCESS: JavaScript is working perfectly!', true);
+        }
+
+        async function testAPI() {
+            console.log('Testing API connection to:', API_BASE + '/health');
+            showResult('apiResult', '⏳ Testing API connection...', false);
+
+            try {
+                const response = await fetch(API_BASE + '/health');
+                console.log('API Response status:', response.status);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('API Response data:', data);
+                    showResult('apiResult', `✅ SUCCESS: Backend is running!<br>Message: ${data.message}`, true);
+                } else {
+                    showResult('apiResult', `❌ ERROR: Backend responded with status ${response.status}`, false);
+                }
+            } catch (error) {
+                console.error('API Error:', error);
+                showResult('apiResult', `❌ ERROR: Cannot connect to backend<br>${error.message}<br><br><strong>This means your backend is not running!</strong>`, false);
+            }
+        }
+
+        async function testRegistration() {
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+            const name = document.getElementById('testName').value;
+
+            if (!email || !password || !name) {
+                showResult('regResult', '❌ Please fill all fields', false);
+                return;
+            }
+
+            console.log('Testing registration...');
+            showResult('regResult', '⏳ Testing registration...', false);
+
+            try {
+                const response = await fetch(API_BASE + '/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        profile: { name: name }
+                    })
+                });
+
+                console.log('Registration response status:', response.status);
+                const data = await response.json();
+                console.log('Registration response data:', data);
+
+                if (data.status === 'success') {
+                    showResult('regResult', `✅ SUCCESS: Registration works!<br>${data.message}`, true);
+                } else {
+                    showResult('regResult', `⚠️ API responded: ${data.message}`, false);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showResult('regResult', `❌ ERROR: ${error.message}`, false);
+            }
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+
+            if (!email || !password) {
+                showResult('loginResult', '❌ Please enter email and password', false);
+                return;
+            }
+
+            console.log('Testing login...');
+            showResult('loginResult', '⏳ Testing login...', false);
+
+            try {
+                const response = await fetch(API_BASE + '/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                console.log('Login response status:', response.status);
+                const data = await response.json();
+                console.log('Login response data:', data);
+
+                if (data.status === 'success') {
+                    showResult('loginResult', `✅ SUCCESS: Login works!<br>Token: ${data.data.token.substring(0, 30)}...`, true);
+                } else {
+                    showResult('loginResult', `⚠️ Login failed: ${data.message}`, false);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showResult('loginResult', `❌ ERROR: ${error.message}`, false);
+            }
+        }
+
+        // Auto-run JavaScript test
+        window.onload = function() {
+            console.log('Debug page loaded');
+            setTimeout(() => {
+                showResult('jsResult', '✅ Page loaded successfully! Click buttons to test.', true);
+            }, 500);
+        };
+    </script>
+</body>
+</html>

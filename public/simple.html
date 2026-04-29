@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Health App</title>
+    <style>
+        body { font-family: Arial; background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 400px; width: 100%; }
+        h1 { color: #667eea; text-align: center; margin-bottom: 30px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #e0e0e0; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 10px 0; }
+        button:hover { transform: translateY(-2px); }
+        .hidden { display: none; }
+        .result { padding: 15px; border-radius: 8px; margin: 15px 0; display: none; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="title">🏥 Health App</h1>
+
+        <!-- Login Form -->
+        <div id="loginForm">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">🚀 Login</button>
+            <button onclick="showRegister()" style="background: #6c757d;">➕ Create Account</button>
+            <div id="loginResult" class="result"></div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="hidden">
+            <input type="text" id="regName" placeholder="Full Name">
+            <input type="email" id="regEmail" placeholder="Email">
+            <input type="password" id="regPassword" placeholder="Password">
+            <button onclick="register()">➕ Create Account</button>
+            <button onclick="showLogin()" style="background: #6c757d;">← Back to Login</button>
+            <div id="registerResult" class="result"></div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="hidden">
+            <h2>👋 Welcome!</h2>
+            <p id="userInfo"></p>
+            <button onclick="logout()" style="background: #dc3545;">🚪 Logout</button>
+            <div style="margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <h3>✅ You're logged in!</h3>
+                <p>Your account is working perfectly.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showResult(id, msg, type) {
+            const el = document.getElementById(id);
+            el.style.display = 'block';
+            el.className = 'result ' + type;
+            el.textContent = msg;
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+        }
+
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        function showDashboard(user) {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('userInfo').textContent = 'Email: ' + user.email;
+        }
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showResult('loginResult', 'Please fill all fields', 'error');
+                return;
+            }
+
+            showResult('loginResult', 'Logging in...', 'error');
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    localStorage.setItem('auth_token', data.data.token);
+                    showResult('loginResult', 'Login successful!', 'success');
+                    showDashboard(data.data.user);
+                } else {
+                    showResult('loginResult', data.message, 'error');
+                }
+            } catch (error) {
+                showResult('loginResult', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function register() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            if (!name || !email || !password) {
+                showResult('registerResult', 'Please fill all fields', 'error');
+                return;
+            }
+
+            showResult('registerResult', 'Creating account...', 'error');
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, profile: { name } })
+                });
+                const data = await res.json();
+
+                if (data.status === 'success') {
+                    showResult('registerResult', 'Account created! Please login.', 'success');
+                    setTimeout(showLogin, 2000);
+                } else {
+                    showResult('registerResult', data.message, 'error');
+                }
+            } catch (error) {
+                showResult('registerResult', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('auth_token');
+            location.reload();
+        }
+
+        // Check if already logged in
+        window.onload = function() {
+            const token = localStorage.getItem('auth_token');
+            if (token) {
+                // For now, just show login screen
+                // In a real app, you'd validate the token
+            }
+        };
+    </script>
+</body>
+</html>
