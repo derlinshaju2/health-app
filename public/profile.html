@@ -510,6 +510,30 @@
       color: var(--success);
     }
 
+    .header-logout-btn {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+      border: 2px solid var(--danger);
+      border-radius: 10px;
+      color: var(--danger);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .header-logout-btn:hover {
+      background: var(--danger);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
     /* Form */
     .form-grid {
       display: grid;
@@ -703,6 +727,43 @@
     .danger-btn:hover {
       background: var(--danger);
       color: white;
+    }
+
+    /* Action Buttons */
+    .action-btn {
+      padding: 14px 24px;
+      border: 2px solid var(--border);
+      background: white;
+      color: var(--dark);
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: inherit;
+    }
+
+    .action-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+
+    .logout-action-btn {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+    }
+
+    .logout-action-btn:hover {
+      background: var(--danger);
+      color: white;
+      border-color: var(--danger);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     }
 
     /* Stats Grid */
@@ -971,6 +1032,10 @@
             <div class="profile-email" id="profileDisplayEmail">Loading...</div>
             <div class="profile-member">✨ Premium Member Since <span id="memberSince">Jan 2024</span></div>
           </div>
+          <button class="header-logout-btn" onclick="logout()">
+            <span>🚪</span>
+            <span>Logout</span>
+          </button>
         </div>
 
         <div class="stats-grid">
@@ -1224,6 +1289,24 @@
             <button class="danger-btn" onclick="deactivateAccount()">⏸️ Deactivate Account</button>
             <button class="danger-btn" onclick="confirmDeleteAccount()">🗑️ Delete Account</button>
           </div>
+        </div>
+      </div>
+
+      <!-- Account Actions -->
+      <div class="card full-width" style="margin-top: 24px;">
+        <h3 class="card-title">
+          <div class="card-icon">🔑</div>
+          Account Actions
+        </h3>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button class="action-btn logout-action-btn" onclick="logout()">
+            <span>🚪</span>
+            <span>Logout</span>
+          </button>
+          <button class="action-btn" onclick="window.location.href='dashboard-main.html'">
+            <span>🏠</span>
+            <span>Back to Dashboard</span>
+          </button>
         </div>
       </div>
     </div>
