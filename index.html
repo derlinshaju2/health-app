@@ -9,6 +9,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="auth.js"></script>
+  <script>
+    // Immediate authentication check - redirect to login if not authenticated
+    (function() {
+      try {
+        const userSession = localStorage.getItem('healthAIUser');
+        if (!userSession) {
+          window.location.href = 'login.html';
+          return;
+        }
+        const user = JSON.parse(userSession);
+        if (!user || !user.isAuthenticated) {
+          window.location.href = 'login.html';
+          return;
+        }
+      } catch (error) {
+        window.location.href = 'login.html';
+      }
+    })();
+  </script>
   <style>
     * {
       margin: 0;
@@ -3102,13 +3121,6 @@
   </div>
 
   <script>
-    // Authentication check - redirect to login if not authenticated
-    if (!isAuthenticated()) {
-      // Store current page for redirect after login
-      sessionStorage.setItem('redirectAfterLogin', window.location.pathname);
-      window.location.href = 'login.html';
-    }
-
     // Update greeting based on time
     function updateGreeting() {
       const hour = new Date().getHours();
