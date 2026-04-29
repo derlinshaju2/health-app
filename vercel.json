@@ -3,6 +3,10 @@
   "public": true,
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/login.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
