@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diet & Nutrition - HealthAI</title>
+  <title>Health Analytics - HealthAI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * {
       margin: 0;
@@ -194,13 +195,17 @@
     /* Grid */
     .content-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
       margin-bottom: 30px;
     }
 
     .full-width {
       grid-column: 1 / -1;
+    }
+
+    .half-width {
+      grid-column: span 2;
     }
 
     /* Cards */
@@ -237,135 +242,39 @@
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
     }
 
-    /* Form */
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group.full {
-      grid-column: 1 / -1;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      font-size: 15px;
-      font-family: inherit;
-      transition: all 0.3s ease;
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-    }
-
-    .form-select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%2364748b' stroke-width='2' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 16px center;
-      padding-right: 40px;
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-    }
-
-    /* Results */
-    .results-grid {
+    /* Stat Cards */
+    .stat-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
-      margin-bottom: 20px;
     }
 
-    .risk-card {
+    .stat-card {
       background: var(--light);
       border-radius: 16px;
       padding: 20px;
       text-align: center;
       transition: all 0.3s ease;
-      border: 2px solid transparent;
     }
 
-    .risk-card:hover {
+    .stat-card:hover {
       transform: translateY(-4px);
-      border-color: var(--primary);
+      box-shadow: 0 8px 24px var(--shadow);
     }
 
-    .risk-card.low {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-      border-color: var(--success);
-    }
-
-    .risk-card.medium {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
-      border-color: var(--warning);
-    }
-
-    .risk-card.high {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
-      border-color: var(--danger);
-    }
-
-    .risk-icon {
+    .stat-icon {
       font-size: 32px;
       margin-bottom: 12px;
     }
 
-    .risk-disease {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 8px;
-    }
-
-    .risk-score {
+    .stat-value {
       font-size: 28px;
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 4px;
     }
 
-    .risk-label {
+    .stat-label {
       font-size: 12px;
       color: var(--gray);
       font-weight: 600;
@@ -373,16 +282,157 @@
       letter-spacing: 0.5px;
     }
 
-    /* Recommendations */
-    .recommendation-list {
+    .stat-change {
+      font-size: 12px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    .stat-change.positive {
+      color: var(--success);
+    }
+
+    .stat-change.negative {
+      color: var(--danger);
+    }
+
+    /* Chart Container */
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin-bottom: 20px;
+    }
+
+    /* Time Range Selector */
+    .time-range-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+
+    .time-range-btn {
+      padding: 8px 16px;
+      border: 2px solid var(--border);
+      background: white;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .time-range-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .time-range-btn.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+    }
+
+    /* Progress List */
+    .progress-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .progress-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .progress-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .progress-content {
+      flex: 1;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .progress-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .progress-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    /* Health Score */
+    .health-score-container {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .health-score {
+      font-size: 72px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .health-score-label {
+      font-size: 14px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .health-score-description {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+
+    /* Activity List */
+    .activity-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
 
-    .recommendation-item {
+    .activity-item {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 12px;
       padding: 16px;
       background: var(--light);
@@ -390,29 +440,43 @@
       transition: all 0.3s ease;
     }
 
-    .recommendation-item:hover {
+    .activity-item:hover {
       background: white;
       box-shadow: 0 4px 12px var(--shadow);
       transform: translateX(4px);
     }
 
-    .recommendation-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 20px;
       flex-shrink: 0;
     }
 
-    .recommendation-text {
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-title {
       font-size: 14px;
+      font-weight: 600;
       color: var(--dark);
-      line-height: 1.6;
+      margin-bottom: 2px;
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .activity-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
     }
 
     /* Mobile Menu */
@@ -439,9 +503,13 @@
     }
 
     /* Responsive */
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
       .content-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .half-width {
+        grid-column: span 1;
       }
     }
 
@@ -465,7 +533,7 @@
         justify-content: center;
       }
 
-      .form-grid {
+      .content-grid {
         grid-template-columns: 1fr;
       }
 
@@ -478,6 +546,10 @@
       .header-actions {
         width: 100%;
         justify-content: space-between;
+      }
+
+      .chart-container {
+        height: 250px;
       }
     }
 
@@ -500,6 +572,9 @@
     .card:nth-child(1) { animation-delay: 0.1s; }
     .card:nth-child(2) { animation-delay: 0.2s; }
     .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
   </style>
 </head>
 <body>
@@ -521,7 +596,7 @@
           <span class="nav-link-icon">🔮</span>
           <span>Disease Prediction</span>
         </a>
-        <a href="diet-tracking.html" class="nav-link active">
+        <a href="diet-tracking.html" class="nav-link">
           <span class="nav-link-icon">🥗</span>
           <span>Diet & Nutrition</span>
         </a>
@@ -537,7 +612,7 @@
           <span class="nav-link-icon">🧘</span>
           <span>Yoga & Exercise</span>
         </a>
-        <a href="analytics.html" class="nav-link">
+        <a href="analytics.html" class="nav-link active">
           <span class="nav-link-icon">📈</span>
           <span>Analytics</span>
         </a>
@@ -554,190 +629,243 @@
     <!-- Header -->
     <header class="header">
       <div>
-        <h1 class="page-title">Diet & Nutrition 🥗</h1>
-        <p class="page-subtitle">Track your meals, calories, and nutritional intake</p>
+        <h1 class="page-title">Health Analytics 📈</h1>
+        <p class="page-subtitle">Track your health trends and progress over time</p>
       </div>
       <div class="header-actions">
-        <button class="header-btn" onclick="window.location.href='dashboard.html'">
-          ←
-          <span>Back to Dashboard</span>
+        <button class="header-btn" onclick="exportData('pdf')">
+          📄
+          <span>Export PDF</span>
         </button>
-        <button class="header-btn primary" onclick="saveMealLog()">
-          💾
-          <span>Save Meals</span>
+        <button class="header-btn primary" onclick="exportData('csv')">
+          📊
+          <span>Export CSV</span>
         </button>
       </div>
     </header>
 
+    <!-- Health Score Overview -->
+    <div class="card full-width" style="margin-bottom: 24px;">
+      <h3 class="card-title">
+        <div class="card-icon">🎯</div>
+        Overall Health Score
+      </h3>
+      <div style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+        <div class="health-score-container">
+          <div class="health-score">85</div>
+          <div class="health-score-label">Excellent Health</div>
+          <div class="health-score-description">Based on your recent health metrics and activities</div>
+        </div>
+        <div style="flex: 1; min-width: 300px;">
+          <div class="time-range-selector">
+            <button class="time-range-btn active" onclick="updateTimeRange('week')">Week</button>
+            <button class="time-range-btn" onclick="updateTimeRange('month')">Month</button>
+            <button class="time-range-btn" onclick="updateTimeRange('quarter')">Quarter</button>
+            <button class="time-range-btn" onclick="updateTimeRange('year')">Year</button>
+          </div>
+          <div class="chart-container" style="height: 200px;">
+            <canvas id="healthScoreChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Content Grid -->
     <div class="content-grid">
-      <!-- Meal Logging Form -->
-      <div class="card">
+      <!-- Weight Trends Chart -->
+      <div class="card half-width">
         <h3 class="card-title">
-          <div class="card-icon">📝</div>
-          Log Today's Meals
+          <div class="card-icon">⚖️</div>
+          Weight Trends
         </h3>
-
-        <form id="mealForm" onsubmit="logMeal(event)">
-          <div class="form-group">
-            <label class="form-label">Meal Type</label>
-            <select class="form-input form-select" id="mealType" required>
-              <option value="">Select meal</option>
-              <option value="breakfast">🌅 Breakfast</option>
-              <option value="lunch">☀️ Lunch</option>
-              <option value="dinner">🌙 Dinner</option>
-              <option value="snack">🍎 Snack</option>
-            </select>
+        <div class="chart-container">
+          <canvas id="weightChart"></canvas>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 16px;">
+          <div>
+            <div style="font-size: 12px; color: var(--gray);">Current Weight</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--primary);">72.5 kg</div>
           </div>
-
-          <div class="form-group">
-            <label class="form-label">Food Item</label>
-            <input type="text" class="form-input" id="foodItem" placeholder="e.g., Grilled Chicken Salad" required>
+          <div>
+            <div style="font-size: 12px; color: var(--gray);">Goal Weight</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--success);">70 kg</div>
           </div>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Calories</label>
-              <input type="number" class="form-input" id="calories" placeholder="kcal" min="0" required>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Protein (g)</label>
-              <input type="number" class="form-input" id="protein" placeholder="g" min="0">
-            </div>
+          <div>
+            <div style="font-size: 12px; color: var(--gray);">Progress</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--warning);">-2.5 kg</div>
           </div>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Carbs (g)</label>
-              <input type="number" class="form-input" id="carbs" placeholder="g" min="0">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Fats (g)</label>
-              <input type="number" class="form-input" id="fats" placeholder="g" min="0">
-            </div>
-          </div>
-
-          <button type="submit" class="submit-btn">
-            ➕
-            <span>Add Meal</span>
-          </button>
-        </form>
+        </div>
       </div>
 
-      <!-- Today's Nutrition Summary -->
+      <!-- Calorie Trends Chart -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">🔥</div>
+          Calorie Trends
+        </h3>
+        <div class="chart-container">
+          <canvas id="calorieChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Key Statistics -->
       <div class="card">
         <h3 class="card-title">
           <div class="card-icon">📊</div>
-          Today's Nutrition
+          Key Statistics
         </h3>
-
-        <div style="text-align: center; margin-bottom: 24px;">
-          <div style="font-size: 48px; font-weight: 700; color: var(--primary); margin-bottom: 8px;" id="totalCalories">1,850</div>
-          <div style="font-size: 14px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px;">Total Calories</div>
-          <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Target: 2,000 kcal</div>
-        </div>
-
-        <div class="progress-section">
-          <div class="progress-item">
-            <div class="progress-header">
-              <span class="progress-label">🔥 Calories</span>
-              <span class="progress-value" id="caloriesProgress">1,850/2,000 kcal</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 92.5%"></div>
-            </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-icon">🏃</div>
+            <div class="stat-value">8,547</div>
+            <div class="stat-label">Daily Steps</div>
+            <div class="stat-change positive">↑ 12% vs last week</div>
           </div>
-
-          <div class="progress-item">
-            <div class="progress-header">
-              <span class="progress-label">💪 Protein</span>
-              <span class="progress-value" id="proteinProgress">85g/120g</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 70%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
-            </div>
+          <div class="stat-card">
+            <div class="stat-icon">😴</div>
+            <div class="stat-value">7.2h</div>
+            <div class="stat-label">Avg Sleep</div>
+            <div class="stat-change positive">↑ 5% vs last week</div>
           </div>
-
-          <div class="progress-item">
-            <div class="progress-header">
-              <span class="progress-label">🍞 Carbs</span>
-              <span class="progress-value" id="carbsProgress">180g/200g</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 90%; background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%);"></div>
-            </div>
+          <div class="stat-card">
+            <div class="stat-icon">💧</div>
+            <div class="stat-value">2.1L</div>
+            <div class="stat-label">Water Intake</div>
+            <div class="stat-change positive">↑ 8% vs last week</div>
           </div>
-
-          <div class="progress-item">
-            <div class="progress-header">
-              <span class="progress-label">🥑 Fats</span>
-              <span class="progress-value" id="fatsProgress">45g/65g</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 69%; background: linear-gradient(90deg, #ec4899 0%, #db2777 100%);"></div>
-            </div>
+          <div class="stat-card">
+            <div class="stat-icon">🧘</div>
+            <div class="stat-value">5</div>
+            <div class="stat-label">Yoga Sessions</div>
+            <div class="stat-change positive">↑ 2 vs last week</div>
           </div>
         </div>
       </div>
 
-      <!-- Water Intake Tracker -->
-      <div class="card">
+      <!-- Progress Towards Goals -->
+      <div class="card half-width">
         <h3 class="card-title">
-          <div class="card-icon">💧</div>
-          Water Intake
+          <div class="card-icon">🎯</div>
+          Progress Towards Goals
         </h3>
+        <div class="progress-list">
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">⚖️</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Weight Loss Goal</span>
+                <span class="progress-value">2.5/5 kg</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%;"></div>
+              </div>
+            </div>
+          </div>
 
-        <div style="text-align: center; margin-bottom: 24px;">
-          <div style="font-size: 64px; font-weight: 700; color: #3b82f6; margin-bottom: 8px;" id="waterCount">6</div>
-          <div style="font-size: 14px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px;">Glasses of Water</div>
-          <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Goal: 8 glasses</div>
-        </div>
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🏃</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Daily Steps Goal</span>
+                <span class="progress-value">8,547/10,000</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+              </div>
+            </div>
+          </div>
 
-        <div style="display: flex; gap: 12px; justify-content: center;">
-          <button onclick="addWater(-1)" style="padding: 12px 24px; border: 2px solid var(--border); background: white; border-radius: 12px; font-size: 18px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--danger)'" onmouseout="this.style.borderColor='var(--border)'">
-            ➖
-          </button>
-          <button onclick="addWater(1)" style="padding: 12px 24px; border: none; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border-radius: 12px; font-size: 18px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(59, 130, 246, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(59, 130, 246, 0.3)'">
-            ➕ Add Glass
-          </button>
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">💧</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Water Intake Goal</span>
+                <span class="progress-value">2.1/3 L</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 70%; background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">🧘</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Weekly Exercise Goal</span>
+                <span class="progress-value">5/7 days</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 71%; background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%);"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">😴</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Sleep Goal</span>
+                <span class="progress-value">7.2/8 hours</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 90%; background: linear-gradient(90deg, #ec4899 0%, #db2777 100%);"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Meal History -->
+      <!-- Recent Activities -->
       <div class="card full-width">
         <h3 class="card-title">
           <div class="card-icon">📋</div>
-          Today's Meals
+          Recent Health Activities
         </h3>
-
-        <div class="activity-list" id="mealList">
+        <div class="activity-list">
           <div class="activity-item">
-            <div class="activity-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">🌅</div>
+            <div class="activity-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🏃</div>
             <div class="activity-content">
-              <div class="activity-title">Oatmeal with Fruits</div>
-              <div class="activity-time">Breakfast • 8:30 AM</div>
+              <div class="activity-title">Completed Morning Yoga Session</div>
+              <div class="activity-time">Today, 6:30 AM • 45 minutes</div>
             </div>
-            <div class="activity-value">420 kcal</div>
+            <div class="activity-value">+180 cal</div>
           </div>
 
           <div class="activity-item">
-            <div class="activity-icon" style="background: linear-gradient(135deg, #34d399 0%, #10b981 100%);">☀️</div>
+            <div class="activity-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">💧</div>
             <div class="activity-content">
-              <div class="activity-title">Grilled Chicken Salad</div>
-              <div class="activity-time">Lunch • 1:00 PM</div>
+              <div class="activity-title">Reached Daily Water Goal</div>
+              <div class="activity-time">Today, 4:15 PM</div>
+            </div>
+            <div class="activity-value">3L ✓</div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">⚖️</div>
+            <div class="activity-content">
+              <div class="activity-title">Logged Weight</div>
+              <div class="activity-time">Today, 7:00 AM</div>
+            </div>
+            <div class="activity-value">72.5 kg</div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">🥗</div>
+            <div class="activity-content">
+              <div class="activity-title">Logged Healthy Lunch</div>
+              <div class="activity-time">Today, 1:00 PM</div>
             </div>
             <div class="activity-value">550 kcal</div>
           </div>
 
           <div class="activity-item">
-            <div class="activity-icon" style="background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);">🍎</div>
+            <div class="activity-icon" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">🔮</div>
             <div class="activity-content">
-              <div class="activity-title">Apple with Almonds</div>
-              <div class="activity-time">Snack • 4:00 PM</div>
+              <div class="activity-title">Health Risk Assessment Completed</div>
+              <div class="activity-time">Yesterday, 9:00 PM</div>
             </div>
-            <div class="activity-value">180 kcal</div>
+            <div class="activity-value">Low Risk ✓</div>
           </div>
         </div>
       </div>
@@ -766,80 +894,156 @@
       }
     });
 
-    // Diet tracking variables
-    let totalCalories = 1850;
-    let totalProtein = 85;
-    let totalCarbs = 180;
-    let totalFats = 45;
-    let waterGlasses = 6;
+    // Time range selector
+    function updateTimeRange(range) {
+      document.querySelectorAll('.time-range-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      // Update chart data based on range
+      updateCharts(range);
+    }
 
-    // Log meal function
-    function logMeal(event) {
-      event.preventDefault();
+    // Initialize Charts
+    let healthScoreChart, weightChart, calorieChart;
 
-      const mealType = document.getElementById('mealType').value;
-      const foodItem = document.getElementById('foodItem').value;
-      const calories = parseInt(document.getElementById('calories').value);
-      const protein = parseInt(document.getElementById('protein').value) || 0;
-      const carbs = parseInt(document.getElementById('carbs').value) || 0;
-      const fats = parseInt(document.getElementById('fats').value) || 0;
+    function initCharts() {
+      // Health Score Chart
+      const healthScoreCtx = document.getElementById('healthScoreChart').getContext('2d');
+      healthScoreChart = new Chart(healthScoreCtx, {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'Health Score',
+            data: [82, 84, 83, 85, 86, 84, 85],
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              min: 70,
+              max: 100
+            }
+          }
+        }
+      });
 
-      // Update totals
-      totalCalories += calories;
-      totalProtein += protein;
-      totalCarbs += carbs;
-      totalFats += fats;
+      // Weight Chart
+      const weightCtx = document.getElementById('weightChart').getContext('2d');
+      weightChart = new Chart(weightCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            label: 'Weight (kg)',
+            data: [75, 74.5, 74, 73.2, 72.8, 72.5],
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
 
-      // Update display
-      document.getElementById('totalCalories').textContent = totalCalories.toLocaleString();
-      document.getElementById('caloriesProgress').textContent = `${totalCalories}/2,000 kcal`;
-      document.getElementById('proteinProgress').textContent = `${totalProtein}g/120g`;
-      document.getElementById('carbsProgress').textContent = `${totalCarbs}g/200g`;
-      document.getElementById('fatsProgress').textContent = `${totalFats}g/65g`;
+      // Calorie Chart
+      const calorieCtx = document.getElementById('calorieChart').getContext('2d');
+      calorieChart = new Chart(calorieCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'Calories',
+            data: [1850, 2100, 1920, 2050, 1880, 2200, 1950],
+            backgroundColor: [
+              'rgba(99, 102, 241, 0.8)',
+              'rgba(139, 92, 246, 0.8)',
+              'rgba(236, 72, 153, 0.8)',
+              'rgba(245, 158, 11, 0.8)',
+              'rgba(16, 185, 129, 0.8)',
+              'rgba(59, 130, 246, 0.8)',
+              'rgba(239, 68, 68, 0.8)'
+            ],
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
 
-      // Add to meal list
-      const mealList = document.getElementById('mealList');
-      const mealIcons = {
-        breakfast: '🌅',
-        lunch: '☀️',
-        dinner: '🌙',
-        snack: '🍎'
+    function updateCharts(range) {
+      // Update chart data based on time range
+      const rangeData = {
+        week: {
+          healthScore: [82, 84, 83, 85, 86, 84, 85],
+          weight: [72.8, 72.7, 72.6, 72.5, 72.5, 72.4, 72.5],
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        month: {
+          healthScore: [80, 81, 82, 83, 84, 85],
+          weight: [73, 72.8, 72.6, 72.4, 72.3, 72.5],
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6']
+        },
+        quarter: {
+          healthScore: [78, 80, 82],
+          weight: [74, 73, 72.5],
+          labels: ['Month 1', 'Month 2', 'Month 3']
+        },
+        year: {
+          healthScore: [75, 78, 80, 82, 84, 85],
+          weight: [76, 75, 74, 73.5, 73, 72.5],
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+        }
       };
 
-      const mealColors = {
-        breakfast: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
-        lunch: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
-        dinner: 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)',
-        snack: 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)'
-      };
-
-      const newMeal = document.createElement('div');
-      newMeal.className = 'activity-item';
-      newMeal.innerHTML = `
-        <div class="activity-icon" style="background: ${mealColors[mealType]};">${mealIcons[mealType]}</div>
-        <div class="activity-content">
-          <div class="activity-title">${foodItem}</div>
-          <div class="activity-time">${mealType.charAt(0).toUpperCase() + mealType.slice(1)} • Just now</div>
-        </div>
-        <div class="activity-value">${calories} kcal</div>
-      `;
-
-      mealList.insertBefore(newMeal, mealList.firstChild);
-
-      // Reset form
-      document.getElementById('mealForm').reset();
-      alert('Meal logged successfully!');
+      const data = rangeData[range];
+      healthScoreChart.data.labels = data.labels;
+      healthScoreChart.data.datasets[0].data = data.healthScore;
+      healthScoreChart.update();
     }
 
-    // Water intake function
-    function addWater(amount) {
-      waterGlasses = Math.max(0, Math.min(12, waterGlasses + amount));
-      document.getElementById('waterCount').textContent = waterGlasses;
+    // Export functions
+    function exportData(format) {
+      if (format === 'pdf') {
+        alert('Exporting health analytics as PDF...\n\nThis would generate a comprehensive PDF report with all charts and statistics.');
+      } else if (format === 'csv') {
+        alert('Exporting health data as CSV...\n\nThis would download a CSV file with all your health metrics for further analysis.');
+      }
     }
 
-    function saveMealLog() {
-      alert('Meal log saved successfully!');
-    }
+    // Initialize charts on load
+    document.addEventListener('DOMContentLoaded', initCharts);
   </script>
 </body>
 </html>
