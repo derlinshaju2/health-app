@@ -127,6 +127,70 @@
       text-align: center;
     }
 
+    /* Sidebar User Profile */
+    .sidebar-user-profile {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.2);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .sidebar-user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+
+    .sidebar-user-info {
+      margin-bottom: 12px;
+    }
+
+    .sidebar-user-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .sidebar-user-email {
+      font-size: 12px;
+      color: var(--gray);
+      word-break: break-all;
+    }
+
+    .sidebar-logout-btn {
+      width: 100%;
+      padding: 10px 16px;
+      background: white;
+      border: 2px solid var(--danger);
+      border-radius: 10px;
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+    }
+
+    .sidebar-logout-btn:hover {
+      background: var(--danger);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
     /* Main Content */
     .main-content {
       margin-left: 280px;
@@ -701,6 +765,22 @@
           <span>Profile</span>
         </a>
       </div>
+
+      <!-- User Profile Section -->
+      <div class="nav-section">
+        <div class="nav-section-title">My Account</div>
+        <div class="sidebar-user-profile">
+          <div class="sidebar-user-avatar" id="sidebarAvatar">👤</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+            <div class="sidebar-user-email" id="sidebarUserEmail">Loading...</div>
+          </div>
+          <button class="sidebar-logout-btn" onclick="logout()">
+            <span>🚪</span>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
     </nav>
   </aside>
 
@@ -739,9 +819,9 @@
             <div class="profile-avatar-edit" onclick="changeAvatar()">✏️</div>
           </div>
           <div class="profile-info">
-            <div class="profile-name">John Doe</div>
-            <div class="profile-email">john.doe@example.com</div>
-            <div class="profile-member">✨ Premium Member Since Jan 2024</div>
+            <div class="profile-name" id="profileDisplayName">Loading...</div>
+            <div class="profile-email" id="profileDisplayEmail">Loading...</div>
+            <div class="profile-member">✨ Premium Member Since <span id="memberSince">Jan 2024</span></div>
           </div>
         </div>
 
@@ -767,17 +847,17 @@
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label">First Name</label>
-              <input type="text" class="form-input" id="firstName" value="John" required>
+              <input type="text" class="form-input" id="firstName" value="" required>
             </div>
 
             <div class="form-group">
               <label class="form-label">Last Name</label>
-              <input type="text" class="form-input" id="lastName" value="Doe" required>
+              <input type="text" class="form-input" id="lastName" value="" required>
             </div>
 
             <div class="form-group full">
               <label class="form-label">Email Address</label>
-              <input type="email" class="form-input" id="email" value="john.doe@example.com" required>
+              <input type="email" class="form-input" id="email" value="" required>
             </div>
 
             <div class="form-group">
@@ -1007,6 +1087,109 @@
   </button>
 
   <script>
+    // Check authentication on page load
+    function checkAuthentication() {
+      const user = JSON.parse(localStorage.getItem('healthAIUser'));
+      if (!user || !user.isAuthenticated) {
+        // User is not authenticated, redirect to login
+        window.location.href = 'index.html';
+        return false;
+      }
+      return true;
+    }
+
+    // Run authentication check immediately
+    if (!checkAuthentication()) {
+      // Redirecting to login...
+    } else {
+      // User is authenticated, load profile data
+      document.addEventListener('DOMContentLoaded', function() {
+        loadUserProfileData();
+      });
+      // Also try immediately in case DOM is already ready
+      if (document.readyState === 'loading') {
+        // DOM is still loading, the event listener will handle it
+      } else {
+        // DOM is ready, load now
+        loadUserProfileData();
+      }
+    }
+
+    // Load user profile data from localStorage
+    function loadUserProfileData() {
+      console.log('Loading profile data...');
+      const user = JSON.parse(localStorage.getItem('healthAIUser'));
+      console.log('User data for profile:', user);
+
+      if (user) {
+        const fullName = `${user.firstName || 'User'} ${user.lastName || ''}`.trim();
+        const firstInitial = user.firstName ? user.firstName.charAt(0).toUpperCase() : '👤';
+
+        // Update profile display
+        const profileDisplayName = document.getElementById('profileDisplayName');
+        if (profileDisplayName) {
+          profileDisplayName.textContent = fullName;
+        }
+
+        const profileDisplayEmail = document.getElementById('profileDisplayEmail');
+        if (profileDisplayEmail) {
+          profileDisplayEmail.textContent = user.email || 'No email';
+        }
+
+        // Update member since date
+        const memberSince = document.getElementById('memberSince');
+        if (memberSince && user.createdAt) {
+          const createdDate = new Date(user.createdAt);
+          memberSince.textContent = createdDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        }
+
+        // Update form fields
+        const firstNameField = document.getElementById('firstName');
+        if (firstNameField && user.firstName) {
+          firstNameField.value = user.firstName;
+        }
+
+        const lastNameField = document.getElementById('lastName');
+        if (lastNameField && user.lastName) {
+          lastNameField.value = user.lastName;
+        }
+
+        const emailField = document.getElementById('email');
+        if (emailField && user.email) {
+          emailField.value = user.email;
+          emailField.readOnly = true; // Make email read-only
+        }
+
+        // Update sidebar profile
+        const sidebarAvatar = document.getElementById('sidebarAvatar');
+        if (sidebarAvatar) {
+          sidebarAvatar.textContent = firstInitial;
+        }
+
+        const sidebarUserName = document.getElementById('sidebarUserName');
+        if (sidebarUserName) {
+          sidebarUserName.textContent = fullName;
+        }
+
+        const sidebarUserEmail = document.getElementById('sidebarUserEmail');
+        if (sidebarUserEmail) {
+          sidebarUserEmail.textContent = user.email || 'No email';
+        }
+
+        console.log('Profile data loaded successfully for:', fullName);
+      } else {
+        console.error('No user data found in localStorage');
+      }
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('healthAIUser');
+      window.location.href = 'index.html';
+    }
+
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebar');
