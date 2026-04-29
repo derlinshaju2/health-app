@@ -18,21 +18,17 @@
       --primary: #6366f1;
       --primary-dark: #4f46e5;
       --secondary: #8b5cf6;
-      --accent: #ec4899;
       --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
       --dark: #1e293b;
       --light: #f8fafc;
       --gray: #64748b;
       --border: #e2e8f0;
       --shadow: rgba(0, 0, 0, 0.08);
-      --shadow-lg: rgba(0, 0, 0, 0.12);
     }
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       color: var(--dark);
       display: flex;
@@ -41,264 +37,136 @@
       padding: 20px;
     }
 
-    /* Container */
-    .auth-container {
+    .login-container {
       width: 100%;
-      max-width: 480px;
+      max-width: 400px;
       background: white;
-      border-radius: 32px;
-      padding: 48px;
-      box-shadow: 0 20px 60px var(--shadow-lg);
-      animation: fadeIn 0.6s ease;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Logo */
-    .auth-logo {
+    .logo {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 30px;
     }
 
-    .auth-logo-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 24px;
+    .logo-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 40px;
-      box-shadow: 0 12px 24px rgba(99, 102, 241, 0.3);
-      margin-bottom: 16px;
+      font-size: 30px;
+      margin-bottom: 15px;
     }
 
-    .auth-logo-text {
-      font-size: 32px;
+    .logo-text {
+      font-size: 28px;
       font-weight: 700;
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
     }
 
-    .auth-logo-subtitle {
-      font-size: 14px;
-      color: var(--gray);
-    }
-
-    /* Title */
-    .auth-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--dark);
+    .welcome-text {
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 30px;
     }
 
-    .auth-subtitle {
-      font-size: 14px;
-      color: var(--gray);
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .auth-link {
-      color: var(--primary);
-      text-decoration: none;
+    .welcome-text h1 {
+      font-size: 22px;
       font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 5px;
     }
 
-    .auth-link:hover {
-      text-decoration: underline;
+    .welcome-text p {
+      font-size: 14px;
+      color: var(--gray);
     }
 
-    /* Form */
     .form-group {
       margin-bottom: 20px;
     }
 
-    .form-label {
+    .form-group label {
       display: block;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 500;
       color: var(--dark);
       margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
-    .form-input {
+    .form-group input {
       width: 100%;
-      padding: 16px 20px;
+      padding: 14px 16px;
       border: 2px solid var(--border);
-      border-radius: 16px;
+      border-radius: 12px;
       font-size: 15px;
       font-family: inherit;
       transition: all 0.3s ease;
     }
 
-    .form-input:focus {
+    .form-group input:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
     }
 
-    .form-options {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .remember-me {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--dark);
-      cursor: pointer;
-    }
-
-    .remember-me input {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-      accent-color: var(--primary);
-    }
-
-    .forgot-password {
-      font-size: 14px;
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .forgot-password:hover {
-      text-decoration: underline;
-    }
-
-    /* Submit Button */
-    .submit-btn {
+    .login-btn {
       width: 100%;
-      padding: 18px;
+      padding: 16px;
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
       border: none;
-      border-radius: 16px;
+      border-radius: 12px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 24px;
+      margin-top: 10px;
     }
 
-    .submit-btn:hover {
+    .login-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
     }
 
-    .submit-btn:disabled {
+    .login-btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
     }
 
-    /* Divider */
-    .auth-divider {
-      display: flex;
-      align-items: center;
-      margin: 24px 0;
-      color: var(--gray);
-      font-size: 14px;
-    }
-
-    .auth-divider::before,
-    .auth-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .auth-divider span {
-      padding: 0 16px;
-    }
-
-    /* Social Login */
-    .social-login {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .social-btn {
-      flex: 1;
-      padding: 14px;
-      border: 2px solid var(--border);
-      background: white;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .social-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px var(--shadow);
-    }
-
-    .social-btn.google {
-      background: white;
-    }
-
-    .social-btn.apple {
-      background: var(--dark);
-      color: white;
-      border-color: var(--dark);
-    }
-
-    .social-btn.apple:hover {
-      background: #1e293b;
-      border-color: #1e293b;
-      color: white;
-    }
-
-    /* Signup Link */
-    .auth-signup {
+    .signup-link {
       text-align: center;
+      margin-top: 25px;
       font-size: 14px;
       color: var(--gray);
     }
 
-    /* Error Message */
+    .signup-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
     .error-message {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
-      border: 2px solid var(--danger);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 24px;
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
       display: none;
+      font-size: 14px;
+      color: #991b1b;
     }
 
     .error-message.show {
@@ -312,18 +180,6 @@
       75% { transform: translateX(10px); }
     }
 
-    .error-icon {
-      font-size: 20px;
-      margin-right: 8px;
-    }
-
-    .error-text {
-      color: var(--danger);
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    /* Loading Spinner */
     .spinner {
       width: 20px;
       height: 20px;
@@ -331,55 +187,44 @@
       border-top-color: white;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
+      display: inline-block;
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
-    /* Responsive */
     @media (max-width: 480px) {
-      .auth-container {
-        padding: 32px 24px;
-      }
-
-      .auth-title {
-        font-size: 24px;
-      }
-
-      .social-login {
-        flex-direction: column;
+      .login-container {
+        padding: 30px 20px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="auth-container">
+  <div class="login-container">
     <!-- Logo -->
-    <div class="auth-logo">
-      <div class="auth-logo-icon">🏥</div>
-      <div class="auth-logo-text">HealthAI</div>
-      <div class="auth-logo-subtitle">Your Personal Health Companion</div>
+    <div class="logo">
+      <div class="logo-icon">🏥</div>
+      <div class="logo-text">HealthAI</div>
     </div>
 
-    <!-- Title -->
-    <h1 class="auth-title">Welcome Back! 👋</h1>
-    <p class="auth-subtitle">Enter your credentials to access your health dashboard</p>
+    <!-- Welcome Text -->
+    <div class="welcome-text">
+      <h1>Welcome Back!</h1>
+      <p>Sign in to access your health dashboard</p>
+    </div>
 
     <!-- Error Message -->
-    <div class="error-message" id="errorMessage">
-      <span class="error-icon">❌</span>
-      <span class="error-text" id="errorText"></span>
-    </div>
+    <div class="error-message" id="errorMessage"></div>
 
     <!-- Login Form -->
     <form id="loginForm" onsubmit="handleLogin(event)">
       <div class="form-group">
-        <label class="form-label" for="email">Email Address</label>
+        <label for="email">Email Address</label>
         <input
           type="email"
           id="email"
-          class="form-input"
           placeholder="Enter your email"
           required
           autocomplete="email"
@@ -387,81 +232,36 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="password">Password</label>
+        <label for="password">Password</label>
         <input
           type="password"
           id="password"
-          class="form-input"
           placeholder="Enter your password"
           required
           autocomplete="current-password"
         >
       </div>
 
-      <div class="form-options">
-        <label class="remember-me">
-          <input type="checkbox" id="rememberMe">
-          <span>Remember me</span>
-        </label>
-        <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot password?</a>
-      </div>
-
-      <button type="submit" class="submit-btn" id="loginBtn">
-        <span>Sign In</span>
-        <span>→</span>
+      <button type="submit" class="login-btn" id="loginBtn">
+        Sign In
       </button>
     </form>
 
-    <!-- Divider -->
-    <div class="auth-divider">
-      <span>Or continue with</span>
-    </div>
-
-    <!-- Social Login -->
-    <div class="social-login">
-      <button class="social-btn google" onclick="handleGoogleLogin()">
-        <span>🇬</span>
-        <span>Google</span>
-      </button>
-      <button class="social-btn apple" onclick="handleAppleLogin()">
-        <span>🍎</span>
-        <span>Apple</span>
-      </button>
-    </div>
-
     <!-- Signup Link -->
-    <p class="auth-signup">
-      Don't have an account?
-      <a href="signup.html" class="auth-link">Sign up</a>
-    </p>
+    <div class="signup-link">
+      Don't have an account? <a href="signup.html">Sign up</a>
+    </div>
   </div>
 
   <script>
-    // Check if user is already logged in
-    function checkAuth() {
-      const user = JSON.parse(localStorage.getItem('healthAIUser'));
-      if (user && user.isAuthenticated) {
-        // Commented out auto-redirect to always show login page first
-        // window.location.href = 'dashboard-main.html';
-        console.log('User is already logged in, but showing login page first');
-        return true;
-      }
-      return false;
-    }
-
-    // Check auth on page load - but always show login form
-    checkAuth();
-
     // Handle login form submission
     async function handleLogin(event) {
       event.preventDefault();
 
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
-      const rememberMe = document.getElementById('rememberMe').checked;
       const loginBtn = document.getElementById('loginBtn');
       const errorMessage = document.getElementById('errorMessage');
-      const errorText = document.getElementById('errorText');
 
       // Basic validation
       if (!email || !password) {
@@ -479,7 +279,7 @@
       loginBtn.innerHTML = '<div class="spinner"></div>';
 
       try {
-        // Simulate API call (replace with actual API call)
+        // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1500));
 
         // Get registered users from localStorage
@@ -489,17 +289,17 @@
         const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
         if (!user) {
-          showError('No account found with this email. Please sign up.');
+          showError('No account found with this email');
           loginBtn.disabled = false;
-          loginBtn.innerHTML = '<span>Sign In</span><span>→</span>';
+          loginBtn.innerHTML = 'Sign In';
           return;
         }
 
-        // Check password (in real app, use proper password hashing)
+        // Check password
         if (user.password !== password) {
-          showError('Incorrect password. Please try again.');
+          showError('Incorrect password');
           loginBtn.disabled = false;
-          loginBtn.innerHTML = '<span>Sign In</span><span>→</span>';
+          loginBtn.innerHTML = 'Sign In';
           return;
         }
 
@@ -510,8 +310,7 @@
           firstName: user.firstName,
           lastName: user.lastName,
           isAuthenticated: true,
-          loginTime: new Date().toISOString(),
-          rememberMe: rememberMe
+          loginTime: new Date().toISOString()
         };
 
         // Store user session
@@ -521,11 +320,10 @@
         user.lastLogin = new Date().toISOString();
         localStorage.setItem('healthAIUsers', JSON.stringify(users));
 
-        // Show success message
+        // Show success and redirect
         loginBtn.innerHTML = '✓ Success!';
         loginBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
 
-        // Redirect to dashboard
         setTimeout(() => {
           window.location.href = 'dashboard-main.html';
         }, 1000);
@@ -534,36 +332,19 @@
         console.error('Login error:', error);
         showError('An error occurred. Please try again.');
         loginBtn.disabled = false;
-        loginBtn.innerHTML = '<span>Sign In</span><span>→</span>';
+        loginBtn.innerHTML = 'Sign In';
       }
-    }
-
-    // Handle Google login (placeholder)
-    function handleGoogleLogin() {
-      alert('🔑 Google login integration would be implemented here.\n\nThis requires Firebase Auth or Google OAuth setup.');
-    }
-
-    // Handle Apple login (placeholder)
-    function handleAppleLogin() {
-      alert('🍎 Apple login integration would be implemented here.\n\nThis requires Sign in with Apple setup.');
-    }
-
-    // Show forgot password
-    function showForgotPassword() {
-      alert('🔑 Password reset functionality would be implemented here.\n\nThis would send a password reset link to your email.');
     }
 
     // Show error message
     function showError(message) {
       const errorMessage = document.getElementById('errorMessage');
-      const errorText = document.getElementById('errorText');
-
-      errorText.textContent = message;
+      errorMessage.textContent = message;
       errorMessage.classList.add('show');
 
       setTimeout(() => {
         errorMessage.classList.remove('show');
-      }, 5000);
+      }, 4000);
     }
 
     // Validate email format
@@ -571,9 +352,6 @@
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
     }
-
-    // Add demo account hint
-    console.log('💡 Demo Account: john.doe@example.com / password123');
 
     // Create demo account if it doesn't exist
     (function() {
@@ -586,15 +364,14 @@
           lastName: 'Doe',
           email: 'john.doe@example.com',
           password: 'password123',
-          gender: 'male',
-          dateOfBirth: '1990-01-15',
-          createdAt: new Date().toISOString(),
-          lastLogin: null
+          createdAt: new Date().toISOString()
         });
         localStorage.setItem('healthAIUsers', JSON.stringify(users));
-        console.log('✅ Demo account created!');
       }
     })();
+
+    // Demo credentials in console
+    console.log('Demo: john.doe@example.com / password123');
   </script>
 </body>
 </html>
