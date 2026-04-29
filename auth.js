@@ -8,7 +8,7 @@ const AUTH_CONFIG = {
   sessionKey: 'healthAIUser',
   usersKey: 'healthAIUsers',
   loginPage: 'login.html',
-  dashboardPage: 'dashboard.html',
+  dashboardPage: 'index.html',
   sessionTimeout: 24 * 60 * 60 * 1000 // 24 hours
 };
 
