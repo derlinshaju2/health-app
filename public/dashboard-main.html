@@ -136,177 +136,68 @@
       text-align: center;
     }
 
-    /* Profile Dropdown in Header */
-    .profile-dropdown {
-      position: relative;
-    }
-
-    .profile-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 16px;
-      background: white;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      min-width: 200px;
-    }
-
-    .profile-btn:hover {
-      border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
-    }
-
-    .profile-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      color: white;
-      font-weight: 600;
-    }
-
-    .profile-info {
-      flex: 1;
-      text-align: left;
-    }
-
-    .profile-name {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--dark);
-    }
-
-    .profile-role {
-      font-size: 12px;
-      color: var(--gray);
-    }
-
-    .dropdown-arrow {
-      font-size: 10px;
-      color: var(--gray);
-      transition: transform 0.3s ease;
-    }
-
-    .profile-btn:hover .dropdown-arrow {
-      transform: rotate(180deg);
-    }
-
-    .dropdown-content {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      background: white;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-      min-width: 280px;
-      z-index: 1000;
-      animation: slideDown 0.3s ease;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .dropdown-header {
+    /* Sidebar User Profile */
+    .sidebar-user-profile {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.2);
+      border-radius: 16px;
       padding: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
     }
 
-    .dropdown-avatar {
-      width: 48px;
-      height: 48px;
+    .sidebar-user-avatar {
+      width: 50px;
+      height: 50px;
       border-radius: 12px;
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 24px;
-      color: white;
-      font-weight: 600;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
     }
 
-    .dropdown-user-info {
-      flex: 1;
+    .sidebar-user-info {
+      margin-bottom: 12px;
     }
 
-    .dropdown-user-name {
+    .sidebar-user-name {
       font-size: 15px;
       font-weight: 600;
       color: var(--dark);
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
-    .dropdown-user-email {
-      font-size: 13px;
+    .sidebar-user-email {
+      font-size: 12px;
       color: var(--gray);
+      word-break: break-all;
     }
 
-    .dropdown-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0;
-    }
-
-    .dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      color: var(--dark);
-      text-decoration: none;
-      font-size: 14px;
-      transition: all 0.2s ease;
-    }
-
-    .dropdown-item:hover {
-      background: var(--light);
-    }
-
-    .dropdown-item span:first-child {
-      font-size: 16px;
-    }
-
-    .dropdown-logout-btn {
+    .sidebar-logout-btn {
       width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
+      padding: 10px 16px;
+      background: white;
+      border: 2px solid var(--danger);
+      border-radius: 10px;
       color: var(--danger);
-      background: none;
-      border: none;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: left;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       font-family: inherit;
     }
 
-    .dropdown-logout-btn:hover {
-      background: #fee2e2;
-    }
-
-    .dropdown-logout-btn span:first-child {
-      font-size: 16px;
+    .sidebar-logout-btn:hover {
+      background: var(--danger);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     }
 
     /* Main Content */
@@ -1332,6 +1223,22 @@
           <span>Profile</span>
         </a>
       </div>
+
+      <!-- User Profile Section -->
+      <div class="nav-section">
+        <div class="nav-section-title">My Account</div>
+        <div class="sidebar-user-profile">
+          <div class="sidebar-user-avatar" id="sidebarAvatar">👤</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebarUserName">Loading...</div>
+            <div class="sidebar-user-email" id="sidebarUserEmail">Loading...</div>
+          </div>
+          <button class="sidebar-logout-btn" onclick="logout()">
+            <span>🚪</span>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
     </nav>
   </aside>
 
@@ -1342,41 +1249,6 @@
       <div>
         <h1 class="page-title" id="welcomeTitle">Welcome back! 👋</h1>
         <p class="page-subtitle" id="welcomeSubtitle">Your complete health overview at a glance</p>
-      </div>
-
-      <!-- User Profile Dropdown -->
-      <div class="profile-dropdown">
-        <button class="profile-btn" onclick="toggleProfileMenu()">
-          <div class="profile-avatar" id="headerAvatar">👤</div>
-          <div class="profile-info">
-            <div class="profile-name" id="headerUserName">Loading...</div>
-            <div class="profile-role">View Profile</div>
-          </div>
-          <span class="dropdown-arrow">▼</span>
-        </button>
-        <div class="dropdown-content" id="profileDropdown" style="display: none;">
-          <div class="dropdown-header">
-            <div class="dropdown-avatar" id="dropdownAvatar">👤</div>
-            <div class="dropdown-user-info">
-              <div class="dropdown-user-name" id="dropdownUserName">Loading...</div>
-              <div class="dropdown-user-email" id="dropdownUserEmail">Loading...</div>
-            </div>
-          </div>
-          <div class="dropdown-divider"></div>
-          <a href="profile.html" class="dropdown-item">
-            <span>👤</span>
-            <span>My Profile</span>
-          </a>
-          <a href="#" class="dropdown-item">
-            <span>⚙️</span>
-            <span>Settings</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <button class="dropdown-logout-btn" onclick="logout(); return false;">
-            <span>🚪</span>
-            <span>Logout</span>
-          </button>
-        </div>
       </div>
     </header>
 
@@ -1730,46 +1602,29 @@
         const fullName = `${user.firstName || 'User'} ${user.lastName || ''}`.trim();
         const firstInitial = user.firstName ? user.firstName.charAt(0).toUpperCase() : '👤';
 
-        // Update header profile button
-        const headerAvatar = document.getElementById('headerAvatar');
-        if (headerAvatar) {
-          headerAvatar.textContent = firstInitial;
-          console.log('Updated header avatar to:', firstInitial);
+        // Update sidebar profile
+        const sidebarAvatar = document.getElementById('sidebarAvatar');
+        if (sidebarAvatar) {
+          sidebarAvatar.textContent = firstInitial;
+          console.log('Updated sidebar avatar to:', firstInitial);
         } else {
-          console.error('headerAvatar element not found');
+          console.error('sidebarAvatar element not found');
         }
 
-        const headerUserName = document.getElementById('headerUserName');
-        if (headerUserName) {
-          headerUserName.textContent = fullName;
-          console.log('Updated header username to:', fullName);
+        const sidebarUserName = document.getElementById('sidebarUserName');
+        if (sidebarUserName) {
+          sidebarUserName.textContent = fullName;
+          console.log('Updated sidebar username to:', fullName);
         } else {
-          console.error('headerUserName element not found');
+          console.error('sidebarUserName element not found');
         }
 
-        // Update dropdown content
-        const dropdownAvatar = document.getElementById('dropdownAvatar');
-        if (dropdownAvatar) {
-          dropdownAvatar.textContent = firstInitial;
-          console.log('Updated dropdown avatar to:', firstInitial);
+        const sidebarUserEmail = document.getElementById('sidebarUserEmail');
+        if (sidebarUserEmail) {
+          sidebarUserEmail.textContent = user.email || 'No email';
+          console.log('Updated sidebar email to:', user.email);
         } else {
-          console.error('dropdownAvatar element not found');
-        }
-
-        const dropdownUserName = document.getElementById('dropdownUserName');
-        if (dropdownUserName) {
-          dropdownUserName.textContent = fullName;
-          console.log('Updated dropdown username to:', fullName);
-        } else {
-          console.error('dropdownUserName element not found');
-        }
-
-        const dropdownUserEmail = document.getElementById('dropdownUserEmail');
-        if (dropdownUserEmail) {
-          dropdownUserEmail.textContent = user.email || 'No email';
-          console.log('Updated dropdown email to:', user.email);
-        } else {
-          console.error('dropdownUserEmail element not found');
+          console.error('sidebarUserEmail element not found');
         }
 
         // Update header greeting
@@ -1789,25 +1644,6 @@
         console.error('No user data found in localStorage');
       }
     }
-
-    // Toggle profile dropdown menu
-    function toggleProfileMenu() {
-      const dropdown = document.getElementById('profileDropdown');
-      if (dropdown) {
-        const isVisible = dropdown.style.display !== 'none';
-        dropdown.style.display = isVisible ? 'none' : 'block';
-      }
-    }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-      const dropdown = document.getElementById('profileDropdown');
-      const profileBtn = document.querySelector('.profile-btn');
-
-      if (dropdown && profileBtn && !profileBtn.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.style.display = 'none';
-      }
-    });
 
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -1834,4 +1670,4 @@
     }
   </script>
 </body>
-</html><!-- Force redeploy: 1777479550 -->
+</html>
