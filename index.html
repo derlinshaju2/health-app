@@ -8,9 +8,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // IMMEDIATE REDIRECT TO LOGIN PAGE FOR ALL USERS
+    // This ensures everyone sees login page first
+    if (!window.location.href.includes('login.html') && !window.location.href.includes('signup.html')) {
+      window.location.replace('login.html');
+    }
+  </script>
   <script src="auth.js"></script>
   <script>
-    // Immediate authentication check - redirect to login if not authenticated
+    // Secondary authentication check after auth.js loads
     (function() {
       try {
         const userSession = localStorage.getItem('healthAIUser');
