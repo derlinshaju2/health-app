@@ -1,14 +1,4 @@
 {
   "version": 2,
-  "public": true,
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/login.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
+  "public": true
 }
