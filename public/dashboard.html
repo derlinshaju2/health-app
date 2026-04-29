@@ -955,291 +955,57 @@
       </div>
     </div>
 
-    <!-- Main Dashboard -->
-    <main class="dashboard-grid">
-      <!-- Today's Stats Overview -->
+    <!-- Quick Stats Overview -->
+    <main style="max-width: 900px; margin: 0 auto;">
       <div class="card card-full">
         <div class="card-header">
           <h2 class="card-title">
             <div class="card-icon">📊</div>
-            Today's Overview
+            Today's Quick Overview
           </h2>
-          <a href="#" class="card-action">View All →</a>
         </div>
 
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-icon">⚖️</div>
-            <div class="stat-value">72.5</div>
-            <div class="stat-label">Weight (kg)</div>
-            <div class="stat-change positive">↓ 0.5 kg</div>
+            <div class="stat-value">22.5</div>
+            <div class="stat-label">BMI</div>
+            <div class="stat-change positive">Normal Range</div>
           </div>
 
           <div class="stat-card">
             <div class="stat-icon">🔥</div>
-            <div class="stat-value">1,847</div>
-            <div class="stat-label">Calories</div>
-            <div class="stat-change positive">↑ 153 left</div>
+            <div class="stat-value">1,850</div>
+            <div class="stat-label">Calories Today</div>
+            <div class="stat-change positive">On Track</div>
           </div>
 
           <div class="stat-card">
             <div class="stat-icon">💧</div>
             <div class="stat-value">6/8</div>
-            <div class="stat-label">Water</div>
-            <div class="stat-change">75% of goal</div>
+            <div class="stat-label">Water Intake</div>
+            <div class="stat-change">75% of Goal</div>
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon">👟</div>
-            <div class="stat-value">8.2k</div>
-            <div class="stat-label">Steps</div>
-            <div class="stat-change positive">82% complete</div>
+            <div class="stat-icon">🧘</div>
+            <div class="stat-value">45min</div>
+            <div class="stat-label">Exercise</div>
+            <div class="stat-change positive">Great Progress</div>
           </div>
         </div>
       </div>
 
-      <!-- Log Today's Metrics -->
-      <div class="card">
-        <div class="card-header">
-          <h2 class="card-title">
-            <div class="card-icon">📝</div>
-            Log Today's Metrics
-          </h2>
-        </div>
-
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-header">
-              <span class="metric-icon">⚖️</span>
-              <span class="metric-name">Weight</span>
-            </div>
-            <input
-              type="number"
-              class="metric-input"
-              placeholder="Enter weight"
-              step="0.1"
-              min="0"
-              aria-label="Weight in kg"
-            >
-            <div class="metric-helper">Enter today's weight in kg</div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-header">
-              <span class="metric-icon">🔥</span>
-              <span class="metric-name">Calories</span>
-            </div>
-            <input
-              type="number"
-              class="metric-input"
-              placeholder="Enter calories"
-              min="0"
-              aria-label="Calories consumed"
-            >
-            <div class="metric-helper">Total calories consumed today</div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-header">
-              <span class="metric-icon">💧</span>
-              <span class="metric-name">Water</span>
-            </div>
-            <input
-              type="number"
-              class="metric-input"
-              placeholder="Glasses"
-              min="0"
-              max="20"
-              aria-label="Glasses of water"
-            >
-            <div class="metric-helper">Number of glasses consumed</div>
-          </div>
-        </div>
-
-        <button class="save-btn" onclick="saveMetrics()">
-          <span>💾</span>
-          <span>Save Today's Metrics</span>
-        </button>
-
-        <div class="progress-section">
-          <div class="progress-item">
-            <div class="progress-header">
-              <span class="progress-label">💧 Water Intake</span>
-              <span class="progress-value">6/8 glasses</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 75%"></div>
-            </div>
-          </div>
-
-          <div class="progress-item">
-            <div class="progress-header">
-              <span class="progress-label">🔥 Calories</span>
-              <span class="progress-value">1,847/2,000 kcal</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 92%"></div>
-            </div>
-          </div>
-
-          <div class="progress-item">
-            <div class="progress-header">
-              <span class="progress-label">👟 Steps</span>
-              <span class="progress-value">8,200/10,000</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: 82%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Recent Activity -->
-      <div class="card">
-        <div class="card-header">
-          <h2 class="card-title">
-            <div class="card-icon">🕐</div>
-            Recent Activity
-          </h2>
-        </div>
-
-        <div class="activity-list">
-          <div class="activity-item">
-            <div class="activity-icon" style="background: linear-gradient(135deg, #dbeafe 0%, #3b82f6 100%);">
-              💧
-            </div>
-            <div class="activity-content">
-              <div class="activity-title">Water intake logged</div>
-              <div class="activity-time">2 hours ago</div>
-            </div>
-            <div class="activity-value">+2 glasses</div>
-          </div>
-
-          <div class="activity-item">
-            <div class="activity-icon" style="background: linear-gradient(135deg, #fce7f3 0%, #ec4899 100%);">
-              🏃
-            </div>
-            <div class="activity-content">
-              <div class="activity-title">Morning walk completed</div>
-              <div class="activity-time">5 hours ago</div>
-            </div>
-            <div class="activity-value">+3,200 steps</div>
-          </div>
-
-          <div class="activity-item">
-            <div class="activity-icon" style="background: linear-gradient(135deg, #dcfce7 0%, #10b981 100%);">
-              🥗
-            </div>
-            <div class="activity-content">
-              <div class="activity-title">Healthy lunch logged</div>
-              <div class="activity-time">7 hours ago</div>
-            </div>
-            <div class="activity-value">450 kcal</div>
-          </div>
-
-          <div class="activity-item">
-            <div class="activity-icon" style="background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 100%);">
-              ⚖️
-            </div>
-            <div class="activity-content">
-              <div class="activity-title">Weight check-in</div>
-              <div class="activity-time">Yesterday</div>
-            </div>
-            <div class="activity-value">72.5 kg</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Health Trends Chart -->
-      <div class="card card-full">
-        <div class="card-header">
-          <h2 class="card-title">
-            <div class="card-icon">📈</div>
-            Health Trends
-          </h2>
-          <a href="#" class="card-action">View Details →</a>
-        </div>
-
-        <div class="chart-container">
-          <canvas id="trendsChart"></canvas>
-        </div>
-      </div>
-
-      <!-- Achievements -->
-      <div class="card">
-        <div class="card-header">
-          <h2 class="card-title">
-            <div class="card-icon">🏆</div>
-            Achievements
-          </h2>
-        </div>
-
-        <div class="achievements-grid">
-          <div class="achievement">
-            <div class="achievement-icon">🔥</div>
-            <div class="achievement-name">7 Day Streak</div>
-          </div>
-          <div class="achievement">
-            <div class="achievement-icon">💧</div>
-            <div class="achievement-name">Hydration Hero</div>
-          </div>
-          <div class="achievement">
-            <div class="achievement-icon">🏃</div>
-            <div class="achievement-name">Step Master</div>
-          </div>
-          <div class="achievement">
-            <div class="achievement-icon">⭐</div>
-            <div class="achievement-name">First Week</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Motivational Tip -->
-      <div class="card">
-        <div class="card-header">
-          <h2 class="card-title">
-            <div class="card-icon">💡</div>
-            Daily Tip
-          </h2>
-        </div>
-
-        <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
-          <p style="font-size: 14px; line-height: 1.7; color: var(--dark);">
-            <strong>Quick Tip:</strong> "Small consistent actions lead to big results. Try to walk for just 10 minutes after each meal to boost your metabolism and improve digestion! 🚶‍♂️"
-          </p>
-        </div>
+      <!-- Quick Access Message -->
+      <div style="text-align: center; margin-top: 30px; padding: 20px;">
+        <p style="font-size: 16px; color: var(--gray); margin-bottom: 16px;">
+          For detailed features, visit the specific module pages
+        </p>
+        <a href="index.html" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; transition: all 0.3s ease;">
+          ← Back to Module Icons
+        </a>
       </div>
     </main>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-      <a href="#" class="nav-item active">
-        <span class="nav-icon">🏠</span>
-        <span class="nav-label">Home</span>
-      </a>
-      <a href="#" class="nav-item">
-        <span class="nav-icon">📊</span>
-        <span class="nav-label">Stats</span>
-      </a>
-      <a href="#" class="nav-item">
-        <span class="nav-icon">🥗</span>
-        <span class="nav-label">Diet</span>
-      </a>
-      <a href="#" class="nav-item">
-        <span class="nav-icon">🧘</span>
-        <span class="nav-label">Yoga</span>
-      </a>
-      <a href="#" class="nav-item">
-        <span class="nav-icon">👤</span>
-        <span class="nav-label">Profile</span>
-      </a>
-    </nav>
-  </div>
-
-  <!-- Toast Notification -->
-  <div class="toast" id="toast">
-    <span>✅</span>
-    <span id="toast-message">Metrics saved successfully!</span>
   </div>
 
   <script>
@@ -1274,171 +1040,18 @@
       document.querySelector('.theme-toggle').textContent = '☀️';
     }
 
-    // Save metrics function
-    function saveMetrics() {
-      const inputs = document.querySelectorAll('.metric-input');
-      const button = document.querySelector('.save-btn');
-
-      button.classList.add('loading');
-      button.innerHTML = '<div class="spinner"></div><span>Saving...</span>';
-      button.style.opacity = '0.7';
-      button.style.pointerEvents = 'none';
-
-      setTimeout(() => {
-        button.classList.remove('loading');
-        button.innerHTML = '<span>💾</span><span>Save Today\'s Metrics</span>';
-        button.style.opacity = '1';
-        button.style.pointerEvents = 'auto';
-
-        showToast('Metrics saved successfully! Keep up the great work! 💪');
-
-        inputs.forEach(input => input.value = '');
-      }, 1500);
-    }
-
-    // Toast notification
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toast-message');
-
-      toastMessage.textContent = message;
-      toast.classList.add('show', 'success');
-
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 4000);
-    }
-
     // Logout function
     function logout() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = 'instant-login.html';
-    }
-
-    // Navigation active state
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        this.classList.add('active');
-      });
-    });
-
-    // Initialize chart
-    function initChart() {
-      const ctx = document.getElementById('trendsChart').getContext('2d');
-
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          datasets: [{
-            label: 'Weight (kg)',
-            data: [73, 72.8, 72.6, 72.7, 72.5, 72.4, 72.5],
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-            borderWidth: 3,
-            tension: 0.4,
-            fill: true,
-            pointBackgroundColor: '#6366f1',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 7
-          }, {
-            label: 'Calories',
-            data: [1800, 1950, 1750, 2000, 1847, 1900, 1850],
-            borderColor: '#8b5cf6',
-            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-            borderWidth: 3,
-            tension: 0.4,
-            fill: true,
-            pointBackgroundColor: '#8b5cf6',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 7
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: true,
-              position: 'top',
-              labels: {
-                font: {
-                  family: 'Poppins',
-                  size: 13,
-                  weight: '600'
-                },
-                usePointStyle: true,
-                padding: 20
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: false,
-              grid: {
-                color: 'rgba(0, 0, 0, 0.05)'
-              },
-              ticks: {
-                font: {
-                  family: 'Poppins',
-                  size: 11
-                }
-              }
-            },
-            x: {
-              grid: {
-                display: false
-              },
-              ticks: {
-                font: {
-                  family: 'Poppins',
-                  size: 11
-                }
-              }
-            }
-          },
-          interaction: {
-            intersect: false,
-            mode: 'index'
-          }
-        }
-      });
+      window.location.href = 'index.html';
     }
 
     // Initialize on load
     document.addEventListener('DOMContentLoaded', () => {
       updateGreeting();
-      initChart();
-
       setInterval(updateGreeting, 60000);
     });
-
-    // Add loading styles
-    const style = document.createElement('style');
-    style.textContent = `
-      .loading .spinner {
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-top: 3px solid white;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        animation: spin 1s linear infinite;
-        display: inline-block;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    `;
-    document.head.appendChild(style);
   </script>
 </body>
 </html>
