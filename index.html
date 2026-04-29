@@ -576,6 +576,27 @@
 
     // Add demo account hint
     console.log('💡 Demo Account: john.doe@example.com / password123');
+
+    // Create demo account if it doesn't exist
+    (function() {
+      const users = JSON.parse(localStorage.getItem('healthAIUsers') || '[]');
+      const demoExists = users.find(u => u.email === 'john.doe@example.com');
+      if (!demoExists) {
+        users.push({
+          id: 'demo_user_001',
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'john.doe@example.com',
+          password: 'password123',
+          gender: 'male',
+          dateOfBirth: '1990-01-15',
+          createdAt: new Date().toISOString(),
+          lastLogin: null
+        });
+        localStorage.setItem('healthAIUsers', JSON.stringify(users));
+        console.log('✅ Demo account created!');
+      }
+    })();
   </script>
 </body>
 </html>
