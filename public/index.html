@@ -2213,7 +2213,7 @@
     <header class="header">
       <div class="logo-section">
         <div class="logo">🏥</div>
-        <div class="app-name">Health App</div>
+        <div class="app-name">HealthAI</div>
       </div>
 
       <div class="user-section">
@@ -2251,120 +2251,72 @@
       <div class="welcome-card">
         <div class="welcome-content">
           <h1 class="welcome-title">Welcome to HealthAI 🎉</h1>
-          <p class="welcome-subtitle">Your complete health monitoring solution with AI-powered insights</p>
-          <div style="margin-top: 20px;">
-            <a href="dashboard.html" style="display: inline-block; padding: 14px 32px; background: white; color: var(--primary); text-decoration: none; border-radius: 12px; font-weight: 600; transition: all 0.3s ease;">
-              Go to Dashboard →
-            </a>
-          </div>
+          <p class="welcome-subtitle">Your complete health monitoring solution. Select a module below to get started.</p>
         </div>
       </div>
     </div>
 
-    <!-- Health Modules -->
-    <div style="margin-bottom: 30px;">
-      <h2 style="font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 20px;">Choose Your Health Module</h2>
-      <div class="dashboard-grid">
-        <!-- Dashboard Module -->
-        <div class="card" onclick="window.location.href='dashboard.html'" style="cursor: pointer;">
-          <div class="card-header">
-            <h2 class="card-title">
-              <div class="card-icon">📊</div>
-              Dashboard
-            </h2>
-          </div>
-          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
-            View your complete health overview with stats, trends, and activity timeline.
-          </p>
-          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
-            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Open Dashboard →</span>
-          </div>
+    <!-- Health Modules - Icon Grid -->
+    <div style="margin-bottom: 60px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-size: 32px; font-weight: 700; color: var(--dark); margin-bottom: 12px;">Your Health Modules</h2>
+        <p style="font-size: 16px; color: var(--gray);">Select a module to get started</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto;">
+        <!-- Dashboard Icon -->
+        <div onclick="window.location.href='dashboard.html'" style="background: white; border-radius: 24px; padding: 40px 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px var(--shadow); border: 2px solid transparent;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--primary)'; this.style.boxShadow='0 12px 40px var(--shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='transparent'; this.style.boxShadow='0 4px 24px var(--shadow)'">
+          <div style="font-size: 56px; margin-bottom: 16px;">📊</div>
+          <div style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">Dashboard</div>
+          <div style="font-size: 12px; color: var(--gray);">Health Overview</div>
         </div>
 
-        <!-- Disease Prediction Module -->
-        <div class="card" onclick="window.location.href='disease-prediction.html'" style="cursor: pointer;">
-          <div class="card-header">
-            <h2 class="card-title">
-              <div class="card-icon">🔮</div>
-              Disease Prediction
-            </h2>
-          </div>
-          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
-            AI-powered health risk assessment based on your metrics and lifestyle factors.
-          </p>
-          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
-            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Get Prediction →</span>
-          </div>
+        <!-- Disease Prediction Icon -->
+        <div onclick="window.location.href='disease-prediction.html'" style="background: white; border-radius: 24px; padding: 40px 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px var(--shadow); border: 2px solid transparent;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--primary)'; this.style.boxShadow='0 12px 40px var(--shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='transparent'; this.style.boxShadow='0 4px 24px var(--shadow)'">
+          <div style="font-size: 56px; margin-bottom: 16px;">🔮</div>
+          <div style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">Disease Prediction</div>
+          <div style="font-size: 12px; color: var(--gray);">AI Risk Assessment</div>
         </div>
 
-        <!-- Diet & Nutrition Module -->
-        <div class="card" onclick="window.location.href='diet-tracking.html'" style="cursor: pointer;">
-          <div class="card-header">
-            <h2 class="card-title">
-              <div class="card-icon">🥗</div>
-              Diet & Nutrition
-            </h2>
-          </div>
-          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
-            Track your meals, calories, macros, and get personalized nutrition recommendations.
-          </p>
-          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
-            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Track Diet →</span>
-          </div>
+        <!-- Diet & Nutrition Icon -->
+        <div onclick="window.location.href='diet-tracking.html'" style="background: white; border-radius: 24px; padding: 40px 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px var(--shadow); border: 2px solid transparent;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--primary)'; this.style.boxShadow='0 12px 40px var(--shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='transparent'; this.style.boxShadow='0 4px 24px var(--shadow)'">
+          <div style="font-size: 56px; margin-bottom: 16px;">🥗</div>
+          <div style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">Diet & Nutrition</div>
+          <div style="font-size: 12px; color: var(--gray);">Meal Tracking</div>
         </div>
 
-        <!-- BMI Calculator Module -->
-        <div class="card" onclick="window.location.href='bmi-calculator.html'" style="cursor: pointer;">
-          <div class="card-header">
-            <h2 class="card-title">
-              <div class="card-icon">⚖️</div>
-              BMI Calculator
-            </h2>
-          </div>
-          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
-            Calculate your Body Mass Index and get personalized health recommendations.
-          </p>
-          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
-            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Calculate BMI →</span>
-          </div>
+        <!-- BMI Calculator Icon -->
+        <div onclick="window.location.href='bmi-calculator.html'" style="background: white; border-radius: 24px; padding: 40px 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px var(--shadow); border: 2px solid transparent;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--primary)'; this.style.boxShadow='0 12px 40px var(--shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='transparent'; this.style.boxShadow='0 4px 24px var(--shadow)'">
+          <div style="font-size: 56px; margin-bottom: 16px;">⚖️</div>
+          <div style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">BMI Calculator</div>
+          <div style="font-size: 12px; color: var(--gray);">Body Mass Index</div>
         </div>
 
-        <!-- Yoga & Exercise Module -->
-        <div class="card" onclick="window.location.href='yoga-tracker.html'" style="cursor: pointer;">
-          <div class="card-header">
-            <h2 class="card-title">
-              <div class="card-icon">🧘</div>
-              Yoga & Exercise
-            </h2>
-          </div>
-          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
-            Track your yoga sessions, exercise routines, and monitor your fitness progress.
-          </p>
-          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
-            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Start Exercise →</span>
-          </div>
+        <!-- Yoga & Exercise Icon -->
+        <div onclick="window.location.href='yoga-tracker.html'" style="background: white; border-radius: 24px; padding: 40px 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px var(--shadow); border: 2px solid transparent;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--primary)'; this.style.boxShadow='0 12px 40px var(--shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='transparent'; this.style.boxShadow='0 4px 24px var(--shadow)'">
+          <div style="font-size: 56px; margin-bottom: 16px;">🧘</div>
+          <div style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">Yoga & Exercise</div>
+          <div style="font-size: 12px; color: var(--gray);">Fitness Tracking</div>
         </div>
 
-        <!-- Analytics Module -->
-        <div class="card" onclick="window.location.href='analytics.html'" style="cursor: pointer;">
-          <div class="card-header">
-            <h2 class="card-title">
-              <div class="card-icon">📈</div>
-              Health Analytics
-            </h2>
-          </div>
-          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
-            View detailed health trends, progress charts, and comprehensive insights.
-          </p>
-          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
-            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">View Analytics →</span>
-          </div>
+        <!-- Analytics Icon -->
+        <div onclick="window.location.href='analytics.html'" style="background: white; border-radius: 24px; padding: 40px 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px var(--shadow); border: 2px solid transparent;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--primary)'; this.style.boxShadow='0 12px 40px var(--shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='transparent'; this.style.boxShadow='0 4px 24px var(--shadow)'">
+          <div style="font-size: 56px; margin-bottom: 16px;">📈</div>
+          <div style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">Analytics</div>
+          <div style="font-size: 12px; color: var(--gray);">Health Trends</div>
+        </div>
+
+        <!-- Profile Icon -->
+        <div onclick="window.location.href='profile.html'" style="background: white; border-radius: 24px; padding: 40px 24px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px var(--shadow); border: 2px solid transparent;" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='var(--primary)'; this.style.boxShadow='0 12px 40px var(--shadow-lg)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='transparent'; this.style.boxShadow='0 4px 24px var(--shadow)'">
+          <div style="font-size: 56px; margin-bottom: 16px;">👤</div>
+          <div style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">Profile</div>
+          <div style="font-size: 12px; color: var(--gray);">Settings</div>
         </div>
       </div>
     </div>
 
-    <!-- Modules Grid -->
-    <main class="dashboard-grid">
+    <!-- Old Dashboard Content (Hidden) -->
+    <main class="dashboard-grid" style="display: none;">
       <!-- Today's Stats Overview -->
       <div class="card card-full">
         <div class="card-header">
