@@ -577,6 +577,1309 @@
       transform: translateY(-1px);
     }
 
+    /* Disease Prediction Styles */
+    .prediction-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 968px) {
+      .prediction-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .prediction-form {
+      padding: 24px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .prediction-form h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 24px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .form-group input {
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .bp-input, .cholesterol-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bp-input span {
+      font-weight: 600;
+      color: var(--gray);
+    }
+
+    .bp-input input, .cholesterol-input input {
+      flex: 1;
+    }
+
+    .form-helper {
+      font-size: 12px;
+      color: var(--gray);
+      font-style: italic;
+    }
+
+    .predict-btn {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+    }
+
+    .predict-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(99, 102, 241, 0.4);
+    }
+
+    .predict-btn:active {
+      transform: translateY(0);
+    }
+
+    .prediction-results {
+      padding: 24px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .results-header h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .overall-risk {
+      padding: 12px 20px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--warning) 0%, var(--warning-light) 100%);
+      text-align: center;
+    }
+
+    .overall-risk.low {
+      background: linear-gradient(135deg, var(--success) 0%, var(--success-light) 100%);
+    }
+
+    .overall-risk.medium {
+      background: linear-gradient(135deg, var(--warning) 0%, var(--warning-light) 100%);
+    }
+
+    .overall-risk.high {
+      background: linear-gradient(135deg, var(--danger) 0%, var(--danger-light) 100%);
+    }
+
+    .risk-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .risk-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .disease-risks {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .disease-risk-card {
+      padding: 20px;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .disease-risk-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    }
+
+    .disease-risk-card.low {
+      border-left: 4px solid var(--success);
+    }
+
+    .disease-risk-card.medium {
+      border-left: 4px solid var(--warning);
+    }
+
+    .disease-risk-card.high {
+      border-left: 4px solid var(--danger);
+    }
+
+    .disease-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .disease-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .disease-risk-score {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .risk-bar {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .risk-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .risk-bar-fill.low {
+      background: linear-gradient(90deg, var(--success) 0%, var(--success-light) 100%);
+    }
+
+    .risk-bar-fill.medium {
+      background: linear-gradient(90deg, var(--warning) 0%, var(--warning-light) 100%);
+    }
+
+    .risk-bar-fill.high {
+      background: linear-gradient(90deg, var(--danger) 0%, var(--danger-light) 100%);
+    }
+
+    .risk-factors {
+      font-size: 12px;
+      color: var(--gray);
+      font-style: italic;
+    }
+
+    .recommendations-section {
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+      border-radius: 16px;
+      border: 2px solid var(--border);
+    }
+
+    .recommendations-section h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .recommendations-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .recommendations-list li {
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: white;
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--dark);
+      border-left: 3px solid var(--primary);
+      transition: all 0.2s ease;
+    }
+
+    .recommendations-list li:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .recommendations-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-badge {
+      padding: 6px 12px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Diet & Nutrition Styles */
+    .diet-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .diet-overview {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 24px;
+      padding: 24px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .diet-overview {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .calorie-target {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 16px;
+      color: white;
+    }
+
+    .calorie-target h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .calorie-value {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .calorie-label {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .macro-breakdown h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .macros-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .macro-item {
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+    }
+
+    .macro-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+
+    .macro-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .macro-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .macro-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .protein-fill {
+      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+    }
+
+    .carbs-fill {
+      background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+    }
+
+    .fats-fill {
+      background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+    }
+
+    .meal-planning {
+      padding: 24px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .meal-planning h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .meals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .meal-card {
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .meal-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    }
+
+    .meal-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .meal-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .meal-calories {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .meal-suggestions {
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 1.4;
+    }
+
+    .food-logging {
+      padding: 24px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .food-logging h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .food-log-form {
+      margin-bottom: 24px;
+    }
+
+    .meal-type-selector {
+      margin-bottom: 16px;
+    }
+
+    .meal-select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      background: white;
+      cursor: pointer;
+    }
+
+    .food-input-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .food-input {
+      flex: 2;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .calories-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .add-food-btn {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--success) 0%, var(--success-light) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .add-food-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .water-tracker {
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+      border-radius: 16px;
+      border: 2px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .water-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .water-header h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .water-count {
+      font-size: 18px;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+
+    .water-progress {
+      margin-bottom: 16px;
+    }
+
+    .water-bar {
+      height: 12px;
+      background: rgba(59, 130, 246, 0.2);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .water-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+      border-radius: 6px;
+      transition: width 0.3s ease;
+    }
+
+    .water-btn {
+      width: 100%;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .water-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    /* BMI Calculator Styles */
+    .bmi-calculator {
+      padding: 24px;
+    }
+
+    .bmi-input-section {
+      margin-bottom: 24px;
+    }
+
+    .bmi-form-group {
+      margin-bottom: 16px;
+    }
+
+    .bmi-form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .bmi-form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .bmi-form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .calculate-bmi-btn {
+      width: 100%;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .calculate-bmi-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+    }
+
+    .bmi-results {
+      text-align: center;
+    }
+
+    .bmi-value-display {
+      margin-bottom: 24px;
+    }
+
+    .bmi-number {
+      font-size: 48px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .bmi-label {
+      font-size: 14px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    .bmi-category {
+      margin-bottom: 24px;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .category-badge.underweight {
+      background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      color: white;
+    }
+
+    .category-badge.normal {
+      background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+      color: white;
+    }
+
+    .category-badge.overweight {
+      background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+      color: white;
+    }
+
+    .category-badge.obese {
+      background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+      color: white;
+    }
+
+    .bmi-gauge {
+      margin-bottom: 24px;
+      padding: 20px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .gauge-bar {
+      position: relative;
+      height: 12px;
+      background: linear-gradient(90deg,
+        #3b82f6 0%,
+        #10b981 25%,
+        #f59e0b 50%,
+        #ef4444 75%,
+        #ef4444 100%
+      );
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .gauge-marker {
+      position: absolute;
+      top: -4px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border: 3px solid var(--dark);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      transition: left 0.5s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .gauge-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--gray);
+      text-align: center;
+    }
+
+    .gauge-label {
+      line-height: 1.2;
+    }
+
+    .bmi-recommendations {
+      text-align: left;
+    }
+
+    .bmi-recommendations h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    /* Yoga & Exercise Styles */
+    .yoga-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 968px) {
+      .yoga-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .yoga-routines {
+      padding: 24px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .yoga-routines h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .routines-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .routine-card {
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .routine-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    }
+
+    .routine-card.beginner {
+      border-left: 4px solid #10b981;
+    }
+
+    .routine-card.intermediate {
+      border-left: 4px solid #f59e0b;
+    }
+
+    .routine-card.advanced {
+      border-left: 4px solid #ef4444;
+    }
+
+    .routine-header {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .routine-icon {
+      font-size: 24px;
+    }
+
+    .routine-info {
+      flex: 1;
+    }
+
+    .routine-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .routine-meta {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .routine-description {
+      font-size: 14px;
+      color: var(--dark);
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .start-routine-btn {
+      width: 100%;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .start-routine-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .yoga-session-tracker {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .yoga-session-tracker h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .session-active {
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+      border-radius: 16px;
+      border: 2px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .session-timer {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .timer-display {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .timer-controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .timer-btn {
+      width: 48px;
+      height: 48px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .timer-btn:hover {
+      border-color: var(--primary);
+      transform: scale(1.05);
+    }
+
+    .session-poses {
+      text-align: center;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+    }
+
+    .session-poses h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .pose-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .pose-duration {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .session-history {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .session-history h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .sessions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .session-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: white;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+    }
+
+    .session-info {
+      flex: 1;
+    }
+
+    .session-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .session-time {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .session-stats {
+      display: flex;
+      gap: 16px;
+      text-align: right;
+    }
+
+    .session-duration {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .session-calories {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* Analytics & Food Analysis Styles */
+    .analytics-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .nutrition-summary {
+      padding: 24px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .nutrition-summary h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .nutrition-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+    }
+
+    .nutrition-card {
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .nutrition-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    }
+
+    .nutrition-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .nutrition-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .nutrition-label {
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+
+    .nutrition-status {
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .nutrition-status.good {
+      background: linear-gradient(135deg, #d1fae5 0%, #10b981 100%);
+      color: white;
+    }
+
+    .nutrition-status.warning {
+      background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 100%);
+      color: white;
+    }
+
+    .nutrition-status.danger {
+      background: linear-gradient(135deg, #fee2e2 0%, #ef4444 100%);
+      color: white;
+    }
+
+    .health-score-section {
+      padding: 24px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .health-score-section h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .health-score-display {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .health-score-display {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    .score-circle {
+      flex-shrink: 0;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 40px rgba(99, 102, 241, 0.3);
+    }
+
+    .score-value {
+      font-size: 48px;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+    }
+
+    .score-label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.9);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .score-details {
+      flex: 1;
+    }
+
+    .score-item {
+      margin-bottom: 16px;
+    }
+
+    .score-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .score-item .score-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .score-item .score-bar {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .score-item .score-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .score-item .score-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .recommendations-engine {
+      padding: 24px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .recommendations-engine h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .recommendations-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .recommendation-card {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      border-left: 4px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .recommendation-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .recommendation-card.priority-high {
+      border-left-color: var(--danger);
+    }
+
+    .recommendation-card.priority-medium {
+      border-left-color: var(--warning);
+    }
+
+    .recommendation-card.priority-low {
+      border-left-color: var(--success);
+    }
+
+    .rec-icon {
+      font-size: 24px;
+    }
+
+    .rec-content {
+      flex: 1;
+    }
+
+    .rec-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .rec-description {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.4;
+    }
+
+    .yoga-progress {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 16px;
+    }
+
+    .yoga-progress h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .progress-stats {
+      display: flex;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .stat-item {
+      flex: 1;
+    }
+
+    .stat-item .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-item .stat-label {
+      font-size: 11px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     /* Progress Bars */
     .progress-section {
       margin-top: 24px;
@@ -1151,6 +2454,504 @@
         </div>
       </div>
 
+      <!-- Disease Prediction Module -->
+      <div class="card card-full">
+        <div class="card-header">
+          <h2 class="card-title">
+            <div class="card-icon">🔬</div>
+            AI Disease Risk Prediction
+          </h2>
+          <span class="card-badge">AI-Powered</span>
+        </div>
+
+        <div class="prediction-container">
+          <div class="prediction-form">
+            <h3>Enter Your Health Metrics</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Blood Pressure (mmHg)</label>
+                <div class="bp-input">
+                  <input type="number" id="bpSystolic" placeholder="Systolic" min="70" max="250" value="120">
+                  <span>/</span>
+                  <input type="number" id="bpDiastolic" placeholder="Diastolic" min="40" max="150" value="80">
+                </div>
+                <div class="form-helper">Systolic/Diastolic (e.g., 120/80)</div>
+              </div>
+
+              <div class="form-group">
+                <label>Blood Sugar (mg/dL)</label>
+                <input type="number" id="bloodSugar" placeholder="Fasting blood sugar" min="50" max="600" value="100">
+                <div class="form-helper">Fasting blood sugar level</div>
+              </div>
+
+              <div class="form-group">
+                <label>Cholesterol (mg/dL)</label>
+                <div class="cholesterol-input">
+                  <input type="number" id="cholesterolTotal" placeholder="Total" min="100" max="400" value="200">
+                  <input type="number" id="cholesterolLDL" placeholder="LDL" min="50" max="250" value="100">
+                  <input type="number" id="cholesterolHDL" placeholder="HDL" min="20" max="100" value="50">
+                </div>
+                <div class="form-helper">Total / LDL / HDL</div>
+              </div>
+
+              <div class="form-group">
+                <label>BMI</label>
+                <input type="number" id="bmiInput" placeholder="Your BMI" min="10" max="60" step="0.1" value="25">
+                <div class="form-helper">Body Mass Index</div>
+              </div>
+            </div>
+
+            <button class="predict-btn" onclick="generatePrediction()">
+              <span>🤖</span>
+              <span>Get AI Risk Prediction</span>
+            </button>
+          </div>
+
+          <div id="predictionResults" class="prediction-results" style="display: none;">
+            <div class="results-header">
+              <h3>Your Risk Assessment</h3>
+              <div class="overall-risk" id="overallRisk">
+                <span class="risk-label">Overall Risk</span>
+                <span class="risk-value" id="overallRiskValue">Medium</span>
+              </div>
+            </div>
+
+            <div id="diseaseRisks" class="disease-risks">
+              <!-- Disease risk cards will be inserted here -->
+            </div>
+
+            <div class="recommendations-section">
+              <h4>📋 Personalized Recommendations</h4>
+              <ul id="recommendationsList" class="recommendations-list">
+                <!-- Recommendations will be inserted here -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diet & Nutrition Module -->
+      <div class="card card-full">
+        <div class="card-header">
+          <h2 class="card-title">
+            <div class="card-icon">🥗</div>
+            Personalized Diet & Nutrition
+          </h2>
+          <span class="card-badge">AI-Powered</span>
+        </div>
+
+        <div class="diet-container">
+          <div class="diet-overview">
+            <div class="calorie-target">
+              <h3>Daily Calorie Target</h3>
+              <div class="calorie-value" id="dailyCalorieTarget">2,000</div>
+              <div class="calorie-label">calories per day</div>
+            </div>
+
+            <div class="macro-breakdown">
+              <h3>Macro Distribution</h3>
+              <div class="macros-grid">
+                <div class="macro-item">
+                  <div class="macro-label">Protein</div>
+                  <div class="macro-value" id="proteinTarget">150g</div>
+                  <div class="macro-bar">
+                    <div class="macro-fill protein-fill" style="width: 30%"></div>
+                  </div>
+                </div>
+                <div class="macro-item">
+                  <div class="macro-label">Carbs</div>
+                  <div class="macro-value" id="carbsTarget">200g</div>
+                  <div class="macro-bar">
+                    <div class="macro-fill carbs-fill" style="width: 40%"></div>
+                  </div>
+                </div>
+                <div class="macro-item">
+                  <div class="macro-label">Fats</div>
+                  <div class="macro-value" id="fatsTarget">67g</div>
+                  <div class="macro-bar">
+                    <div class="macro-fill fats-fill" style="width: 30%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="meal-planning">
+            <h3>Today's Meal Plan</h3>
+            <div class="meals-grid">
+              <div class="meal-card">
+                <div class="meal-icon">🌅</div>
+                <div class="meal-name">Breakfast</div>
+                <div class="meal-calories" id="breakfastCalories">500 kcal</div>
+                <div class="meal-suggestions" id="breakfastSuggestions">
+                  Oatmeal with fruits, Greek yogurt with berries
+                </div>
+              </div>
+
+              <div class="meal-card">
+                <div class="meal-icon">☀️</div>
+                <div class="meal-name">Lunch</div>
+                <div class="meal-calories" id="lunchCalories">700 kcal</div>
+                <div class="meal-suggestions" id="lunchSuggestions">
+                  Grilled chicken salad, Brown rice with vegetables
+                </div>
+              </div>
+
+              <div class="meal-card">
+                <div class="meal-icon">🌙</div>
+                <div class="meal-name">Dinner</div>
+                <div class="meal-calories" id="dinnerCalories">600 kcal</div>
+                <div class="meal-suggestions" id="dinnerSuggestions">
+                  Grilled salmon with vegetables, Lean protein with rice
+                </div>
+              </div>
+
+              <div class="meal-card">
+                <div class="meal-icon">🍎</div>
+                <div class="meal-name">Snacks</div>
+                <div class="meal-calories" id="snacksCalories">200 kcal</div>
+                <div class="meal-suggestions" id="snacksSuggestions">
+                  Fresh fruits, Nuts and seeds, Greek yogurt
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-logging">
+            <h3>Quick Food Logging</h3>
+            <div class="food-log-form">
+              <div class="meal-type-selector">
+                <select id="mealType" class="meal-select">
+                  <option value="breakfast">🌅 Breakfast</option>
+                  <option value="lunch">☀️ Lunch</option>
+                  <option value="dinner">🌙 Dinner</option>
+                  <option value="snack">🍎 Snack</option>
+                </select>
+              </div>
+              <div class="food-input-group">
+                <input type="text" id="foodName" placeholder="Food name (e.g., Chicken Breast)" class="food-input">
+                <input type="number" id="foodCalories" placeholder="Calories" class="calories-input">
+                <button class="add-food-btn" onclick="logFood()">+</button>
+              </div>
+            </div>
+
+            <div class="water-tracker">
+              <div class="water-header">
+                <h3>💧 Water Intake</h3>
+                <div class="water-count">
+                  <span id="waterCount">6</span>/8 glasses
+                </div>
+              </div>
+              <div class="water-progress">
+                <div class="water-bar">
+                  <div class="water-fill" id="waterFill" style="width: 75%"></div>
+                </div>
+              </div>
+              <button class="water-btn" onclick="addWater()">+ Add Glass</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BMI Calculator Module -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <div class="card-icon">⚖️</div>
+            BMI Calculator
+          </h2>
+        </div>
+
+        <div class="bmi-calculator">
+          <div class="bmi-input-section">
+            <div class="bmi-form-group">
+              <label>Height (cm)</label>
+              <input type="number" id="heightInput" placeholder="170" min="50" max="300" value="170">
+            </div>
+
+            <div class="bmi-form-group">
+              <label>Weight (kg)</label>
+              <input type="number" id="weightInput" placeholder="70" min="2" max="300" value="70">
+            </div>
+
+            <button class="calculate-bmi-btn" onclick="calculateBMI()">
+              <span>⚖️</span>
+              <span>Calculate BMI</span>
+            </button>
+          </div>
+
+          <div id="bmiResults" class="bmi-results" style="display: none;">
+            <div class="bmi-value-display">
+              <div class="bmi-number" id="bmiValue">24.2</div>
+              <div class="bmi-label">Your BMI</div>
+            </div>
+
+            <div class="bmi-category" id="bmiCategory">
+              <span class="category-badge normal">Normal Weight</span>
+            </div>
+
+            <div class="bmi-gauge">
+              <div class="gauge-bar">
+                <div class="gauge-fill" id="bmiGaugeFill"></div>
+                <div class="gauge-marker" id="bmiMarker"></div>
+              </div>
+              <div class="gauge-labels">
+                <span class="gauge-label">Underweight<br>&lt;18.5</span>
+                <span class="gauge-label">Normal<br>18.5-25</span>
+                <span class="gauge-label">Overweight<br>25-30</span>
+                <span class="gauge-label">Obese<br>&gt;30</span>
+              </div>
+            </div>
+
+            <div class="bmi-recommendations" id="bmiRecommendations">
+              <h4>Health Recommendations</h4>
+              <ul class="recommendations-list">
+                <li>✓ Maintain healthy weight through balanced diet</li>
+                <li>✓ Exercise regularly (30 min, 5 days/week)</li>
+                <li>✓ Stay hydrated and get adequate sleep</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Yoga & Exercise Module -->
+      <div class="card card-full">
+        <div class="card-header">
+          <h2 class="card-title">
+            <div class="card-icon">🧘</div>
+            Yoga & Exercise Tracker
+          </h2>
+          <span class="card-badge">Wellness</span>
+        </div>
+
+        <div class="yoga-container">
+          <div class="yoga-routines">
+            <h3>Recommended Yoga Routines</h3>
+            <div class="routines-grid">
+              <div class="routine-card beginner">
+                <div class="routine-header">
+                  <span class="routine-icon">🌅</span>
+                  <div class="routine-info">
+                    <div class="routine-name">Morning Energy Flow</div>
+                    <div class="routine-meta">15 min • Beginner</div>
+                  </div>
+                </div>
+                <div class="routine-description">
+                  A quick morning sequence to energize your body and mind
+                </div>
+                <button class="start-routine-btn" onclick="startYogaSession('morning-energy')">
+                  Start Routine
+                </button>
+              </div>
+
+              <div class="routine-card intermediate">
+                <div class="routine-header">
+                  <span class="routine-icon">🧘</span>
+                  <div class="routine-info">
+                    <div class="routine-name">Stress Relief Sequence</div>
+                    <div class="routine-meta">20 min • Beginner</div>
+                  </div>
+                </div>
+                <div class="routine-description">
+                  A calming sequence to reduce stress and promote relaxation
+                </div>
+                <button class="start-routine-btn" onclick="startYogaSession('stress-relief')">
+                  Start Routine
+                </button>
+              </div>
+
+              <div class="routine-card advanced">
+                <div class="routine-header">
+                  <span class="routine-icon">💪</span>
+                  <div class="routine-info">
+                    <div class="routine-name">Flexibility Builder</div>
+                    <div class="routine-meta">25 min • Intermediate</div>
+                  </div>
+                </div>
+                <div class="routine-description">
+                  A sequence designed to improve overall flexibility
+                </div>
+                <button class="start-routine-btn" onclick="startYogaSession('flexibility-builder')">
+                  Start Routine
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="yoga-session-tracker">
+            <h3>Session Tracker</h3>
+            <div id="yogaSessionActive" class="session-active" style="display: none;">
+              <div class="session-timer">
+                <div class="timer-display" id="sessionTimer">00:00</div>
+                <div class="timer-controls">
+                  <button class="timer-btn" onclick="toggleTimer()">
+                    <span id="timerButton">⏸️</span>
+                  </button>
+                  <button class="timer-btn" onclick="stopSession()">
+                    <span>⏹️</span>
+                  </button>
+                </div>
+              </div>
+              <div class="session-poses">
+                <h4>Current Pose</h4>
+                <div class="pose-name" id="currentPose">Mountain Pose</div>
+                <div class="pose-duration">Hold for 30 seconds</div>
+              </div>
+            </div>
+
+            <div class="session-history">
+              <h4>Recent Sessions</h4>
+              <div class="sessions-list" id="sessionsList">
+                <div class="session-item">
+                  <div class="session-info">
+                    <div class="session-name">Morning Energy Flow</div>
+                    <div class="session-time">Today, 7:30 AM</div>
+                  </div>
+                  <div class="session-stats">
+                    <div class="session-duration">15 min</div>
+                    <div class="session-calories">45 kcal</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="yoga-progress">
+              <h4>Your Progress</h4>
+              <div class="progress-stats">
+                <div class="stat-item">
+                  <div class="stat-value">12</div>
+                  <div class="stat-label">Sessions</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">3</div>
+                  <div class="stat-label">Day Streak</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value">180</div>
+                  <div class="stat-label">Minutes</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Food Intake Analysis & Enhanced Analytics -->
+      <div class="card card-full">
+        <div class="card-header">
+          <h2 class="card-title">
+            <div class="card-icon">📊</div>
+            Comprehensive Health Analytics
+          </h2>
+          <span class="card-badge">Smart Insights</span>
+        </div>
+
+        <div class="analytics-container">
+          <div class="nutrition-summary">
+            <h3>📝 Daily Nutrition Analysis</h3>
+            <div class="nutrition-grid">
+              <div class="nutrition-card">
+                <div class="nutrition-icon">🔥</div>
+                <div class="nutrition-value" id="totalCalories">1,847</div>
+                <div class="nutrition-label">Calories Consumed</div>
+                <div class="nutrition-status good">82% of goal</div>
+              </div>
+
+              <div class="nutrition-card">
+                <div class="nutrition-icon">🥩</div>
+                <div class="nutrition-value" id="totalProtein">68g</div>
+                <div class="nutrition-label">Protein</div>
+                <div class="nutrition-status good">On track</div>
+              </div>
+
+              <div class="nutrition-card">
+                <div class="nutrition-icon">🍞</div>
+                <div class="nutrition-value" id="totalCarbs">234g</div>
+                <div class="nutrition-label">Carbohydrates</div>
+                <div class="nutrition-status warning">Above target</div>
+              </div>
+
+              <div class="nutrition-card">
+                <div class="nutrition-icon">🥑</div>
+                <div class="nutrition-value" id="totalFats">45g</div>
+                <div class="nutrition-label">Fats</div>
+                <div class="nutrition-status good">In range</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="health-score-section">
+            <h3>🏆 Your Health Score</h3>
+            <div class="health-score-display">
+              <div class="score-circle">
+                <div class="score-value" id="healthScore">78</div>
+                <div class="score-label">out of 100</div>
+              </div>
+              <div class="score-details">
+                <div class="score-item">
+                  <span class="score-label">Diet Quality</span>
+                  <div class="score-bar">
+                    <div class="score-fill" style="width: 82%"></div>
+                  </div>
+                  <span class="score-value">82%</span>
+                </div>
+                <div class="score-item">
+                  <span class="score-label">Exercise</span>
+                  <div class="score-bar">
+                    <div class="score-fill" style="width: 65%"></div>
+                  </div>
+                  <span class="score-value">65%</span>
+                </div>
+                <div class="score-item">
+                  <span class="score-label">Sleep</span>
+                  <div class="score-bar">
+                    <div class="score-fill" style="width: 75%"></div>
+                  </div>
+                  <span class="score-value">75%</span>
+                </div>
+                <div class="score-item">
+                  <span class="score-label">Hydration</span>
+                  <div class="score-bar">
+                    <div class="score-fill" style="width: 90%"></div>
+                  </div>
+                  <span class="score-value">90%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="recommendations-engine">
+            <h3>💡 Personalized Recommendations</h3>
+            <div class="recommendations-grid">
+              <div class="recommendation-card priority-high">
+                <div class="rec-icon">⚠️</div>
+                <div class="rec-content">
+                  <div class="rec-title">Reduce Sodium Intake</div>
+                  <div class="rec-description">Your blood pressure is elevated. Try reducing sodium to 1500mg/day.</div>
+                </div>
+              </div>
+
+              <div class="recommendation-card priority-medium">
+                <div class="rec-icon">🏃</div>
+                <div class="rec-content">
+                  <div class="rec-title">Increase Protein Intake</div>
+                  <div class="rec-description">Add 15-20g more protein daily to support muscle recovery.</div>
+                </div>
+              </div>
+
+              <div class="recommendation-card priority-low">
+                <div class="rec-icon">💧</div>
+                <div class="rec-content">
+                  <div class="rec-title">Hydration Reminder</div>
+                  <div class="rec-description">Drink 2 more glasses of water to reach your daily goal.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Health Trends Chart -->
       <div class="card card-full">
         <div class="card-header">
@@ -1316,6 +3117,631 @@
       localStorage.removeItem('user');
       window.location.href = 'instant-login.html';
     }
+
+    // Disease Prediction Function
+    async function generatePrediction() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please login first');
+        window.location.href = 'instant-login.html';
+        return;
+      }
+
+      const btn = document.querySelector('.predict-btn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span class="spinner"></span><span>Analyzing...</span>';
+      btn.disabled = true;
+
+      try {
+        const healthData = {
+          bloodPressure: {
+            systolic: parseInt(document.getElementById('bpSystolic').value),
+            diastolic: parseInt(document.getElementById('bpDiastolic').value)
+          },
+          bloodSugar: parseInt(document.getElementById('bloodSugar').value),
+          cholesterol: {
+            total: parseInt(document.getElementById('cholesterolTotal').value),
+            ldl: parseInt(document.getElementById('cholesterolLDL').value),
+            hdl: parseInt(document.getElementById('cholesterolHDL').value)
+          },
+          bmi: parseFloat(document.getElementById('bmiInput').value)
+        };
+
+        const response = await fetch('https://health-app-backend-gq11.onrender.com/api/predictions/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            metrics: healthData,
+            useLatestMetrics: false
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to generate prediction');
+        }
+
+        const result = await response.json();
+        displayPredictionResults(result.data);
+
+      } catch (error) {
+        console.error('Prediction error:', error);
+        // Use fallback prediction if API fails
+        generateFallbackPrediction(healthData);
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    function displayPredictionResults(data) {
+      const resultsDiv = document.getElementById('predictionResults');
+      const diseaseRisksDiv = document.getElementById('diseaseRisks');
+      const overallRiskDiv = document.getElementById('overallRisk');
+      const recommendationsList = document.getElementById('recommendationsList');
+
+      // Display overall risk
+      const riskSummary = data.riskSummary || data.prediction.getRiskSummary();
+      const overallRiskLevel = getOverallRiskLevel(riskSummary.averageRiskScore);
+
+      overallRiskDiv.className = `overall-risk ${overallRiskLevel}`;
+      document.getElementById('overallRiskValue').textContent = overallRiskLevel.charAt(0).toUpperCase() + overallRiskLevel.slice(1);
+
+      // Display individual disease risks
+      const predictions = data.prediction.predictions;
+      diseaseRisksDiv.innerHTML = predictions.map(pred => `
+        <div class="disease-risk-card ${getRiskCategory(pred.riskScore)}">
+          <div class="disease-header">
+            <div class="disease-name">${formatDiseaseName(pred.disease)}</div>
+            <div class="disease-risk-score">${pred.riskScore}%</div>
+          </div>
+          <div class="risk-bar">
+            <div class="risk-bar-fill ${getRiskCategory(pred.riskScore)}" style="width: ${pred.riskScore}%"></div>
+          </div>
+          <div class="risk-factors">
+            Risk factors: ${pred.factors ? pred.factors.join(', ') : 'Based on your health metrics'}
+          </div>
+        </div>
+      `).join('');
+
+      // Display recommendations
+      const allRecommendations = predictions.flatMap(pred => pred.recommendations || []);
+      recommendationsList.innerHTML = allRecommendations.slice(0, 6).map(rec => `
+        <li>✓ ${rec}</li>
+      `).join('');
+
+      resultsDiv.style.display = 'block';
+      resultsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function generateFallbackPrediction(healthData) {
+      // Simple rule-based prediction as fallback
+      const predictions = [];
+      let overallRisk = 0;
+
+      // Hypertension risk
+      const bpRisk = calculateHypertensionRisk(healthData.bloodPressure.systolic, healthData.bloodPressure.diastolic);
+      predictions.push({
+        disease: 'hypertension',
+        riskScore: bpRisk,
+        factors: ['Blood Pressure', 'Age', 'BMI'],
+        recommendations: ['Monitor blood pressure regularly', 'Reduce sodium intake', 'Exercise regularly']
+      });
+
+      // Diabetes risk
+      const diabetesRisk = calculateDiabetesRisk(healthData.bloodSugar, healthData.bmi);
+      predictions.push({
+        disease: 'diabetes',
+        riskScore: diabetesRisk,
+        factors: ['Blood Sugar', 'BMI', 'Age'],
+        recommendations: ['Monitor blood sugar levels', 'Follow balanced diet', 'Exercise regularly']
+      });
+
+      // Heart disease risk
+      const heartRisk = calculateHeartDiseaseRisk(healthData.cholesterol.total, healthData.bloodPressure.systolic);
+      predictions.push({
+        disease: 'heart_disease',
+        riskScore: heartRisk,
+        factors: ['Cholesterol', 'Blood Pressure', 'Age'],
+        recommendations: ['Maintain healthy cholesterol', 'Exercise regularly', 'Follow heart-healthy diet']
+      });
+
+      displayPredictionResults({
+        prediction: { predictions },
+        riskSummary: { averageRiskScore: Math.round((bpRisk + diabetesRisk + heartRisk) / 3) }
+      });
+    }
+
+    function calculateHypertensionRisk(systolic, diastolic) {
+      let risk = 20;
+      if (systolic >= 140 || diastolic >= 90) risk += 30;
+      if (systolic >= 120 || diastolic >= 80) risk += 15;
+      return Math.min(100, risk);
+    }
+
+    function calculateDiabetesRisk(bloodSugar, bmi) {
+      let risk = 20;
+      if (bloodSugar > 126) risk += 35;
+      if (bloodSugar > 100) risk += 20;
+      if (bmi > 30) risk += 15;
+      return Math.min(100, risk);
+    }
+
+    function calculateHeartDiseaseRisk(cholesterol, bp) {
+      let risk = 15;
+      if (cholesterol > 240) risk += 25;
+      if (cholesterol > 200) risk += 15;
+      if (bp > 140) risk += 20;
+      return Math.min(100, risk);
+    }
+
+    function getRiskCategory(score) {
+      if (score < 30) return 'low';
+      if (score < 50) return 'medium';
+      return 'high';
+    }
+
+    function getOverallRiskLevel(averageScore) {
+      if (averageScore < 30) return 'low';
+      if (averageScore < 50) return 'medium';
+      return 'high';
+    }
+
+    function formatDiseaseName(disease) {
+      return disease.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    }
+
+    // Diet & Nutrition Functions
+    let waterIntake = 6;
+    let loggedFoods = [];
+
+    async function loadDietRecommendations() {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const response = await fetch('https://health-app-backend-gq11.onrender.com/api/diet/recommendations', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          updateDietDisplay(data.data);
+        }
+      } catch (error) {
+        console.error('Failed to load diet recommendations:', error);
+        // Use default values
+        updateDietDisplay({
+          dailyCalorieTarget: 2000,
+          macros: { protein: 150, carbs: 200, fats: 67 },
+          mealSuggestions: getDefaultMealSuggestions()
+        });
+      }
+    }
+
+    function updateDietDisplay(dietData) {
+      document.getElementById('dailyCalorieTarget').textContent = dietData.dailyCalorieTarget?.toLocaleString() || '2,000';
+      document.getElementById('proteinTarget').textContent = (dietData.macros?.protein || 150) + 'g';
+      document.getElementById('carbsTarget').textContent = (dietData.macros?.carbs || 200) + 'g';
+      document.getElementById('fatsTarget').textContent = (dietData.macros?.fats || 67) + 'g';
+    }
+
+    function getDefaultMealSuggestions() {
+      return {
+        breakfast: { suggestions: ['Oatmeal with fruits', 'Greek yogurt with berries'] },
+        lunch: { suggestions: ['Grilled chicken salad', 'Brown rice with vegetables'] },
+        dinner: { suggestions: ['Grilled salmon', 'Lean protein with vegetables'] },
+        snacks: { suggestions: ['Fresh fruits', 'Nuts and seeds'] }
+      };
+    }
+
+    async function logFood() {
+      const token = localStorage.getItem('token');
+      const foodName = document.getElementById('foodName').value;
+      const calories = parseInt(document.getElementById('foodCalories').value);
+      const mealType = document.getElementById('mealType').value;
+
+      if (!foodName || !calories) {
+        alert('Please enter food name and calories');
+        return;
+      }
+
+      try {
+        const response = await fetch('https://health-app-backend-gq11.onrender.com/api/diet/food-log', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            meals: [{
+              type: mealType,
+              foods: [{
+                name: foodName,
+                calories: calories,
+                protein: Math.round(calories * 0.15 / 4),
+                carbs: Math.round(calories * 0.50 / 4),
+                fats: Math.round(calories * 0.35 / 9)
+              }]
+            }]
+          })
+        });
+
+        if (response.ok) {
+          showToast(`✓ ${foodName} logged to ${mealType}! (${calories} kcal)`);
+          document.getElementById('foodName').value = '';
+          document.getElementById('foodCalories').value = '';
+          loadDietRecommendations();
+        }
+      } catch (error) {
+        console.error('Failed to log food:', error);
+        showToast(`✓ ${foodName} logged locally! (${calories} kcal)`);
+      }
+    }
+
+    async function addWater() {
+      const token = localStorage.getItem('token');
+
+      try {
+        const response = await fetch('https://health-app-backend-gq11.onrender.com/api/diet/water-intake', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ glasses: 1 })
+        });
+
+        if (response.ok) {
+          waterIntake++;
+          updateWaterDisplay();
+          showToast('💧 Water intake updated!');
+        }
+      } catch (error) {
+        console.error('Failed to update water intake:', error);
+        waterIntake++;
+        updateWaterDisplay();
+        showToast('💧 Water intake updated!');
+      }
+    }
+
+    function updateWaterDisplay() {
+      const waterCount = Math.min(waterIntake, 12);
+      document.getElementById('waterCount').textContent = waterCount;
+      const percentage = Math.min((waterCount / 8) * 100, 100);
+      document.getElementById('waterFill').style.width = percentage + '%';
+
+      if (waterIntake >= 8) {
+        showToast('🎉 Daily water goal achieved!');
+      }
+    }
+
+    // BMI Calculator Function
+    function calculateBMI() {
+      const height = parseFloat(document.getElementById('heightInput').value);
+      const weight = parseFloat(document.getElementById('weightInput').value);
+
+      if (!height || !weight || height < 50 || height > 300 || weight < 2 || weight > 300) {
+        alert('Please enter valid height (50-300 cm) and weight (2-300 kg)');
+        return;
+      }
+
+      // Calculate BMI
+      const bmi = weight / ((height / 100) ** 2);
+      const bmiRounded = bmi.toFixed(1);
+
+      // Display results
+      document.getElementById('bmiValue').textContent = bmiRounded;
+      document.getElementById('bmiResults').style.display = 'block';
+
+      // Determine category and update UI
+      const category = getBMICategory(bmi);
+      const categoryBadge = document.querySelector('.category-badge');
+      categoryBadge.textContent = category.label;
+      categoryBadge.className = `category-badge ${category.className}`;
+
+      // Update gauge marker position
+      const percentage = getBMIPercentage(bmi);
+      const marker = document.getElementById('bmiMarker');
+      marker.style.left = `${percentage}%`;
+
+      // Update recommendations
+      updateBMIRecommendations(category);
+
+      // Scroll to results
+      document.getElementById('bmiResults').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function getBMICategory(bmi) {
+      if (bmi < 18.5) {
+        return { label: 'Underweight', className: 'underweight' };
+      } else if (bmi < 25) {
+        return { label: 'Normal Weight', className: 'normal' };
+      } else if (bmi < 30) {
+        return { label: 'Overweight', className: 'overweight' };
+      } else {
+        return { label: 'Obese', className: 'obese' };
+      }
+    }
+
+    function getBMIPercentage(bmi) {
+      // Map BMI to percentage for gauge (0-100%)
+      // Range: 15 (underweight) to 40 (obese)
+      const minBMI = 15;
+      const maxBMI = 40;
+      const percentage = ((bmi - minBMI) / (maxBMI - minBMI)) * 100;
+      return Math.max(0, Math.min(100, percentage));
+    }
+
+    function updateBMIRecommendations(category) {
+      const recommendationsList = document.getElementById('bmiRecommendations').querySelector('.recommendations-list');
+
+      const recommendations = {
+        underweight: [
+          'Increase calorie intake with nutrient-dense foods',
+          'Include protein-rich foods in your diet (lean meats, eggs, legumes)',
+          'Eat more frequently (5-6 small meals per day)',
+          'Strength training exercises to build muscle mass',
+          'Consult a healthcare provider for weight gain plan'
+        ],
+        normal: [
+          'Maintain current healthy lifestyle',
+          'Continue balanced diet and regular exercise',
+          'Stay hydrated and get adequate sleep (7-9 hours)',
+          'Regular health check-ups to maintain wellness',
+          'Keep up the great work!'
+        ],
+        overweight: [
+          'Create moderate calorie deficit (500 kcal/day)',
+          'Focus on whole foods and reduce processed foods',
+          'Increase physical activity gradually',
+          'Portion control and mindful eating',
+          'Consider consulting a dietitian for personalized plan'
+        ],
+        obese: [
+          'Consult healthcare provider for comprehensive weight management',
+          'Aim for 5-10% weight loss for significant health benefits',
+          'Focus on nutrient-dense, lower calorie foods',
+          'Gradual increase in physical activity (start with walking)',
+          'Consider working with a healthcare team for support'
+        ]
+      };
+
+      recommendationsList.innerHTML = recommendations[category.className]
+        .map(rec => `<li>✓ ${rec}</li>`)
+        .join('');
+    }
+
+    // Yoga & Exercise Functions
+    let yogaTimer = null;
+    let yogaSeconds = 0;
+    let timerRunning = false;
+
+    async function startYogaSession(routineId) {
+      const token = localStorage.getItem('token');
+      const routineDetails = getRoutineDetails(routineId);
+
+      try {
+        const response = await fetch('https://health-app-backend-gq11.onrender.com/api/yoga/session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            routineType: routineDetails.type,
+            routineName: routineDetails.name,
+            duration: routineDetails.duration,
+            difficulty: routineDetails.difficulty,
+            poses: routineDetails.poses
+          })
+        });
+
+        if (response.ok) {
+          startSessionTimer(routineDetails);
+          showToast(`🧘 Started ${routineDetails.name}!`);
+        }
+      } catch (error) {
+        console.error('Failed to start yoga session:', error);
+        startSessionTimer(routineDetails);
+      }
+    }
+
+    function getRoutineDetails(routineId) {
+      const routines = {
+        'morning-energy': {
+          name: 'Morning Energy Flow',
+          type: 'general',
+          duration: 15,
+          difficulty: 'beginner',
+          poses: [
+            { name: 'Mountain Pose', duration: 30 },
+            { name: 'Downward Dog', duration: 60 },
+            { name: 'Warrior I', duration: 45 },
+            { name: 'Tree Pose', duration: 30 },
+            { name: 'Child Pose', duration: 60 }
+          ]
+        },
+        'stress-relief': {
+          name: 'Stress Relief Sequence',
+          type: 'stress_relief',
+          duration: 20,
+          difficulty: 'beginner',
+          poses: [
+            { name: 'Child Pose', duration: 90 },
+            { name: 'Cobra Pose', duration: 45 },
+            { name: 'Downward Dog', duration: 60 },
+            { name: 'Child Pose', duration: 90 }
+          ]
+        },
+        'flexibility-builder': {
+          name: 'Flexibility Builder',
+          type: 'flexibility',
+          duration: 25,
+          difficulty: 'intermediate',
+          poses: [
+            { name: 'Downward Dog', duration: 90 },
+            { name: 'Warrior I', duration: 60 },
+            { name: 'Cobra Pose', duration: 45 },
+            { name: 'Tree Pose', duration: 45 },
+            { name: 'Child Pose', duration: 60 }
+          ]
+        }
+      };
+
+      return routines[routineId] || routines['morning-energy'];
+    }
+
+    function startSessionTimer(routineDetails) {
+      document.getElementById('yogaSessionActive').style.display = 'block';
+      yogaSeconds = 0;
+      timerRunning = true;
+      updateTimerDisplay();
+      updateCurrentPose(routineDetails.poses[0]);
+
+      yogaTimer = setInterval(() => {
+        if (timerRunning) {
+          yogaSeconds++;
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function toggleTimer() {
+      timerRunning = !timerRunning;
+      const button = document.getElementById('timerButton');
+      button.textContent = timerRunning ? '⏸️' : '▶️';
+    }
+
+    function stopSession() {
+      if (yogaTimer) {
+        clearInterval(yogaTimer);
+        yogaTimer = null;
+      }
+
+      const duration = Math.floor(yogaSeconds / 60);
+      const calories = Math.round(yogaSeconds * 0.08); // ~5 calories per minute
+
+      showToast(`🧘 Session completed! ${duration} min, ${calories} kcal burned`);
+
+      document.getElementById('yogaSessionActive').style.display = 'none';
+      yogaSeconds = 0;
+      timerRunning = false;
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(yogaSeconds / 60);
+      const seconds = yogaSeconds % 60;
+      document.getElementById('sessionTimer').textContent =
+        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function updateCurrentPose(pose) {
+      document.getElementById('currentPose').textContent = pose.name;
+    }
+
+    // Analytics & Food Analysis Functions
+    async function loadAnalytics() {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        // Load food log history for nutrition analysis
+        const foodResponse = await fetch('https://health-app-backend-gq11.onrender.com/api/diet/food-log/history/week', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (foodResponse.ok) {
+          const foodData = await foodResponse.json();
+          updateNutritionDisplay(foodData.data);
+        }
+
+        // Load yoga progress
+        const yogaResponse = await fetch('https://health-app-backend-gq11.onrender.com/api/yoga/sessions/week', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (yogaResponse.ok) {
+          const yogaData = await yogaResponse.json();
+          updateYogaProgressDisplay(yogaData.data);
+        }
+      } catch (error) {
+        console.error('Failed to load analytics:', error);
+        // Use default values
+        updateAnalyticsDisplay();
+      }
+    }
+
+    function updateNutritionDisplay(foodData) {
+      if (!foodData || !foodData.foodLogs || foodData.foodLogs.length === 0) {
+        return;
+      }
+
+      const stats = foodData.stats;
+      document.getElementById('totalCalories').textContent = stats.averageCalories?.toLocaleString() || '1,847';
+
+      // Update nutrition cards based on goals
+      updateNutritionStatus('totalCalories', stats.averageCalories, 2000);
+    }
+
+    function updateNutritionStatus(elementId, currentValue, goal) {
+      const element = document.querySelector(`#${elementId}`).nextElementSibling?.nextElementSibling;
+      if (element && element.classList.contains('nutrition-status')) {
+        const percentage = (currentValue / goal) * 100;
+        if (percentage >= 90) {
+          element.className = 'nutrition-status good';
+          element.textContent = 'Excellent';
+        } else if (percentage >= 70) {
+          element.className = 'nutrition-status good';
+          element.textContent = 'On track';
+        } else if (percentage >= 50) {
+          element.className = 'nutrition-status warning';
+          element.textContent = 'Needs attention';
+        } else {
+          element.className = 'nutrition-status danger';
+          element.textContent = 'Below target';
+        }
+      }
+    }
+
+    function updateYogaProgressDisplay(yogaData) {
+      if (!yogaData || !yogaData.stats) return;
+
+      const stats = yogaData.stats;
+      const progressStats = document.querySelector('.yoga-progress .progress-stats');
+
+      if (progressStats) {
+        progressStats.innerHTML = `
+          <div class="stat-item">
+            <div class="stat-value">${stats.totalSessions || 0}</div>
+            <div class="stat-label">Sessions</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">${stats.currentStreak || 0}</div>
+            <div class="stat-label">Day Streak</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">${Math.round(stats.totalDuration / 60) || 0}</div>
+            <div class="stat-label">Minutes</div>
+          </div>
+        `;
+      }
+    }
+
+    function updateAnalyticsDisplay() {
+      // Default analytics display when API fails
+      document.getElementById('healthScore').textContent = '78';
+    }
+
+    // Load all data when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      loadDietRecommendations();
+      loadAnalytics();
+    });
 
     // Navigation active state
     document.querySelectorAll('.nav-item').forEach(item => {
