@@ -441,18 +441,16 @@
     function checkAuth() {
       const user = JSON.parse(localStorage.getItem('healthAIUser'));
       if (user && user.isAuthenticated) {
-        window.location.href = 'dashboard-main.html';
+        // Commented out auto-redirect to always show login page first
+        // window.location.href = 'dashboard-main.html';
+        console.log('User is already logged in, but showing login page first');
         return true;
       }
       return false;
     }
 
-    // Check auth on page load
-    if (checkAuth()) {
-      // User is already logged in, redirecting
-    } else {
-      // Show login form
-    }
+    // Check auth on page load - but always show login form
+    checkAuth();
 
     // Handle login form submission
     async function handleLogin(event) {
