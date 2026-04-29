@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Health Dashboard - Modern Health App</title>
+  <title>HealthAI - Modern Health Monitoring</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -2250,16 +2250,120 @@
     <div class="welcome-section">
       <div class="welcome-card">
         <div class="welcome-content">
-          <h1 class="welcome-title">Welcome Back, User! 🎉</h1>
-          <p class="welcome-subtitle">You're doing great! Keep tracking your health journey.</p>
-          <div class="streak-badge">
-            🔥 7-Day Streak • Keep it Up!
+          <h1 class="welcome-title">Welcome to HealthAI 🎉</h1>
+          <p class="welcome-subtitle">Your complete health monitoring solution with AI-powered insights</p>
+          <div style="margin-top: 20px;">
+            <a href="dashboard.html" style="display: inline-block; padding: 14px 32px; background: white; color: var(--primary); text-decoration: none; border-radius: 12px; font-weight: 600; transition: all 0.3s ease;">
+              Go to Dashboard →
+            </a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Main Dashboard -->
+    <!-- Health Modules -->
+    <div style="margin-bottom: 30px;">
+      <h2 style="font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 20px;">Choose Your Health Module</h2>
+      <div class="dashboard-grid">
+        <!-- Dashboard Module -->
+        <div class="card" onclick="window.location.href='dashboard.html'" style="cursor: pointer;">
+          <div class="card-header">
+            <h2 class="card-title">
+              <div class="card-icon">📊</div>
+              Dashboard
+            </h2>
+          </div>
+          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
+            View your complete health overview with stats, trends, and activity timeline.
+          </p>
+          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
+            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Open Dashboard →</span>
+          </div>
+        </div>
+
+        <!-- Disease Prediction Module -->
+        <div class="card" onclick="window.location.href='disease-prediction.html'" style="cursor: pointer;">
+          <div class="card-header">
+            <h2 class="card-title">
+              <div class="card-icon">🔮</div>
+              Disease Prediction
+            </h2>
+          </div>
+          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
+            AI-powered health risk assessment based on your metrics and lifestyle factors.
+          </p>
+          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
+            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Get Prediction →</span>
+          </div>
+        </div>
+
+        <!-- Diet & Nutrition Module -->
+        <div class="card" onclick="window.location.href='diet-tracking.html'" style="cursor: pointer;">
+          <div class="card-header">
+            <h2 class="card-title">
+              <div class="card-icon">🥗</div>
+              Diet & Nutrition
+            </h2>
+          </div>
+          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
+            Track your meals, calories, macros, and get personalized nutrition recommendations.
+          </p>
+          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
+            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Track Diet →</span>
+          </div>
+        </div>
+
+        <!-- BMI Calculator Module -->
+        <div class="card" onclick="window.location.href='bmi-calculator.html'" style="cursor: pointer;">
+          <div class="card-header">
+            <h2 class="card-title">
+              <div class="card-icon">⚖️</div>
+              BMI Calculator
+            </h2>
+          </div>
+          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
+            Calculate your Body Mass Index and get personalized health recommendations.
+          </p>
+          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
+            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Calculate BMI →</span>
+          </div>
+        </div>
+
+        <!-- Yoga & Exercise Module -->
+        <div class="card" onclick="window.location.href='yoga-tracker.html'" style="cursor: pointer;">
+          <div class="card-header">
+            <h2 class="card-title">
+              <div class="card-icon">🧘</div>
+              Yoga & Exercise
+            </h2>
+          </div>
+          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
+            Track your yoga sessions, exercise routines, and monitor your fitness progress.
+          </p>
+          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
+            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">Start Exercise →</span>
+          </div>
+        </div>
+
+        <!-- Analytics Module -->
+        <div class="card" onclick="window.location.href='analytics.html'" style="cursor: pointer;">
+          <div class="card-header">
+            <h2 class="card-title">
+              <div class="card-icon">📈</div>
+              Health Analytics
+            </h2>
+          </div>
+          <p style="color: var(--gray); font-size: 14px; line-height: 1.6;">
+            View detailed health trends, progress charts, and comprehensive insights.
+          </p>
+          <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 12px; text-align: center;">
+            <span style="color: var(--primary); font-weight: 600; font-size: 14px;">View Analytics →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modules Grid -->
     <main class="dashboard-grid">
       <!-- Today's Stats Overview -->
       <div class="card card-full">
