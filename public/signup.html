@@ -370,6 +370,8 @@
         // Save user
         users.push(newUser);
         localStorage.setItem('healthAIUsers', JSON.stringify(users));
+        console.log('New user created and saved:', newUser);
+        console.log('All users after signup:', JSON.parse(localStorage.getItem('healthAIUsers')));
 
         // Auto-login after signup
         const userSession = {

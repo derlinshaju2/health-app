@@ -284,12 +284,15 @@
 
         // Get registered users from localStorage
         const users = JSON.parse(localStorage.getItem('healthAIUsers') || '[]');
+        console.log('All registered users:', users);
+        console.log('Looking for email:', email);
 
         // Find user with matching email
         const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+        console.log('Found user:', user);
 
         if (!user) {
-          showError('No account found with this email');
+          showError('No account found with this email. Please sign up first.');
           loginBtn.disabled = false;
           loginBtn.innerHTML = 'Sign In';
           return;
@@ -313,8 +316,11 @@
           loginTime: new Date().toISOString()
         };
 
+        console.log('Creating user session:', userSession);
+
         // Store user session
         localStorage.setItem('healthAIUser', JSON.stringify(userSession));
+        console.log('User session stored in localStorage');
 
         // Update last login
         user.lastLogin = new Date().toISOString();
