@@ -1583,29 +1583,52 @@
       // Redirecting to login...
     } else {
       // User is authenticated, load dashboard and user profile
-      loadUserProfile();
+      // Wait for DOM to be ready
+      document.addEventListener('DOMContentLoaded', function() {
+        loadUserProfile();
+      });
+      // Also try immediately in case DOM is already ready
+      if (document.readyState === 'loading') {
+        // DOM is still loading, the event listener will handle it
+      } else {
+        // DOM is ready, load now
+        loadUserProfile();
+      }
     }
 
     // Load user profile information
     function loadUserProfile() {
+      console.log('Loading user profile...');
       const user = JSON.parse(localStorage.getItem('healthAIUser'));
+      console.log('User data:', user);
+
       if (user) {
         // Update user name
         const userNameElement = document.getElementById('userName');
         if (userNameElement) {
-          userNameElement.textContent = `${user.firstName || 'User'} ${user.lastName || ''}`.trim();
+          const fullName = `${user.firstName || 'User'} ${user.lastName || ''}`.trim();
+          userNameElement.textContent = fullName;
+          console.log('Updated username to:', fullName);
+        } else {
+          console.error('userName element not found');
         }
 
         // Update user email
         const userEmailElement = document.getElementById('userEmail');
         if (userEmailElement) {
           userEmailElement.textContent = user.email || 'No email';
+          console.log('Updated email to:', user.email);
+        } else {
+          console.error('userEmail element not found');
         }
 
         // Update user avatar with first letter
         const userAvatarElement = document.getElementById('userAvatar');
         if (userAvatarElement && user.firstName) {
           userAvatarElement.textContent = user.firstName.charAt(0).toUpperCase();
+          console.log('Updated avatar to:', user.firstName.charAt(0).toUpperCase());
+        } else {
+          console.error('userAvatar element not found or no firstName');
         }
 
         // Update header greeting
@@ -1617,7 +1640,10 @@
           else if (hour < 18) greeting = 'Good afternoon';
 
           welcomeTitle.textContent = `${greeting}, ${user.firstName}! 👋`;
+          console.log('Updated greeting to:', `${greeting}, ${user.firstName}! 👋`);
         }
+      } else {
+        console.error('No user data found in localStorage');
       }
     }
 
