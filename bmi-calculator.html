@@ -698,6 +698,14 @@
   </button>
 
   <script>
+    // FIX NAVIGATION HIGHLIGHTING - Remove active class from disease prediction
+    document.addEventListener('DOMContentLoaded', function() {
+      const diseaseLink = document.querySelector('a[href="disease-prediction.html"]');
+      if (diseaseLink && diseaseLink.classList.contains('active')) {
+        diseaseLink.classList.remove('active');
+      }
+    });
+
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebar');
