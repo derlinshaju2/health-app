@@ -216,6 +216,45 @@
       box-shadow: 0 8px 32px var(--shadow-lg);
     }
 
+    /* Enhanced BMI Calculator Card */
+    .bmi-calculator-card {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.3);
+      padding: 48px;
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+    }
+
+    .bmi-calculator-card .card-title {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .bmi-calculator-card .form-label {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .bmi-calculator-card .form-input {
+      padding: 18px 20px;
+      font-size: 16px;
+      border-radius: 14px;
+    }
+
+    .bmi-calculator-card .submit-btn {
+      padding: 20px;
+      font-size: 18px;
+      border-radius: 16px;
+      margin-top: 24px;
+    }
+
+    .bmi-calculator-description {
+      font-size: 16px;
+      color: var(--gray);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
     .card-title {
       font-size: 18px;
       font-weight: 700;
@@ -571,51 +610,54 @@
 
     <!-- Content Grid -->
     <div class="content-grid">
-      <!-- BMI Calculator Form -->
-      <div class="card">
+      <!-- BMI Calculator Form - Enhanced Full Width -->
+      <div class="card bmi-calculator-card">
         <h3 class="card-title">
-          <div class="card-icon">📝</div>
-          Calculate Your BMI
+          <div class="card-icon">⚖️</div>
+          Calculate Your Body Mass Index
         </h3>
+        <p class="bmi-calculator-description">Enter your height and weight below to calculate your BMI and receive personalized health recommendations based on your results.</p>
 
         <form id="bmiForm" onsubmit="calculateBMI(event)">
-          <div class="form-group">
-            <label class="form-label">Height</label>
-            <div style="display: flex; gap: 12px;">
-              <input type="number" class="form-input" id="heightCm" placeholder="cm" min="100" max="250" required style="flex: 1;">
-              <input type="number" class="form-input" id="heightFt" placeholder="ft" min="3" max="8" style="flex: 1;">
-              <input type="number" class="form-input" id="heightIn" placeholder="in" min="0" max="11" style="flex: 1;">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label">Height</label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                <input type="number" class="form-input" id="heightCm" placeholder="Centimeters (cm)" min="100" max="250" required>
+                <input type="number" class="form-input" id="heightFt" placeholder="Feet (ft)" min="3" max="8">
+                <input type="number" class="form-input" id="heightIn" placeholder="Inches (in)" min="0" max="11">
+              </div>
+              <div style="font-size: 14px; color: var(--gray); margin-top: 8px;">Enter height in centimeters OR feet/inches</div>
             </div>
-            <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Enter height in cm OR feet/inches</div>
-          </div>
 
-          <div class="form-group">
-            <label class="form-label">Weight</label>
-            <div style="display: flex; gap: 12px;">
-              <input type="number" class="form-input" id="weightKg" placeholder="kg" min="30" max="300" step="0.1" required style="flex: 1;">
-              <input type="number" class="form-input" id="weightLbs" placeholder="lbs" min="66" max="661" step="0.1" style="flex: 1;">
+            <div class="form-group full">
+              <label class="form-label">Weight</label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <input type="number" class="form-input" id="weightKg" placeholder="Kilograms (kg)" min="30" max="300" step="0.1" required>
+                <input type="number" class="form-input" id="weightLbs" placeholder="Pounds (lbs)" min="66" max="661" step="0.1">
+              </div>
+              <div style="font-size: 14px; color: var(--gray); margin-top: 8px;">Enter weight in kilograms OR pounds</div>
             </div>
-            <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Enter weight in kg OR lbs</div>
-          </div>
 
-          <div class="form-group">
-            <label class="form-label">Gender</label>
-            <select class="form-input form-select" id="gender">
-              <option value="">Select gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
+            <div class="form-group">
+              <label class="form-label">Gender</label>
+              <select class="form-input form-select" id="gender">
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
 
-          <div class="form-group">
-            <label class="form-label">Age</label>
-            <input type="number" class="form-input" id="age" placeholder="years" min="18" max="100">
+            <div class="form-group">
+              <label class="form-label">Age</label>
+              <input type="number" class="form-input" id="age" placeholder="Years" min="18" max="100">
+            </div>
           </div>
 
           <button type="submit" class="submit-btn">
             ⚖️
-            <span>Calculate BMI</span>
+            <span>Calculate My BMI</span>
           </button>
         </form>
       </div>
