@@ -1710,51 +1710,6 @@
 
       if (user) {
         const fullName = `${user.firstName || 'User'} ${user.lastName || ''}`.trim();
-        const firstInitial = user.firstName ? user.firstName.charAt(0).toUpperCase() : '👤';
-
-        // Update sidebar profile button
-        const sidebarAvatar = document.getElementById('sidebarAvatar');
-        if (sidebarAvatar) {
-          sidebarAvatar.textContent = firstInitial;
-          console.log('Updated sidebar avatar to:', firstInitial);
-        } else {
-          console.error('sidebarAvatar element not found');
-        }
-
-        const sidebarUserName = document.getElementById('sidebarUserName');
-        if (sidebarUserName) {
-          sidebarUserName.textContent = fullName;
-          console.log('Updated sidebar username to:', fullName);
-        } else {
-          console.error('sidebarUserName element not found');
-        }
-
-        const sidebarUserEmail = document.getElementById('sidebarUserEmail');
-        if (sidebarUserEmail) {
-          sidebarUserEmail.textContent = user.email || 'No email';
-          console.log('Updated sidebar email to:', user.email);
-        } else {
-          console.error('sidebarUserEmail element not found');
-        }
-
-        // Update dropdown content
-        const sidebarDropdownAvatar = document.getElementById('sidebarDropdownAvatar');
-        if (sidebarDropdownAvatar) {
-          sidebarDropdownAvatar.textContent = firstInitial;
-          console.log('Updated dropdown avatar to:', firstInitial);
-        }
-
-        const sidebarDropdownUserName = document.getElementById('sidebarDropdownUserName');
-        if (sidebarDropdownUserName) {
-          sidebarDropdownUserName.textContent = fullName;
-          console.log('Updated dropdown username to:', fullName);
-        }
-
-        const sidebarDropdownUserEmail = document.getElementById('sidebarDropdownUserEmail');
-        if (sidebarDropdownUserEmail) {
-          sidebarDropdownUserEmail.textContent = user.email || 'No email';
-          console.log('Updated dropdown email to:', user.email);
-        }
 
         // Update header greeting
         const welcomeTitle = document.getElementById('welcomeTitle');
@@ -1771,15 +1726,6 @@
         console.log('Profile loaded successfully for:', fullName);
       } else {
         console.error('No user data found in localStorage');
-      }
-    }
-
-    // Toggle sidebar profile dropdown menu
-    function toggleSidebarProfile() {
-      const dropdown = document.getElementById('sidebarProfileDropdown');
-      if (dropdown) {
-        const isVisible = dropdown.style.display !== 'none';
-        dropdown.style.display = isVisible ? 'none' : 'block';
       }
     }
 
