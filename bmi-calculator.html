@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BMI Calculator - HealthAI - NAVIGATION FIXED</title>
-  <meta name="cache-buster" content="v2-$(date +%s)">
+  <meta name="cache-buster" content="v3-20250430-1430">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -698,28 +701,47 @@
   </button>
 
   <script>
-    // COMPREHENSIVE NAVIGATION FIX - Ensure only BMI calculator is active
-    document.addEventListener('DOMContentLoaded', function() {
+    // AGGRESSIVE NAVIGATION FIX - Run multiple times to ensure it works
+    function fixNavigation() {
+      console.log('🔧 Running navigation fix...');
+
       // Remove active class from ALL navigation links first
       const allNavLinks = document.querySelectorAll('.nav-link');
+      console.log(`Found ${allNavLinks.length} navigation links`);
+
       allNavLinks.forEach(link => {
         link.classList.remove('active');
+        console.log(`Removed active from: ${link.textContent.trim()}`);
       });
 
       // Add active class ONLY to BMI calculator link
       const bmiLink = document.querySelector('a[href="bmi-calculator.html"]');
       if (bmiLink) {
         bmiLink.classList.add('active');
-        console.log('✅ Navigation fixed: BMI calculator is now the only active link');
+        console.log('✅ Added active to BMI Calculator');
       }
 
       // Double-check disease prediction doesn't have active class
       const diseaseLink = document.querySelector('a[href="disease-prediction.html"]');
-      if (diseaseLink && diseaseLink.classList.contains('active')) {
+      if (diseaseLink) {
         diseaseLink.classList.remove('active');
-        console.log('✅ Removed active class from disease prediction link');
+        console.log('✅ Force removed active from Disease Prediction');
       }
-    });
+
+      console.log('✅ Navigation fix completed!');
+    }
+
+    // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fixNavigation);
+    } else {
+      fixNavigation();
+    }
+
+    // Run again after a short delay to catch any late-loading elements
+    setTimeout(fixNavigation, 100);
+    setTimeout(fixNavigation, 500);
+    setTimeout(fixNavigation, 1000);
 
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
