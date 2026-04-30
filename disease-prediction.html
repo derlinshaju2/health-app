@@ -668,6 +668,209 @@
       line-height: 1.6;
     }
 
+    /* Disease Information Cards */
+    .disease-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .disease-card {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--primary);
+    }
+
+    .disease-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .disease-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .disease-details h5 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .disease-details p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .disease-stats {
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 600;
+      background: rgba(99, 102, 241, 0.1);
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    /* Screening Guide */
+    .screening-guide {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .screening-item {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 4px solid var(--primary);
+      display: flex;
+      gap: 16px;
+    }
+
+    .screening-age {
+      flex-shrink: 0;
+      width: 80px;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 14px;
+      text-align: center;
+      background: white;
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screening-tests {
+      flex: 1;
+      font-size: 13px;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* Lifestyle Content */
+    .lifestyle-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .lifestyle-section h5 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .guideline-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .guideline-list li {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+      margin-bottom: 8px;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .guideline-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    /* Warning Signs */
+    .warning-signs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .warning-category {
+      background: rgba(239, 68, 68, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 4px solid var(--danger);
+    }
+
+    .warning-category h5 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 12px;
+    }
+
+    .warning-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .warning-list li {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+      margin-bottom: 6px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .warning-list li:before {
+      content: "⚠️";
+      position: absolute;
+      left: 0;
+    }
+
+    /* Resources Grid */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .resource-item {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .resource-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .resource-item h5 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .resource-item p {
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
     /* Mobile Menu */
     .mobile-menu-btn {
       display: none;
@@ -1043,6 +1246,198 @@
             <div class="stat-item">
               <div class="stat-number">80%</div>
               <div class="stat-label">Heart disease preventable</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Disease Information Cards -->
+        <div class="info-card">
+          <h4 class="info-card-title">🏥 Common Chronic Diseases</h4>
+          <div class="disease-info">
+            <div class="disease-card">
+              <div class="disease-icon">❤️</div>
+              <div class="disease-details">
+                <h5>Cardiovascular Disease</h5>
+                <p>Leading cause of death globally. Includes heart attacks, strokes, and other circulatory conditions.</p>
+                <div class="disease-stats">
+                  <span>Risk Factors: High BP, cholesterol, smoking, diabetes, obesity</span>
+                </div>
+              </div>
+            </div>
+            <div class="disease-card">
+              <div class="disease-icon">🩸</div>
+              <div class="disease-details">
+                <h5>Type 2 Diabetes</h5>
+                <p>Chronic condition affecting how body processes blood sugar. Can lead to serious complications if unmanaged.</p>
+                <div class="disease-stats">
+                  <span>Risk Factors: Obesity, inactivity, family history, age, ethnicity</span>
+                </div>
+              </div>
+            </div>
+            <div class="disease-card">
+              <div class="disease-icon">🫁</div>
+              <div class="disease-details">
+                <h5>Respiratory Diseases</h5>
+                <p>COPD, asthma, and other lung conditions that affect breathing and overall oxygen intake.</p>
+                <div class="disease-stats">
+                  <span>Risk Factors: Smoking, pollution, occupational exposure, genetics</span>
+                </div>
+              </div>
+            </div>
+            <div class="disease-card">
+              <div class="disease-icon">🧠</div>
+              <div class="disease-details">
+                <h5>Neurological Disorders</h5>
+                <p>Conditions affecting the brain and nervous system, including stroke risk and cognitive decline.</p>
+                <div class="disease-stats">
+                  <span>Risk Factors: Age, high BP, diabetes, smoking, genetics</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screening Recommendations -->
+        <div class="info-card">
+          <h4 class="info-card-title">🔬 Recommended Health Screenings</h4>
+          <div class="screening-guide">
+            <div class="screening-item">
+              <div class="screening-age">20-30 years</div>
+              <div class="screening-tests">
+                <strong>Annual:</strong> Blood pressure, BMI, blood sugar<br>
+                <strong>Every 2 years:</strong> Cholesterol panel<br>
+                <strong>As needed:</strong> STI screening, mental health check
+              </div>
+            </div>
+            <div class="screening-item">
+              <div class="screening-age">30-40 years</div>
+              <div class="screening-tests">
+                <strong>Annual:</strong> Blood pressure, BMI, blood sugar, cholesterol<br>
+                <strong>Every 3 years:</strong> Complete metabolic panel<br>
+                <strong>Women:</strong> Pap smear, mammogram from 40<br>
+                <strong>Men:</strong> Prostate screening discussion
+              </div>
+            </div>
+            <div class="screening-item">
+              <div class="screening-age">40-50 years</div>
+              <div class="screening-tests">
+                <strong>Annual:</strong> Comprehensive metabolic panel, cardiac assessment<br>
+                <strong>Every 1-3 years:</strong> Colonoscopy, eye exam<br>
+                <strong>Women:</strong> Mammogram annually<br>
+                <strong>Men:</strong> Prostate screening
+              </div>
+            </div>
+            <div class="screening-item">
+              <div class="screening-age">50+ years</div>
+              <div class="screening-tests">
+                <strong>Annual:</strong> Full health assessment, cardiac screening<br>
+                <strong>Regular:</strong> Bone density, cancer screenings<br>
+                <strong>Monitoring:</strong> Cognitive function, vision, hearing
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lifestyle Medicine -->
+        <div class="info-card">
+          <h4 class="info-card-title">🌟 Lifestyle Medicine Guidelines</h4>
+          <div class="lifestyle-content">
+            <div class="lifestyle-section">
+              <h5>🥗 Nutrition Guidelines</h5>
+              <ul class="guideline-list">
+                <li><strong>Plant-based focus:</strong> 5+ servings of fruits and vegetables daily</li>
+                <li><strong>Whole grains:</strong> Choose brown rice, whole wheat, quinoa over refined</li>
+                <li><strong>Healthy fats:</strong> Avocados, nuts, olive oil, fatty fish</li>
+                <li><strong>Limited processed foods:</strong> Avoid added sugars, excessive sodium, trans fats</li>
+                <li><strong>Hydration:</strong> 8 glasses of water daily, limit sugary drinks</li>
+              </ul>
+            </div>
+            <div class="lifestyle-section">
+              <h5>🏃 Physical Activity</h5>
+              <ul class="guideline-list">
+                <li><strong>Aerobic exercise:</strong> 150 min moderate or 75 min vigorous per week</li>
+                <li><strong>Strength training:</strong> 2+ sessions per week for all major muscle groups</li>
+                <li><strong>Flexibility:</strong> Regular stretching or yoga to maintain mobility</li>
+                <li><strong>Daily movement:</strong> Break up prolonged sitting every 30 minutes</li>
+                <li><strong>Consistency:</strong> Find activities you enjoy for long-term adherence</li>
+              </ul>
+            </div>
+            <div class="lifestyle-section">
+              <h5>😴 Sleep Optimization</h5>
+              <ul class="guideline-list">
+                <li><strong>Duration:</strong> 7-9 hours of quality sleep per night</li>
+                <li><strong>Consistency:</strong> Regular sleep schedule, even on weekends</li>
+                <li><strong>Environment:</strong> Cool, dark, quiet bedroom</li>
+                <li><strong>Pre-sleep routine:</strong> Avoid screens 1 hour before bed</li>
+                <li><strong>Limit stimulants:</strong> No caffeine after 2 PM, avoid alcohol before bed</li>
+              </ul>
+            </div>
+            <div class="lifestyle-section">
+              <h5>🧘 Stress Management</h5>
+              <ul class="guideline-list">
+                <li><strong>Mindfulness:</strong> 10 minutes daily meditation or deep breathing</li>
+                <li><strong>Social connection:</strong> Maintain strong relationships and support networks</li>
+                <li><strong>Time in nature:</strong> Outdoor activities for mental health benefits</li>
+                <li><strong>Hobbies:</strong> Engage in enjoyable activities regularly</li>
+                <li><strong>Professional help:</strong> Seek therapy if stress becomes overwhelming</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Warning Signs -->
+        <div class="info-card">
+          <h4 class="info-card-title">🚨 Warning Signs - When to See a Doctor</h4>
+          <div class="warning-signs">
+            <div class="warning-category">
+              <h5>❤️ Heart Attack Warning Signs</h5>
+              <ul class="warning-list">
+                <li>Chest pain or discomfort</li>
+                <li>Shortness of breath</li>
+                <li>Pain or discomfort in arms, back, neck, jaw</li>
+                <li>Cold sweat, nausea, lightheadedness</li>
+              </ul>
+            </div>
+            <div class="warning-category">
+              <h5>🧠 Stroke Warning Signs (FAST)</h5>
+              <ul class="warning-list">
+                <li><strong>F</strong>ace drooping</li>
+                <li><strong>A</strong>rm weakness</li>
+                <li><strong>S</strong>peech difficulty</li>
+                <li><strong>T</strong>ime to call emergency</li>
+              </ul>
+            </div>
+            <div class="warning-category">
+              <h5>🩸 Diabetes Warning Signs</h5>
+              <ul class="warning-list">
+                <li>Excessive thirst and frequent urination</li>
+                <li>Unexplained weight loss</li>
+                <li>Blurry vision</li>
+                <li>Slow-healing sores or frequent infections</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Resources -->
+        <div class="info-card">
+          <h4 class="info-card-title">📚 Health Resources & Tools</h4>
+          <div class="resources-grid">
+            <div class="resource-item">
+              <h5>📱 Mobile Apps</h5>
+              <p>MyFitnessPal, Headspace, Sleep Cycle, Blood Pressure Tracker</p>
+            </div>
+            <div class="resource-item">
+              <h5>🏠 Home Monitoring</h5>
+              <p>Blood pressure monitor, glucometer, smart scale, fitness tracker</p>
+            </div>
+            <div class="resource-item">
+              <h5>🌐 Online Communities</h5>
+              <p>Health forums, support groups, telehealth services</p>
+            </div>
+            <div class="resource-item">
+              <h5>📖 Educational Content</h5>
+              <p>WHO guidelines, CDC resources, medical journals</p>
             </div>
           </div>
         </div>
