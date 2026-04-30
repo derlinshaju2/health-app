@@ -194,12 +194,22 @@
     /* Grid */
     .content-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
       margin-bottom: 30px;
     }
 
     .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .unified-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .unified-grid .full-width {
       grid-column: 1 / -1;
     }
 
@@ -565,7 +575,7 @@
     /* Results */
     .results-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-bottom: 20px;
     }
@@ -671,7 +681,7 @@
     /* Disease Information Cards */
     .disease-info {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
 
@@ -760,7 +770,7 @@
     /* Lifestyle Content */
     .lifestyle-content {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
 
@@ -800,7 +810,7 @@
     /* Warning Signs */
     .warning-signs {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
 
@@ -842,7 +852,7 @@
     /* Resources Grid */
     .resources-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
 
@@ -897,7 +907,11 @@
     /* Responsive */
     @media (max-width: 1024px) {
       .content-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .unified-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -919,6 +933,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .unified-grid {
+        grid-template-columns: 1fr;
       }
 
       .form-grid {
