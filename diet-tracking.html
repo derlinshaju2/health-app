@@ -486,6 +486,339 @@
       line-height: 1.6;
     }
 
+    /* Nutrition Education */
+    .nutrition-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .nutrition-section h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .macro-info, .micro-info {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .macro-item, .micro-category {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .macro-icon, .avoid-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .macro-details h5, .avoid-details h5 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .macro-details p, .avoid-details p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+
+    .avoid-details span {
+      font-size: 11px;
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .micro-category h5 {
+      margin-bottom: 12px;
+    }
+
+    .nutrient-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nutrient-list li {
+      font-size: 13px;
+      color: var(--dark);
+      line-height: 1.6;
+      margin-bottom: 6px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .nutrient-list li:before {
+      content: "•";
+      position: absolute;
+      left: 8px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* Eating Guidelines */
+    .eating-guidelines {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 24px;
+    }
+
+    .guideline-category h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .portion-visual {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .portion-item {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      text-align: center;
+    }
+
+    .portion-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .portion-info h5 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .portion-info p {
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+
+    .portion-size {
+      font-size: 11px;
+      color: var(--success);
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .avoid-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+    }
+
+    .avoid-item {
+      background: rgba(239, 68, 68, 0.05);
+      border-radius: 10px;
+      padding: 16px;
+      border-left: 4px solid var(--danger);
+    }
+
+    .avoid-item h5 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 8px;
+    }
+
+    .avoid-reason {
+      font-size: 11px;
+      color: var(--danger);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Meal Planning */
+    .meal-planning {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .planning-section h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .meal-suggestions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .meal-suggestion {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 4px solid var(--success);
+    }
+
+    .meal-suggestion h5 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .meal-suggestion p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .meal-benefits {
+      font-size: 11px;
+      color: var(--success);
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    /* Hydration Content */
+    .hydration-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .hydration-info h4 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .hydration-facts {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .hydration-facts li {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+      margin-bottom: 8px;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .hydration-facts li:before {
+      content: "💧";
+      position: absolute;
+      left: 0;
+    }
+
+    /* Mindful Eating */
+    .mindful-eating {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .mindful-practice h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .practice-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .practice-item {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .practice-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .practice-details h5 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+
+    .practice-details p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    .practice-tips {
+      font-size: 14px;
+      color: var(--dark);
+      line-height: 1.7;
+    }
+
+    .practice-tips p {
+      margin-bottom: 12px;
+    }
+
+    .practice-tips strong {
+      color: var(--primary);
+    }
+
+    /* Food Labels */
+    .label-guide {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .label-section {
+      background: rgba(245, 158, 11, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 4px solid var(--warning);
+    }
+
+    .label-section h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--warning);
+      margin-bottom: 8px;
+    }
+
+    .label-section p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
     /* Mobile Menu */
     .mobile-menu-btn {
       display: none;
@@ -810,6 +1143,363 @@
               <div class="activity-time">Snack • 4:00 PM</div>
             </div>
             <div class="activity-value">180 kcal</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nutrition Education Section -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">📚</div>
+          Understanding Nutrition Basics
+        </h3>
+
+        <div class="nutrition-grid">
+          <div class="nutrition-section">
+            <h4>🥗 Macronutrients Explained</h4>
+            <div class="macro-info">
+              <div class="macro-item">
+                <span class="macro-icon">💪</span>
+                <div class="macro-details">
+                  <h5>Proteins</h5>
+                  <p><strong>Function:</strong> Building blocks for muscles, bones, and enzymes</p>
+                  <p><strong>Sources:</strong> Lean meats, fish, eggs, dairy, legumes, nuts</p>
+                  <p><strong>Daily Need:</strong> 0.8-1.2g per kg body weight</p>
+                </div>
+              </div>
+              <div class="macro-item">
+                <span class="macro-icon">🍞</span>
+                <div class="macro-details">
+                  <h5>Carbohydrates</h5>
+                  <p><strong>Function:</strong> Primary energy source for brain and body</p>
+                  <p><strong>Sources:</strong> Whole grains, fruits, vegetables, legumes</p>
+                  <p><strong>Daily Need:</strong> 45-65% of total calories</p>
+                </div>
+              </div>
+              <div class="macro-item">
+                <span class="macro-icon">🥑</span>
+                <div class="macro-details">
+                  <h5>Fats</h5>
+                  <p><strong>Function:</strong> Energy storage, hormone production, nutrient absorption</p>
+                  <p><strong>Sources:</strong> Avocados, nuts, olive oil, fatty fish</p>
+                  <p><strong>Daily Need:</strong> 20-35% of total calories</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nutrition-section">
+            <h4>🌟 Micronutrients Essentials</h4>
+            <div class="micro-info">
+              <div class="micro-category">
+                <h5>Vitamins</h5>
+                <ul class="nutrient-list">
+                  <li><strong>Vitamin A:</strong> Vision, immune system, skin health</li>
+                  <li><strong>B Complex:</strong> Energy metabolism, brain function, red blood cells</li>
+                  <li><strong>Vitamin C:</strong> Collagen synthesis, immune support, antioxidant</li>
+                  <li><strong>Vitamin D:</strong> Bone health, immune function, mood regulation</li>
+                  <li><strong>Vitamin E:</strong> Cell protection, skin health, antioxidant</li>
+                  <li><strong>Vitamin K:</strong> Blood clotting, bone metabolism</li>
+                </ul>
+              </div>
+              <div class="micro-category">
+                <h5>Minerals</h5>
+                <ul class="nutrient-list">
+                  <li><strong>Calcium:</strong> Bones, teeth, muscle function, nerve signaling</li>
+                  <li><strong>Iron:</strong> Red blood cells, oxygen transport, energy metabolism</li>
+                  <li><strong>Magnesium:</strong> Muscle function, energy production, protein synthesis</li>
+                  <li><strong>Zinc:</strong> Immune function, wound healing, DNA synthesis</li>
+                  <li><strong>Potassium:</strong> Fluid balance, nerve signals, muscle contractions</li>
+                  <li><strong>Sodium:</strong> Fluid balance, nerve transmission, muscle contraction</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Healthy Eating Guidelines -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">🥦</div>
+          Evidence-Based Eating Guidelines
+        </h3>
+
+        <div class="eating-guidelines">
+          <div class="guideline-category">
+            <h4>🍽️ Portion Control Guide</h4>
+            <div class="portion-visual">
+              <div class="portion-item">
+                <span class="portion-icon">🥦</span>
+                <div class="portion-info">
+                  <h5>Vegetables</h5>
+                  <p>Fill half your plate with colorful vegetables</p>
+                  <span class="portion-size">2-3 cups per day</span>
+                </div>
+              </div>
+              <div class="portion-item">
+                <span class="portion-icon">🍚</span>
+                <div class="portion-info">
+                  <h5>Whole Grains</h5>
+                  <p>Choose whole grains over refined grains</p>
+                  <span class="portion-size">6-8 ounces per day</span>
+                </div>
+              </div>
+              <div class="portion-item">
+                <span class="portion-icon">🥩</span>
+                <div class="portion-info">
+                  <h5>Lean Protein</h5>
+                  <p>Palm-sized portion, 3 times per day</p>
+                  <span class="portion-size">5-6 ounces per day</span>
+                </div>
+              </div>
+              <div class="portion-item">
+                <span class="portion-icon">🥑</span>
+                <div class="portion-info">
+                  <h5>Healthy Fats</h5>
+                  <p>Thumb-sized portion with meals</p>
+                  <span class="portion-size">2-3 tablespoons per day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="guideline-category">
+            <h4>🚫 Foods to Limit or Avoid</h4>
+            <div class="avoid-list">
+              <div class="avoid-item">
+                <span class="avoid-icon">🍬</span>
+                <div class="avoid-details">
+                  <h5>Processed Meats</h5>
+                  <p>Bacon, sausage, hot dogs, deli meats</p>
+                  <span class="avoid-reason">High in sodium, nitrates, and saturated fats</span>
+                </div>
+              </div>
+              <div class="avoid-item">
+                <span class="avoid-icon">🥤</span>
+                <div class="avoid-details">
+                  <h5>Sugary Beverages</h5>
+                  <p>Soda, energy drinks, sweet teas, fruit juices</p>
+                  <span class="avoid-reason">Empty calories, blood sugar spikes, weight gain</span>
+                </div>
+              </div>
+              <div class="avoid-item">
+                <span class="avoid-icon">🍟</span>
+                <div class="avoid-details">
+                  <h5>Refined Carbs</h5>
+                  <p>White bread, pastries, white rice, sugary cereals</p>
+                  <span class="avoid-reason">Rapid blood sugar changes, low nutritional value</span>
+                </div>
+              </div>
+              <div class="avoid-item">
+                <span class="avoid-icon">🧈</span>
+                <div class="avoid-details">
+                  <h5>Trans Fats</h5>
+                  <p>Fried foods, baked goods, processed snacks</p>
+                  <span class="avoid-reason">Increase inflammation, raise bad cholesterol</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meal Planning Tips -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">📅</div>
+          Smart Meal Planning Strategies
+        </h3>
+
+        <div class="meal-planning">
+          <div class="planning-section">
+            <h4>🌅 Breakfast Ideas</h4>
+            <div class="meal-suggestions">
+              <div class="meal-suggestion">
+                <h5>Overnight Oats</h5>
+                <p>Oats + chia seeds + Greek yogurt + berries + nuts</p>
+                <span class="meal-benefits">High fiber, protein, and antioxidants</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Eggs & Avocado Toast</h5>
+                <p>Whole grain toast + mashed avocado + poached eggs</p>
+                <span class="meal-benefits">Healthy fats, protein, and complex carbs</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Smoothie Bowl</h5>
+                <p>Banana + spinach + protein powder + almond butter</p>
+                <span class="meal-benefits">Quick, nutritious, and customizable</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="planning-section">
+            <h4>☀️ Lunch Ideas</h4>
+            <div class="meal-suggestions">
+              <div class="meal-suggestion">
+                <h5>Quinoa Buddha Bowl</h5>
+                <p>Quinoa + roasted vegetables + chickpeas + tahini dressing</p>
+                <span class="meal-benefits">Complete protein, fiber-rich, plant-based</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Grilled Chicken Salad</h5>
+                <p>Mixed greens + grilled chicken + vegetables + vinaigrette</p>
+                <span class="meal-benefits">Lean protein, vitamins, healthy fats</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Whole Grain Wrap</h5>
+                <p>Whole wheat wrap + hummus + vegetables + grilled chicken</p>
+                <span class="meal-benefits">Balanced macros, portable, filling</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="planning-section">
+            <h4>🌙 Dinner Ideas</h4>
+            <div class="meal-suggestions">
+              <div class="meal-suggestion">
+                <h5>Baked Salmon</h5>
+                <p>Salmon + roasted vegetables + brown rice + lemon herbs</p>
+                <span class="meal-benefits">Omega-3s, lean protein, complex carbs</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Stir-Fry Vegetables</h5>
+                <p>Colorful vegetables + tofu + brown rice + low-sodium sauce</p>
+                <span class="meal-benefits">Plant-based, antioxidant-rich, fiber-filled</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Lean Turkey Chili</h5>
+                <p>Ground turkey + beans + tomatoes + vegetables + herbs</p>
+                <span class="meal-benefits">High protein, fiber, vitamins, minerals</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hydration & Wellness -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">💧</div>
+          Hydration & Beyond
+        </h3>
+
+        <div class="hydration-content">
+          <div class="hydration-info">
+            <h4>💧 Importance of Hydration</h4>
+            <ul class="hydration-facts">
+              <li><strong>Body Composition:</strong> 60% water, essential for all bodily functions</li>
+              <li><strong>Brain Function:</strong> Even mild dehydration can impair cognitive performance</li>
+              <li><strong>Digestion:</strong> Essential for nutrient absorption and waste removal</li>
+              <li><strong>Temperature Regulation:</strong> Sweating and cooling mechanisms</li>
+              <li><strong>Joint Health:</strong> Lubricates joints and protects cartilage</li>
+            </ul>
+          </div>
+
+          <div class="hydration-info">
+            <h4>🎯 Daily Hydration Goals</h4>
+            <ul class="hydration-facts">
+              <li><strong>General:</strong> 8 glasses (64 oz) daily as baseline</li>
+              <li><strong>Exercise:</strong> Add 1-2 glasses for every hour of activity</li>
+              <li><strong>Hot Weather:</strong> Increase intake to compensate for sweat loss</li>
+              <li><strong>Pregnancy:</strong> 10+ glasses daily for fetal development</li>
+              <li><strong>Signs of Adequate Hydration:</strong> Pale yellow urine, rarely thirsty</li>
+            </ul>
+          </div>
+
+          <div class="hydration-info">
+            <h4>🍵 Healthy Beverage Choices</h4>
+            <ul class="hydration-facts">
+              <li><strong>Water:</strong> Best choice - zero calories, pure hydration</li>
+              <li><strong>Herbal Tea:</strong> Antioxidant-rich, no caffeine</li>
+              <li><strong>Vegetable Juice:</strong> Nutrient-dense, watch sodium</li>
+              <li><strong>Green Tea:</strong> Metabolism boost, antioxidant benefits</li>
+              <li><strong>Limit:</strong> Sugary drinks, excessive caffeine, alcohol</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mindful Eating -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">🧘</div>
+          Mindful Eating Practices
+        </h3>
+
+        <div class="mindful-eating">
+          <div class="mindful-practice">
+            <h4>🎯 Core Principles</h4>
+            <div class="practice-list">
+              <div class="practice-item">
+                <span class="practice-icon">👂</span>
+                <div class="practice-details">
+                  <h5>Eat Slowly</h5>
+                  <p>Take 20+ minutes to finish meals. Your brain needs time to register fullness.</p>
+                </div>
+              </div>
+              <div class="practice-item">
+                <span class="practice-icon">🍽️</span>
+                <div class="practice-details">
+                  <h5>Use Smaller Plates</h5>
+                  <p>Research shows people eat 30% less when using smaller plates and bowls.</p>
+                </div>
+              </div>
+              <div class="practice-item">
+                <span class="practice-icon">🚫</span>
+                <div class="practice-details">
+                  <h5>No Distractions</h5>
+                  <p>Eat away from screens, TV, and phones. Focus on your food and company.</p>
+                </div>
+              </div>
+              <div class="practice-item">
+                <span class="practice-icon">😋</span>
+                <div class="practice-details">
+                  <h5>Savor Each Bite</h5>
+                  <p>Put your fork down between bites. Notice flavors, textures, and aromas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mindful-practice">
+            <h4>🛑 Stop When Satisfied</h4>
+            <div class="practice-tips">
+              <p><strong>Hunger Scale:</strong> Eat when moderately hungry (3-4), stop when satisfied (6-7)</p>
+              <p><strong>The 20-Minute Rule:</strong> Wait 20 minutes before getting seconds</p>
+              <p><strong>Portion Awareness:</strong> Start with smaller portions, get more if still hungry</p>
+              <p><strong>Emotional Eating:</strong> Ask if you're eating for hunger or emotions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reading Food Labels -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">🏷️</div>
+          Understanding Food Labels
+        </h3>
+
+        <div class="label-guide">
+          <div class="label-section">
+            <h4>📊 Serving Size Matters</h4>
+            <p>Check the serving size first! All other information is based on this amount. You might eat 2-3 servings without realizing it.</p>
+          </div>
+
+          <div class="label-section">
+            <h4>⚠️ Watch for Hidden Sugars</h4>
+            <p>Look for these in ingredient lists: sucrose, high fructose corn syrup, dextrose, maltose, fruit juice concentrate. Limit foods with sugar in the first 3 ingredients.</p>
+          </div>
+
+          <div class="label-section">
+            <h4>🧈 Sodium Content</h4>
+            <p>Daily value: 2,300mg for healthy adults, 1,500mg for those with high BP. Processed foods often contain excessive sodium.</p>
+          </div>
+
+          <div class="label-section">
+            <h4>🔍 Ingredient Order</h4>
+            <p>Ingredients are listed by weight. If sugar or unhealthy fats appear in the first 3 ingredients, it's not a healthy choice.</p>
           </div>
         </div>
       </div>
