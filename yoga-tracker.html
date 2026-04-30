@@ -433,6 +433,217 @@
         gap: 15px;
       }
     }
+
+    /* Exercise Library */
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .exercise-card {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .exercise-card:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .exercise-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .exercise-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .exercise-count {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* Workout Plans */
+    .workout-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .workout-item {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .workout-item:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .workout-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .workout-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .workout-duration {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 600;
+      background: rgba(99, 102, 241, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .workout-desc {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 12px;
+    }
+
+    .workout-btn {
+      width: 100%;
+      padding: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .workout-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Yoga Pose Guide */
+    .pose-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .pose-card {
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.08) 100%);
+      border-radius: 12px;
+      text-align: center;
+      border: 2px solid rgba(16, 185, 129, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .pose-card:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .pose-emoji {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .pose-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .pose-level {
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .pose-benefits {
+      font-size: 11px;
+      color: var(--gray);
+      line-height: 1.4;
+    }
+
+    /* Fitness Challenges */
+    .challenge-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .challenge-item {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+    }
+
+    .challenge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .challenge-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .challenge-status {
+      font-size: 12px;
+      color: var(--success);
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .challenge-progress {
+      margin: 8px 0;
+    }
+
+    .challenge-bar {
+      height: 8px;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .challenge-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .challenge-desc {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
@@ -494,6 +705,74 @@
 
     <!-- Content Grid -->
     <div class="content-grid">
+      <!-- Exercise Library -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">💪</div>
+          Exercise Library
+        </h3>
+
+        <div class="exercise-grid">
+          <div class="exercise-card">
+            <div class="exercise-icon">🏃</div>
+            <div class="exercise-name">Cardio</div>
+            <div class="exercise-count">12 exercises</div>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-icon">🏋️</div>
+            <div class="exercise-name">Strength</div>
+            <div class="exercise-count">15 exercises</div>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-icon">🤸</div>
+            <div class="exercise-name">Flexibility</div>
+            <div class="exercise-count">10 exercises</div>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-icon">🧘</div>
+            <div class="exercise-name">Balance</div>
+            <div class="exercise-count">8 exercises</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workout Plans -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">📋</div>
+          Workout Plans
+        </h3>
+
+        <div class="workout-list">
+          <div class="workout-item">
+            <div class="workout-header">
+              <span class="workout-name">🌅 Morning Starter</span>
+              <span class="workout-duration">15 min</span>
+            </div>
+            <div class="workout-desc">Quick energizing routine to start your day</div>
+            <button class="workout-btn">Start Plan</button>
+          </div>
+
+          <div class="workout-item">
+            <div class="workout-header">
+              <span class="workout-name">💪 Full Body Strength</span>
+              <span class="workout-duration">45 min</span>
+            </div>
+            <div class="workout-desc">Complete strength training workout</div>
+            <button class="workout-btn">Start Plan</button>
+          </div>
+
+          <div class="workout-item">
+            <div class="workout-header">
+              <span class="workout-name">🔥 Fat Burner</span>
+              <span class="workout-duration">30 min</span>
+            </div>
+            <div class="workout-desc">High-intensity cardio session</div>
+            <button class="workout-btn">Start Plan</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Yoga Session Form -->
       <div class="card">
         <h3 class="card-title">
@@ -615,6 +894,93 @@
           </div>
           <div class="progress-bar">
             <div class="progress-fill" style="width: 75%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Yoga Pose Guide -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">🧘</div>
+          Yoga Pose Guide
+        </h3>
+
+        <div class="pose-grid">
+          <div class="pose-card">
+            <div class="pose-emoji">🧘‍♀️</div>
+            <div class="pose-name">Mountain Pose</div>
+            <div class="pose-level">Beginner</div>
+            <div class="pose-benefits">Improves posture & balance</div>
+          </div>
+
+          <div class="pose-card">
+            <div class="pose-emoji">🙏</div>
+            <div class="pose-name">Tree Pose</div>
+            <div class="pose-level">Beginner</div>
+            <div class="pose-benefits">Builds focus & stability</div>
+          </div>
+
+          <div class="pose-card">
+            <div class="pose-emoji">🐕</div>
+            <div class="pose-name">Downward Dog</div>
+            <div class="pose-level">Intermediate</div>
+            <div class="pose-benefits">Stretches entire body</div>
+          </div>
+
+          <div class="pose-card">
+            <div class="pose-emoji">🧘‍♂️</div>
+            <div class="pose-name">Warrior Pose</div>
+            <div class="pose-level">Intermediate</div>
+            <div class="pose-benefits">Strengthens legs & core</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fitness Challenges -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">🏆</div>
+          Active Challenges
+        </h3>
+
+        <div class="challenge-list">
+          <div class="challenge-item">
+            <div class="challenge-header">
+              <span class="challenge-name">🔥 30-Day Yoga Challenge</span>
+              <span class="challenge-status">Day 7/30</span>
+            </div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" style="width: 23%;"></div>
+              </div>
+            </div>
+            <div class="challenge-desc">Complete 15 min yoga daily</div>
+          </div>
+
+          <div class="challenge-item">
+            <div class="challenge-header">
+              <span class="challenge-name">💪 Strength Builder</span>
+              <span class="challenge-status">Day 12/21</span>
+            </div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" style="width: 57%;"></div>
+              </div>
+            </div>
+            <div class="challenge-desc">3 strength workouts per week</div>
+          </div>
+
+          <div class="challenge-item">
+            <div class="challenge-header">
+              <span class="challenge-name">🏃 Cardio King</span>
+              <span class="challenge-status">Day 5/14</span>
+            </div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" style="width: 36%;"></div>
+              </div>
+            </div>
+            <div class="challenge-desc">30 min cardio, 5x per week</div>
           </div>
         </div>
       </div>
