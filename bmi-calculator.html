@@ -698,11 +698,26 @@
   </button>
 
   <script>
-    // FIX NAVIGATION HIGHLIGHTING - Remove active class from disease prediction
+    // COMPREHENSIVE NAVIGATION FIX - Ensure only BMI calculator is active
     document.addEventListener('DOMContentLoaded', function() {
+      // Remove active class from ALL navigation links first
+      const allNavLinks = document.querySelectorAll('.nav-link');
+      allNavLinks.forEach(link => {
+        link.classList.remove('active');
+      });
+
+      // Add active class ONLY to BMI calculator link
+      const bmiLink = document.querySelector('a[href="bmi-calculator.html"]');
+      if (bmiLink) {
+        bmiLink.classList.add('active');
+        console.log('✅ Navigation fixed: BMI calculator is now the only active link');
+      }
+
+      // Double-check disease prediction doesn't have active class
       const diseaseLink = document.querySelector('a[href="disease-prediction.html"]');
       if (diseaseLink && diseaseLink.classList.contains('active')) {
         diseaseLink.classList.remove('active');
+        console.log('✅ Removed active class from disease prediction link');
       }
     });
 

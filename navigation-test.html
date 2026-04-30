@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation Test - BMI Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .test-result {
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border-left: 4px solid #ddd;
+    }
+    .test-result.pass {
+      background: #d4edda;
+      border-color: #28a745;
+      color: #155724;
+    }
+    .test-result.fail {
+      background: #f8d7da;
+      border-color: #dc3545;
+      color: #721c24;
+    }
+    .nav-links {
+      margin: 20px 0;
+    }
+    .nav-link {
+      display: block;
+      padding: 10px;
+      margin: 5px 0;
+      background: #f8f9fa;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #333;
+    }
+    .nav-link.active {
+      background: #6366f1;
+      color: white;
+    }
+    .test-btn {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    .test-btn:hover {
+      background: #4f46e5;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🧪 Navigation Test Suite</h1>
+    <p>Testing BMI Calculator navigation highlighting</p>
+
+    <div class="nav-links">
+      <h3>Navigation Links (simulated):</h3>
+      <a href="dashboard-main.html" class="nav-link">📊 Dashboard</a>
+      <a href="disease-prediction.html" class="nav-link active">🔮 Disease Prediction (initially active)</a>
+      <a href="diet-tracking.html" class="nav-link">🥗 Diet & Nutrition</a>
+      <a href="bmi-calculator.html" class="nav-link">⚖️ BMI Calculator</a>
+    </div>
+
+    <div>
+      <button class="test-btn" onclick="runNavigationFix()">Run Navigation Fix</button>
+      <button class="test-btn" onclick="resetNavigation()">Reset</button>
+      <button class="test-btn" onclick="runTests()">Run Tests</button>
+    </div>
+
+    <div id="test-results"></div>
+  </div>
+
+  <script>
+    // Simulate the navigation fix from bmi-calculator.html
+    function runNavigationFix() {
+      // Remove active class from ALL navigation links first
+      const allNavLinks = document.querySelectorAll('.nav-link');
+      allNavLinks.forEach(link => {
+        link.classList.remove('active');
+      });
+
+      // Add active class ONLY to BMI calculator link
+      const bmiLink = document.querySelector('a[href="bmi-calculator.html"]');
+      if (bmiLink) {
+        bmiLink.classList.add('active');
+        console.log('✅ Navigation fixed: BMI calculator is now the only active link');
+      }
+
+      // Double-check disease prediction doesn't have active class
+      const diseaseLink = document.querySelector('a[href="disease-prediction.html"]');
+      if (diseaseLink && diseaseLink.classList.contains('active')) {
+        diseaseLink.classList.remove('active');
+        console.log('✅ Removed active class from disease prediction link');
+      }
+
+      displayMessage('Navigation fix applied!', 'pass');
+    }
+
+    function resetNavigation() {
+      const allNavLinks = document.querySelectorAll('.nav-link');
+      allNavLinks.forEach(link => {
+        link.classList.remove('active');
+      });
+
+      // Reset to initial state
+      const diseaseLink = document.querySelector('a[href="disease-prediction.html"]');
+      if (diseaseLink) {
+        diseaseLink.classList.add('active');
+      }
+
+      displayMessage('Navigation reset to initial state', 'pass');
+    }
+
+    function runTests() {
+      const results = [];
+      const resultsContainer = document.getElementById('test-results');
+      resultsContainer.innerHTML = '<h3>Test Results:</h3>';
+
+      // Test 1: Only BMI calculator should be active after fix
+      runNavigationFix();
+      const bmiLink = document.querySelector('a[href="bmi-calculator.html"]');
+      const diseaseLink = document.querySelector('a[href="disease-prediction.html"]');
+      const dashboardLink = document.querySelector('a[href="dashboard-main.html"]');
+
+      const test1 = bmiLink && bmiLink.classList.contains('active');
+      const test2 = !diseaseLink || !diseaseLink.classList.contains('active');
+      const test3 = !dashboardLink || !dashboardLink.classList.contains('active');
+
+      results.push({
+        name: 'BMI Calculator has active class',
+        passed: test1,
+        details: test1 ? '✅ BMI calculator correctly has active class' : '❌ BMI calculator missing active class'
+      });
+
+      results.push({
+        name: 'Disease Prediction does NOT have active class',
+        passed: test2,
+        details: test2 ? '✅ Disease prediction correctly does not have active class' : '❌ Disease prediction incorrectly has active class'
+      });
+
+      results.push({
+        name: 'Dashboard does NOT have active class',
+        passed: test3,
+        details: test3 ? '✅ Dashboard correctly does not have active class' : '❌ Dashboard incorrectly has active class'
+      });
+
+      // Display results
+      results.forEach(result => {
+        const resultDiv = document.createElement('div');
+        resultDiv.className = `test-result ${result.passed ? 'pass' : 'fail'}`;
+        resultDiv.innerHTML = `<strong>${result.name}</strong><br>${result.details}`;
+        resultsContainer.appendChild(resultDiv);
+      });
+
+      // Overall result
+      const allPassed = results.every(r => r.passed);
+      const overallDiv = document.createElement('div');
+      overallDiv.className = `test-result ${allPassed ? 'pass' : 'fail'}`;
+      overallDiv.innerHTML = `<strong>Overall Result: ${allPassed ? 'ALL TESTS PASSED ✅' : 'SOME TESTS FAILED ❌'}</strong>`;
+      resultsContainer.appendChild(overallDiv);
+    }
+
+    function displayMessage(message, type) {
+      const resultsContainer = document.getElementById('test-results');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `test-result ${type}`;
+      messageDiv.textContent = message;
+      resultsContainer.innerHTML = '';
+      resultsContainer.appendChild(messageDiv);
+    }
+  </script>
+</body>
+</html>
