@@ -381,6 +381,187 @@
       box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
     }
 
+    /* Health Information Section */
+    .health-info-section {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .health-info-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 16px var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .info-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Metric Explanations */
+    .metric-explanation {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .metric-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    .metric-details h5 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .metric-details p {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+
+    .metric-tip {
+      font-size: 12px;
+      color: var(--primary);
+      font-style: italic;
+    }
+
+    /* Risk Factors */
+    .risk-factors {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .risk-factors {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .risk-factor {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
+      border-radius: 12px;
+      border-left: 3px solid var(--danger);
+    }
+
+    .risk-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .risk-content h5 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .risk-content p {
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 1.4;
+    }
+
+    /* Prevention Tips */
+    .prevention-tips {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .prevention-tips {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tip-card {
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
+      border-radius: 12px;
+      border-left: 3px solid var(--success);
+    }
+
+    .tip-card .tip-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .tip-card h5 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+
+    .tip-card p {
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 1.4;
+    }
+
+    /* Health Statistics */
+    .stats-overview {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .stats-overview {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .stat-item {
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border-radius: 12px;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
     /* Results */
     .results-grid {
       display: grid;
@@ -750,6 +931,121 @@
             <span>Analyze Health Risks</span>
           </button>
         </form>
+      </div>
+
+      <!-- Health Information Section -->
+      <div class="health-info-section">
+        <!-- Key Health Metrics Info -->
+        <div class="info-card">
+          <h4 class="info-card-title">📊 Understanding Your Health Metrics</h4>
+          <div class="info-content">
+            <div class="metric-explanation">
+              <div class="metric-icon">💓</div>
+              <div class="metric-details">
+                <h5>Blood Pressure</h5>
+                <p><strong>Normal:</strong> 120/80 mmHg | <strong>High:</strong> >140/90 mmHg</p>
+                <p class="metric-tip">Keep your blood pressure in check through regular monitoring and a healthy lifestyle.</p>
+              </div>
+            </div>
+            <div class="metric-explanation">
+              <div class="metric-icon">🩸</div>
+              <div class="metric-details">
+                <h5>Blood Sugar</h5>
+                <p><strong>Normal:</strong> 70-100 mg/dL | <strong>High:</strong> >126 mg/dL</p>
+                <p class="metric-tip">Monitor your glucose levels, especially if you have risk factors for diabetes.</p>
+              </div>
+            </div>
+            <div class="metric-explanation">
+              <div class="metric-icon">⚖️</div>
+              <div class="metric-details">
+                <h5>BMI (Body Mass Index)</h5>
+                <p><strong>Normal:</strong> 18.5-24.9 | <strong>Overweight:</strong> 25-29.9</p>
+                <p class="metric-tip">Maintain a healthy weight through balanced diet and regular exercise.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Disease Risk Factors -->
+        <div class="info-card">
+          <h4 class="info-card-title">⚠️ Common Risk Factors</h4>
+          <div class="risk-factors">
+            <div class="risk-factor">
+              <span class="risk-icon">🚬</span>
+              <div class="risk-content">
+                <h5>Smoking</h5>
+                <p>Increases risk of heart disease, stroke, and lung cancer by 2-4 times</p>
+              </div>
+            </div>
+            <div class="risk-factor">
+              <span class="risk-icon">🥃</span>
+              <div class="risk-content">
+                <h5>Excessive Alcohol</h5>
+                <p>Can lead to liver disease, high blood pressure, and increased cancer risk</p>
+              </div>
+            </div>
+            <div class="risk-factor">
+              <span class="risk-icon">🛋️</span>
+              <div class="risk-content">
+                <h5>Sedentary Lifestyle</h5>
+                <p>Doubles the risk of cardiovascular diseases and reduces life expectancy</p>
+              </div>
+            </div>
+            <div class="risk-factor">
+              <span class="risk-icon">🍔</span>
+              <div class="risk-content">
+                <h5>Poor Diet</h5>
+                <p>High processed food intake increases inflammation and chronic disease risk</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prevention Tips -->
+        <div class="info-card">
+          <h4 class="info-card-title">🛡️ Disease Prevention Tips</h4>
+          <div class="prevention-tips">
+            <div class="tip-card">
+              <div class="tip-icon">🏃</div>
+              <h5>Stay Active</h5>
+              <p>Aim for 150 minutes of moderate exercise per week to reduce chronic disease risk by up to 50%</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">🥗</div>
+              <h5>Eat Balanced</h5>
+              <p>Include fruits, vegetables, whole grains, and lean proteins in your daily diet</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">😴</div>
+              <h5>Quality Sleep</h5>
+              <p>Get 7-9 hours of sleep to maintain healthy immune function and hormone balance</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">🧘</div>
+              <h5>Manage Stress</h5>
+              <p>Practice stress-reducing activities like meditation, yoga, or deep breathing</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Statistics -->
+        <div class="info-card">
+          <h4 class="info-card-title">📈 Global Health Statistics</h4>
+          <div class="stats-overview">
+            <div class="stat-item">
+              <div class="stat-number">17.9M</div>
+              <div class="stat-label">Deaths from CVD annually</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">463M</div>
+              <div class="stat-label">People with diabetes worldwide</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">80%</div>
+              <div class="stat-label">Heart disease preventable</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Results Display -->
