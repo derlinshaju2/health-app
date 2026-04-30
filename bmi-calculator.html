@@ -529,10 +529,22 @@
           <span class="nav-link-icon">🥗</span>
           <span>Diet & Nutrition</span>
         </a>
-        <a href="bmi-calculator.html" class="nav-link active">
+        <a href="bmi-calculator.html" class="nav-link" id="bmi-nav-link">
           <span class="nav-link-icon">⚖️</span>
           <span>BMI Calculator</span>
         </a>
+        <script>
+          // IMMEDIATE NAVIGATION FIX - Run right here, right now
+          (function() {
+            // Remove active from ALL nav links
+            document.querySelectorAll('.nav-link').forEach(function(link) {
+              link.classList.remove('active');
+            });
+            // Add active ONLY to BMI calculator
+            document.getElementById('bmi-nav-link').classList.add('active');
+            console.log('✅ BMI Navigation Fixed!');
+          })();
+        </script>
       </div>
 
       <div class="nav-section">
@@ -701,47 +713,7 @@
   </button>
 
   <script>
-    // AGGRESSIVE NAVIGATION FIX - Run multiple times to ensure it works
-    function fixNavigation() {
-      console.log('🔧 Running navigation fix...');
-
-      // Remove active class from ALL navigation links first
-      const allNavLinks = document.querySelectorAll('.nav-link');
-      console.log(`Found ${allNavLinks.length} navigation links`);
-
-      allNavLinks.forEach(link => {
-        link.classList.remove('active');
-        console.log(`Removed active from: ${link.textContent.trim()}`);
-      });
-
-      // Add active class ONLY to BMI calculator link
-      const bmiLink = document.querySelector('a[href="bmi-calculator.html"]');
-      if (bmiLink) {
-        bmiLink.classList.add('active');
-        console.log('✅ Added active to BMI Calculator');
-      }
-
-      // Double-check disease prediction doesn't have active class
-      const diseaseLink = document.querySelector('a[href="disease-prediction.html"]');
-      if (diseaseLink) {
-        diseaseLink.classList.remove('active');
-        console.log('✅ Force removed active from Disease Prediction');
-      }
-
-      console.log('✅ Navigation fix completed!');
-    }
-
-    // Run immediately if DOM is ready, otherwise wait for DOMContentLoaded
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', fixNavigation);
-    } else {
-      fixNavigation();
-    }
-
-    // Run again after a short delay to catch any late-loading elements
-    setTimeout(fixNavigation, 100);
-    setTimeout(fixNavigation, 500);
-    setTimeout(fixNavigation, 1000);
+    // Mobile menu toggle
 
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
