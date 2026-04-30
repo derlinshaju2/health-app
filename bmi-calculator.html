@@ -521,7 +521,7 @@
           <span class="nav-link-icon">📊</span>
           <span>Dashboard</span>
         </a>
-        <a href="disease-prediction.html" class="nav-link">
+        <a href="disease-prediction.html" class="nav-link" style="background: transparent !important; color: var(--dark) !important; box-shadow: none !important;">
           <span class="nav-link-icon">🔮</span>
           <span>Disease Prediction</span>
         </a>
@@ -529,22 +529,10 @@
           <span class="nav-link-icon">🥗</span>
           <span>Diet & Nutrition</span>
         </a>
-        <a href="bmi-calculator.html" class="nav-link" id="bmi-nav-link">
+        <a href="bmi-calculator.html" class="nav-link active" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important; color: white !important; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;">
           <span class="nav-link-icon">⚖️</span>
           <span>BMI Calculator</span>
         </a>
-        <script>
-          // IMMEDIATE NAVIGATION FIX - Run right here, right now
-          (function() {
-            // Remove active from ALL nav links
-            document.querySelectorAll('.nav-link').forEach(function(link) {
-              link.classList.remove('active');
-            });
-            // Add active ONLY to BMI calculator
-            document.getElementById('bmi-nav-link').classList.add('active');
-            console.log('✅ BMI Navigation Fixed!');
-          })();
-        </script>
       </div>
 
       <div class="nav-section">
