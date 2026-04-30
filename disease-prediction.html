@@ -226,6 +226,35 @@
       gap: 10px;
     }
 
+    /* Health Metrics Card - Bigger and more prominent */
+    .health-metrics-card {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.3);
+      padding: 48px;
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+    }
+
+    .health-metrics-title {
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .health-metrics-subtitle {
+      font-size: 18px;
+      color: var(--gray);
+      margin-bottom: 40px;
+      line-height: 1.6;
+      padding-left: 48px;
+    }
+
     .card-icon {
       width: 40px;
       height: 40px;
@@ -285,6 +314,49 @@
       background-repeat: no-repeat;
       background-position: right 16px center;
       padding-right: 40px;
+    }
+
+    /* Enhanced form styles for health metrics card */
+    .health-metrics-card .form-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 1024px) {
+      .health-metrics-card .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .health-metrics-card .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .health-metrics-card .form-group {
+      margin-bottom: 24px;
+    }
+
+    .health-metrics-card .form-label {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .health-metrics-card .form-input {
+      padding: 18px 20px;
+      font-size: 17px;
+      border-radius: 16px;
+      border-width: 2px;
+    }
+
+    .health-metrics-card .submit-btn {
+      padding: 20px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 10px;
     }
 
     .submit-btn {
@@ -572,11 +644,12 @@
     <!-- Content Grid -->
     <div class="content-grid">
       <!-- Health Input Form -->
-      <div class="card">
-        <h3 class="card-title">
-          <div class="card-icon">📝</div>
+      <div class="card health-metrics-card">
+        <h2 class="health-metrics-title">
+          <div class="card-icon" style="font-size: 32px;">📝</div>
           Enter Your Health Metrics
-        </h3>
+        </h2>
+        <p class="health-metrics-subtitle">Provide your current health information for AI-powered disease risk analysis</p>
 
         <form id="healthForm" onsubmit="predictDiseases(event)">
           <div class="form-grid">
