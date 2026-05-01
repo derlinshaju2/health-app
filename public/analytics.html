@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -301,6 +301,13 @@
       position: relative;
       height: 300px;
       margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .chart-container canvas {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
     }
 
     /* Time Range Selector */
@@ -1305,7 +1312,13 @@
 
     // Initialize charts on load
     document.addEventListener('DOMContentLoaded', () => {
-      initCharts();
+      console.log('DOM Content Loaded - initializing charts...');
+      try {
+        initCharts();
+        console.log('Charts initialized successfully');
+      } catch (error) {
+        console.error('Error initializing charts:', error);
+      }
       updateStatistics();
     });
 
