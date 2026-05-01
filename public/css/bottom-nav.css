@@ -1,0 +1,393 @@
+/**
+ * Mobile Bottom Navigation
+ * Provides mobile-friendly navigation with 5 key sections
+ */
+
+/* Bottom Navigation Container */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  display: none; /* Hidden on desktop by default */
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0 12px 0;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-radius: 20px 20px 0 0;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Bottom Navigation Items */
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: var(--gray);
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.bottom-nav-item:hover {
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.bottom-nav-item.active {
+  color: var(--primary);
+}
+
+/* Active indicator (colored line above icon) */
+.bottom-nav-item.active::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 2px;
+}
+
+/* Navigation Icons */
+.bottom-nav-icon {
+  font-size: 24px;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.bottom-nav-item:hover .bottom-nav-icon {
+  transform: scale(1.1);
+}
+
+.bottom-nav-item.active .bottom-nav-icon {
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Navigation Labels */
+.bottom-nav-label {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Floating Action Button */
+.floating-action-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 50%;
+  display: none; /* Hidden on desktop */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  z-index: 999;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.floating-action-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 24px rgba(99, 102, 241, 0.5);
+}
+
+.floating-action-btn:active {
+  transform: scale(0.95);
+}
+
+.floating-action-btn-icon {
+  font-size: 28px;
+  color: white;
+  line-height: 1;
+}
+
+/* Quick Actions Modal */
+.quick-actions-modal {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 24px 24px 0 0;
+  padding: 30px 20px 40px 20px;
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  animation: slideUp 0.3s ease;
+}
+
+.quick-actions-modal.show {
+  display: block;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.quick-actions-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.quick-actions-overlay.show {
+  display: block;
+}
+
+.quick-actions-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.quick-action-item {
+  background: var(--light);
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.quick-action-item:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.quick-action-icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.quick-action-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Show bottom navigation on mobile */
+  .bottom-nav {
+    display: flex;
+  }
+
+  /* Show floating action button on mobile */
+  .floating-action-btn {
+    display: flex;
+  }
+
+  /* Hide sidebar on mobile */
+  .sidebar {
+    display: none !important;
+  }
+
+  /* Adjust main content for mobile */
+  .main-content {
+    margin-left: 0 !important;
+    padding: 20px !important;
+    padding-bottom: 90px !important; /* Space for bottom nav */
+  }
+
+  /* Adjust header for mobile */
+  .header {
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* Mobile menu button (for when sidebar is needed) */
+  .mobile-menu-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--light);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-menu-btn:hover {
+    background: var(--border);
+  }
+
+  /* Adjust cards for mobile */
+  .card, .health-card, .stat-card {
+    border-radius: 16px !important;
+    margin-bottom: 15px !important;
+  }
+
+  /* Adjust grid layouts for mobile */
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+
+  /* Make forms full width on mobile */
+  .form-row {
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+
+  .form-row .form-group {
+    flex: 1 !important;
+    width: 100% !important;
+  }
+
+  /* Adjust tables for mobile */
+  .data-table {
+    font-size: 13px !important;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 10px 8px !important;
+  }
+
+  /* Hide less important elements on mobile */
+  .hide-mobile {
+    display: none !important;
+  }
+
+  /* Show mobile-specific elements */
+  .show-mobile {
+    display: block !important;
+  }
+
+  /* Adjust charts for mobile */
+  .chart-container {
+    height: 250px !important;
+  }
+
+  /* Adjust buttons for mobile */
+  .btn-group {
+    flex-direction: column !important;
+  }
+
+  .btn-group .btn,
+  .btn-group button {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+}
+
+/* Desktop - hide bottom nav, show sidebar */
+@media (min-width: 769px) {
+  .bottom-nav {
+    display: none !important;
+  }
+
+  .floating-action-btn {
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
+    display: none !important;
+  }
+
+  .show-mobile {
+    display: none !important;
+  }
+
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Tablet-specific adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .main-content {
+    margin-left: 220px !important; /* Narrower sidebar on tablet */
+  }
+
+  .sidebar {
+    width: 220px !important;
+  }
+}
+
+/* Safe area for iPhone X and above */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .bottom-nav {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .main-content {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .floating-action-btn {
+    bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Dark mode support */
+body.dark-mode .bottom-nav {
+  background: rgba(15, 23, 42, 0.95);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .bottom-nav-item {
+  color: var(--gray);
+}
+
+body.dark-mode .bottom-nav-item.active {
+  color: var(--primary);
+}
+
+body.dark-mode .quick-actions-modal {
+  background: var(--light);
+  color: var(--dark);
+}
+
+body.dark-mode .quick-action-item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .floating-action-btn {
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+}

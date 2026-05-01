@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build Your Health Profile - HealthAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #8b5cf6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --border: #e2e8f0;
+      --shadow: rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .onboarding-container {
+      width: 100%;
+      max-width: 600px;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .onboarding-screen {
+      display: none;
+      padding: 40px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .onboarding-screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      margin-bottom: 30px;
+    }
+
+    .progress-track {
+      height: 8px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 10px;
+      transition: width 0.5s ease;
+      position: relative;
+    }
+
+    .progress-text {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    /* Screen 1: Welcome */
+    .onboarding-icon {
+      font-size: 64px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .onboarding-title {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .onboarding-subtitle {
+      font-size: 16px;
+      text-align: center;
+      color: var(--gray);
+      margin-bottom: 40px;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .benefit-card {
+      background: var(--light);
+      padding: 20px 15px;
+      border-radius: 16px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    .benefit-icon {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .benefit-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--light);
+      color: var(--dark);
+      border: 2px solid var(--border);
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-right: 10px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .input-with-unit {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-with-unit .form-input {
+      flex: 1;
+    }
+
+    .input-with-unit select {
+      width: 80px;
+      padding: 14px 12px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: inherit;
+      background: white;
+      cursor: pointer;
+    }
+
+    /* Gender Selection */
+    .gender-options {
+      display: flex;
+      gap: 10px;
+    }
+
+    .gender-btn {
+      flex: 1;
+      padding: 14px;
+      border: 2px solid var(--border);
+      background: white;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .gender-btn:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .gender-btn.selected {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+    }
+
+    /* Goal Cards */
+    .goal-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .goal-card {
+      background: var(--light);
+      border: 2px solid transparent;
+      padding: 25px 20px;
+      border-radius: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .goal-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .goal-card.selected {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    }
+
+    .goal-icon {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .goal-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    /* Lifestyle Options */
+    .lifestyle-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .lifestyle-btn {
+      padding: 20px;
+      border: 2px solid var(--border);
+      background: white;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .lifestyle-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .lifestyle-btn.selected {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+    }
+
+    /* Results Display */
+    .instant-results {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .results-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 25px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .result-card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .result-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .result-label {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 5px;
+    }
+
+    .result-category {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .result-category.normal {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .result-category.overweight {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .formula-visualization {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .formula-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .formula {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: var(--gray);
+      background: var(--light);
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    /* Lifestyle Question */
+    .lifestyle-question {
+      margin-bottom: 30px;
+    }
+
+    .lifestyle-question h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    /* Error States */
+    .form-group.error .form-input {
+      border-color: var(--danger);
+    }
+
+    .error-message {
+      display: none;
+      color: var(--danger);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .form-group.error .error-message {
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .onboarding-screen {
+        padding: 30px 20px;
+      }
+
+      .onboarding-title {
+        font-size: 24px;
+      }
+
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .goal-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .lifestyle-options {
+        grid-template-columns: 1fr;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .btn-secondary {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="onboarding-container">
+    <!-- Screen 1: Welcome -->
+    <div class="onboarding-screen active" data-step="1">
+      <div class="onboarding-icon">🏥</div>
+      <h1 class="onboarding-title">Let's Build Your Health Profile</h1>
+      <p class="onboarding-subtitle">Track fitness, improve diet, get AI insights</p>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <span class="benefit-icon">📊</span>
+          <span class="benefit-label">Track Fitness</span>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon">🥗</span>
+          <span class="benefit-label">Improve Diet</span>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon">🤖</span>
+          <span class="benefit-label">AI Insights</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="onboarding.nextStep()">Get Started</button>
+    </div>
+
+    <!-- Screen 2: Basic Info -->
+    <div class="onboarding-screen" data-step="2">
+      <div class="progress-bar">
+        <div class="progress-track">
+          <div class="progress-fill" style="width: 25%"></div>
+        </div>
+        <span class="progress-text">Step 1/4</span>
+      </div>
+
+      <h2 class="onboarding-title">Basic Information</h2>
+      <p class="onboarding-subtitle">Tell us a bit about yourself</p>
+
+      <form id="basic-info-form">
+        <div class="form-group">
+          <label class="form-label">Age</label>
+          <input type="number" class="form-input" name="age" min="10" max="100" placeholder="Enter your age" required>
+          <div class="error-message">Please enter a valid age (10-100)</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Gender</label>
+          <div class="gender-options">
+            <button type="button" class="gender-btn" data-value="male">Male</button>
+            <button type="button" class="gender-btn" data-value="female">Female</button>
+            <button type="button" class="gender-btn" data-value="other">Other</button>
+          </div>
+          <input type="hidden" name="gender" required>
+        </div>
+      </form>
+
+      <div class="button-group">
+        <button class="btn-secondary" onclick="onboarding.prevStep()">Back</button>
+        <button class="btn-primary" onclick="onboarding.nextStep()">Continue</button>
+      </div>
+    </div>
+
+    <!-- Screen 3: Body Metrics -->
+    <div class="onboarding-screen" data-step="3">
+      <div class="progress-bar">
+        <div class="progress-track">
+          <div class="progress-fill" style="width: 50%"></div>
+        </div>
+        <span class="progress-text">Step 2/4</span>
+      </div>
+
+      <h2 class="onboarding-title">Body Metrics</h2>
+      <p class="onboarding-subtitle">Help us calculate your personalized targets</p>
+
+      <form id="body-metrics-form">
+        <div class="form-group">
+          <label class="form-label">Height</label>
+          <div class="input-with-unit">
+            <input type="number" class="form-input" name="height" placeholder="170" required>
+            <select name="height_unit">
+              <option value="cm">cm</option>
+              <option value="ft">ft</option>
+            </select>
+          </div>
+          <div class="error-message">Please enter a valid height</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Weight</label>
+          <div class="input-with-unit">
+            <input type="number" class="form-input" name="weight" placeholder="70" required>
+            <select name="weight_unit">
+              <option value="kg">kg</option>
+              <option value="lbs">lbs</option>
+            </select>
+          </div>
+          <div class="error-message">Please enter a valid weight</div>
+        </div>
+      </form>
+
+      <div class="button-group">
+        <button class="btn-secondary" onclick="onboarding.prevStep()">Back</button>
+        <button class="btn-primary" onclick="onboarding.nextStep()">Continue</button>
+      </div>
+    </div>
+
+    <!-- Screen 4: Goals -->
+    <div class="onboarding-screen" data-step="4">
+      <div class="progress-bar">
+        <div class="progress-track">
+          <div class="progress-fill" style="width: 75%"></div>
+        </div>
+        <span class="progress-text">Step 3/4</span>
+      </div>
+
+      <h2 class="onboarding-title">What's Your Main Goal?</h2>
+      <p class="onboarding-subtitle">Choose your primary health objective</p>
+
+      <div class="goal-cards">
+        <button type="button" class="goal-card" data-goal="lose-weight">
+          <span class="goal-icon">🔥</span>
+          <span class="goal-title">Lose Weight</span>
+        </button>
+        <button type="button" class="goal-card" data-goal="gain-weight">
+          <span class="goal-icon">💪</span>
+          <span class="goal-title">Build Muscle</span>
+        </button>
+        <button type="button" class="goal-card" data-goal="maintain">
+          <span class="goal-icon">⚖️</span>
+          <span class="goal-title">Maintain</span>
+        </button>
+        <button type="button" class="goal-card" data-goal="improve-health">
+          <span class="goal-icon">❤️</span>
+          <span class="goal-title">Improve Health</span>
+        </button>
+      </div>
+
+      <input type="hidden" name="goal" required>
+
+      <div class="button-group">
+        <button class="btn-secondary" onclick="onboarding.prevStep()">Back</button>
+        <button class="btn-primary" onclick="onboarding.nextStep()">Continue</button>
+      </div>
+    </div>
+
+    <!-- Screen 5: Instant Value + Lifestyle -->
+    <div class="onboarding-screen" data-step="5">
+      <div class="progress-bar">
+        <div class="progress-track">
+          <div class="progress-fill" style="width: 100%"></div>
+        </div>
+        <span class="progress-text">Step 4/4</span>
+      </div>
+
+      <div class="instant-results">
+        <h2 class="results-title">Your Profile is Ready! 🎉</h2>
+
+        <div class="results-grid">
+          <div class="result-card bmi-result">
+            <div class="result-value">--</div>
+            <div class="result-label">Your BMI</div>
+            <div class="result-category normal">Normal Weight</div>
+          </div>
+          <div class="result-card calories-result">
+            <div class="result-value">--</div>
+            <div class="result-label">Daily Calories</div>
+          </div>
+        </div>
+
+        <div class="formula-visualization">
+          <div class="formula-title">How we calculated your BMI:</div>
+          <div class="formula">BMI = weight (kg) / height (m)²</div>
+        </div>
+      </div>
+
+      <div class="lifestyle-question">
+        <h3>What's your activity level?</h3>
+        <div class="lifestyle-options">
+          <button type="button" class="lifestyle-btn" data-level="sedentary">
+            🪑 Sedentary
+          </button>
+          <button type="button" class="lifestyle-btn" data-level="light">
+            🚶 Light Activity
+          </button>
+          <button type="button" class="lifestyle-btn" data-level="moderate">
+            🏃 Moderate
+          </button>
+          <button type="button" class="lifestyle-btn" data-level="active">
+            💪 Very Active
+          </button>
+        </div>
+      </div>
+
+      <input type="hidden" name="activityLevel" required>
+
+      <div class="button-group">
+        <button class="btn-secondary" onclick="onboarding.prevStep()">Back</button>
+        <button class="btn-primary btn-large" onclick="onboarding.completeOnboarding()">
+          Complete Setup →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/onboarding.js"></script>
+</body>
+</html>

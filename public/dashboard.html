@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/bottom-nav.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * {
@@ -1205,27 +1206,185 @@
     </div>
   </main>
 
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="bottom-nav-item active" data-page="dashboard">
+      <span class="bottom-nav-icon">🏠</span>
+      <span class="bottom-nav-label">Home</span>
+    </a>
+    <a href="yoga-tracker.html" class="bottom-nav-item" data-page="yoga-tracker">
+      <span class="bottom-nav-icon">🏃</span>
+      <span class="bottom-nav-label">Activity</span>
+    </a>
+    <a href="diet-tracking.html" class="bottom-nav-item" data-page="diet-tracking">
+      <span class="bottom-nav-icon">🍽️</span>
+      <span class="bottom-nav-label">Diet</span>
+    </a>
+    <a href="analytics.html" class="bottom-nav-item" data-page="analytics">
+      <span class="bottom-nav-icon">📊</span>
+      <span class="bottom-nav-label">Insights</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item" data-page="profile">
+      <span class="bottom-nav-icon">👤</span>
+      <span class="bottom-nav-label">Profile</span>
+    </a>
+  </nav>
+
+  <!-- Floating Action Button (Mobile) -->
+  <button class="floating-action-btn" onclick="showQuickActions()" aria-label="Quick Actions">
+    <span class="floating-action-btn-icon">+</span>
+  </button>
+
+  <!-- Quick Actions Modal -->
+  <div class="quick-actions-overlay" id="quickActionsOverlay" onclick="hideQuickActions()"></div>
+  <div class="quick-actions-modal" id="quickActionsModal">
+    <h3 class="quick-actions-title">Quick Actions</h3>
+    <div class="quick-actions-grid">
+      <div class="quick-action-item" onclick="quickAction('log-meal')">
+        <span class="quick-action-icon">🍽️</span>
+        <span class="quick-action-label">Log Meal</span>
+      </div>
+      <div class="quick-action-item" onclick="quickAction('start-workout')">
+        <span class="quick-action-icon">🏋️</span>
+        <span class="quick-action-label">Workout</span>
+      </div>
+      <div class="quick-action-item" onclick="quickAction('add-water')">
+        <span class="quick-action-icon">💧</span>
+        <span class="quick-action-label">Add Water</span>
+      </div>
+      <div class="quick-action-item" onclick="quickAction('view-analytics')">
+        <span class="quick-action-icon">📊</span>
+        <span class="quick-action-label">Analytics</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Mobile Menu Button -->
   <button class="mobile-menu-btn" id="mobileMenuBtn">
     ☰
   </button>
 
   <script>
+    // Initialize bottom navigation
+    function initBottomNavigation() {
+      const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+      const pageName = currentPage.replace('.html', '');
+
+      // Set active state
+      document.querySelectorAll('.bottom-nav-item').forEach(item => {
+        item.classList.remove('active');
+        const itemPage = item.dataset.page || item.getAttribute('href').replace('.html', '');
+        if (itemPage === pageName || item.getAttribute('href') === currentPage) {
+          item.classList.add('active');
+        }
+      });
+    }
+
+    // Show quick actions modal
+    function showQuickActions() {
+      const overlay = document.getElementById('quickActionsOverlay');
+      const modal = document.getElementById('quickActionsModal');
+
+      if (overlay && modal) {
+        overlay.classList.add('show');
+        modal.classList.add('show');
+      }
+    }
+
+    // Hide quick actions modal
+    function hideQuickActions() {
+      const overlay = document.getElementById('quickActionsOverlay');
+      const modal = document.getElementById('quickActionsModal');
+
+      if (overlay && modal) {
+        overlay.classList.remove('show');
+        modal.classList.remove('show');
+      }
+    }
+
+    // Handle quick action clicks
+    function quickAction(action) {
+      hideQuickActions();
+
+      switch(action) {
+        case 'log-meal':
+          window.location.href = 'diet-tracking.html';
+          break;
+        case 'start-workout':
+          window.location.href = 'yoga-tracker.html';
+          break;
+        case 'add-water':
+          addWaterGlass();
+          break;
+        case 'view-analytics':
+          window.location.href = 'analytics.html';
+          break;
+      }
+    }
+
+    // Add water glass (quick action)
+    function addWaterGlass() {
+      const todayData = JSON.parse(localStorage.getItem('todayData') || '{"date":"' + new Date().toISOString().split('T')[0] + '","water":0}');
+      todayData.water = (todayData.water || 0) + 1;
+      localStorage.setItem('todayData', JSON.stringify(todayData));
+
+      // Show notification
+      showNotification('Water Added! 💧', 'You\'ve had ' + todayData.water + ' glasses today.');
+
+      // Update display if on dashboard
+      const waterStat = document.querySelector('.stat-label:contains("Water")');
+      if (waterStat) {
+        location.reload();
+      }
+    }
+
+    // Show notification toast
+    function showNotification(title, message) {
+      const toast = document.createElement('div');
+      toast.className = 'notification-toast';
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 2000;
+        animation: slideIn 0.3s ease;
+        max-width: 300px;
+      `;
+
+      toast.innerHTML = `
+        <div style="font-weight: 600; color: var(--dark); margin-bottom: 4px;">${title}</div>
+        <div style="font-size: 14px; color: var(--gray);">${message}</div>
+      `;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebar');
 
-    mobileMenuBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
+    if (mobileMenuBtn && sidebar) {
+      mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
 
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-          sidebar.classList.remove('active');
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            sidebar.classList.remove('active');
+          }
         }
-      }
-    });
+      });
+    }
 
     // Logout function
     function logout() {
@@ -1233,6 +1392,11 @@
       localStorage.removeItem('user');
       window.location.href = 'index.html';
     }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      initBottomNavigation();
+    });
   </script>
 </body>
 </html>

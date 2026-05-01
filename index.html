@@ -331,7 +331,23 @@
         loginBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
 
         setTimeout(() => {
-          window.location.href = 'dashboard-main.html';
+          // Check if user has completed onboarding
+          const userProfile = localStorage.getItem('userProfile');
+
+          if (!userProfile) {
+            // New user - redirect to onboarding
+            sessionStorage.setItem('startOnboarding', 'true');
+            window.location.href = 'public/onboarding.html';
+          } else {
+            const profile = JSON.parse(userProfile);
+            if (profile.onboardingComplete) {
+              // Returning user - redirect to dashboard
+              window.location.href = 'public/dashboard.html';
+            } else {
+              // Incomplete onboarding - resume
+              window.location.href = 'public/onboarding.html';
+            }
+          }
         }, 1000);
 
       } catch (error) {
