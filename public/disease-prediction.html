@@ -672,15 +672,15 @@
     .mobile-menu-btn {
       display: none;
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      border: none;
-      color: white;
-      font-size: 24px;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: white;
+      border: 2px solid var(--border);
+      color: var(--dark);
+      font-size: 20px;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
       z-index: 1001;
@@ -688,7 +688,28 @@
     }
 
     .mobile-menu-btn:hover {
-      transform: scale(1.1);
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Sidebar Overlay for Mobile */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.show {
+      display: block;
+      opacity: 1;
     }
 
     /* Responsive */
@@ -709,7 +730,7 @@
 
       .main-content {
         margin-left: 0;
-        padding: 20px;
+        padding: 80px 16px 20px;
       }
 
       .mobile-menu-btn {
@@ -731,6 +752,10 @@
       .header-actions {
         width: 100%;
         justify-content: space-between;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1348,29 +1373,47 @@
 
   </main>
 
+  <!-- Mobile Menu Button -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+  </button>
 
-
-      </div>
-    </div>
-  </div>
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
   <script src="js/smart-notifications.js"></script>
   <script>
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-    mobileMenuBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-          sidebar.classList.remove('active');
+    if (mobileMenuBtn && sidebar) {
+      mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        if (sidebarOverlay) {
+          sidebarOverlay.classList.toggle('show');
         }
+      });
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', () => {
+          sidebar.classList.remove('active');
+          sidebarOverlay.classList.remove('show');
+        });
       }
-    });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            sidebar.classList.remove('active');
+            if (sidebarOverlay) {
+              sidebarOverlay.classList.remove('show');
+            }
+          }
+        }
+      });
+    }
 
     // Disease prediction function
     function predictDiseases(event) {
