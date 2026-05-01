@@ -1970,6 +1970,8 @@
       const userProfile = JSON.parse(localStorage.getItem('userProfile'));
       if (!userProfile) return;
 
+      console.log('🔍 Showing behavioral insights...');
+
       // Get user history for pattern analysis
       const userHistory = JSON.parse(localStorage.getItem('userHistory')) || [];
       const last7Days = userHistory.slice(-7);
@@ -2004,7 +2006,7 @@
 
       // Check if haven't worked out in a while
       const daysSinceWorkout = daysSinceLastWorkout(userHistory);
-      if (daysSinceWorkout >= 3) {
+      if (daysSinceWorkout >= 3 && daysSinceWorkout < 999) {
         insights.push({
           icon: '🏃',
           title: 'Back on Track',
@@ -2028,13 +2030,34 @@
         });
       }
 
-      // Display insights if any
+      // Add default insights for new users with no history
+      if (insights.length === 0) {
+        insights.push({
+          icon: '🎯',
+          title: 'Start Your Journey',
+          message: 'Log your first meal and workout to get personalized insights!',
+          action: 'logMeal',
+          actionLabel: 'Get Started',
+          priority: 'low'
+        });
+      }
+
+      console.log('✅ Generated insights:', insights);
+
+      // Display insights (always show at least one)
       if (insights.length > 0) {
         const mainContent = document.querySelector('.main-content');
-        if (!mainContent) return;
+        if (!mainContent) {
+          console.error('❌ .main-content not found!');
+          return;
+        }
+
+        console.log('✅ Found main-content, adding insights...');
 
         // Add time-based suggestions first
         const timeBasedSuggestion = getTimeBasedSuggestion();
+        console.log('⏰ Time-based suggestion:', timeBasedSuggestion);
+
         if (timeBasedSuggestion) {
           let timeSection = document.querySelector('.time-based-suggestions');
           if (!timeSection) {
