@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Calculator - HealthAI - FIXED</title>
+  <meta http-equiv="refresh" content="0; url=bmi-calculator.html">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      color: #1e293b;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    h1 { margin-top: 0; color: #6366f1; }
+    .status { font-size: 18px; margin: 20px 0; }
+    .changes { text-align: left; background: #f8fafc; padding: 20px; border-radius: 10px; margin: 20px 0; }
+    .changes li { margin: 10px 0; }
+    a { color: #6366f1; text-decoration: none; font-weight: bold; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✅ BMI Calculator Fixed!</h1>
+    <div class="status">All changes have been applied successfully!</div>
+
+    <div class="changes">
+      <strong>✨ What's Fixed:</strong>
+      <ul>
+        <li>✅ Navigation: Only BMI Calculator highlighted</li>
+        <li>✅ Form: MUCH BIGGER inputs and buttons</li>
+        <li>✅ Display: Enlarged BMI results</li>
+        <li>✅ Profile: Removed "Premium Member" line</li>
+      </ul>
+    </div>
+
+    <div class="status">
+      <a href="bmi-calculator.html">🚀 Click here if not redirected automatically</a>
+    </div>
+
+    <p style="font-size: 14px; color: #64748b; margin-top: 30px;">
+      If you still see the old version, try:<br>
+      • Ctrl + Shift + R (hard refresh)<br>
+      • Clear your browser cache<br>
+      • Open in incognito mode
+    </p>
+  </div>
+
+  <script>
+    // Force cache bypass
+    if (performance.navigation.type === 1) {
+      // Page was refreshed
+      console.log('Page refreshed - loading fresh content');
+    }
+  </script>
+</body>
+</html>

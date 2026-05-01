@@ -1,0 +1,12 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/analytics/page": "/analytics",
+  "/bmi-calculator/page": "/bmi-calculator",
+  "/dashboard/page": "/dashboard",
+  "/diet-tracking/page": "/diet-tracking",
+  "/disease-prediction/page": "/disease-prediction",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/",
+  "/profile/page": "/profile"
+}

@@ -1,0 +1,73 @@
+====================================================================
+   🚀 GET YOUR CHANGES LIVE RIGHT NOW - STEP BY STEP
+====================================================================
+
+PROBLEM: Your changes are on GitHub but NOT showing on your website
+SOLUTION: Follow these exact steps in Vercel dashboard
+
+====================================================================
+   📋 STEP-BY-STEP INSTRUCTIONS
+====================================================================
+
+STEP 1: Open Vercel Dashboard
+-----------------------------
+• Go to: https://vercel.com/dashboard
+• Login if needed
+
+STEP 2: Find Your Project
+--------------------------
+• Look for: "health-app"
+• Click on it
+
+STEP 3: Go to Deployments Tab
+------------------------------
+• At the top, click "Deployments" tab
+• You'll see a list of deployments
+
+STEP 4: Find the Latest Deployment
+------------------------------------
+• Look at the TOP deployment (most recent)
+• On the right side, click the "..." (three dots) menu
+
+STEP 5: Click "Redeploy"
+------------------------
+• In the menu, click "Redeploy"
+• Click "Redeploy" again to confirm
+
+STEP 6: Wait for Deployment
+----------------------------
+• Wait 2-3 minutes
+• Status will change from "Building" to "Ready"
+
+STEP 7: Test Your Website
+--------------------------
+• Open: https://health-app-orpin-three.vercel.app/bmi-calculator.html
+• You should see:
+  ✓ Only BMI Calculator highlighted (not Disease Prediction)
+  ✓ BIG calculator form with large inputs
+  ✓ No "Premium Member" line on profile page
+
+====================================================================
+   ✅ WHAT CHANGES TO EXPECT:
+====================================================================
+
+1. BMI Calculator Navigation:
+   - ONLY BMI Calculator link highlighted
+   - Disease Prediction link NOT highlighted
+
+2. BMI Calculator Form:
+   - MUCH BIGGER inputs and text
+   - Larger "Calculate BMI" button
+   - Bigger results display
+
+3. Profile Page:
+   - "Premium Member Since Jan 2024" line REMOVED
+
+====================================================================
+   🆘 IF THIS DOESN'T WORK:
+====================================================================
+
+• Wait 24 hours for deployment limit to reset
+• OR contact me for alternative deployment methods
+
+====================================================================

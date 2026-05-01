@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yoga & Exercise - HealthAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #8b5cf6;
+      --accent: #ec4899;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --border: #e2e8f0;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --shadow-lg: rgba(0, 0, 0, 0.12);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+      min-height: 100vh;
+      color: var(--dark);
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 30px 20px;
+      box-shadow: 4px 0 24px var(--shadow);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      padding: 0 10px;
+    }
+
+    .sidebar-logo-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .sidebar-logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-section {
+      margin-bottom: 30px;
+    }
+
+    .nav-section-title {
+      font-size: 11px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      padding: 0 10px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 14px;
+      margin-bottom: 6px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .nav-link:hover {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      color: var(--primary);
+      transform: translateX(4px);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .nav-link-icon {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 280px;
+      flex: 1;
+      padding: 30px;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    /* Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .unified-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .unified-grid .full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 4px 24px var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 32px var(--shadow-lg);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    }
+
+    /* Form */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%2364748b' stroke-width='2' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    }
+
+    /* Progress Bars */
+    .progress-section {
+      margin-top: 24px;
+    }
+
+    .progress-item {
+      margin-bottom: 20px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .progress-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .progress-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray);
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 8px;
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Activity List */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: var(--light);
+      border-radius: 14px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .activity-item:hover {
+      background: white;
+      border-color: var(--border);
+      transform: translateX(4px);
+    }
+
+    .activity-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .activity-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .activity-title {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .activity-time {
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    .activity-value {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--primary);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+      z-index: 1001;
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .unified-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .unified-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+    }
+
+    /* Exercise Library */
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .exercise-card {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .exercise-card:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .exercise-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .exercise-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .exercise-count {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* Workout Plans */
+    .workout-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .workout-item {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .workout-item:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .workout-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .workout-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .workout-duration {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 600;
+      background: rgba(99, 102, 241, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .workout-desc {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 12px;
+    }
+
+    .workout-btn {
+      width: 100%;
+      padding: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .workout-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Yoga Pose Guide */
+    .pose-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .pose-card {
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.08) 100%);
+      border-radius: 12px;
+      text-align: center;
+      border: 2px solid rgba(16, 185, 129, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .pose-card:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .pose-emoji {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .pose-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .pose-level {
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .pose-benefits {
+      font-size: 11px;
+      color: var(--gray);
+      line-height: 1.4;
+    }
+
+    /* Fitness Challenges */
+    .challenge-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .challenge-item {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+    }
+
+    .challenge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .challenge-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .challenge-status {
+      font-size: 12px;
+      color: var(--success);
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .challenge-progress {
+      margin: 8px 0;
+    }
+
+    .challenge-bar {
+      height: 8px;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .challenge-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .challenge-desc {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🏥</div>
+      <span class="sidebar-logo-text">HealthAI</span>
+    </div>
+
+    <nav>
+      <div class="nav-section">
+        <div class="nav-section-title">Main Menu</div>
+        <a href="dashboard-main.html" class="nav-link">
+          <span class="nav-link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="disease-prediction.html" class="nav-link">
+          <span class="nav-link-icon">🔮</span>
+          <span>Disease Prediction</span>
+        </a>
+        <a href="diet-tracking.html" class="nav-link">
+          <span class="nav-link-icon">🥗</span>
+          <span>Diet & Nutrition</span>
+        </a>
+        <a href="bmi-calculator.html" class="nav-link">
+          <span class="nav-link-icon">⚖️</span>
+          <span>BMI Calculator</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Health & Fitness</div>
+        <a href="yoga-tracker.html" class="nav-link active">
+          <span class="nav-link-icon">🧘</span>
+          <span>Yoga & Exercise</span>
+        </a>
+        <a href="analytics.html" class="nav-link">
+          <span class="nav-link-icon">📈</span>
+          <span>Analytics</span>
+        </a>
+        <a href="profile.html" class="nav-link">
+          <span class="nav-link-icon">👤</span>
+          <span>Profile</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="header">
+      <div>
+        <h1 class="page-title">Yoga & Exercise 🧘</h1>
+        <p class="page-subtitle">Track your yoga sessions, exercise routines, and fitness progress</p>
+      </div>
+    </header>
+
+    <!-- Content Grid -->
+    <div class="content-grid">
+      <!-- Exercise Library -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">💪</div>
+          Exercise Library
+        </h3>
+
+        <div class="exercise-grid">
+          <div class="exercise-card">
+            <div class="exercise-icon">🏃</div>
+            <div class="exercise-name">Cardio</div>
+            <div class="exercise-count">12 exercises</div>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-icon">🏋️</div>
+            <div class="exercise-name">Strength</div>
+            <div class="exercise-count">15 exercises</div>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-icon">🤸</div>
+            <div class="exercise-name">Flexibility</div>
+            <div class="exercise-count">10 exercises</div>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-icon">🧘</div>
+            <div class="exercise-name">Balance</div>
+            <div class="exercise-count">8 exercises</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workout Plans -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">📋</div>
+          Workout Plans
+        </h3>
+
+        <div class="workout-list">
+          <div class="workout-item">
+            <div class="workout-header">
+              <span class="workout-name">🌅 Morning Starter</span>
+              <span class="workout-duration">15 min</span>
+            </div>
+            <div class="workout-desc">Quick energizing routine to start your day</div>
+            <button class="workout-btn">Start Plan</button>
+          </div>
+
+          <div class="workout-item">
+            <div class="workout-header">
+              <span class="workout-name">💪 Full Body Strength</span>
+              <span class="workout-duration">45 min</span>
+            </div>
+            <div class="workout-desc">Complete strength training workout</div>
+            <button class="workout-btn">Start Plan</button>
+          </div>
+
+          <div class="workout-item">
+            <div class="workout-header">
+              <span class="workout-name">🔥 Fat Burner</span>
+              <span class="workout-duration">30 min</span>
+            </div>
+            <div class="workout-desc">High-intensity cardio session</div>
+            <button class="workout-btn">Start Plan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Yoga Session Form -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">📝</div>
+          Log Yoga Session
+        </h3>
+
+        <form id="yogaForm" onsubmit="logYogaSession(event)">
+          <div class="form-group">
+            <label class="form-label">Routine Type</label>
+            <select class="form-input form-select" id="routineType" required>
+              <option value="">Select routine</option>
+              <option value="morning">🌅 Morning Energy Flow</option>
+              <option value="stress_relief">😌 Stress Relief Sequence</option>
+              <option value="flexibility">🤸 Flexibility Builder</option>
+              <option value="diabetes">🩺 Diabetes Management</option>
+              <option value="custom">✨ Custom Routine</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Duration (minutes)</label>
+            <input type="number" class="form-input" id="duration" placeholder="15-120" min="5" max="180" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Difficulty Level</label>
+            <select class="form-input form-select" id="difficulty">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">How did you feel?</label>
+            <select class="form-input form-select" id="mood">
+              <option value="energized">⚡ Energized</option>
+              <option value="relaxed">😌 Relaxed</option>
+              <option value="focused">🧘 Focused</option>
+              <option value="tired">😴 Tired</option>
+              <option value="stressed">😰 Stressed</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notes (optional)</label>
+            <textarea class="form-input" id="notes" placeholder="How was your session?" rows="2" style="resize: none;"></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            🧘
+            <span>Log Session</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Session Timer -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">⏱️</div>
+          Session Timer
+        </h3>
+
+        <div style="text-align: center; margin-bottom: 24px;">
+          <div style="font-size: 64px; font-weight: 700; color: var(--primary); margin-bottom: 8px;" id="timerDisplay">00:00</div>
+          <div style="font-size: 14px; color: var(--gray);">Minutes:Seconds</div>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: center; margin-bottom: 20px;">
+          <button onclick="startTimer()" id="startBtn" style="padding: 12px 24px; border: none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+            ▶️ Start
+          </button>
+          <button onclick="pauseTimer()" id="pauseBtn" style="padding: 12px 24px; border: 2px solid var(--border); background: white; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: none;">
+            ⏸️ Pause
+          </button>
+          <button onclick="resetTimer()" style="padding: 12px 24px; border: 2px solid var(--border); background: white; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+            🔄 Reset
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+          <button onclick="setTimer(15)" style="padding: 10px; border: 2px solid var(--border); background: white; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">15 min</button>
+          <button onclick="setTimer(30)" style="padding: 10px; border: 2px solid var(--border); background: white; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">30 min</button>
+          <button onclick="setTimer(45)" style="padding: 10px; border: 2px solid var(--border); background: white; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">45 min</button>
+        </div>
+      </div>
+
+      <!-- Today's Progress -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">📊</div>
+          Today's Progress
+        </h3>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px;">
+          <div style="text-align: center; padding: 16px; background: var(--light); border-radius: 12px;">
+            <div style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 4px;" id="totalMinutes">45</div>
+            <div style="font-size: 12px; color: var(--gray);">Minutes Today</div>
+          </div>
+          <div style="text-align: center; padding: 16px; background: var(--light); border-radius: 12px;">
+            <div style="font-size: 32px; font-weight: 700; color: #10b981; margin-bottom: 4px;" id="totalSessions">1</div>
+            <div style="font-size: 12px; color: var(--gray);">Sessions</div>
+          </div>
+          <div style="text-align: center; padding: 16px; background: var(--light); border-radius: 12px;">
+            <div style="font-size: 32px; font-weight: 700; color: #f59e0b; margin-bottom: 4px;" id="caloriesBurned">180</div>
+            <div style="font-size: 12px; color: var(--gray);">Calories Burned</div>
+          </div>
+          <div style="text-align: center; padding: 16px; background: var(--light); border-radius: 12px;">
+            <div style="font-size: 32px; font-weight: 700; color: #8b5cf6; margin-bottom: 4px;">7</div>
+            <div style="font-size: 12px; color: var(--gray);">Day Streak 🔥</div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-header">
+            <span class="progress-label">🎯 Daily Goal</span>
+            <span class="progress-value" id="goalProgress">45/60 minutes</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 75%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Yoga Pose Guide -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">🧘</div>
+          Yoga Pose Guide
+        </h3>
+
+        <div class="pose-grid">
+          <div class="pose-card">
+            <div class="pose-emoji">🧘‍♀️</div>
+            <div class="pose-name">Mountain Pose</div>
+            <div class="pose-level">Beginner</div>
+            <div class="pose-benefits">Improves posture & balance</div>
+          </div>
+
+          <div class="pose-card">
+            <div class="pose-emoji">🙏</div>
+            <div class="pose-name">Tree Pose</div>
+            <div class="pose-level">Beginner</div>
+            <div class="pose-benefits">Builds focus & stability</div>
+          </div>
+
+          <div class="pose-card">
+            <div class="pose-emoji">🐕</div>
+            <div class="pose-name">Downward Dog</div>
+            <div class="pose-level">Intermediate</div>
+            <div class="pose-benefits">Stretches entire body</div>
+          </div>
+
+          <div class="pose-card">
+            <div class="pose-emoji">🧘‍♂️</div>
+            <div class="pose-name">Warrior Pose</div>
+            <div class="pose-level">Intermediate</div>
+            <div class="pose-benefits">Strengthens legs & core</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fitness Challenges -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">🏆</div>
+          Active Challenges
+        </h3>
+
+        <div class="challenge-list">
+          <div class="challenge-item">
+            <div class="challenge-header">
+              <span class="challenge-name">🔥 30-Day Yoga Challenge</span>
+              <span class="challenge-status">Day 7/30</span>
+            </div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" style="width: 23%;"></div>
+              </div>
+            </div>
+            <div class="challenge-desc">Complete 15 min yoga daily</div>
+          </div>
+
+          <div class="challenge-item">
+            <div class="challenge-header">
+              <span class="challenge-name">💪 Strength Builder</span>
+              <span class="challenge-status">Day 12/21</span>
+            </div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" style="width: 57%;"></div>
+              </div>
+            </div>
+            <div class="challenge-desc">3 strength workouts per week</div>
+          </div>
+
+          <div class="challenge-item">
+            <div class="challenge-header">
+              <span class="challenge-name">🏃 Cardio King</span>
+              <span class="challenge-status">Day 5/14</span>
+            </div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" style="width: 36%;"></div>
+              </div>
+            </div>
+            <div class="challenge-desc">30 min cardio, 5x per week</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Session History -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">📋</div>
+          Recent Sessions
+        </h3>
+
+        <div class="activity-list" id="sessionList">
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">🌅</div>
+            <div class="activity-content">
+              <div class="activity-title">Morning Energy Flow</div>
+              <div class="activity-time">Today, 7:30 AM • 30 minutes</div>
+            </div>
+            <div class="activity-value">😌 Relaxed</div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #34d399 0%, #10b981 100%);">🤸</div>
+            <div class="activity-content">
+              <div class="activity-title">Flexibility Builder</div>
+              <div class="activity-time">Yesterday, 6:00 PM • 45 minutes</div>
+            </div>
+            <div class="activity-value">⚡ Energized</div>
+          </div>
+
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);">😌</div>
+            <div class="activity-content">
+              <div class="activity-title">Stress Relief Sequence</div>
+              <div class="activity-time">2 days ago • 20 minutes</div>
+            </div>
+            <div class="activity-value">🧘 Focused</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mobile Menu Button -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+  </button>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          sidebar.classList.remove('active');
+        }
+      }
+    });
+
+    // Yoga session tracking
+    let totalMinutes = 45;
+    let totalSessions = 1;
+    let caloriesBurned = 180;
+
+    function logYogaSession(event) {
+      event.preventDefault();
+
+      const routineType = document.getElementById('routineType').value;
+      const duration = parseInt(document.getElementById('duration').value);
+      const difficulty = document.getElementById('difficulty').value;
+      const mood = document.getElementById('mood').value;
+      const notes = document.getElementById('notes').value;
+
+      // Update totals
+      totalMinutes += duration;
+      totalSessions += 1;
+      caloriesBurned += Math.round(duration * 4); // Approx 4 cal/min
+
+      // Update display
+      document.getElementById('totalMinutes').textContent = totalMinutes;
+      document.getElementById('totalSessions').textContent = totalSessions;
+      document.getElementById('caloriesBurned').textContent = caloriesBurned;
+      document.getElementById('goalProgress').textContent = `${totalMinutes}/60 minutes`;
+
+      // Update progress bar
+      const progressPercent = Math.min(100, (totalMinutes / 60) * 100);
+      document.querySelector('.progress-fill').style.width = progressPercent + '%';
+
+      // Add to session list
+      const sessionList = document.getElementById('sessionList');
+      const routineIcons = {
+        morning: '🌅',
+        stress_relief: '😌',
+        flexibility: '🤸',
+        diabetes: '🩺',
+        custom: '✨'
+      };
+
+      const routineColors = {
+        morning: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+        stress_relief: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
+        flexibility: 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)',
+        diabetes: 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)',
+        custom: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)'
+      };
+
+      const moodEmojis = {
+        energized: '⚡',
+        relaxed: '😌',
+        focused: '🧘',
+        tired: '😴',
+        stressed: '😰'
+      };
+
+      const newSession = document.createElement('div');
+      newSession.className = 'activity-item';
+      newSession.innerHTML = `
+        <div class="activity-icon" style="background: ${routineColors[routineType]};">${routineIcons[routineType]}</div>
+        <div class="activity-content">
+          <div class="activity-title">${routineType.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}</div>
+          <div class="activity-time">Just now • ${duration} minutes</div>
+        </div>
+        <div class="activity-value">${moodEmojis[mood]}</div>
+      `;
+
+      sessionList.insertBefore(newSession, sessionList.firstChild);
+
+      // Reset form
+      document.getElementById('yogaForm').reset();
+      alert('Yoga session logged successfully!');
+    }
+
+    // Timer functionality
+    let timerInterval = null;
+    let seconds = 0;
+    let isRunning = false;
+
+    function startTimer() {
+      if (!isRunning) {
+        isRunning = true;
+        document.getElementById('startBtn').style.display = 'none';
+        document.getElementById('pauseBtn').style.display = 'inline-block';
+
+        timerInterval = setInterval(() => {
+          seconds++;
+          updateTimerDisplay();
+        }, 1000);
+      }
+    }
+
+    function pauseTimer() {
+      isRunning = false;
+      clearInterval(timerInterval);
+      document.getElementById('startBtn').style.display = 'inline-block';
+      document.getElementById('pauseBtn').style.display = 'none';
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      seconds = 0;
+      updateTimerDisplay();
+    }
+
+    function setTimer(minutes) {
+      resetTimer();
+      seconds = minutes * 60;
+      updateTimerDisplay();
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      document.getElementById('timerDisplay').textContent =
+        String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+    }
+  </script>
+</body>
+</html>
