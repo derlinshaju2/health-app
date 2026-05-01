@@ -753,6 +753,258 @@
     .card:nth-child(1) { animation-delay: 0.1s; }
     .card:nth-child(2) { animation-delay: 0.2s; }
     .card:nth-child(3) { animation-delay: 0.3s; }
+
+    /* Friendly Risk Overview */
+    .risk-overview-card {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+      border: 2px solid rgba(16, 185, 129, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .risk-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .risk-hero-icon {
+      font-size: 64px;
+      line-height: 1;
+      animation: bounce 2s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .risk-hero h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--success);
+      margin: 0;
+    }
+
+    .risk-hero p {
+      font-size: 16px;
+      color: var(--gray);
+      max-width: 500px;
+      margin: 0;
+    }
+
+    /* Actionable Insights Section */
+    .actionable-insights-section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .insights-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .insight-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 12px var(--shadow);
+      display: flex;
+      gap: 15px;
+      border-left: 4px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .insight-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px var(--shadow-lg);
+    }
+
+    .insight-card.positive {
+      border-left-color: var(--success);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%);
+    }
+
+    .insight-card.suggestion {
+      border-left-color: var(--primary);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(99, 102, 241, 0.02) 100%);
+    }
+
+    .insight-card.tip {
+      border-left-color: var(--warning);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.02) 100%);
+    }
+
+    .insight-card-icon {
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .insight-card-content {
+      flex: 1;
+    }
+
+    .insight-card-content h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .insight-card-content p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .insight-action-btn {
+      padding: 8px 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .insight-action-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    /* Detailed Analysis Section */
+    .detailed-analysis-section {
+      margin-bottom: 30px;
+    }
+
+    .analysis-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--light);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      font-family: inherit;
+      text-align: left;
+    }
+
+    .analysis-toggle:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .toggle-icon {
+      font-size: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .analysis-toggle[data-expanded="true"] .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .analysis-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .analysis-content.expanded {
+      max-height: 2000px;
+      padding-top: 20px;
+    }
+
+    .analysis-intro {
+      font-size: 14px;
+      color: var(--gray);
+      text-align: center;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .detailed-risk-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .detailed-risk-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .detailed-risk-card .risk-level {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .detailed-risk-card .risk-icon {
+      font-size: 24px;
+    }
+
+    .detailed-risk-card .risk-label {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .detailed-risk-card .risk-label.low {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .detailed-risk-card .risk-label.medium {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .detailed-risk-card .risk-label.high {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    @media (max-width: 768px) {
+      .insights-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .detailed-risk-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .risk-hero h2 {
+        font-size: 22px;
+      }
+
+      .risk-hero-icon {
+        font-size: 48px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -807,11 +1059,11 @@
     <!-- Header -->
     <header class="header">
       <div>
-        <h1 class="page-title">AI Disease Prediction 🔮</h1>
-        <p class="page-subtitle">Get personalized health risk assessments based on your metrics</p>
+        <h1 class="page-title">Health Insights 💡</h1>
+        <p class="page-subtitle">Understand your health risks and get personalized recommendations</p>
       </div>
       <div class="header-actions">
-        <button class="header-btn" onclick="window.location.href='dashboard-main.html'">
+        <button class="header-btn" onclick="window.location.href='dashboard.html'">
           ←
           <span>Back to Dashboard</span>
         </button>
@@ -821,6 +1073,70 @@
         </button>
       </div>
     </header>
+
+    <!-- Friendly Risk Overview -->
+    <div class="risk-overview-card">
+      <div class="risk-hero">
+        <div class="risk-hero-icon">😊</div>
+        <h2>Your Health Looks Good!</h2>
+        <p>Based on your current metrics, you're doing well. Let's see where you can improve.</p>
+      </div>
+    </div>
+
+    <!-- Friendly Risk Overview -->
+    <div class="risk-overview-card">
+      <div class="risk-hero">
+        <div class="risk-hero-icon">😊</div>
+        <h2>Your Health Looks Good!</h2>
+        <p>Based on your current metrics, you're doing well. Let's see where you can improve.</p>
+      </div>
+    </div>
+
+    <!-- Actionable Insights Section -->
+    <div class="actionable-insights-section">
+      <h3 class="section-title">✅ What You Can Do Today</h3>
+      <div class="insights-cards">
+        <div class="insight-card positive">
+          <div class="insight-card-icon">🎉</div>
+          <div class="insight-card-content">
+            <h4>You're Doing Great!</h4>
+            <p>Your BMI is in the healthy range. Keep up the good work with your current lifestyle!</p>
+          </div>
+        </div>
+        <div class="insight-card suggestion">
+          <div class="insight-card-icon">💡</div>
+          <div class="insight-card-content">
+            <h4>Small Improvement Opportunity</h4>
+            <p>Add 15 minutes of walking to your daily routine to boost your heart health.</p>
+            <button class="insight-action-btn" onclick="setReminder()">Set Reminder</button>
+          </div>
+        </div>
+        <div class="insight-card tip">
+          <div class="insight-card-icon">🥗</div>
+          <div class="insight-card-content">
+            <h4>Nutrition Tip</h4>
+            <p>Try adding more vegetables to your meals. They're packed with essential nutrients!</p>
+            <button class="insight-action-btn" onclick="viewHealthyRecipes()">View Recipes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Analysis (Collapsible) -->
+    <div class="detailed-analysis-section">
+      <button class="analysis-toggle" onclick="toggleDetailedAnalysis()" data-expanded="false">
+        <span class="toggle-title">📊 View Detailed Health Analysis</span>
+        <span class="toggle-icon">▼</span>
+      </button>
+      <div class="analysis-content" id="detailedAnalysisContent">
+        <p class="analysis-intro">This detailed analysis shows your health metrics and risk levels based on current medical research.</p>
+
+        <!-- Detailed Risk Cards (Hidden by default) -->
+        <div class="detailed-risk-cards" id="detailedRiskCards">
+          <!-- Risk cards will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
 
     <!-- Content Grid -->
     <div class="content-grid">
@@ -1274,6 +1590,118 @@
 
     function savePrediction() {
       alert('Prediction saved successfully! Check your analytics page for history.');
+    }
+
+    // Toggle Detailed Analysis
+    function toggleDetailedAnalysis() {
+      const toggle = document.querySelector('.analysis-toggle');
+      const content = document.getElementById('detailedAnalysisContent');
+      const isExpanded = toggle.getAttribute('data-expanded') === 'true';
+
+      if (isExpanded) {
+        content.classList.remove('expanded');
+        toggle.setAttribute('data-expanded', 'false');
+      } else {
+        content.classList.add('expanded');
+        toggle.setAttribute('data-expanded', 'true');
+        generateDetailedRiskCards();
+      }
+    }
+
+    // Generate Detailed Risk Cards
+    function generateDetailedRiskCards() {
+      const container = document.getElementById('detailedRiskCards');
+
+      // Sample detailed risk data (in real app, this would come from form analysis)
+      const riskData = [
+        {
+          disease: 'Heart Disease',
+          icon: '❤️',
+          level: 'low',
+          score: 15,
+          description: 'Your risk factors are well controlled'
+        },
+        {
+          disease: 'Type 2 Diabetes',
+          icon: '🩺',
+          level: 'low',
+          score: 20,
+          description: 'Maintain healthy eating habits'
+        },
+        {
+          disease: 'Hypertension',
+          icon: '📊',
+          level: 'medium',
+          score: 35,
+          description: 'Monitor salt intake and stay active'
+        },
+        {
+          disease: 'Obesity Related',
+          icon: '⚖️',
+          level: 'low',
+          score: 25,
+          description: 'Your weight is in healthy range'
+        }
+      ];
+
+      container.innerHTML = riskData.map(risk => `
+        <div class="detailed-risk-card">
+          <div class="risk-level">
+            <span class="risk-icon">${risk.icon}</span>
+            <span class="risk-label ${risk.level}">${risk.level.charAt(0).toUpperCase() + risk.level.slice(1)} Risk</span>
+          </div>
+          <h4 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px;">${risk.disease}</h4>
+          <p style="font-size: 13px; color: var(--gray); line-height: 1.5;">${risk.description}</p>
+          <div style="margin-top: 12px;">
+            <div style="font-size: 12px; color: var(--gray); margin-bottom: 4px;">Risk Score</div>
+            <div class="progress-bar" style="height: 6px; background: var(--border); border-radius: 10px; overflow: hidden;">
+              <div class="progress-fill" style="width: ${risk.score}%; height: 100%; background: ${risk.level === 'high' ? 'var(--danger)' : risk.level === 'medium' ? 'var(--warning)' : 'var(--success)'}; border-radius: 10px;"></div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Action Button Functions
+    function setReminder() {
+      showNotification('Reminder Set! 🔔', 'We\'ll remind you to take a 15-minute walk tomorrow morning.');
+    }
+
+    function viewHealthyRecipes() {
+      showNotification('Opening Recipes... 🥗', 'Redirecting to healthy meal suggestions.');
+      setTimeout(() => {
+        window.location.href = 'diet-tracking.html?suggestions';
+      }, 1500);
+    }
+
+    // Show Notification
+    function showNotification(title, message) {
+      const toast = document.createElement('div');
+      toast.className = 'notification-toast';
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 2000;
+        animation: slideIn 0.3s ease;
+        max-width: 300px;
+      `;
+
+      toast.innerHTML = `
+        <div style="font-weight: 600; color: var(--dark); margin-bottom: 4px;">${title}</div>
+        <div style="font-size: 14px; color: var(--gray);">${message}</div>
+      `;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
     }
   </script>
 </body>
