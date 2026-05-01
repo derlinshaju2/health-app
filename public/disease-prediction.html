@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/bottom-nav.css">
   <style>
     * {
       margin: 0;
@@ -1412,6 +1413,73 @@
     ☰
   </button>
 
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="bottom-nav-item" data-page="dashboard">
+      <span class="bottom-nav-icon">🏠</span>
+      <span class="bottom-nav-label">Home</span>
+    </a>
+    <a href="yoga-tracker.html" class="bottom-nav-item" data-page="activity">
+      <span class="bottom-nav-icon">🏃</span>
+      <span class="bottom-nav-label">Activity</span>
+    </a>
+    <a href="diet-tracking.html" class="bottom-nav-item" data-page="diet">
+      <span class="bottom-nav-icon">🍽️</span>
+      <span class="bottom-nav-label">Diet</span>
+    </a>
+    <a href="analytics.html" class="bottom-nav-item" data-page="insights">
+      <span class="bottom-nav-icon">📊</span>
+      <span class="bottom-nav-label">Insights</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item" data-page="profile">
+      <span class="bottom-nav-icon">👤</span>
+      <span class="bottom-nav-label">Profile</span>
+    </a>
+  </nav>
+
+  <!-- Floating Action Button (Mobile) -->
+  <div class="floating-action-btn" onclick="showQuickActions()">
+    <span class="floating-action-btn-icon">+</span>
+  </div>
+
+  <!-- Quick Actions Modal -->
+  <div class="quick-actions-modal" id="quickActionsModal">
+    <div class="modal-overlay" onclick="hideQuickActions()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Quick Actions</h3>
+        <button class="modal-close" onclick="hideQuickActions()">✕</button>
+      </div>
+      <div class="quick-actions-grid">
+        <button class="quick-action-card" onclick="quickAction('log-meal')">
+          <span class="action-icon">🍽️</span>
+          <span>Log Meal</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('start-workout')">
+          <span class="action-icon">🏋️</span>
+          <span>Start Workout</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('add-water')">
+          <span class="action-icon">💧</span>
+          <span>Add Water</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('log-weight')">
+          <span class="action-icon">⚖️</span>
+          <span>Log Weight</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('view-analytics')">
+          <span class="action-icon">📊</span>
+          <span>View Analytics</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('health-check')">
+          <span class="action-icon">🔮</span>
+          <span>Health Check</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/smart-notifications.js"></script>
   <script>
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -1703,6 +1771,63 @@
         setTimeout(() => toast.remove(), 300);
       }, 3000);
     }
+  </script>
+
+  <script>
+    // Initialize bottom navigation
+    function initBottomNavigation() {
+      const currentPage = window.location.pathname.split('/').pop() || 'disease-prediction.html';
+      const pageName = currentPage.replace('.html', '').replace('-', '');
+
+      // Set active state
+      document.querySelectorAll('.bottom-nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.page === pageName ||
+            item.getAttribute('href') === currentPage) {
+          item.classList.add('active');
+        }
+      });
+    }
+
+    // Quick Actions Modal
+    function showQuickActions() {
+      document.getElementById('quickActionsModal').classList.add('active');
+    }
+
+    function hideQuickActions() {
+      document.getElementById('quickActionsModal').classList.remove('active');
+    }
+
+    function quickAction(action) {
+      hideQuickActions();
+      switch(action) {
+        case 'log-meal':
+          window.location.href = 'diet-tracking.html';
+          break;
+        case 'start-workout':
+          window.location.href = 'yoga-tracker.html';
+          break;
+        case 'add-water':
+          showNotification('Water Added! 💧', 'Great job staying hydrated!');
+          break;
+        case 'log-weight':
+          showNotification('Opening Weight Logger ⚖️', 'Redirecting to weight tracking...');
+          setTimeout(() => window.location.href = 'profile.html', 1000);
+          break;
+        case 'view-analytics':
+          window.location.href = 'analytics.html';
+          break;
+        case 'health-check':
+          // Already on health insights page
+          showNotification('Health Check Ready 🔍', 'Fill in the form above for your health assessment.');
+          break;
+      }
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      initBottomNavigation();
+    });
   </script>
 </body>
 </html>

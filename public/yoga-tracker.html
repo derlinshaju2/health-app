@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/bottom-nav.css">
   <style>
     * {
       margin: 0;
@@ -492,6 +493,11 @@
       </div>
     </header>
 
+    <!-- Recommended Workout Section -->
+    <div class="recommended-workout-section" id="recommendedWorkoutSection">
+      <!-- Will be populated by workout-recommender.js -->
+    </div>
+
     <!-- Content Grid -->
     <div class="content-grid">
       <!-- Yoga Session Form -->
@@ -796,6 +802,139 @@
       document.getElementById('timerDisplay').textContent =
         String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
     }
+  </script>
+
+  <!-- Workout Recommender System -->
+  <script src="js/workout-recommender.js"></script>
+
+  <!-- Script to initialize recommended workout -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Render recommended workout
+      const recommendedSection = document.getElementById('recommendedWorkoutSection');
+      if (recommendedSection && workoutRecommender) {
+        recommendedSection.innerHTML = workoutRecommender.renderRecommendedWorkout();
+      }
+    });
+
+    function startRecommendedWorkout(type) {
+      alert(`Starting ${type} workout! This would open a detailed workout guide.`);
+      // Log the workout
+      if (workoutRecommender) {
+        workoutRecommender.completeWorkout(type, 20);
+      }
+    }
+
+    function showAlternativeWorkouts() {
+      alert('Here you would see alternative workout options to choose from.');
+    }
+  </script>
+
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="bottom-nav-item" data-page="dashboard">
+      <span class="bottom-nav-icon">🏠</span>
+      <span class="bottom-nav-label">Home</span>
+    </a>
+    <a href="yoga-tracker.html" class="bottom-nav-item active" data-page="yoga-tracker">
+      <span class="bottom-nav-icon">🏃</span>
+      <span class="bottom-nav-label">Activity</span>
+    </a>
+    <a href="diet-tracking.html" class="bottom-nav-item" data-page="diet-tracking">
+      <span class="bottom-nav-icon">🍽️</span>
+      <span class="bottom-nav-label">Diet</span>
+    </a>
+    <a href="analytics.html" class="bottom-nav-item" data-page="analytics">
+      <span class="bottom-nav-icon">📊</span>
+      <span class="bottom-nav-label">Insights</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item" data-page="profile">
+      <span class="bottom-nav-icon">👤</span>
+      <span class="bottom-nav-label">Profile</span>
+    </a>
+  </nav>
+
+  <!-- Floating Action Button (Mobile) -->
+  <button class="floating-action-btn" onclick="showQuickActions()" aria-label="Quick Actions">
+    <span class="floating-action-btn-icon">+</span>
+  </button>
+
+  <!-- Quick Actions Modal -->
+  <div class="quick-actions-overlay" id="quickActionsOverlay" onclick="hideQuickActions()"></div>
+  <div class="quick-actions-modal" id="quickActionsModal">
+    <h3 class="quick-actions-title">Quick Actions</h3>
+    <div class="quick-actions-grid">
+      <div class="quick-action-item" onclick="quickAction('log-meal')">
+        <span class="quick-action-icon">🍽️</span>
+        <span class="quick-action-label">Log Meal</span>
+      </div>
+      <div class="quick-action-item" onclick="quickAction('start-workout')">
+        <span class="quick-action-icon">🏋️</span>
+        <span class="quick-action-label">Workout</span>
+      </div>
+      <div class="quick-action-item" onclick="quickAction('add-water')">
+        <span class="quick-action-icon">💧</span>
+        <span class="quick-action-label">Add Water</span>
+      </div>
+      <div class="quick-action-item" onclick="quickAction('view-analytics')">
+        <span class="quick-action-icon">📊</span>
+        <span class="quick-action-label">Analytics</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize bottom navigation
+    function initBottomNavigation() {
+      const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+      const pageName = currentPage.replace('.html', '').replace('-', '');
+
+      document.querySelectorAll('.bottom-nav-item').forEach(item => {
+        item.classList.remove('active');
+        const itemPage = item.dataset.page || item.getAttribute('href').replace('.html', '');
+        if (itemPage === pageName || item.getAttribute('href') === currentPage) {
+          item.classList.add('active');
+        }
+      });
+    }
+
+    // Quick actions
+    function showQuickActions() {
+      document.getElementById('quickActionsOverlay').classList.add('show');
+      document.getElementById('quickActionsModal').classList.add('show');
+    }
+
+    function hideQuickActions() {
+      document.getElementById('quickActionsOverlay').classList.remove('show');
+      document.getElementById('quickActionsModal').classList.remove('show');
+    }
+
+    function quickAction(action) {
+      hideQuickActions();
+      switch(action) {
+        case 'log-meal':
+          window.location.href = 'diet-tracking.html';
+          break;
+        case 'start-workout':
+          // Already on workout page
+          break;
+        case 'add-water':
+          if (typeof addWaterGlass === 'function') {
+            addWaterGlass();
+          } else {
+            alert('Water added! 💧');
+          }
+          break;
+        case 'view-analytics':
+          window.location.href = 'analytics.html';
+          break;
+      }
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      initBottomNavigation();
+    });
   </script>
 </body>
 </html>
