@@ -1335,7 +1335,6 @@
     <div class="detailed-analysis-section">
       <button class="analysis-toggle" onclick="toggleDetailedAnalysis()" data-expanded="false">
         <span class="toggle-title">📊 View Detailed Health Analysis</span>
-        <span class="toggle-icon">▼</span>
       </button>
       <div class="analysis-content" id="detailedAnalysisContent">
         <p class="analysis-intro">This detailed analysis shows your health metrics and risk levels based on current medical research.</p>
@@ -1523,7 +1522,6 @@
       // Expand detailed analysis section
       detailedAnalysisContent.classList.add('expanded');
       analysisToggle.setAttribute('data-expanded', 'true');
-      analysisToggle.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
 
       // Scroll to results
       detailedAnalysisContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
