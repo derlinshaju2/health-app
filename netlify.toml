@@ -1,10 +1,6 @@
+# Netlify configuration for static HTML site
 [build]
-  base = "public"
-  command = "npm run build"
   publish = "public"
-
-[build.environment]
-  NODE_VERSION = "20"
 
 # Redirect all requests to index.html for SPA-like behavior
 [[redirects]]
