@@ -322,6 +322,13 @@
       position: relative;
       height: 300px;
       margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
     }
 
     /* Time Range Selector */
@@ -1228,7 +1235,7 @@
             <button class="time-range-btn" onclick="updateTimeRange('year')">Year</button>
           </div>
           <div class="chart-container" style="height: 200px;">
-            <canvas id="healthScoreChart"></canvas>
+            <canvas id="healthScoreChart" width="400" height="200"></canvas>
           </div>
         </div>
       </div>
@@ -1243,7 +1250,7 @@
           Weight Trends
         </h3>
         <div class="chart-container">
-          <canvas id="weightChart"></canvas>
+          <canvas id="weightChart" width="400" height="300"></canvas>
         </div>
         <div style="display: flex; justify-content: space-between; margin-top: 16px;">
           <div>
@@ -1268,7 +1275,7 @@
           Calorie Trends
         </h3>
         <div class="chart-container">
-          <canvas id="calorieChart"></canvas>
+          <canvas id="calorieChart" width="400" height="300"></canvas>
         </div>
       </div>
 
@@ -1832,100 +1839,142 @@
     let healthScoreChart, weightChart, calorieChart;
 
     function initCharts() {
-      // Health Score Chart
-      const healthScoreCtx = document.getElementById('healthScoreChart').getContext('2d');
-      healthScoreChart = new Chart(healthScoreCtx, {
-        type: 'line',
-        data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          datasets: [{
-            label: 'Health Score',
-            data: [82, 84, 83, 85, 86, 84, 85],
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-            fill: true,
-            tension: 0.4
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
-            }
-          },
-          scales: {
-            y: {
-              min: 70,
-              max: 100
-            }
-          }
-        }
-      });
+      console.log('Initializing charts...');
+      console.log('Chart.js available:', typeof Chart !== 'undefined');
 
-      // Weight Chart
-      const weightCtx = document.getElementById('weightChart').getContext('2d');
-      weightChart = new Chart(weightCtx, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-          datasets: [{
-            label: 'Weight (kg)',
-            data: [75, 74.5, 74, 73.2, 72.8, 72.5],
-            borderColor: '#f59e0b',
-            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-            fill: true,
-            tension: 0.4
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
-            }
-          }
-        }
-      });
+      // Check if Chart.js is loaded
+      if (typeof Chart === 'undefined') {
+        console.error('Chart.js is not loaded!');
+        return;
+      }
 
-      // Calorie Chart
-      const calorieCtx = document.getElementById('calorieChart').getContext('2d');
-      calorieChart = new Chart(calorieCtx, {
-        type: 'bar',
-        data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          datasets: [{
-            label: 'Calories',
-            data: [1850, 2100, 1920, 2050, 1880, 2200, 1950],
-            backgroundColor: [
-              'rgba(99, 102, 241, 0.8)',
-              'rgba(139, 92, 246, 0.8)',
-              'rgba(236, 72, 153, 0.8)',
-              'rgba(245, 158, 11, 0.8)',
-              'rgba(16, 185, 129, 0.8)',
-              'rgba(59, 130, 246, 0.8)',
-              'rgba(239, 68, 68, 0.8)'
-            ],
-            borderRadius: 8
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
+      try {
+        // Health Score Chart
+        const healthScoreCanvas = document.getElementById('healthScoreChart');
+        console.log('Health score canvas found:', healthScoreCanvas);
+        console.log('Health score canvas dimensions:', healthScoreCanvas.width, 'x', healthScoreCanvas.height);
+
+        if (healthScoreCanvas) {
+          const healthScoreCtx = healthScoreCanvas.getContext('2d');
+          console.log('Health score context obtained:', healthScoreCtx);
+
+          healthScoreChart = new Chart(healthScoreCtx, {
+            type: 'line',
+            data: {
+              labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              datasets: [{
+                label: 'Health Score',
+                data: [82, 84, 83, 85, 86, 84, 85],
+                borderColor: '#6366f1',
+                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                fill: true,
+                tension: 0.4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false
+                }
+              },
+              scales: {
+                y: {
+                  min: 70,
+                  max: 100
+                }
+              }
             }
-          },
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
+          });
+          console.log('Health score chart created successfully');
         }
-      });
+
+        // Weight Chart
+        const weightCanvas = document.getElementById('weightChart');
+        console.log('Weight canvas found:', weightCanvas);
+        console.log('Weight canvas dimensions:', weightCanvas.width, 'x', weightCanvas.height);
+
+        if (weightCanvas) {
+          const weightCtx = weightCanvas.getContext('2d');
+          console.log('Weight context obtained:', weightCtx);
+
+          weightChart = new Chart(weightCtx, {
+            type: 'line',
+            data: {
+              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+              datasets: [{
+                label: 'Weight (kg)',
+                data: [75, 74.5, 74, 73.2, 72.8, 72.5],
+                borderColor: '#f59e0b',
+                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                fill: true,
+                tension: 0.4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false
+                }
+              }
+            }
+          });
+          console.log('Weight chart created successfully');
+        }
+
+        // Calorie Chart
+        const calorieCanvas = document.getElementById('calorieChart');
+        console.log('Calorie canvas found:', calorieCanvas);
+        console.log('Calorie canvas dimensions:', calorieCanvas.width, 'x', calorieCanvas.height);
+
+        if (calorieCanvas) {
+          const calorieCtx = calorieCanvas.getContext('2d');
+          console.log('Calorie context obtained:', calorieCtx);
+
+          calorieChart = new Chart(calorieCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              datasets: [{
+                label: 'Calories',
+                data: [1850, 2100, 1920, 2050, 1880, 2200, 1950],
+                backgroundColor: [
+                  'rgba(99, 102, 241, 0.8)',
+                  'rgba(139, 92, 246, 0.8)',
+                  'rgba(236, 72, 153, 0.8)',
+                  'rgba(245, 158, 11, 0.8)',
+                  'rgba(16, 185, 129, 0.8)',
+                  'rgba(59, 130, 246, 0.8)',
+                  'rgba(239, 68, 68, 0.8)'
+                ],
+                borderRadius: 8
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+          console.log('Calorie chart created successfully');
+        }
+
+        console.log('All charts initialized successfully');
+      } catch (error) {
+        console.error('Error initializing charts:', error);
+      }
     }
 
     function updateCharts(range) {
@@ -1968,8 +2017,21 @@
       }
     }
 
-    // Initialize charts on load
-    document.addEventListener('DOMContentLoaded', initCharts);
+    // Initialize charts on load with fallback
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCharts);
+    } else {
+      // DOM already loaded, initialize immediately
+      initCharts();
+    }
+
+    // Additional fallback: ensure Chart.js is loaded
+    window.addEventListener('load', function() {
+      if (typeof Chart !== 'undefined' && (!healthScoreChart || !weightChart || !calorieChart)) {
+        console.log('Retrying chart initialization after page load...');
+        initCharts();
+      }
+    });
   </script>
 </body>
 </html>

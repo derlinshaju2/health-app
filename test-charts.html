@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chart Test - HealthAI</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .test-chart {
+      margin-bottom: 40px;
+      border: 2px solid #ddd;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+    .chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+    .status {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .info {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+  </style>
+</head>
+<body>
+  <h1>Chart.js Diagnostic Test</h1>
+
+  <div id="status"></div>
+
+  <div class="test-chart">
+    <h2>Test Chart 1: Line Chart</h2>
+    <div class="chart-container">
+      <canvas id="testChart1" width="400" height="300"></canvas>
+    </div>
+  </div>
+
+  <div class="test-chart">
+    <h2>Test Chart 2: Bar Chart</h2>
+    <div class="chart-container">
+      <canvas id="testChart2" width="400" height="300"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const statusDiv = document.getElementById('status');
+
+    function addStatus(message, type) {
+      const div = document.createElement('div');
+      div.className = `status ${type}`;
+      div.textContent = message;
+      statusDiv.appendChild(div);
+    }
+
+    // Test 1: Check if Chart.js is loaded
+    addStatus('Checking if Chart.js is loaded...', 'info');
+    if (typeof Chart !== 'undefined') {
+      addStatus('✓ Chart.js is loaded successfully!', 'success');
+    } else {
+      addStatus('✗ Chart.js failed to load!', 'error');
+      return;
+    }
+
+    // Test 2: Check canvas elements
+    addStatus('Checking canvas elements...', 'info');
+    const canvas1 = document.getElementById('testChart1');
+    const canvas2 = document.getElementById('testChart2');
+
+    if (canvas1 && canvas2) {
+      addStatus(`✓ Canvas 1 dimensions: ${canvas1.width}x${canvas1.height}`, 'success');
+      addStatus(`✓ Canvas 2 dimensions: ${canvas2.width}x${canvas2.height}`, 'success');
+    } else {
+      addStatus('✗ Canvas elements not found!', 'error');
+      return;
+    }
+
+    // Test 3: Initialize charts
+    addStatus('Attempting to initialize charts...', 'info');
+
+    try {
+      // Chart 1
+      const ctx1 = canvas1.getContext('2d');
+      const chart1 = new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: ['A', 'B', 'C', 'D', 'E'],
+          datasets: [{
+            label: 'Test Data',
+            data: [12, 19, 3, 5, 2],
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+      addStatus('✓ Line chart created successfully!', 'success');
+
+      // Chart 2
+      const ctx2 = canvas2.getContext('2d');
+      const chart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
+          datasets: [{
+            label: 'Test Data',
+            data: [12, 19, 3, 5, 2],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.8)',
+              'rgba(54, 162, 235, 0.8)',
+              'rgba(255, 206, 86, 0.8)',
+              'rgba(75, 192, 192, 0.8)',
+              'rgba(153, 102, 255, 0.8)'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+      addStatus('✓ Bar chart created successfully!', 'success');
+
+      addStatus('✓ All tests passed! Charts should be visible above.', 'success');
+
+    } catch (error) {
+      addStatus(`✗ Error creating charts: ${error.message}`, 'error');
+      console.error('Chart creation error:', error);
+    }
+
+    // Test 4: Check canvas rendering
+    setTimeout(() => {
+      addStatus('Checking canvas rendering...', 'info');
+      const canvas1Parent = canvas1.parentElement;
+      const canvas2Parent = canvas2.parentElement;
+
+      if (canvas1.width > 0 && canvas1.height > 0) {
+        addStatus(`✓ Canvas 1 rendered size: ${canvas1.width}x${canvas1.height}`, 'success');
+      } else {
+        addStatus('✗ Canvas 1 not rendered properly', 'error');
+      }
+
+      if (canvas2.width > 0 && canvas2.height > 0) {
+        addStatus(`✓ Canvas 2 rendered size: ${canvas2.width}x${canvas2.height}`, 'success');
+      } else {
+        addStatus('✗ Canvas 2 not rendered properly', 'error');
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
