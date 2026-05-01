@@ -1953,8 +1953,276 @@
 
     // Show regular dashboard for returning users
     function showRegularDashboard() {
-      // The dashboard is already loaded in HTML, so we don't need to do anything
-      // This function is a placeholder for future customization
+      // Initialize DashboardManager to activate personalization
+      if (typeof DashboardManager !== 'undefined') {
+        const dashboardManager = new DashboardManager();
+        dashboardManager.showRegularDashboard();
+      }
+
+      // Show behavioral insights after a short delay
+      setTimeout(() => {
+        showBehavioralInsights();
+      }, 1000);
+    }
+
+    // Show behavioral insights (personalization)
+    function showBehavioralInsights() {
+      const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+      if (!userProfile) return;
+
+      // Get user history for pattern analysis
+      const userHistory = JSON.parse(localStorage.getItem('userHistory')) || [];
+      const last7Days = userHistory.slice(-7);
+
+      const insights = [];
+
+      // Analyze weekend workout pattern
+      const skippedWorkouts = countSkippedWorkouts(last7Days);
+      if (skippedWorkouts >= 2) {
+        insights.push({
+          icon: '📅',
+          title: 'Weekend Warrior?',
+          message: 'You tend to skip workouts on weekends. Want to schedule a reminder?',
+          action: 'scheduleReminder',
+          actionLabel: 'Set Reminder',
+          priority: 'medium'
+        });
+      }
+
+      // Analyze dinner nutrition
+      const highCarbDinners = countHighCarbDinners(last7Days);
+      if (highCarbDinners >= 3) {
+        insights.push({
+          icon: '🌙',
+          title: 'Evening Nutrition',
+          message: 'Your dinners are high in carbs. Try lighter meals in the evening.',
+          action: 'viewSuggestions',
+          actionLabel: 'See Recipes',
+          priority: 'low'
+        });
+      }
+
+      // Check if haven't worked out in a while
+      const daysSinceWorkout = daysSinceLastWorkout(userHistory);
+      if (daysSinceWorkout >= 3) {
+        insights.push({
+          icon: '🏃',
+          title: 'Back on Track',
+          message: `You haven't worked out in ${daysSinceWorkout} days. Try a light session today!`,
+          action: 'startWorkout',
+          actionLabel: 'Start Light Workout',
+          priority: 'high'
+        });
+      }
+
+      // Check water intake
+      const todayData = JSON.parse(localStorage.getItem('todayData')) || {};
+      if (todayData.water < 4 && new Date().getHours() >= 14) {
+        insights.push({
+          icon: '💧',
+          title: 'Hydration Reminder',
+          message: `You've only had ${todayData.water || 0} glasses today. Drink up!`,
+          action: 'addWater',
+          actionLabel: 'Add Glass',
+          priority: 'medium'
+        });
+      }
+
+      // Display insights if any
+      if (insights.length > 0) {
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+
+        // Add time-based suggestions first
+        const timeBasedSuggestion = getTimeBasedSuggestion();
+        if (timeBasedSuggestion) {
+          let timeSection = document.querySelector('.time-based-suggestions');
+          if (!timeSection) {
+            timeSection = document.createElement('div');
+            timeSection.className = 'time-based-suggestions';
+            timeSection.style.cssText = `
+              margin-bottom: 30px;
+              animation: fadeIn 0.6s ease;
+            `;
+            mainContent.insertBefore(timeSection, mainContent.firstChild);
+          }
+
+          timeSection.innerHTML = `
+            <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 20px; padding: 25px; color: white; position: relative; overflow: hidden;">
+              <div style="position: absolute; top: -50%; right: -10%; width: 200px; height: 200px; background: rgba(255, 255, 255, 0.1); border-radius: 50%;"></div>
+              <div style="position: relative; z-index: 1;">
+                <div style="font-size: 48px; margin-bottom: 10px;">${timeBasedSuggestion.icon}</div>
+                <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 10px;">${timeBasedSuggestion.greeting}</h3>
+                <p style="font-size: 15px; margin-bottom: 15px; opacity: 0.9;">${timeBasedSuggestion.message}</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  ${timeBasedSuggestion.actions.map(action => `
+                    <button onclick="${action.onclick}" style="padding: 10px 20px; background: white; color: var(--primary); border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform 0.3s ease;">
+                      ${action.icon} ${action.label}
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        let insightsSection = document.querySelector('.behavioral-insights');
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+
+        let insightsSection = document.querySelector('.behavioral-insights');
+        if (!insightsSection) {
+          insightsSection = document.createElement('div');
+          insightsSection.className = 'behavioral-insights';
+          insightsSection.style.cssText = `
+            margin-top: 30px;
+            animation: fadeIn 0.6s ease;
+          `;
+          mainContent.appendChild(insightsSection);
+        }
+
+        insightsSection.innerHTML = `
+          <h3 style="font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            💡 Personalized Insights
+          </h3>
+          <div class="insights-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+            ${insights.map(insight => `
+              <div class="insight-card priority-${insight.priority}" style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px var(--shadow); display: flex; gap: 15px; border-left: 4px solid ${insight.priority === 'high' ? 'var(--danger)' : insight.priority === 'medium' ? 'var(--warning)' : 'var(--primary)'};">
+                <div class="insight-icon" style="font-size: 32px;">${insight.icon}</div>
+                <div class="insight-content" style="flex: 1;">
+                  <h4 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px;">${insight.title}</h4>
+                  <p style="font-size: 14px; color: var(--gray); line-height: 1.5; margin-bottom: 12px;">${insight.message}</p>
+                  ${insight.action ? `
+                    <button onclick="handleInsightAction('${insight.action}')" style="padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">
+                      ${insight.actionLabel}
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+    }
+
+    // Helper functions for behavior analysis
+    function countSkippedWorkouts(last7Days) {
+      const today = new Date();
+      let skippedCount = 0;
+
+      for (let i = 1; i <= 7; i++) {
+        const checkDate = new Date(today);
+        checkDate.setDate(checkDate.getDate() - i);
+
+        if (checkDate.getDay() === 0 || checkDate.getDay() === 6) {
+          const hasWorkout = last7Days.some(entry => {
+            const entryDate = new Date(entry.date);
+            return entryDate.toDateString() === checkDate.toDateString() &&
+                   (entry.workouts || []).length > 0;
+          });
+
+          if (!hasWorkout) skippedCount++;
+        }
+      }
+
+      return skippedCount;
+    }
+
+    function countHighCarbDinners(last7Days) {
+      return last7Days.filter(entry => {
+        const dinnerMeals = (entry.meals || []).filter(meal =>
+          meal.type === 'dinner' && meal.calories > 600
+        );
+        return dinnerMeals.length > 0;
+      }).length;
+    }
+
+    function daysSinceLastWorkout(userHistory) {
+      const workouts = userHistory
+        .filter(entry => (entry.workouts || []).length > 0)
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      if (workouts.length === 0) return 999;
+
+      const lastWorkoutDate = new Date(workouts[0].date);
+      return Math.floor((new Date() - lastWorkoutDate) / (1000 * 60 * 60 * 24));
+    }
+
+    // Get time-based suggestions
+    function getTimeBasedSuggestion() {
+      const hour = new Date().getHours();
+      let suggestion = null;
+
+      if (hour >= 5 && hour < 12) {
+        // Morning
+        suggestion = {
+          icon: '🌅',
+          greeting: 'Good Morning!',
+          message: 'Start your day right with a workout or a healthy breakfast.',
+          actions: [
+            { icon: '🏃', label: 'Morning Workout', onclick: "window.location.href='yoga-tracker.html'" },
+            { icon: '🥗', label: 'Log Breakfast', onclick: "window.location.href='diet-tracking.html'" }
+          ]
+        };
+      } else if (hour >= 12 && hour < 17) {
+        // Afternoon
+        suggestion = {
+          icon: '☀️',
+          greeting: 'Good Afternoon!',
+          message: 'Midday check-in! How\'s your progress going today?',
+          actions: [
+            { icon: '🚶', label: 'Quick Walk', onclick: "window.location.href='yoga-tracker.html?type=walk'" },
+            { icon: '💧', label: 'Add Water', onclick: "handleInsightAction('addWater')" }
+          ]
+        };
+      } else if (hour >= 17 && hour < 21) {
+        // Evening
+        suggestion = {
+          icon: '🌆',
+          greeting: 'Good Evening!',
+          message: 'Time to log your dinner and wind down for the day.',
+          actions: [
+            { icon: '🍽️', label: 'Log Dinner', onclick: "window.location.href='diet-tracking.html?type=dinner'" },
+            { icon: '📊', label: 'View Progress', onclick: "window.location.href='analytics.html'" }
+          ]
+        };
+      } else {
+        // Night
+        suggestion = {
+          icon: '🌙',
+          greeting: 'Good Night!',
+          message: 'Great job today! Get some rest and prepare for tomorrow.',
+          actions: [
+            { icon: '😴', label: 'Sleep Tips', onclick: "showNotification('Sleep Tip! 😴', 'Aim for 7-8 hours of sleep for optimal health.')" },
+            { icon: '📅', label: 'Tomorrow\'s Plan', onclick: "showNotification('Plan Ahead! 📋', 'Pack your gym bag and prep meals for tomorrow.')" }
+          ]
+        };
+      }
+
+      return suggestion;
+    }
+
+    // Handle insight actions
+    function handleInsightAction(action) {
+      switch(action) {
+        case 'scheduleReminder':
+          showNotification('Reminder Set! 🔔', 'We\'ll remind you to stay on track.');
+          break;
+        case 'viewSuggestions':
+          window.location.href = 'diet-tracking.html?suggestions';
+          break;
+        case 'startWorkout':
+          window.location.href = 'yoga-tracker.html?type=yoga';
+          break;
+        case 'addWater':
+          // Add water and update
+          const todayData = JSON.parse(localStorage.getItem('todayData')) || {};
+          todayData.water = (todayData.water || 0) + 1;
+          localStorage.setItem('todayData', JSON.stringify(todayData));
+          showNotification('Water Added! 💧', 'Great job staying hydrated!');
+          setTimeout(() => location.reload(), 1000);
+          break;
+      }
     }
 
     // Show notification helper
