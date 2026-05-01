@@ -1403,6 +1403,119 @@
         padding: 15px;
       }
     }
+
+    /* Engagement Features */
+    .engagement-section {
+      margin-top: 30px;
+    }
+
+    .engagement-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .engagement-card {
+      background: var(--light);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .engagement-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .engagement-icon {
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    .engagement-content {
+      flex: 1;
+    }
+
+    .engagement-content h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+
+    .streak-count, .points-count, .badges-count {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .streak-label, .points-label, .badges-label {
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+
+    .streak-status {
+      font-size: 12px;
+      color: var(--success);
+      font-weight: 500;
+    }
+
+    .points-info, .badges-preview {
+      font-size: 11px;
+      color: var(--gray);
+    }
+
+    /* Active Challenges Preview */
+    .active-challenges-preview {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .active-challenges-preview h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 15px;
+    }
+
+    .challenges-preview-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .no-challenges-message {
+      text-align: center;
+      padding: 20px;
+      color: var(--gray);
+    }
+
+    .no-challenges-message p {
+      margin-bottom: 12px;
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+      .engagement-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .engagement-card {
+        padding: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1503,7 +1616,69 @@
         </div>
       </div>
     </div>
+
+    <!-- Engagement Features Section -->
+    <div class="engagement-section" style="max-width: 900px; margin-top: 30px;">
+      <div class="card card-full">
+        <div class="card-header">
+          <h2 class="card-title">
+            <div class="card-icon">🏆</div>
+            Your Progress & Achievements
+          </h2>
+        </div>
+
+        <div class="engagement-grid">
+          <!-- Streak Display -->
+          <div class="engagement-card streak-display-card" id="streakDisplay">
+            <div class="engagement-icon">🔥</div>
+            <div class="engagement-content">
+              <h3>Current Streak</h3>
+              <div class="streak-count" id="streakCount">0</div>
+              <div class="streak-label">days</div>
+              <div class="streak-status" id="streakStatus">Start your streak today!</div>
+            </div>
+          </div>
+
+          <!-- Points Display -->
+          <div class="engagement-card points-display-card">
+            <div class="engagement-icon">⭐</div>
+            <div class="engagement-content">
+              <h3>Total Points</h3>
+              <div class="points-count" id="pointsCount">0</div>
+              <div class="points-label">points earned</div>
+              <div class="points-info">Complete challenges to earn more!</div>
+            </div>
+          </div>
+
+          <!-- Badges Display -->
+          <div class="engagement-card badges-display-card">
+            <div class="engagement-icon">🏅</div>
+            <div class="engagement-content">
+              <h3>Badges Earned</h3>
+              <div class="badges-count" id="badgesCount">0</div>
+              <div class="badges-label">badges collected</div>
+              <div class="badges-preview" id="badgesPreview">Start challenges to earn badges!</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Challenges -->
+        <div class="active-challenges-preview" id="activeChallengesPreview">
+          <h3>Active Challenges</h3>
+          <div class="challenges-preview-list" id="challengesPreviewList">
+            <div class="no-challenges-message">
+              <p>No active challenges. Start one to earn rewards!</p>
+              <button class="btn-secondary btn-small" onclick="showChallengeBrowser()">Browse Challenges</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
+
+  <!-- Engagement Scripts -->
+  <script src="js/streak-tracker.js"></script>
+  <script src="js/challenge-system.js"></script>
 
   <!-- Mission System Scripts -->
   <script src="js/mission-generator.js"></script>
@@ -1699,7 +1874,87 @@
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
       initBottomNavigation();
+      initEngagementFeatures();
     });
+
+    // Initialize Engagement Features
+    function initEngagementFeatures() {
+      // Load streak data
+      const currentStreak = parseInt(localStorage.getItem('currentStreak')) || 0;
+      const streakCount = document.getElementById('streakCount');
+      const streakStatus = document.getElementById('streakStatus');
+
+      if (streakCount) {
+        streakCount.textContent = currentStreak;
+      }
+
+      if (streakStatus) {
+        if (currentStreak >= 7) {
+          streakStatus.textContent = '🔥 On fire! Keep it up!';
+        } else if (currentStreak >= 3) {
+          streakStatus.textContent = '💪 Building momentum!';
+        } else if (currentStreak > 0) {
+          streakStatus.textContent = '✨ Good start!';
+        } else {
+          streakStatus.textContent = 'Start your streak today!';
+        }
+      }
+
+      // Load points data
+      const userPoints = parseInt(localStorage.getItem('userPoints')) || 0;
+      const pointsCount = document.getElementById('pointsCount');
+
+      if (pointsCount) {
+        pointsCount.textContent = userPoints.toLocaleString();
+      }
+
+      // Load badges data
+      const userBadges = JSON.parse(localStorage.getItem('userBadges')) || [];
+      const badgesCount = document.getElementById('badgesCount');
+      const badgesPreview = document.getElementById('badgesPreview');
+
+      if (badgesCount) {
+        badgesCount.textContent = userBadges.length;
+      }
+
+      if (badgesPreview && userBadges.length > 0) {
+        badgesPreview.textContent = userBadges.slice(0, 3).join(' • ');
+      }
+
+      // Load active challenges
+      const activeChallenges = JSON.parse(localStorage.getItem('activeChallenges')) || [];
+      const challengesList = document.getElementById('challengesPreviewList');
+
+      if (challengesList && activeChallenges.length > 0) {
+        challengesList.innerHTML = activeChallenges.map(challenge => `
+          <div class="challenge-preview-item">
+            <div class="challenge-icon">${getChallengeIcon(challenge.type)}</div>
+            <div class="challenge-info">
+              <div class="challenge-title">${challenge.title}</div>
+              <div class="challenge-progress-text">${challenge.progress}/${challenge.target} ${challenge.unit}</div>
+            </div>
+            <div class="challenge-progress-mini">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${Math.min(100, (challenge.progress / challenge.target) * 100)}%"></div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function getChallengeIcon(type) {
+      const icons = {
+        'daily': '📅',
+        'streak': '🔥',
+        'special': '⭐'
+      };
+      return icons[type] || '🎯';
+    }
+
+    function showChallengeBrowser() {
+      showNotification('Challenges', 'Complete challenges to earn points and badges!');
+    }
   </script>
 </body>
 </html>
