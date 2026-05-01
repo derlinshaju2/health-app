@@ -1048,8 +1048,107 @@
       }
     }
 
+    // Load user data from localStorage
+    function loadUserData() {
+      const userProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
+      const todayData = JSON.parse(localStorage.getItem('todayData')) || {};
+      const healthHistory = JSON.parse(localStorage.getItem('healthHistory')) || [];
+
+      return { userProfile, todayData, healthHistory };
+    }
+
+    // Calculate health score based on user data
+    function calculateHealthScore(userProfile, todayData) {
+      let score = 70; // Base score
+
+      // BMI contribution
+      if (userProfile.bmi) {
+        const bmi = userProfile.bmi;
+        if (bmi >= 18.5 && bmi <= 24.9) score += 10;
+        else if (bmi >= 25 && bmi <= 29.9) score += 5;
+        else if (bmi >= 30 && bmi <= 34.9) score += 0;
+        else score -= 5;
+      }
+
+      // Activity level
+      if (todayData.steps) {
+        if (todayData.steps >= 10000) score += 10;
+        else if (todayData.steps >= 7000) score += 7;
+        else if (todayData.steps >= 5000) score += 5;
+        else score += 2;
+      }
+
+      // Water intake
+      if (todayData.water) {
+        if (todayData.water >= 8) score += 5;
+        else if (todayData.water >= 6) score += 3;
+        else score += 1;
+      }
+
+      // Workout completion
+      if (todayData.workoutCompleted) score += 5;
+
+      return Math.min(100, Math.max(0, score));
+    }
+
+    // Update statistics display
+    function updateStatistics() {
+      const { userProfile, todayData } = loadUserData();
+
+      // Update health score
+      const healthScore = calculateHealthScore(userProfile, todayData);
+      const healthScoreElement = document.querySelector('.health-score');
+      if (healthScoreElement) {
+        healthScoreElement.textContent = healthScore;
+      }
+
+      // Update health score label
+      const healthLabel = document.querySelector('.health-score-label');
+      if (healthLabel) {
+        if (healthScore >= 85) healthLabel.textContent = 'Excellent Health';
+        else if (healthScore >= 70) healthLabel.textContent = 'Good Health';
+        else if (healthScore >= 55) healthLabel.textContent = 'Fair Health';
+        else healthLabel.textContent = 'Needs Improvement';
+      }
+
+      // Update steps
+      if (todayData.steps) {
+        const stepsElements = document.querySelectorAll('.stat-value');
+        if (stepsElements.length > 0) {
+          stepsElements[0].textContent = todayData.steps.toLocaleString();
+        }
+      }
+
+      // Update water
+      if (todayData.water) {
+        const waterElements = document.querySelectorAll('.stat-value');
+        if (waterElements.length > 1) {
+          waterElements[1].textContent = todayData.water + '/8';
+        }
+      }
+
+      // Update weight
+      if (userProfile.weight) {
+        const weightElements = document.querySelectorAll('.stat-value');
+        if (weightElements.length > 2) {
+          weightElements[2].textContent = userProfile.weight + ' kg';
+        }
+      }
+
+      // Update calories
+      if (todayData.calories) {
+        const calorieElements = document.querySelectorAll('.stat-value');
+        if (calorieElements.length > 3) {
+          calorieElements[3].textContent = todayData.calories.toLocaleString();
+        }
+      }
+    }
+
     // Initialize charts on load
-    document.addEventListener('DOMContentLoaded', initCharts);
+    document.addEventListener('DOMContentLoaded', () => {
+      initCharts();
+      updateStatistics();
+    });
 
 
     // Quick Actions Modal
