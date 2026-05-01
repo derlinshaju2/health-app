@@ -1635,34 +1635,8 @@
           </h2>
         </div>
 
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon">⚖️</div>
-            <div class="stat-value">22.5</div>
-            <div class="stat-label">BMI</div>
-            <div class="stat-change positive">Normal Range</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-icon">🔥</div>
-            <div class="stat-value">1,850</div>
-            <div class="stat-label">Calories Today</div>
-            <div class="stat-change positive">On Track</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-icon">💧</div>
-            <div class="stat-value">6/8</div>
-            <div class="stat-label">Water Intake</div>
-            <div class="stat-change">75% of Goal</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-icon">🧘</div>
-            <div class="stat-value">45min</div>
-            <div class="stat-label">Exercise</div>
-            <div class="stat-change positive">Great Progress</div>
-          </div>
+        <div class="stats-grid" id="quickStatsGrid">
+          <!-- Stats will be dynamically loaded -->
         </div>
       </div>
     </div>
@@ -1840,6 +1814,8 @@
         showRegularDashboard();
       }
 
+      // Initialize all dashboard features
+      initQuickStats();
       initEngagementFeatures();
 
       console.log('✅ Dashboard loaded successfully');
@@ -1856,26 +1832,56 @@
         <div class="first-time-dashboard">
           <div class="welcome-hero" style="text-align: center; padding: 40px 20px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 24px; margin-bottom: 30px;">
             <h1 style="font-size: 32px; font-weight: 700; color: var(--dark); margin-bottom: 10px;">Welcome to Your Health Journey! 🎉</h1>
-            <p style="font-size: 16px; color: var(--gray);">Let's start with your first steps</p>
+            <p style="font-size: 16px; color: var(--gray);">You've earned 100 bonus points & your first badge! Let's get started.</p>
           </div>
 
           <div class="today-plan-card" style="background: white; border-radius: 24px; padding: 30px; box-shadow: 0 4px 24px var(--shadow); margin-bottom: 30px;">
             <h2 style="font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
-              📋 Today's Plan
+              🎯 Your 3 Simple Steps for Today
             </h2>
             <div class="action-items" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-              <button class="action-btn primary" onclick="window.location.href='yoga-tracker.html'" style="padding: 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: transform 0.3s ease;">
-                <span class="btn-icon" style="font-size: 32px;">🏃</span>
-                <span>Start Your First Workout</span>
+              <button class="action-btn primary" onclick="window.location.href='yoga-tracker.html'" style="padding: 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: transform 0.3s ease; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);">
+                <span class="btn-icon" style="font-size: 32px;">1️⃣</span>
+                <span style="font-size: 18px; font-weight: 700;">Start Your First Workout</span>
+                <span style="font-size: 13px; opacity: 0.9;">🏃 Log 15min activity</span>
               </button>
               <button class="action-btn" onclick="window.location.href='diet-tracking.html'" style="padding: 20px; background: var(--light); color: var(--dark); border: 2px solid var(--border); border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: all 0.3s ease;">
-                <span class="btn-icon" style="font-size: 32px;">🍽️</span>
-                <span>Log Your First Meal</span>
+                <span class="btn-icon" style="font-size: 32px;">2️⃣</span>
+                <span style="font-size: 18px; font-weight: 700;">Log Your First Meal</span>
+                <span style="font-size: 13px; opacity: 0.9;">🍽️ Track breakfast</span>
               </button>
               <button class="action-btn" onclick="window.location.href='profile.html'" style="padding: 20px; background: var(--light); color: var(--dark); border: 2px solid var(--border); border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: all 0.3s ease;">
-                <span class="btn-icon" style="font-size: 32px;">👤</span>
-                <span>View Your Profile</span>
+                <span class="btn-icon" style="font-size: 32px;">3️⃣</span>
+                <span style="font-size: 18px; font-weight: 700;">View Your Profile</span>
+                <span style="font-size: 13px; opacity: 0.9;">👤 See your health goals</span>
               </button>
+            </div>
+          </div>
+
+          <!-- Progress Overview Card -->
+          <div class="progress-overview" style="background: white; border-radius: 24px; padding: 30px; box-shadow: 0 4px 24px var(--shadow); margin-bottom: 30px;">
+            <h2 style="font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+              📊 Your Starting Progress
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+              <div style="background: var(--light); border-radius: 16px; padding: 20px; text-align: center; border: 2px solid var(--primary);">
+                <div style="font-size: 32px; margin-bottom: 10px;">🔥</div>
+                <div style="font-size: 28px; font-weight: 700; color: var(--primary);">1</div>
+                <div style="font-size: 13px; color: var(--gray); font-weight: 500;">Day Streak Started</div>
+                <div style="font-size: 12px; color: var(--success); margin-top: 5px;">✓ Keep it up!</div>
+              </div>
+              <div style="background: var(--light); border-radius: 16px; padding: 20px; text-align: center; border: 2px solid var(--warning);">
+                <div style="font-size: 32px; margin-bottom: 10px;">⭐</div>
+                <div style="font-size: 28px; font-weight: 700; color: var(--warning);">100</div>
+                <div style="font-size: 13px; color: var(--gray); font-weight: 500;">Welcome Bonus Points</div>
+                <div style="font-size: 12px; color: var(--gray); margin-top: 5px;">Earn more by completing activities</div>
+              </div>
+              <div style="background: var(--light); border-radius: 16px; padding: 20px; text-align: center; border: 2px solid var(--success);">
+                <div style="font-size: 32px; margin-bottom: 10px;">🏅</div>
+                <div style="font-size: 28px; font-weight: 700; color: var(--success);">1</div>
+                <div style="font-size: 13px; color: var(--gray); font-weight: 500;">Badge Earned</div>
+                <div style="font-size: 12px; color: var(--gray); margin-top: 5px;">🎉 Welcome Aboard</div>
+              </div>
             </div>
           </div>
 
@@ -1908,7 +1914,7 @@
       mainContent.innerHTML = firstTimeHTML;
 
       // Show celebration notification
-      showNotification('🎉 Welcome!', 'Your health profile is ready! Start with your first activity above.');
+      showNotification('🎉 Welcome!', 'Your health profile is ready! You have 100 bonus points and your first badge. Complete your first activity to earn more!');
     }
 
     // Show regular dashboard for returning users
@@ -1919,10 +1925,76 @@
         dashboardManager.showRegularDashboard();
       }
 
+      // Show quick start guide for new users (users with streak <= 3)
+      const currentStreak = parseInt(localStorage.getItem('currentStreak')) || 1;
+      if (currentStreak <= 3) {
+        setTimeout(() => {
+          showQuickStartGuide();
+        }, 500);
+      }
+
       // Show behavioral insights after a short delay
       setTimeout(() => {
         showBehavioralInsights();
       }, 1000);
+    }
+
+    // Show quick start guide for new users
+    function showQuickStartGuide() {
+      const mainContent = document.querySelector('.main-content');
+      if (!mainContent) return;
+
+      // Check if guide already exists
+      if (document.querySelector('.quick-start-guide')) return;
+
+      const guideHTML = `
+        <div class="quick-start-guide" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 24px; padding: 30px; margin-bottom: 30px; border: 2px solid var(--primary); position: relative;">
+          <button onclick="this.closest('.quick-start-guide').remove()" style="position: absolute; top: 15px; right: 15px; background: var(--primary); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;">×</button>
+
+          <h3 style="font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            🚀 Quick Start Guide
+          </h3>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+            <div style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 12px var(--shadow);">
+              <div style="font-size: 32px; margin-bottom: 10px;">🍽️</div>
+              <h4 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px;">1. Log Your Meals</h4>
+              <p style="font-size: 13px; color: var(--gray); line-height: 1.5; margin-bottom: 12px;">Track what you eat to stay within your calorie goal.</p>
+              <button onclick="window.location.href='diet-tracking.html'" style="padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">Start Logging</button>
+            </div>
+
+            <div style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 12px var(--shadow);">
+              <div style="font-size: 32px; margin-bottom: 10px;">🏃</div>
+              <h4 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px;">2. Start a Workout</h4>
+              <p style="font-size: 13px; color: var(--gray); line-height: 1.5; margin-bottom: 12px;">Log your exercise and burn calories to reach your goals.</p>
+              <button onclick="window.location.href='yoga-tracker.html'" style="padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">Start Workout</button>
+            </div>
+
+            <div style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 12px var(--shadow);">
+              <div style="font-size: 32px; margin-bottom: 10px;">💧</div>
+              <h4 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px;">3. Track Water</h4>
+              <p style="font-size: 13px; color: var(--gray); line-height: 1.5; margin-bottom: 12px;">Stay hydrated by logging your water intake throughout the day.</p>
+              <button onclick="handleInsightAction('addWater')" style="padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">Add Glass</button>
+            </div>
+          </div>
+
+          <div style="background: white; border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 15px;">
+            <span style="font-size: 24px;">💡</span>
+            <div style="flex: 1;">
+              <strong style="color: var(--dark); font-size: 14px;">Pro Tip:</strong>
+              <span style="color: var(--gray); font-size: 13px;"> Complete all three daily activities to earn bonus points and maintain your streak!</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Insert after the header
+      const header = mainContent.querySelector('.header');
+      if (header && header.nextSibling) {
+        header.parentNode.insertBefore(guideHTML, header.nextSibling);
+      } else {
+        mainContent.insertAdjacentHTML('afterbegin', guideHTML);
+      }
     }
 
     // Show behavioral insights (personalization)
@@ -2237,10 +2309,67 @@
       }, 5000);
     }
 
+    // Initialize Quick Stats
+    function initQuickStats() {
+      const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+      const todayData = JSON.parse(localStorage.getItem('todayData')) || {};
+      const quickStatsGrid = document.getElementById('quickStatsGrid');
+
+      if (!quickStatsGrid) return;
+
+      // Get BMI from user profile or calculate default
+      const bmi = userProfile?.bmi || 22.5;
+      const bmiCategory = userProfile?.bmiCategory || 'Normal Weight';
+
+      // Get calories data
+      const dailyCalories = userProfile?.dailyCalories || 2000;
+      const todayCalories = todayData.calories || Math.round(dailyCalories * 0.3);
+      const caloriesPercent = Math.round((todayCalories / dailyCalories) * 100);
+
+      // Get water intake
+      const waterIntake = todayData.water || 2;
+      const waterGoal = 8;
+      const waterPercent = Math.round((waterIntake / waterGoal) * 100);
+
+      // Get exercise data
+      const workouts = todayData.workouts || [];
+      const exerciseMin = workouts.reduce((total, workout) => total + (workout.duration || 0), 0);
+
+      quickStatsGrid.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-icon">⚖️</div>
+          <div class="stat-value">${bmi}</div>
+          <div class="stat-label">BMI</div>
+          <div class="stat-change ${bmi >= 18.5 && bmi < 25 ? 'positive' : ''}">${bmiCategory}</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-value">${todayCalories.toLocaleString()}</div>
+          <div class="stat-label">Calories Today</div>
+          <div class="stat-change ${caloriesPercent >= 80 ? 'positive' : ''}">${caloriesPercent}% of daily goal</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">💧</div>
+          <div class="stat-value">${waterIntake}/${waterGoal}</div>
+          <div class="stat-label">Water Intake</div>
+          <div class="stat-change ${waterPercent >= 75 ? 'positive' : ''}">${waterPercent}% of Goal</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🧘</div>
+          <div class="stat-value">${exerciseMin}min</div>
+          <div class="stat-label">Exercise</div>
+          <div class="stat-change ${exerciseMin > 0 ? 'positive' : ''}">${exerciseMin > 0 ? 'Great Progress' : 'No activity yet'}</div>
+        </div>
+      `;
+    }
+
     // Initialize Engagement Features
     function initEngagementFeatures() {
       // Load streak data
-      const currentStreak = parseInt(localStorage.getItem('currentStreak')) || 0;
+      const currentStreak = parseInt(localStorage.getItem('currentStreak')) || 1;
       const streakCount = document.getElementById('streakCount');
       const streakStatus = document.getElementById('streakStatus');
 
@@ -2253,15 +2382,15 @@
           streakStatus.textContent = '🔥 On fire! Keep it up!';
         } else if (currentStreak >= 3) {
           streakStatus.textContent = '💪 Building momentum!';
-        } else if (currentStreak > 0) {
-          streakStatus.textContent = '✨ Good start!';
+        } else if (currentStreak >= 1) {
+          streakStatus.textContent = '✨ Great start! Keep going!';
         } else {
           streakStatus.textContent = 'Start your streak today!';
         }
       }
 
       // Load points data
-      const userPoints = parseInt(localStorage.getItem('userPoints')) || 0;
+      const userPoints = parseInt(localStorage.getItem('userPoints')) || 100;
       const pointsCount = document.getElementById('pointsCount');
 
       if (pointsCount) {
@@ -2269,7 +2398,7 @@
       }
 
       // Load badges data
-      const userBadges = JSON.parse(localStorage.getItem('userBadges')) || [];
+      const userBadges = JSON.parse(localStorage.getItem('userBadges')) || ['🎉 Welcome Aboard'];
       const badgesCount = document.getElementById('badgesCount');
       const badgesPreview = document.getElementById('badgesPreview');
 
@@ -2285,21 +2414,39 @@
       const activeChallenges = JSON.parse(localStorage.getItem('activeChallenges')) || [];
       const challengesList = document.getElementById('challengesPreviewList');
 
-      if (challengesList && activeChallenges.length > 0) {
-        challengesList.innerHTML = activeChallenges.map(challenge => `
-          <div class="challenge-preview-item">
-            <div class="challenge-icon">${getChallengeIcon(challenge.type)}</div>
-            <div class="challenge-info">
-              <div class="challenge-title">${challenge.title}</div>
-              <div class="challenge-progress-text">${challenge.progress}/${challenge.target} ${challenge.unit}</div>
-            </div>
-            <div class="challenge-progress-mini">
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: ${Math.min(100, (challenge.progress / challenge.target) * 100)}%"></div>
+      if (challengesList) {
+        if (activeChallenges.length > 0) {
+          challengesList.innerHTML = activeChallenges.map(challenge => `
+            <div class="challenge-preview-item">
+              <div class="challenge-icon">${getChallengeIcon(challenge.type)}</div>
+              <div class="challenge-info">
+                <div class="challenge-title">${challenge.title}</div>
+                <div class="challenge-progress-text">${challenge.progress}/${challenge.target} ${challenge.unit}</div>
+              </div>
+              <div class="challenge-progress-mini">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: ${Math.min(100, (challenge.progress / challenge.target) * 100)}%"></div>
+                </div>
               </div>
             </div>
-          </div>
-        `).join('');
+          `).join('');
+        } else {
+          // Show default challenge for new users
+          challengesList.innerHTML = `
+            <div class="challenge-preview-item">
+              <div class="challenge-icon">🌟</div>
+              <div class="challenge-info">
+                <div class="challenge-title">Complete Your First Day</div>
+                <div class="challenge-progress-text">30/100 %</div>
+              </div>
+              <div class="challenge-progress-mini">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 30%"></div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
       }
     }
 

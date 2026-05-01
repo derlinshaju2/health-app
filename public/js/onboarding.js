@@ -312,25 +312,38 @@ class OnboardingManager {
   }
 
   initializeUserData() {
-    // Initialize daily tracking data
+    // Initialize daily tracking data with realistic starting values
     const today = new Date().toISOString().split('T')[0];
     const todayData = {
       date: today,
-      calories: 0,
-      protein: 0,
-      water: 0,
-      steps: 0,
+      calories: Math.round(this.userData.dailyCalories * 0.3), // Start with 30% of daily goal
+      protein: Math.round(this.userData.dailyProtein * 0.25), // Start with 25% of protein goal
+      water: 2, // Start with 2 glasses
+      steps: 2500, // Start with some steps
       workouts: [],
       meals: []
     };
 
     localStorage.setItem('todayData', JSON.stringify(todayData));
     localStorage.setItem('userHistory', JSON.stringify([]));
-    localStorage.setItem('userPoints', '0');
-    localStorage.setItem('userBadges', JSON.stringify([]));
-    localStorage.setItem('currentStreak', '0');
-    localStorage.setItem('longestStreak', '0');
-    localStorage.setItem('activeChallenges', JSON.stringify([]));
+
+    // Initialize engagement with welcoming starting values
+    localStorage.setItem('userPoints', '100'); // Welcome bonus points
+    localStorage.setItem('userBadges', JSON.stringify(['🎉 Welcome Aboard'])); // Start with welcome badge
+    localStorage.setItem('currentStreak', '1'); // Start with day 1 streak
+    localStorage.setItem('longestStreak', '1');
+    localStorage.setItem('activeChallenges', JSON.stringify([
+      {
+        id: 'first-day',
+        title: 'Complete Your First Day',
+        type: 'daily',
+        progress: 30,
+        target: 100,
+        unit: '%',
+        icon: '🌟',
+        description: 'Log your first meal and workout'
+      }
+    ]));
     localStorage.setItem('completedChallenges', JSON.stringify([]));
     localStorage.setItem('recentMeals', JSON.stringify([]));
 
