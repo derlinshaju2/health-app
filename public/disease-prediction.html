@@ -1471,37 +1471,62 @@
     }
 
     function displayResults(risks) {
-      const resultsCard = document.getElementById('resultsCard');
-      const riskResults = document.getElementById('riskResults');
-      const recommendationsList = document.getElementById('recommendationsList');
+      const detailedRiskCards = document.getElementById('detailedRiskCards');
+      const detailedAnalysisContent = document.getElementById('detailedAnalysisContent');
+      const analysisToggle = document.querySelector('.analysis-toggle');
 
       // Display risk cards
-      riskResults.innerHTML = risks.map(risk => {
+      detailedRiskCards.innerHTML = risks.map(risk => {
         const riskClass = risk.score < 30 ? 'low' : risk.score < 60 ? 'medium' : 'high';
         const riskLabel = risk.score < 30 ? 'Low Risk' : risk.score < 60 ? 'Medium Risk' : 'High Risk';
+        const riskColor = risk.score < 30 ? '#10b981' : risk.score < 60 ? '#f59e0b' : '#ef4444';
 
         return `
-          <div class="risk-card ${riskClass}">
-            <div class="risk-icon">${risk.icon}</div>
-            <div class="risk-disease">${risk.disease}</div>
-            <div class="risk-score">${risk.score}%</div>
-            <div class="risk-label">${riskLabel}</div>
+          <div style="padding: 20px; background: white; border-radius: 16px; border-left: 4px solid ${riskColor}; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 28px;">${risk.icon}</span>
+                <h4 style="font-size: 18px; font-weight: 600; color: var(--dark); margin: 0;">${risk.disease}</h4>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 32px; font-weight: 700; color: ${riskColor};">${risk.score}%</div>
+                <div style="font-size: 12px; color: var(--gray); font-weight: 500;">${riskLabel}</div>
+              </div>
+            </div>
+            <div style="width: 100%; height: 6px; background: var(--light); border-radius: 3px; overflow: hidden;">
+              <div style="width: ${risk.score}%; height: 100%; background: ${riskColor}; transition: width 0.3s ease;"></div>
+            </div>
           </div>
         `;
       }).join('');
 
       // Generate recommendations
       const recommendations = generateRecommendations(risks);
-      recommendationsList.innerHTML = recommendations.map(rec => `
-        <div class="recommendation-item">
-          <div class="recommendation-icon">${rec.icon}</div>
-          <div class="recommendation-text">${rec.text}</div>
-        </div>
-      `).join('');
 
-      // Show results
-      resultsCard.style.display = 'block';
-      resultsCard.scrollIntoView({ behavior: 'smooth' });
+      // Add recommendations section
+      const recommendationsHTML = `
+        <div style="margin-top: 24px;">
+          <h4 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 16px;">💡 Personalized Recommendations</h4>
+          <div style="display: grid; gap: 12px;">
+            ${recommendations.map(rec => `
+              <div style="padding: 16px; background: var(--light); border-radius: 12px; display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 24px;">${rec.icon}</span>
+                <p style="margin: 0; font-size: 14px; color: var(--dark);">${rec.text}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      detailedRiskCards.innerHTML += recommendationsHTML;
+
+      // Expand detailed analysis section
+      detailedAnalysisContent.classList.add('expanded');
+      analysisToggle.setAttribute('data-expanded', 'true');
+      analysisToggle.querySelector('.toggle-icon').style.transform = 'rotate(180deg)';
+
+      // Scroll to results
+      detailedAnalysisContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function generateRecommendations(risks) {
