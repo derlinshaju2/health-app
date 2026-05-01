@@ -1097,6 +1097,14 @@
 
       console.log('Loading analytics data:', { userProfile, todayData });
 
+      // Only update if user has completed onboarding (has profile data)
+      const hasUserData = userProfile && Object.keys(userProfile).length > 0 && userProfile.onboardingComplete;
+
+      if (!hasUserData) {
+        console.log('No user data found - showing sample data');
+        return; // Keep the hardcoded sample data in HTML
+      }
+
       // Update health score
       const healthScore = calculateHealthScore(userProfile, todayData);
       const healthScoreElement = document.querySelector('.health-score');
@@ -1121,28 +1129,27 @@
 
         if (!label || !value) return;
 
-        if (label.textContent.includes('Steps')) {
-          value.textContent = todayData.steps ? todayData.steps.toLocaleString() : '0';
-        } else if (label.textContent.includes('Water')) {
-          value.textContent = todayData.water ? todayData.water + ' glasses' : '0 glasses';
-        } else if (label.textContent.includes('Sleep')) {
-          value.textContent = todayData.sleep ? todayData.sleep + 'h' : '0h';
-        } else if (label.textContent.includes('Yoga')) {
-          value.textContent = todayData.yogaSessions || '0';
+        if (label.textContent.includes('Steps') && todayData.steps) {
+          value.textContent = todayData.steps.toLocaleString();
+        } else if (label.textContent.includes('Water') && todayData.water) {
+          value.textContent = todayData.water + ' glasses';
+        } else if (label.textContent.includes('Sleep') && todayData.sleep) {
+          value.textContent = todayData.sleep + 'h';
+        } else if (label.textContent.includes('Yoga') && todayData.yogaSessions) {
+          value.textContent = todayData.yogaSessions;
         }
       });
 
       // Update weight in the weight trends card
-      const allValueElements = document.querySelectorAll('.stat-value');
-      allValueElements.forEach(el => {
-        const card = el.closest('.card');
-        if (card && card.textContent.includes('Weight')) {
-          el.textContent = userProfile.weight ? userProfile.weight + ' kg' : 'No data';
-        }
-        if (card && card.textContent.includes('Calories')) {
-          el.textContent = todayData.calories ? todayData.calories.toLocaleString() : '0';
-        }
-      });
+      if (userProfile.weight) {
+        const allValueElements = document.querySelectorAll('.stat-value');
+        allValueElements.forEach(el => {
+          const card = el.closest('.card');
+          if (card && card.textContent.includes('Weight')) {
+            el.textContent = userProfile.weight + ' kg';
+          }
+        });
+      }
 
       console.log('Statistics updated successfully');
     }
