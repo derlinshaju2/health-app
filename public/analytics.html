@@ -1095,6 +1095,8 @@
     function updateStatistics() {
       const { userProfile, todayData } = loadUserData();
 
+      console.log('Loading analytics data:', { userProfile, todayData });
+
       // Update health score
       const healthScore = calculateHealthScore(userProfile, todayData);
       const healthScoreElement = document.querySelector('.health-score');
@@ -1111,37 +1113,38 @@
         else healthLabel.textContent = 'Needs Improvement';
       }
 
-      // Update steps
-      if (todayData.steps) {
-        const stepsElements = document.querySelectorAll('.stat-value');
-        if (stepsElements.length > 0) {
-          stepsElements[0].textContent = todayData.steps.toLocaleString();
-        }
-      }
+      // Update stat cards by finding the correct one based on label
+      const statCards = document.querySelectorAll('.stat-card');
+      statCards.forEach(card => {
+        const label = card.querySelector('.stat-label');
+        const value = card.querySelector('.stat-value');
 
-      // Update water
-      if (todayData.water) {
-        const waterElements = document.querySelectorAll('.stat-value');
-        if (waterElements.length > 1) {
-          waterElements[1].textContent = todayData.water + '/8';
-        }
-      }
+        if (!label || !value) return;
 
-      // Update weight
-      if (userProfile.weight) {
-        const weightElements = document.querySelectorAll('.stat-value');
-        if (weightElements.length > 2) {
-          weightElements[2].textContent = userProfile.weight + ' kg';
+        if (label.textContent.includes('Steps')) {
+          value.textContent = todayData.steps ? todayData.steps.toLocaleString() : '0';
+        } else if (label.textContent.includes('Water')) {
+          value.textContent = todayData.water ? todayData.water + ' glasses' : '0 glasses';
+        } else if (label.textContent.includes('Sleep')) {
+          value.textContent = todayData.sleep ? todayData.sleep + 'h' : '0h';
+        } else if (label.textContent.includes('Yoga')) {
+          value.textContent = todayData.yogaSessions || '0';
         }
-      }
+      });
 
-      // Update calories
-      if (todayData.calories) {
-        const calorieElements = document.querySelectorAll('.stat-value');
-        if (calorieElements.length > 3) {
-          calorieElements[3].textContent = todayData.calories.toLocaleString();
+      // Update weight in the weight trends card
+      const allValueElements = document.querySelectorAll('.stat-value');
+      allValueElements.forEach(el => {
+        const card = el.closest('.card');
+        if (card && card.textContent.includes('Weight')) {
+          el.textContent = userProfile.weight ? userProfile.weight + ' kg' : 'No data';
         }
-      }
+        if (card && card.textContent.includes('Calories')) {
+          el.textContent = todayData.calories ? todayData.calories.toLocaleString() : '0';
+        }
+      });
+
+      console.log('Statistics updated successfully');
     }
 
     // Initialize charts on load
