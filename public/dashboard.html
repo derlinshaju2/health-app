@@ -202,26 +202,50 @@
     }
 
     /* Mobile Menu */
+    /* Mobile Menu Button */
     .mobile-menu-btn {
       display: none;
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      border: none;
-      color: white;
-      font-size: 24px;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: white;
+      border: 2px solid var(--border);
+      color: var(--dark);
+      font-size: 20px;
       cursor: pointer;
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       z-index: 1001;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
+      align-items: center;
+      justify-content: center;
     }
 
     .mobile-menu-btn:hover {
-      transform: scale(1.1);
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Sidebar Overlay for Mobile */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.show {
+      display: block;
+      opacity: 1;
     }
 
     /* Responsive */
@@ -236,24 +260,120 @@
 
       .main-content {
         margin-left: 0;
-        padding: 20px;
+        padding: 80px 16px 20px;
       }
 
       .mobile-menu-btn {
         display: flex;
-        align-items: center;
-        justify-content: center;
       }
 
       .header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+        gap: 12px;
+        margin: 0 0 20px 0;
+        padding: 16px;
+      }
+
+      .page-title {
+        font-size: 20px;
+      }
+
+      .page-subtitle {
+        font-size: 13px;
       }
 
       .header-actions {
         width: 100%;
-        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .header-btn {
+        flex: 1;
+        min-width: 120px;
+        padding: 10px 16px;
+        font-size: 13px;
+        justify-content: center;
+      }
+
+      /* Cards Grid */
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .card {
+        padding: 20px;
+        border-radius: 16px;
+      }
+
+      .card-title {
+        font-size: 16px;
+        margin-bottom: 16px;
+      }
+
+      /* Stats Grid */
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 16px;
+      }
+
+      .stat-value {
+        font-size: 24px;
+      }
+
+      .stat-label {
+        font-size: 12px;
+      }
+
+      /* Mission Cards */
+      .mission-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .priority-card {
+        padding: 16px;
+      }
+
+      /* Quick Actions */
+      .quick-actions-bar {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .quick-action-btn {
+        flex: 1;
+        min-width: 80px;
+        padding: 12px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 70px 12px 16px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header-actions {
+        flex-direction: column;
+      }
+
+      .header-btn {
+        width: 100%;
       }
     }
     .header {
@@ -1606,6 +1726,14 @@
     </div>
   </main>
 
+  <!-- Mobile Menu Button -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+  </button>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
   <!-- Engagement Scripts -->
   <script src="js/streak-tracker.js"></script>
   <script src="js/challenge-system.js"></script>
@@ -1653,16 +1781,30 @@
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
 
     if (mobileMenuBtn && sidebar) {
       mobileMenuBtn.addEventListener('click', () => {
         sidebar.classList.toggle('active');
+        if (sidebarOverlay) {
+          sidebarOverlay.classList.toggle('show');
+        }
       });
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', () => {
+          sidebar.classList.remove('active');
+          sidebarOverlay.classList.remove('show');
+        });
+      }
 
       document.addEventListener('click', (e) => {
         if (window.innerWidth <= 768) {
           if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
             sidebar.classList.remove('active');
+            if (sidebarOverlay) {
+              sidebarOverlay.classList.remove('show');
+            }
           }
         }
       });
