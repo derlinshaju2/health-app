@@ -571,6 +571,320 @@
     .card:nth-child(1) { animation-delay: 0.1s; }
     .card:nth-child(2) { animation-delay: 0.2s; }
     .card:nth-child(3) { animation-delay: 0.3s; }
+
+    /* Quick Add Section */
+    .quick-add-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 2px solid var(--border);
+    }
+
+    .quick-add-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .quick-add-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .quick-add-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 12px;
+      background: var(--light);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .quick-add-btn:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .quick-add-icon {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .quick-add-label {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Recent Meals */
+    .recent-meals-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 2px solid var(--border);
+    }
+
+    .recent-meals-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .recent-meals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .recent-meal-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--light);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .recent-meal-item:hover {
+      background: rgba(99, 102, 241, 0.05);
+      transform: translateX(4px);
+    }
+
+    .meal-info {
+      flex: 1;
+    }
+
+    .meal-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .meal-meta {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+
+    .btn-add {
+      padding: 6px 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-add:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    .no-recent-meals {
+      text-align: center;
+      padding: 20px;
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    /* Repeat Yesterday's Meal */
+    .repeat-meal-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 2px solid var(--border);
+    }
+
+    .repeat-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.2);
+      border-radius: 12px;
+    }
+
+    .repeat-icon {
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .repeat-content {
+      flex: 1;
+    }
+
+    .repeat-content h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .repeat-content p {
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    .btn-repeat {
+      padding: 10px 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn-repeat:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    /* Collapsible Nutrition Details */
+    .nutrition-details-card {
+      margin-top: 24px;
+    }
+
+    .collapse-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--light);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      font-family: inherit;
+      text-align: left;
+    }
+
+    .collapse-toggle:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .toggle-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toggle-icon {
+      font-size: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .collapse-toggle[data-expanded="true"] .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .collapse-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .collapse-content.expanded {
+      max-height: 500px;
+      padding-top: 16px;
+    }
+
+    .macro-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .macro-item {
+      background: var(--light);
+      padding: 16px;
+      border-radius: 10px;
+    }
+
+    .macro-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+
+    .macro-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .macro-progress {
+      height: 6px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .macro-progress .progress-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    .macro-progress .progress-fill.protein {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    }
+
+    .macro-progress .progress-fill.carbs {
+      background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+    }
+
+    .macro-progress .progress-fill.fats {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+
+    .macro-progress .progress-fill.fiber {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    @media (max-width: 768px) {
+      .quick-add-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .macro-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .repeat-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .btn-repeat {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -696,6 +1010,91 @@
             <span>Add Meal</span>
           </button>
         </form>
+
+        <!-- Quick Add Section -->
+        <div class="quick-add-section">
+          <h3 class="quick-add-title">⚡ Quick Add</h3>
+          <div class="quick-add-grid">
+            <button class="quick-add-btn" onclick="quickAddMeal('breakfast')" data-meal="breakfast">
+              <span class="quick-add-icon">🌅</span>
+              <span class="quick-add-label">Breakfast</span>
+            </button>
+            <button class="quick-add-btn" onclick="quickAddMeal('lunch')" data-meal="lunch">
+              <span class="quick-add-icon">☀️</span>
+              <span class="quick-add-label">Lunch</span>
+            </button>
+            <button class="quick-add-btn" onclick="quickAddMeal('dinner')" data-meal="dinner">
+              <span class="quick-add-icon">🌙</span>
+              <span class="quick-add-label">Dinner</span>
+            </button>
+            <button class="quick-add-btn" onclick="quickAddMeal('snack')" data-meal="snack">
+              <span class="quick-add-icon">🍎</span>
+              <span class="quick-add-label">Snack</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Meals -->
+        <div class="recent-meals-section" id="recentMealsSection">
+          <h3 class="recent-meals-title">🔄 Recent Meals</h3>
+          <div class="recent-meals-list" id="recentMealsList">
+            <div class="no-recent-meals">
+              <p>No recent meals yet. Start logging to see your favorites here!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Repeat Yesterday's Meal -->
+        <div class="repeat-meal-section" id="repeatMealSection" style="display: none;">
+          <div class="repeat-card">
+            <div class="repeat-icon">🔄</div>
+            <div class="repeat-content">
+              <h4>Repeat Yesterday's Meal?</h4>
+              <p id="repeatMealText">You had oatmeal with berries for breakfast</p>
+            </div>
+            <button class="btn-repeat" onclick="repeatYesterdayMeal()">Yes, add it</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collapsible Nutrition Details -->
+      <div class="card nutrition-details-card">
+        <button class="collapse-toggle" onclick="toggleNutritionDetails()" data-expanded="false">
+          <span class="toggle-title">📊 Detailed Nutrition Breakdown</span>
+          <span class="toggle-icon">▼</span>
+        </button>
+        <div class="collapse-content" id="nutritionDetailsContent">
+          <div class="macro-grid">
+            <div class="macro-item">
+              <div class="macro-label">Protein</div>
+              <div class="macro-value">45g</div>
+              <div class="macro-progress">
+                <div class="progress-fill protein" style="width: 60%"></div>
+              </div>
+            </div>
+            <div class="macro-item">
+              <div class="macro-label">Carbs</div>
+              <div class="macro-value">180g</div>
+              <div class="macro-progress">
+                <div class="progress-fill carbs" style="width: 75%"></div>
+              </div>
+            </div>
+            <div class="macro-item">
+              <div class="macro-label">Fats</div>
+              <div class="macro-value">35g</div>
+              <div class="macro-progress">
+                <div class="progress-fill fats" style="width: 45%"></div>
+              </div>
+            </div>
+            <div class="macro-item">
+              <div class="macro-label">Fiber</div>
+              <div class="macro-value">12g</div>
+              <div class="macro-progress">
+                <div class="progress-fill fiber" style="width: 40%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Today's Nutrition Summary -->
@@ -912,6 +1311,195 @@
     function saveMealLog() {
       alert('Meal log saved successfully!');
     }
+
+    // Quick Add Meal Function
+    function quickAddMeal(mealType) {
+      const mealNames = {
+        'breakfast': 'Quick Breakfast',
+        'lunch': 'Quick Lunch',
+        'dinner': 'Quick Dinner',
+        'snack': 'Quick Snack'
+      };
+
+      const mealDefaults = {
+        'breakfast': { calories: 350, protein: 15, carbs: 45, fats: 12 },
+        'lunch': { calories: 500, protein: 25, carbs: 55, fats: 18 },
+        'dinner': { calories: 600, protein: 30, carbs: 65, fats: 20 },
+        'snack': { calories: 200, protein: 5, carbs: 25, fats: 8 }
+      };
+
+      const defaults = mealDefaults[mealType];
+
+      // Fill form with defaults
+      document.getElementById('mealType').value = mealType;
+      document.getElementById('foodItem').value = mealNames[mealType];
+      document.getElementById('calories').value = defaults.calories;
+      document.getElementById('protein').value = defaults.protein;
+      document.getElementById('carbs').value = defaults.carbs;
+      document.getElementById('fats').value = defaults.fats;
+
+      // Show notification
+      showNotification(`Quick ${mealType.charAt(0).toUpperCase() + mealType.slice(1)} Added!`,
+                      `Review and adjust the details before logging.`);
+
+      // Scroll to form
+      document.getElementById('mealForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Toggle Nutrition Details
+    function toggleNutritionDetails() {
+      const toggle = document.querySelector('.collapse-toggle');
+      const content = document.getElementById('nutritionDetailsContent');
+      const isExpanded = toggle.getAttribute('data-expanded') === 'true';
+
+      if (isExpanded) {
+        content.classList.remove('expanded');
+        toggle.setAttribute('data-expanded', 'false');
+      } else {
+        content.classList.add('expanded');
+        toggle.setAttribute('data-expanded', 'true');
+      }
+    }
+
+    // Load Recent Meals
+    function loadRecentMeals() {
+      const recentMeals = JSON.parse(localStorage.getItem('recentMeals')) || [];
+      const recentMealsList = document.getElementById('recentMealsList');
+
+      if (recentMeals.length === 0) {
+        recentMealsList.innerHTML = `
+          <div class="no-recent-meals">
+            <p>No recent meals yet. Start logging to see your favorites here!</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Group by meal name and count frequency
+      const mealFrequency = {};
+      recentMeals.forEach(meal => {
+        const key = meal.name.toLowerCase();
+        if (!mealFrequency[key]) {
+          mealFrequency[key] = {
+            name: meal.name,
+            count: 0,
+            lastHad: meal.date,
+            calories: meal.calories,
+            protein: meal.protein,
+            carbs: meal.carbs,
+            fats: meal.fats
+          };
+        }
+        mealFrequency[key].count++;
+        if (new Date(meal.date) > new Date(mealFrequency[key].lastHad)) {
+          mealFrequency[key].lastHad = meal.date;
+        }
+      });
+
+      // Sort by frequency and get top 5
+      const sortedMeals = Object.values(mealFrequency)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5);
+
+      recentMealsList.innerHTML = sortedMeals.map(meal => `
+        <div class="recent-meal-item" onclick="autofillMeal('${meal.name}', ${meal.calories}, ${meal.protein}, ${meal.carbs}, ${meal.fats})">
+          <div class="meal-info">
+            <div class="meal-name">${meal.name}</div>
+            <div class="meal-meta">${meal.count}x this week • ${meal.calories} kcal</div>
+          </div>
+          <button class="btn-add">+ Add</button>
+        </div>
+      `).join('');
+    }
+
+    // Autofill Meal
+    function autofillMeal(name, calories, protein, carbs, fats) {
+      document.getElementById('foodItem').value = name;
+      document.getElementById('calories').value = calories;
+      document.getElementById('protein').value = protein || 0;
+      document.getElementById('carbs').value = carbs || 0;
+      document.getElementById('fats').value = fats || 0;
+
+      showNotification('Meal Autofilled! 🍽️', 'Review and adjust the details before logging.');
+
+      // Scroll to form
+      document.getElementById('mealForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Check for Yesterday's Meal to Repeat
+    function checkYesterdayMeal() {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      const yesterdayStr = yesterday.toISOString().split('T')[0];
+      const recentMeals = JSON.parse(localStorage.getItem('recentMeals')) || [];
+
+      const yesterdayMeals = recentMeals.filter(meal =>
+        meal.date.startsWith(yesterdayStr)
+      );
+
+      if (yesterdayMeals.length > 0) {
+        const breakfastMeal = yesterdayMeals.find(m => m.type === 'breakfast');
+        if (breakfastMeal) {
+          const repeatSection = document.getElementById('repeatMealSection');
+          const repeatText = document.getElementById('repeatMealText');
+
+          repeatText.textContent = `You had ${breakfastMeal.name} for breakfast yesterday (${breakfastMeal.calories} kcal)`;
+          repeatSection.style.display = 'block';
+
+          // Store meal data for repeat function
+          repeatSection.dataset.mealData = JSON.stringify(breakfastMeal);
+        }
+      }
+    }
+
+    // Repeat Yesterday's Meal
+    function repeatYesterdayMeal() {
+      const repeatSection = document.getElementById('repeatMealSection');
+      const mealData = JSON.parse(repeatSection.dataset.mealData);
+
+      if (mealData) {
+        autofillMeal(mealData.name, mealData.calories, mealData.protein, mealData.carbs, mealData.fats);
+        document.getElementById('mealType').value = mealData.type;
+        repeatSection.style.display = 'none';
+      }
+    }
+
+    // Show Notification
+    function showNotification(title, message) {
+      const toast = document.createElement('div');
+      toast.className = 'notification-toast';
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 2000;
+        animation: slideIn 0.3s ease;
+        max-width: 300px;
+      `;
+
+      toast.innerHTML = `
+        <div style="font-weight: 600; color: var(--dark); margin-bottom: 4px;">${title}</div>
+        <div style="font-size: 14px; color: var(--gray);">${message}</div>
+      `;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadRecentMeals();
+      checkYesterdayMeal();
+    });
   </script>
 </body>
 </html>
