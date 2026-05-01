@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" onload="console.log('Chart.js loaded successfully')" onerror="console.error('Chart.js failed to load')"></script>
   <style>
     * {
       margin: 0;
@@ -814,7 +814,7 @@
             <button class="time-range-btn" onclick="updateTimeRange('year')">Year</button>
           </div>
           <div class="chart-container" style="height: 200px;">
-            <canvas id="healthScoreChart"></canvas>
+            <canvas id="healthScoreChart" width="400" height="200"></canvas>
           </div>
         </div>
       </div>
@@ -829,7 +829,7 @@
           Weight Trends
         </h3>
         <div class="chart-container">
-          <canvas id="weightChart"></canvas>
+          <canvas id="weightChart" width="400" height="300"></canvas>
         </div>
         <div style="display: flex; justify-content: space-between; margin-top: 16px;">
           <div>
@@ -854,7 +854,7 @@
           Calorie Trends
         </h3>
         <div class="chart-container">
-          <canvas id="calorieChart"></canvas>
+          <canvas id="calorieChart" width="400" height="300"></canvas>
         </div>
       </div>
 
@@ -1068,36 +1068,41 @@
     let healthScoreChart, weightChart, calorieChart;
 
     function initCharts() {
-      console.log('Initializing charts...');
-      console.log('Chart.js available:', typeof Chart !== 'undefined');
+      console.log('=== CHART INITIALIZATION START ===');
+      console.log('Chart.js loaded:', typeof Chart !== 'undefined');
+      console.log('Chart version:', typeof Chart !== 'undefined' ? Chart.version : 'N/A');
 
       // Check if Chart.js is loaded
       if (typeof Chart === 'undefined') {
-        console.error('Chart.js is not loaded!');
-        alert('Chart visualization library is loading. Please wait a moment and refresh the page.');
+        console.error('❌ Chart.js is NOT loaded!');
+        alert('Charts are loading... Please wait a moment and refresh if needed.');
         return;
       }
+
+      console.log('✅ Chart.js is loaded');
 
       // Check if canvas elements exist
       const healthCanvas = document.getElementById('healthScoreChart');
       const weightCanvas = document.getElementById('weightChart');
       const calorieCanvas = document.getElementById('calorieChart');
 
-      console.log('Canvas elements:', {
-        healthScoreChart: healthCanvas,
-        weightChart: weightCanvas,
-        calorieChart: calorieCanvas
+      console.log('Canvas elements found:', {
+        healthScoreChart: !!healthCanvas,
+        weightChart: !!weightCanvas,
+        calorieChart: !!calorieCanvas
       });
 
       if (!healthCanvas || !weightCanvas || !calorieCanvas) {
-        console.error('One or more canvas elements not found!');
+        console.error('❌ Canvas elements NOT found!');
         return;
       }
 
+      console.log('✅ All canvas elements found');
+
       try {
         // Health Score Chart
-        const healthScoreCtx = healthCanvas.getContext('2d');
         console.log('Creating health score chart...');
+        const healthScoreCtx = healthCanvas.getContext('2d');
         healthScoreChart = new Chart(healthScoreCtx, {
           type: 'line',
           data: {
@@ -1108,7 +1113,8 @@
               borderColor: '#6366f1',
               backgroundColor: 'rgba(99, 102, 241, 0.1)',
               fill: true,
-              tension: 0.4
+              tension: 0.4,
+              borderWidth: 2
             }]
           },
           options: {
@@ -1127,11 +1133,11 @@
             }
           }
         });
-        console.log('Health score chart created successfully');
+        console.log('✅ Health score chart created');
 
         // Weight Chart
-        const weightCtx = weightCanvas.getContext('2d');
         console.log('Creating weight chart...');
+        const weightCtx = weightCanvas.getContext('2d');
         weightChart = new Chart(weightCtx, {
           type: 'line',
           data: {
@@ -1142,7 +1148,8 @@
               borderColor: '#f59e0b',
               backgroundColor: 'rgba(245, 158, 11, 0.1)',
               fill: true,
-              tension: 0.4
+              tension: 0.4,
+              borderWidth: 2
             }]
           },
           options: {
@@ -1155,11 +1162,11 @@
             }
           }
         });
-        console.log('Weight chart created successfully');
+        console.log('✅ Weight chart created');
 
         // Calorie Chart
-        const calorieCtx = calorieCanvas.getContext('2d');
         console.log('Creating calorie chart...');
+        const calorieCtx = calorieCanvas.getContext('2d');
         calorieChart = new Chart(calorieCtx, {
           type: 'bar',
           data: {
@@ -1194,12 +1201,12 @@
             }
           }
         });
-        console.log('Calorie chart created successfully');
-        console.log('All charts initialized successfully!');
+        console.log('✅ Calorie chart created');
+        console.log('=== ALL CHARTS CREATED SUCCESSFULLY ===');
 
       } catch (error) {
-        console.error('Error creating charts:', error);
-        alert('There was an error loading the charts. Please refresh the page.');
+        console.error('❌ ERROR creating charts:', error);
+        console.error('Error details:', error.message, error.stack);
       }
     }
 
@@ -1351,7 +1358,7 @@
 
     // Initialize charts on load with multiple fallbacks
     function initializeApp() {
-      console.log('App initialization starting...');
+      console.log('🚀 App initialization starting...');
       console.log('DOM ready:', document.readyState);
       console.log('Chart.js loaded:', typeof Chart !== 'undefined');
 
@@ -1360,23 +1367,36 @@
     }
 
     // Try multiple methods to ensure charts load
+    console.log('Setting up chart initialization...');
+
     if (document.readyState === 'loading') {
+      console.log('Waiting for DOMContentLoaded...');
       document.addEventListener('DOMContentLoaded', initializeApp);
     } else {
-      // DOM already ready
+      console.log('DOM already ready, initializing now...');
       initializeApp();
     }
 
-    // Fallback: Also try on window load
+    // Fallback: Also try on window load with delay
     window.addEventListener('load', () => {
-      console.log('Window loaded, checking charts...');
-      if (!healthScoreChart && !weightChart && !calorieChart) {
-        console.log('Charts not initialized yet, trying now...');
-        setTimeout(() => {
+      console.log('Window fully loaded');
+      setTimeout(() => {
+        if (!healthScoreChart && !weightChart && !calorieChart) {
+          console.log('Charts still not initialized, trying again...');
           initializeApp();
-        }, 100);
-      }
+        } else {
+          console.log('Charts already initialized, skipping retry');
+        }
+      }, 500);
     });
+
+    // Final fallback after 2 seconds
+    setTimeout(() => {
+      if (!healthScoreChart && !weightChart && !calorieChart) {
+        console.log('⚠️ Final attempt to initialize charts...');
+        initializeApp();
+      }
+    }, 2000);
 
 
     // Quick Actions Modal
