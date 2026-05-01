@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/bottom-nav.css">
   <style>
     * {
       margin: 0;
@@ -830,44 +829,8 @@
     }
   </script>
 
-  <!-- Bottom Navigation (Mobile) -->
-  <nav class="bottom-nav">
-    <a href="dashboard.html" class="bottom-nav-item" data-page="dashboard">
-      <span class="bottom-nav-icon">🏠</span>
-      <span class="bottom-nav-label">Home</span>
-    </a>
-    <a href="yoga-tracker.html" class="bottom-nav-item active" data-page="yoga-tracker">
-      <span class="bottom-nav-icon">🏃</span>
-      <span class="bottom-nav-label">Activity</span>
-    </a>
-    <a href="diet-tracking.html" class="bottom-nav-item" data-page="diet-tracking">
-      <span class="bottom-nav-icon">🍽️</span>
-      <span class="bottom-nav-label">Diet</span>
-    </a>
-    <a href="analytics.html" class="bottom-nav-item" data-page="analytics">
-      <span class="bottom-nav-icon">📊</span>
-      <span class="bottom-nav-label">Insights</span>
-    </a>
-    <a href="profile.html" class="bottom-nav-item" data-page="profile">
-      <span class="bottom-nav-icon">👤</span>
-      <span class="bottom-nav-label">Profile</span>
-    </a>
-  </nav>
 
-  <!-- Floating Action Button (Mobile) -->
-  <button class="floating-action-btn" onclick="showQuickActions()" aria-label="Quick Actions">
-    <span class="floating-action-btn-icon">+</span>
-  </button>
 
-  <!-- Quick Actions Modal -->
-  <div class="quick-actions-overlay" id="quickActionsOverlay" onclick="hideQuickActions()"></div>
-  <div class="quick-actions-modal" id="quickActionsModal">
-    <h3 class="quick-actions-title">Quick Actions</h3>
-    <div class="quick-actions-grid">
-      <div class="quick-action-item" onclick="quickAction('log-meal')">
-        <span class="quick-action-icon">🍽️</span>
-        <span class="quick-action-label">Log Meal</span>
-      </div>
       <div class="quick-action-item" onclick="quickAction('start-workout')">
         <span class="quick-action-icon">🏋️</span>
         <span class="quick-action-label">Workout</span>
@@ -884,19 +847,6 @@
   </div>
 
   <script>
-    // Initialize bottom navigation
-    function initBottomNavigation() {
-      const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
-      const pageName = currentPage.replace('.html', '').replace('-', '');
-
-      document.querySelectorAll('.bottom-nav-item').forEach(item => {
-        item.classList.remove('active');
-        const itemPage = item.dataset.page || item.getAttribute('href').replace('.html', '');
-        if (itemPage === pageName || item.getAttribute('href') === currentPage) {
-          item.classList.add('active');
-        }
-      });
-    }
 
     // Quick actions
     function showQuickActions() {
@@ -933,7 +883,6 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
-      initBottomNavigation();
     });
   </script>
 </body>

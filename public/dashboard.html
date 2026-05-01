@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/bottom-nav.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * {
@@ -907,73 +906,13 @@
       color: var(--primary);
     }
 
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 12px 20px;
-      box-shadow: 0 8px 32px var(--shadow-lg);
-      display: flex;
-      gap: 8px;
-      z-index: 100;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
 
-    body.dark-mode .bottom-nav {
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
 
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 16px;
-      color: var(--gray);
-      text-decoration: none;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      min-width: 60px;
-      position: relative;
-    }
 
-    .nav-item:hover {
-      color: var(--primary);
-      background: var(--light);
-      transform: translateY(-2px);
-    }
 
-    .nav-item.active {
-      color: var(--primary);
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-    }
 
-    .nav-item.active::after {
-      content: '';
-      position: absolute;
-      bottom: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 4px;
-      background: var(--primary);
-      border-radius: 50%;
-    }
 
-    .nav-icon {
-      font-size: 22px;
-    }
 
-    .nav-label {
-      font-size: 11px;
-      font-weight: 600;
-    }
 
     /* Toast */
     .toast {
@@ -1070,16 +1009,7 @@
         padding: 24px;
       }
 
-      .bottom-nav {
-        padding: 10px 16px;
-        gap: 6px;
-        bottom: 16px;
-      }
 
-      .nav-item {
-        padding: 8px 12px;
-        min-width: 50px;
-      }
     }
 
     /* Animations */
@@ -1684,58 +1614,8 @@
   <script src="js/mission-generator.js"></script>
   <script src="js/dashboard-manager.js"></script>
 
-  <!-- Bottom Navigation (Mobile) -->
-  <nav class="bottom-nav">
-    <a href="dashboard.html" class="bottom-nav-item active" data-page="dashboard">
-      <span class="bottom-nav-icon">🏠</span>
-      <span class="bottom-nav-label">Home</span>
-    </a>
-    <a href="yoga-tracker.html" class="bottom-nav-item" data-page="yoga-tracker">
-      <span class="bottom-nav-icon">🏃</span>
-      <span class="bottom-nav-label">Activity</span>
-    </a>
-    <a href="diet-tracking.html" class="bottom-nav-item" data-page="diet-tracking">
-      <span class="bottom-nav-icon">🍽️</span>
-      <span class="bottom-nav-label">Diet</span>
-    </a>
-    <a href="analytics.html" class="bottom-nav-item" data-page="analytics">
-      <span class="bottom-nav-icon">📊</span>
-      <span class="bottom-nav-label">Insights</span>
-    </a>
-    <a href="profile.html" class="bottom-nav-item" data-page="profile">
-      <span class="bottom-nav-icon">👤</span>
-      <span class="bottom-nav-label">Profile</span>
-    </a>
-  </nav>
 
-  <!-- Floating Action Button (Mobile) -->
-  <button class="floating-action-btn" onclick="showQuickActions()" aria-label="Quick Actions">
-    <span class="floating-action-btn-icon">+</span>
-  </button>
 
-  <!-- Quick Actions Modal -->
-  <div class="quick-actions-overlay" id="quickActionsOverlay" onclick="hideQuickActions()"></div>
-  <div class="quick-actions-modal" id="quickActionsModal">
-    <h3 class="quick-actions-title">Quick Actions</h3>
-    <div class="quick-actions-grid">
-      <div class="quick-action-item" onclick="quickAction('log-meal')">
-        <span class="quick-action-icon">🍽️</span>
-        <span class="quick-action-label">Log Meal</span>
-      </div>
-      <div class="quick-action-item" onclick="quickAction('start-workout')">
-        <span class="quick-action-icon">🏋️</span>
-        <span class="quick-action-label">Workout</span>
-      </div>
-      <div class="quick-action-item" onclick="quickAction('add-water')">
-        <span class="quick-action-icon">💧</span>
-        <span class="quick-action-label">Add Water</span>
-      </div>
-      <div class="quick-action-item" onclick="quickAction('view-analytics')">
-        <span class="quick-action-icon">📊</span>
-        <span class="quick-action-label">Analytics</span>
-      </div>
-    </div>
-  </div>
 
   <!-- Mobile Menu Button -->
   <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -1743,78 +1623,6 @@
   </button>
 
   <script>
-    // Initialize bottom navigation
-    function initBottomNavigation() {
-      const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
-      const pageName = currentPage.replace('.html', '');
-
-      // Set active state
-      document.querySelectorAll('.bottom-nav-item').forEach(item => {
-        item.classList.remove('active');
-        const itemPage = item.dataset.page || item.getAttribute('href').replace('.html', '');
-        if (itemPage === pageName || item.getAttribute('href') === currentPage) {
-          item.classList.add('active');
-        }
-      });
-    }
-
-    // Show quick actions modal
-    function showQuickActions() {
-      const overlay = document.getElementById('quickActionsOverlay');
-      const modal = document.getElementById('quickActionsModal');
-
-      if (overlay && modal) {
-        overlay.classList.add('show');
-        modal.classList.add('show');
-      }
-    }
-
-    // Hide quick actions modal
-    function hideQuickActions() {
-      const overlay = document.getElementById('quickActionsOverlay');
-      const modal = document.getElementById('quickActionsModal');
-
-      if (overlay && modal) {
-        overlay.classList.remove('show');
-        modal.classList.remove('show');
-      }
-    }
-
-    // Handle quick action clicks
-    function quickAction(action) {
-      hideQuickActions();
-
-      switch(action) {
-        case 'log-meal':
-          window.location.href = 'diet-tracking.html';
-          break;
-        case 'start-workout':
-          window.location.href = 'yoga-tracker.html';
-          break;
-        case 'add-water':
-          addWaterGlass();
-          break;
-        case 'view-analytics':
-          window.location.href = 'analytics.html';
-          break;
-      }
-    }
-
-    // Add water glass (quick action)
-    function addWaterGlass() {
-      const todayData = JSON.parse(localStorage.getItem('todayData') || '{"date":"' + new Date().toISOString().split('T')[0] + '","water":0}');
-      todayData.water = (todayData.water || 0) + 1;
-      localStorage.setItem('todayData', JSON.stringify(todayData));
-
-      // Show notification
-      showNotification('Water Added! 💧', 'You\'ve had ' + todayData.water + ' glasses today.');
-
-      // Update display if on dashboard
-      const waterStat = document.querySelector('.stat-label:contains("Water")');
-      if (waterStat) {
-        location.reload();
-      }
-    }
 
     // Show notification toast
     function showNotification(title, message) {
@@ -1894,7 +1702,6 @@
         showRegularDashboard();
       }
 
-      initBottomNavigation();
       initEngagementFeatures();
 
       console.log('✅ Dashboard loaded successfully');

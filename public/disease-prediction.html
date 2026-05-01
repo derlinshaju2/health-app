@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/bottom-nav.css">
   <style>
     * {
       margin: 0;
@@ -1075,70 +1074,6 @@
       </div>
     </header>
 
-    <!-- Friendly Risk Overview -->
-    <div class="risk-overview-card">
-      <div class="risk-hero">
-        <div class="risk-hero-icon">😊</div>
-        <h2>Your Health Looks Good!</h2>
-        <p>Based on your current metrics, you're doing well. Let's see where you can improve.</p>
-      </div>
-    </div>
-
-    <!-- Friendly Risk Overview -->
-    <div class="risk-overview-card">
-      <div class="risk-hero">
-        <div class="risk-hero-icon">😊</div>
-        <h2>Your Health Looks Good!</h2>
-        <p>Based on your current metrics, you're doing well. Let's see where you can improve.</p>
-      </div>
-    </div>
-
-    <!-- Actionable Insights Section -->
-    <div class="actionable-insights-section">
-      <h3 class="section-title">✅ What You Can Do Today</h3>
-      <div class="insights-cards">
-        <div class="insight-card positive">
-          <div class="insight-card-icon">🎉</div>
-          <div class="insight-card-content">
-            <h4>You're Doing Great!</h4>
-            <p>Your BMI is in the healthy range. Keep up the good work with your current lifestyle!</p>
-          </div>
-        </div>
-        <div class="insight-card suggestion">
-          <div class="insight-card-icon">💡</div>
-          <div class="insight-card-content">
-            <h4>Small Improvement Opportunity</h4>
-            <p>Add 15 minutes of walking to your daily routine to boost your heart health.</p>
-            <button class="insight-action-btn" onclick="setReminder()">Set Reminder</button>
-          </div>
-        </div>
-        <div class="insight-card tip">
-          <div class="insight-card-icon">🥗</div>
-          <div class="insight-card-content">
-            <h4>Nutrition Tip</h4>
-            <p>Try adding more vegetables to your meals. They're packed with essential nutrients!</p>
-            <button class="insight-action-btn" onclick="viewHealthyRecipes()">View Recipes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Detailed Analysis (Collapsible) -->
-    <div class="detailed-analysis-section">
-      <button class="analysis-toggle" onclick="toggleDetailedAnalysis()" data-expanded="false">
-        <span class="toggle-title">📊 View Detailed Health Analysis</span>
-        <span class="toggle-icon">▼</span>
-      </button>
-      <div class="analysis-content" id="detailedAnalysisContent">
-        <p class="analysis-intro">This detailed analysis shows your health metrics and risk levels based on current medical research.</p>
-
-        <!-- Detailed Risk Cards (Hidden by default) -->
-        <div class="detailed-risk-cards" id="detailedRiskCards">
-          <!-- Risk cards will be dynamically inserted here -->
-        </div>
-      </div>
-    </div>
-
     <!-- Content Grid -->
     <div class="content-grid">
       <!-- Health Input Form -->
@@ -1329,83 +1264,98 @@
             </div>
             <div class="tip-card">
               <div class="tip-icon">🥗</div>
-              <h5>Eat Balanced</h5>
-              <p>Include fruits, vegetables, whole grains, and lean proteins in your daily diet</p>
+              <h5>Eat Well</h5>
+              <p>Consume a balanced diet rich in fruits, vegetables, whole grains, and lean proteins</p>
             </div>
             <div class="tip-card">
               <div class="tip-icon">😴</div>
               <h5>Quality Sleep</h5>
-              <p>Get 7-9 hours of sleep to maintain healthy immune function and hormone balance</p>
+              <p>Get 7-9 hours of sleep regularly to support immune function and cellular repair</p>
             </div>
             <div class="tip-card">
               <div class="tip-icon">🧘</div>
               <h5>Manage Stress</h5>
-              <p>Practice stress-reducing activities like meditation, yoga, or deep breathing</p>
+              <p>Practice stress reduction techniques like meditation, yoga, or deep breathing exercises</p>
             </div>
           </div>
         </div>
 
-        <!-- Health Statistics -->
+        <!-- Risk Level Guide -->
         <div class="info-card">
-          <h4 class="info-card-title">📈 Global Health Statistics</h4>
-          <div class="stats-overview">
-            <div class="stat-item">
-              <div class="stat-number">17.9M</div>
-              <div class="stat-label">Deaths from CVD annually</div>
+          <h4 class="info-card-title">📈 Understanding Risk Levels</h4>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="padding: 16px; background: var(--light); border-radius: 12px; border-left: 4px solid var(--success);">
+              <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">🟢 Low Risk (0-30%)</div>
+              <div style="font-size: 13px; color: var(--gray);">Your indicators suggest good health. Maintain your current lifestyle!</div>
             </div>
-            <div class="stat-item">
-              <div class="stat-number">463M</div>
-              <div class="stat-label">People with diabetes worldwide</div>
+            <div style="padding: 16px; background: var(--light); border-radius: 12px; border-left: 4px solid var(--warning);">
+              <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">⚠️ Medium Risk (31-60%)</div>
+              <div style="font-size: 13px; color: var(--gray);">Some risk factors detected. Consider lifestyle improvements.</div>
             </div>
-            <div class="stat-item">
-              <div class="stat-number">80%</div>
-              <div class="stat-label">Heart disease preventable</div>
+            <div style="padding: 16px; background: var(--light); border-radius: 12px; border-left: 4px solid var(--danger);">
+              <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">🔴 High Risk (61-100%)</div>
+              <div style="font-size: 13px; color: var(--gray);">Significant risk factors. Please consult a healthcare professional.</div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Results Display -->
-      <div class="card" id="resultsCard" style="display: none;">
-        <h3 class="card-title">
-          <div class="card-icon">📊</div>
-          Your Risk Assessment
-        </h3>
-
-        <div class="results-grid" id="riskResults">
-          <!-- Results will be populated here -->
-        </div>
-
-        <div style="margin-top: 24px;">
-          <h4 style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 16px;">Recommendations</h4>
-          <div class="recommendation-list" id="recommendationsList">
-            <!-- Recommendations will be populated here -->
-          </div>
-        </div>
-      </div>
-
-      <!-- Info Card -->
-      <div class="card full-width">
-        <h3 class="card-title">
-          <div class="card-icon">💡</div>
-          Understanding Your Results
-        </h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-          <div style="padding: 16px; background: var(--light); border-radius: 12px; border-left: 4px solid var(--success);">
-            <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">✅ Low Risk (0-30%)</div>
-            <div style="font-size: 13px; color: var(--gray);">Your indicators suggest good health. Maintain your current lifestyle!</div>
-          </div>
-          <div style="padding: 16px; background: var(--light); border-radius: 12px; border-left: 4px solid var(--warning);">
-            <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">⚠️ Medium Risk (31-60%)</div>
-            <div style="font-size: 13px; color: var(--gray);">Some risk factors detected. Consider lifestyle improvements.</div>
-          </div>
-          <div style="padding: 16px; background: var(--light); border-radius: 12px; border-left: 4px solid var(--danger);">
-            <div style="font-weight: 700; color: var(--dark); margin-bottom: 8px;">🔴 High Risk (61-100%)</div>
-            <div style="font-size: 13px; color: var(--gray);">Significant risk factors. Please consult a healthcare professional.</div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Friendly Risk Overview -->
+    <div class="risk-overview-card">
+      <div class="risk-hero">
+        <div class="risk-hero-icon">😊</div>
+        <h2>Your Health Looks Good!</h2>
+        <p>Based on your current metrics, you're doing well. Let's see where you can improve.</p>
+      </div>
+    </div>
+
+    <!-- Actionable Insights Section -->
+    <div class="actionable-insights-section">
+      <h3 class="section-title">✅ What You Can Do Today</h3>
+      <div class="insights-cards">
+        <div class="insight-card positive">
+          <div class="insight-card-icon">🎉</div>
+          <div class="insight-card-content">
+            <h4>You're Doing Great!</h4>
+            <p>Your BMI is in the healthy range. Keep up the good work with your current lifestyle!</p>
+          </div>
+        </div>
+        <div class="insight-card suggestion">
+          <div class="insight-card-icon">💡</div>
+          <div class="insight-card-content">
+            <h4>Small Improvement Opportunity</h4>
+            <p>Add 15 minutes of walking to your daily routine to boost your heart health.</p>
+            <button class="insight-action-btn" onclick="setReminder()">Set Reminder</button>
+          </div>
+        </div>
+        <div class="insight-card tip">
+          <div class="insight-card-icon">🥗</div>
+          <div class="insight-card-content">
+            <h4>Nutrition Tip</h4>
+            <p>Try adding more vegetables to your meals. They're packed with essential nutrients!</p>
+            <button class="insight-action-btn" onclick="viewHealthyRecipes()">View Recipes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Analysis (Collapsible) -->
+    <div class="detailed-analysis-section">
+      <button class="analysis-toggle" onclick="toggleDetailedAnalysis()" data-expanded="false">
+        <span class="toggle-title">📊 View Detailed Health Analysis</span>
+        <span class="toggle-icon">▼</span>
+      </button>
+      <div class="analysis-content" id="detailedAnalysisContent">
+        <p class="analysis-intro">This detailed analysis shows your health metrics and risk levels based on current medical research.</p>
+
+        <!-- Detailed Risk Cards (Hidden by default) -->
+        <div class="detailed-risk-cards" id="detailedRiskCards">
+          <!-- Risk cards will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Mobile Menu Button -->
@@ -1413,68 +1363,7 @@
     ☰
   </button>
 
-  <!-- Bottom Navigation (Mobile) -->
-  <nav class="bottom-nav">
-    <a href="dashboard.html" class="bottom-nav-item" data-page="dashboard">
-      <span class="bottom-nav-icon">🏠</span>
-      <span class="bottom-nav-label">Home</span>
-    </a>
-    <a href="yoga-tracker.html" class="bottom-nav-item" data-page="activity">
-      <span class="bottom-nav-icon">🏃</span>
-      <span class="bottom-nav-label">Activity</span>
-    </a>
-    <a href="diet-tracking.html" class="bottom-nav-item" data-page="diet">
-      <span class="bottom-nav-icon">🍽️</span>
-      <span class="bottom-nav-label">Diet</span>
-    </a>
-    <a href="analytics.html" class="bottom-nav-item" data-page="insights">
-      <span class="bottom-nav-icon">📊</span>
-      <span class="bottom-nav-label">Insights</span>
-    </a>
-    <a href="profile.html" class="bottom-nav-item" data-page="profile">
-      <span class="bottom-nav-icon">👤</span>
-      <span class="bottom-nav-label">Profile</span>
-    </a>
-  </nav>
 
-  <!-- Floating Action Button (Mobile) -->
-  <div class="floating-action-btn" onclick="showQuickActions()">
-    <span class="floating-action-btn-icon">+</span>
-  </div>
-
-  <!-- Quick Actions Modal -->
-  <div class="quick-actions-modal" id="quickActionsModal">
-    <div class="modal-overlay" onclick="hideQuickActions()"></div>
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Quick Actions</h3>
-        <button class="modal-close" onclick="hideQuickActions()">✕</button>
-      </div>
-      <div class="quick-actions-grid">
-        <button class="quick-action-card" onclick="quickAction('log-meal')">
-          <span class="action-icon">🍽️</span>
-          <span>Log Meal</span>
-        </button>
-        <button class="quick-action-card" onclick="quickAction('start-workout')">
-          <span class="action-icon">🏋️</span>
-          <span>Start Workout</span>
-        </button>
-        <button class="quick-action-card" onclick="quickAction('add-water')">
-          <span class="action-icon">💧</span>
-          <span>Add Water</span>
-        </button>
-        <button class="quick-action-card" onclick="quickAction('log-weight')">
-          <span class="action-icon">⚖️</span>
-          <span>Log Weight</span>
-        </button>
-        <button class="quick-action-card" onclick="quickAction('view-analytics')">
-          <span class="action-icon">📊</span>
-          <span>View Analytics</span>
-        </button>
-        <button class="quick-action-card" onclick="quickAction('health-check')">
-          <span class="action-icon">🔮</span>
-          <span>Health Check</span>
-        </button>
       </div>
     </div>
   </div>
@@ -1774,20 +1663,6 @@
   </script>
 
   <script>
-    // Initialize bottom navigation
-    function initBottomNavigation() {
-      const currentPage = window.location.pathname.split('/').pop() || 'disease-prediction.html';
-      const pageName = currentPage.replace('.html', '').replace('-', '');
-
-      // Set active state
-      document.querySelectorAll('.bottom-nav-item').forEach(item => {
-        item.classList.remove('active');
-        if (item.dataset.page === pageName ||
-            item.getAttribute('href') === currentPage) {
-          item.classList.add('active');
-        }
-      });
-    }
 
     // Quick Actions Modal
     function showQuickActions() {
@@ -1826,7 +1701,6 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
-      initBottomNavigation();
     });
   </script>
 </body>
