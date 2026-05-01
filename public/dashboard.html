@@ -1873,9 +1873,118 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
+      // Check if user just completed onboarding
+      const urlParams = new URLSearchParams(window.location.search);
+      const justCompletedOnboarding = urlParams.get('onboarding') === 'complete';
+
+      if (justCompletedOnboarding) {
+        showFirstTimeDashboard();
+      } else {
+        showRegularDashboard();
+      }
+
       initBottomNavigation();
       initEngagementFeatures();
     });
+
+    // Show first-time dashboard for new users
+    function showFirstTimeDashboard() {
+      const mainContent = document.querySelector('.main-content');
+
+      // Create first-time dashboard HTML
+      const firstTimeHTML = `
+        <div class="first-time-dashboard">
+          <div class="welcome-hero" style="text-align: center; padding: 40px 20px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 24px; margin-bottom: 30px;">
+            <h1 style="font-size: 32px; font-weight: 700; color: var(--dark); margin-bottom: 10px;">Welcome to Your Health Journey! 🎉</h1>
+            <p style="font-size: 16px; color: var(--gray);">Let's start with your first steps</p>
+          </div>
+
+          <div class="today-plan-card" style="background: white; border-radius: 24px; padding: 30px; box-shadow: 0 4px 24px var(--shadow); margin-bottom: 30px;">
+            <h2 style="font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+              📋 Today's Plan
+            </h2>
+            <div class="action-items" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+              <button class="action-btn primary" onclick="window.location.href='yoga-tracker.html'" style="padding: 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: transform 0.3s ease;">
+                <span class="btn-icon" style="font-size: 32px;">🏃</span>
+                <span>Start Your First Workout</span>
+              </button>
+              <button class="action-btn" onclick="window.location.href='diet-tracking.html'" style="padding: 20px; background: var(--light); color: var(--dark); border: 2px solid var(--border); border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: all 0.3s ease;">
+                <span class="btn-icon" style="font-size: 32px;">🍽️</span>
+                <span>Log Your First Meal</span>
+              </button>
+              <button class="action-btn" onclick="window.location.href='profile.html'" style="padding: 20px; background: var(--light); color: var(--dark); border: 2px solid var(--border); border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: all 0.3s ease;">
+                <span class="btn-icon" style="font-size: 32px;">👤</span>
+                <span>View Your Profile</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Guided tooltips -->
+          <div class="guided-tooltip" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border: 2px solid var(--warning); border-radius: 16px; padding: 20px; margin-bottom: 20px; position: relative;">
+            <div style="display: flex; gap: 15px; align-items: start;">
+              <span style="font-size: 32px;">💡</span>
+              <div style="flex: 1;">
+                <h4 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px;">Quick Tip!</h4>
+                <p style="font-size: 14px; color: var(--gray); line-height: 1.6;">Use the floating + button at the bottom-right to quickly log meals, start workouts, or add water!</p>
+              </div>
+              <button onclick="this.closest('.guided-tooltip').remove()" style="background: var(--warning); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;">Got it!</button>
+            </div>
+          </div>
+
+          <div class="guided-tooltip" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border: 2px solid var(--primary); border-radius: 16px; padding: 20px; position: relative;">
+            <div style="display: flex; gap: 15px; align-items: start;">
+              <span style="font-size: 32px;">🎯</span>
+              <div style="flex: 1;">
+                <h4 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px;">Daily Missions</h4>
+                <p style="font-size: 14px; color: var(--gray); line-height: 1.6;">Complete your daily missions to earn points and build your streak! Check your dashboard every day for new personalized missions.</p>
+              </div>
+              <button onclick="this.closest('.guided-tooltip').remove()" style="background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;">Got it!</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Replace the main content
+      mainContent.innerHTML = firstTimeHTML;
+
+      // Show celebration notification
+      showNotification('🎉 Welcome!', 'Your health profile is ready! Start with your first activity above.');
+    }
+
+    // Show regular dashboard for returning users
+    function showRegularDashboard() {
+      // The dashboard is already loaded in HTML, so we don't need to do anything
+      // This function is a placeholder for future customization
+    }
+
+    // Show notification helper
+    function showNotification(title, message) {
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 3000;
+        animation: slideIn 0.3s ease;
+        max-width: 300px;
+      `;
+
+      toast.innerHTML = `
+        <div style="font-weight: 600; color: var(--dark); margin-bottom: 4px;">${title}</div>
+        <div style="font-size: 14px; color: var(--gray);">${message}</div>
+      `;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 5000);
+    }
 
     // Initialize Engagement Features
     function initEngagementFeatures() {
