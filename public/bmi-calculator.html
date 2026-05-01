@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/bottom-nav.css">
   <style>
     * {
       margin: 0;
@@ -513,13 +514,13 @@
     <nav>
       <div class="nav-section">
         <div class="nav-section-title">Main Menu</div>
-        <a href="dashboard-main.html" class="nav-link">
+        <a href="dashboard.html" class="nav-link">
           <span class="nav-link-icon">📊</span>
           <span>Dashboard</span>
         </a>
-        <a href="disease-prediction.html" class="nav-link active">
+        <a href="disease-prediction.html" class="nav-link">
           <span class="nav-link-icon">🔮</span>
-          <span>Disease Prediction</span>
+          <span>Health Insights</span>
         </a>
         <a href="diet-tracking.html" class="nav-link">
           <span class="nav-link-icon">🥗</span>
@@ -695,6 +696,145 @@
   <button class="mobile-menu-btn" id="mobileMenuBtn">
     ☰
   </button>
+
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav">
+    <a href="dashboard.html" class="bottom-nav-item" data-page="dashboard">
+      <span class="bottom-nav-icon">🏠</span>
+      <span class="bottom-nav-label">Home</span>
+    </a>
+    <a href="yoga-tracker.html" class="bottom-nav-item" data-page="yoga-tracker">
+      <span class="bottom-nav-icon">🏃</span>
+      <span class="bottom-nav-label">Activity</span>
+    </a>
+    <a href="diet-tracking.html" class="bottom-nav-item" data-page="diet-tracking">
+      <span class="bottom-nav-icon">🍽️</span>
+      <span class="bottom-nav-label">Diet</span>
+    </a>
+    <a href="analytics.html" class="bottom-nav-item" data-page="analytics">
+      <span class="bottom-nav-icon">📊</span>
+      <span class="bottom-nav-label">Insights</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item" data-page="profile">
+      <span class="bottom-nav-icon">👤</span>
+      <span class="bottom-nav-label">Profile</span>
+    </a>
+  </nav>
+
+  <!-- Floating Action Button (Mobile) -->
+  <div class="floating-action-btn" onclick="showQuickActions()">
+    <span class="floating-action-btn-icon">+</span>
+  </div>
+
+  <!-- Quick Actions Modal -->
+  <div class="quick-actions-modal" id="quickActionsModal">
+    <div class="modal-overlay" onclick="hideQuickActions()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Quick Actions</h3>
+        <button class="modal-close" onclick="hideQuickActions()">✕</button>
+      </div>
+      <div class="quick-actions-grid">
+        <button class="quick-action-card" onclick="quickAction('log-meal')">
+          <span class="action-icon">🍽️</span>
+          <span>Log Meal</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('start-workout')">
+          <span class="action-icon">🏋️</span>
+          <span>Start Workout</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('add-water')">
+          <span class="action-icon">💧</span>
+          <span>Add Water</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('log-weight')">
+          <span class="action-icon">⚖️</span>
+          <span>Log Weight</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('view-analytics')">
+          <span class="action-icon">📊</span>
+          <span>View Analytics</span>
+        </button>
+        <button class="quick-action-card" onclick="quickAction('health-check')">
+          <span class="action-icon">🔮</span>
+          <span>Health Check</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize bottom navigation
+    function initBottomNavigation() {
+      const currentPage = window.location.pathname.split('/').pop() || 'bmi-calculator.html';
+      const pageName = currentPage.replace('.html', '').replace('-', '');
+
+      // Set active state
+      document.querySelectorAll('.bottom-nav-item').forEach(item => {
+        item.classList.remove('active');
+        const itemPage = item.dataset.page || item.getAttribute('href').replace('.html', '').replace('-', '');
+        if (itemPage === pageName || item.getAttribute('href') === currentPage) {
+          item.classList.add('active');
+        }
+      });
+    }
+
+    // Quick Actions Modal
+    function showQuickActions() {
+      document.getElementById('quickActionsModal').classList.add('active');
+    }
+
+    function hideQuickActions() {
+      document.getElementById('quickActionsModal').classList.remove('active');
+    }
+
+    function quickAction(action) {
+      hideQuickActions();
+      switch(action) {
+        case 'log-meal':
+          window.location.href = 'diet-tracking.html';
+          break;
+        case 'start-workout':
+          window.location.href = 'yoga-tracker.html';
+          break;
+        case 'add-water':
+          alert('Water added! 💧');
+          break;
+        case 'log-weight':
+          window.location.href = 'profile.html';
+          break;
+        case 'view-analytics':
+          window.location.href = 'analytics.html';
+          break;
+        case 'health-check':
+          window.location.href = 'disease-prediction.html';
+          break;
+      }
+    }
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+
+    if (mobileMenuBtn && sidebar) {
+      mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            sidebar.classList.remove('active');
+          }
+        }
+      });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      initBottomNavigation();
+    });
+  </script>
 
   <script>
     // Mobile menu toggle
