@@ -127,202 +127,13 @@
       text-align: center;
     }
 
-    /* Sidebar User Profile */
-    .sidebar-profile-dropdown {
-      position: relative;
-    }
-
-    .sidebar-profile-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-      border: 2px solid rgba(99, 102, 241, 0.2);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: left;
-      font-family: inherit;
-    }
-
-    .sidebar-profile-btn:hover {
-      border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-    }
-
-    .sidebar-profile-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      color: white;
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-
-    .sidebar-profile-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .sidebar-profile-name {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--dark);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .sidebar-profile-email {
-      font-size: 12px;
-      color: var(--gray);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .sidebar-dropdown-arrow {
-      font-size: 10px;
-      color: var(--gray);
-      transition: transform 0.3s ease;
-      flex-shrink: 0;
-    }
-
-    .sidebar-profile-btn:hover .sidebar-dropdown-arrow {
-      transform: rotate(180deg);
-    }
-
-    .sidebar-dropdown-content {
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 0;
-      right: 0;
-      background: white;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-      z-index: 1000;
-      animation: slideUp 0.3s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .sidebar-dropdown-header {
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .sidebar-dropdown-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      color: white;
-      font-weight: 600;
-    }
-
-    .sidebar-dropdown-user-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .sidebar-dropdown-user-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .sidebar-dropdown-user-email {
-      font-size: 13px;
-      color: var(--gray);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .sidebar-dropdown-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0;
-    }
-
-    .sidebar-dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      color: var(--dark);
-      text-decoration: none;
-      font-size: 14px;
-      transition: all 0.2s ease;
-    }
-
-    .sidebar-dropdown-item:hover {
-      background: var(--light);
-    }
-
-    .sidebar-dropdown-item span:first-child {
-      font-size: 16px;
-    }
-
-    .sidebar-dropdown-logout-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      color: var(--danger);
-      background: none;
-      border: none;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: left;
-      font-family: inherit;
-    }
-
-    .sidebar-dropdown-logout-btn:hover {
-      background: #fee2e2;
-    }
-
-    .sidebar-dropdown-logout-btn span:first-child {
-      font-size: 16px;
-    }
-
     /* Main Content */
     .main-content {
       margin-left: 280px;
       flex: 1;
       padding: 30px;
       min-height: 100vh;
+      max-width: 1200px;
     }
 
     /* Header */
@@ -381,106 +192,30 @@
       transform: translateY(-2px);
     }
 
-    .header-btn.danger {
-      border-color: var(--danger);
-      color: var(--danger);
-    }
-
-    .header-btn.danger:hover {
-      background: var(--danger);
-      color: white;
-    }
-
-    /* Grid */
-    .content-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 30px;
-    }
-
-    .full-width {
-      grid-column: 1 / -1;
-    }
-
-    /* Cards */
-    .card {
+    /* Profile Summary Card */
+    .profile-summary {
       background: white;
-      border-radius: 24px;
-      padding: 28px;
+      border-radius: 20px;
+      padding: 24px;
       box-shadow: 0 4px 24px var(--shadow);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      box-shadow: 0 8px 32px var(--shadow-lg);
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-    }
-
-    /* Profile Header */
-    .profile-header {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      margin-bottom: 30px;
-      padding-bottom: 30px;
-      border-bottom: 2px solid var(--border);
+      gap: 20px;
     }
 
     .profile-avatar {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 48px;
+      font-size: 36px;
       color: white;
       box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
-      position: relative;
-    }
-
-    .profile-avatar-edit {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: white;
-      border: 2px solid var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-
-    .profile-avatar-edit:hover {
-      background: var(--primary);
-      color: white;
+      flex-shrink: 0;
     }
 
     .profile-info {
@@ -488,7 +223,7 @@
     }
 
     .profile-name {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--dark);
       margin-bottom: 4px;
@@ -497,48 +232,123 @@
     .profile-email {
       font-size: 14px;
       color: var(--gray);
-      margin-bottom: 8px;
     }
 
-    .profile-member {
-      display: inline-block;
-      padding: 6px 12px;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--success);
+    .profile-stats {
+      display: flex;
+      gap: 24px;
     }
 
-    .header-logout-btn {
-      padding: 12px 20px;
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
-      border: 2px solid var(--danger);
-      border-radius: 10px;
-      color: var(--danger);
+    .profile-stat {
+      text-align: center;
+    }
+
+    .profile-stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .profile-stat-label {
+      font-size: 11px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Tabs Container */
+    .tabs-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px var(--shadow);
+      overflow: hidden;
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      padding: 0 8px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      color: var(--gray);
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
+      white-space: nowrap;
+      position: relative;
+      font-family: inherit;
+    }
+
+    .tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    }
+
+    .tab-icon {
+      margin-right: 8px;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+      padding: 32px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Form Styles */
+    .form-section {
+      margin-bottom: 32px;
+    }
+
+    .form-section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-family: inherit;
-      white-space: nowrap;
+      gap: 10px;
     }
 
-    .header-logout-btn:hover {
-      background: var(--danger);
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-    }
-
-    /* Form */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 20px;
       margin-bottom: 20px;
     }
 
@@ -546,7 +356,7 @@
       margin-bottom: 20px;
     }
 
-    .form-group.full {
+    .form-group.full-width {
       grid-column: 1 / -1;
     }
 
@@ -576,6 +386,11 @@
       box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
     }
 
+    .form-input:read-only {
+      background: var(--light);
+      cursor: not-allowed;
+    }
+
     .form-select {
       appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%2364748b' stroke-width='2' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
@@ -589,42 +404,7 @@
       min-height: 100px;
     }
 
-    .submit-btn {
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-    }
-
-    /* Settings Section */
-    .settings-section {
-      margin-bottom: 24px;
-    }
-
-    .settings-section-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--gray);
-      margin-bottom: 16px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
+    /* Settings Toggle */
     .setting-item {
       display: flex;
       justify-content: space-between;
@@ -665,6 +445,7 @@
       position: relative;
       cursor: pointer;
       transition: all 0.3s ease;
+      flex-shrink: 0;
     }
 
     .setting-toggle.active {
@@ -688,6 +469,58 @@
       left: 30px;
     }
 
+    /* Buttons */
+    .btn {
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: inherit;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-outline {
+      background: white;
+      border: 2px solid var(--border);
+      color: var(--dark);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .btn-block {
+      width: 100%;
+      justify-content: center;
+    }
+
     /* Danger Zone */
     .danger-zone {
       border: 2px solid var(--danger);
@@ -707,104 +540,9 @@
     }
 
     .danger-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .danger-btn {
-      padding: 12px 20px;
-      border: 2px solid var(--danger);
-      background: white;
-      color: var(--danger);
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .danger-btn:hover {
-      background: var(--danger);
-      color: white;
-    }
-
-    /* Action Buttons */
-    .action-btn {
-      padding: 14px 24px;
-      border: 2px solid var(--border);
-      background: white;
-      color: var(--dark);
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: inherit;
-    }
-
-    .action-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-    }
-
-    .logout-action-btn {
-      border-color: var(--danger);
-      color: var(--danger);
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
-    }
-
-    .logout-action-btn:hover {
-      background: var(--danger);
-      color: white;
-      border-color: var(--danger);
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-    }
-
-    /* Stats Grid */
-    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .stat-item {
-      text-align: center;
-      padding: 20px;
-      background: var(--light);
-      border-radius: 16px;
-      transition: all 0.3s ease;
-    }
-
-    .stat-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px var(--shadow);
-    }
-
-    .stat-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-
-    .stat-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--gray);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
     }
 
     /* Mobile Menu */
@@ -832,11 +570,7 @@
 
     /* Responsive */
     @media (max-width: 1024px) {
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .stats-grid {
+      .form-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -861,10 +595,6 @@
         justify-content: center;
       }
 
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
       .header {
         flex-direction: column;
         align-items: flex-start;
@@ -876,36 +606,32 @@
         justify-content: space-between;
       }
 
-      .profile-header {
+      .profile-summary {
         flex-direction: column;
         text-align: center;
       }
 
-      .profile-info {
-        text-align: center;
+      .profile-stats {
+        justify-content: center;
+      }
+
+      .tabs-nav {
+        padding: 0 4px;
+      }
+
+      .tab-btn {
+        padding: 12px 16px;
+        font-size: 13px;
+      }
+
+      .tab-content {
+        padding: 20px;
+      }
+
+      .danger-actions {
+        grid-template-columns: 1fr;
       }
     }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .card {
-      animation: fadeIn 0.6s ease forwards;
-    }
-
-    .card:nth-child(1) { animation-delay: 0.1s; }
-    .card:nth-child(2) { animation-delay: 0.2s; }
-    .card:nth-child(3) { animation-delay: 0.3s; }
-    .card:nth-child(4) { animation-delay: 0.4s; }
   </style>
 </head>
 <body>
@@ -919,7 +645,7 @@
     <nav>
       <div class="nav-section">
         <div class="nav-section-title">Main Menu</div>
-        <a href="dashboard.html" class="nav-link">
+        <a href="dashboard-main.html" class="nav-link">
           <span class="nav-link-icon">📊</span>
           <span>Dashboard</span>
         </a>
@@ -964,171 +690,182 @@
         <p class="page-subtitle">Manage your account and preferences</p>
       </div>
       <div class="header-actions">
-        <button class="header-btn danger" onclick="logout()">
+        <button class="header-btn" onclick="logout()">
           🚪
           <span>Logout</span>
-        </button>
-        <button class="header-btn primary" onclick="saveProfile()">
-          💾
-          <span>Save Changes</span>
         </button>
       </div>
     </header>
 
-    <!-- Content Grid -->
-    <div class="content-grid">
-      <!-- Profile Information -->
-      <div class="card full-width">
-        <h3 class="card-title">
-          <div class="card-icon">👤</div>
-          Profile Information
-        </h3>
-
-        <div class="profile-header">
-          <div class="profile-avatar">
-            👨
-            <div class="profile-avatar-edit" onclick="changeAvatar()">✏️</div>
-          </div>
-          <div class="profile-info">
-            <div class="profile-name" id="profileDisplayName">Loading...</div>
-            <div class="profile-email" id="profileDisplayEmail">Loading...</div>
-          </div>
+    <!-- Profile Summary -->
+    <div class="profile-summary">
+      <div class="profile-avatar" id="profileAvatar">👤</div>
+      <div class="profile-info">
+        <div class="profile-name" id="profileDisplayName">Loading...</div>
+        <div class="profile-email" id="profileDisplayEmail">Loading...</div>
+      </div>
+      <div class="profile-stats">
+        <div class="profile-stat">
+          <div class="profile-stat-value">127</div>
+          <div class="profile-stat-label">Day Streak</div>
         </div>
-
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-icon">🔥</div>
-            <div class="stat-value">127</div>
-            <div class="stat-label">Day Streak</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">🏆</div>
-            <div class="stat-value">24</div>
-            <div class="stat-label">Achievements</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">⭐</div>
-            <div class="stat-value">85</div>
-            <div class="stat-label">Health Score</div>
-          </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value">24</div>
+          <div class="profile-stat-label">Achievements</div>
         </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value">85</div>
+          <div class="profile-stat-label">Health Score</div>
+        </div>
+      </div>
+    </div>
 
-        <form id="profileForm" onsubmit="saveProfile(event)">
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">First Name</label>
-              <input type="text" class="form-input" id="firstName" value="" required>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Last Name</label>
-              <input type="text" class="form-input" id="lastName" value="" required>
-            </div>
-
-            <div class="form-group full">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-input" id="email" value="" required>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Phone Number</label>
-              <input type="tel" class="form-input" id="phone" value="+1 234 567 8900">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Date of Birth</label>
-              <input type="date" class="form-input" id="dob" value="1990-01-15">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Gender</label>
-              <select class="form-input form-select" id="gender">
-                <option value="male" selected>Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Country</label>
-              <select class="form-input form-select" id="country">
-                <option value="us" selected>United States</option>
-                <option value="uk">United Kingdom</option>
-                <option value="ca">Canada</option>
-                <option value="au">Australia</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-          </div>
-        </form>
+    <!-- Tabs Container -->
+    <div class="tabs-container">
+      <!-- Tabs Navigation -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('profile')">
+          <span class="tab-icon">👤</span>Profile
+        </button>
+        <button class="tab-btn" onclick="switchTab('health')">
+          <span class="tab-icon">🏥</span>Health
+        </button>
+        <button class="tab-btn" onclick="switchTab('notifications')">
+          <span class="tab-icon">🔔</span>Notifications
+        </button>
+        <button class="tab-btn" onclick="switchTab('security')">
+          <span class="tab-icon">🔒</span>Security
+        </button>
+        <button class="tab-btn" onclick="switchTab('danger')">
+          <span class="tab-icon">⚠️</span>Danger Zone
+        </button>
       </div>
 
-      <!-- Health Profile -->
-      <div class="card">
-        <h3 class="card-title">
-          <div class="card-icon">🏥</div>
-          Health Profile
-        </h3>
-
-        <form id="healthForm" onsubmit="saveHealthProfile(event)">
-          <div class="form-group">
-            <label class="form-label">Height (cm)</label>
-            <input type="number" class="form-input" id="height" value="175" min="100" max="250">
+      <!-- Profile Tab -->
+      <div class="tab-content active" id="profile-tab">
+        <div class="form-section">
+          <div class="form-section-title">
+            👤 Personal Information
           </div>
+          <form id="profileForm" onsubmit="saveProfile(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-input" id="firstName" value="" required>
+              </div>
 
-          <div class="form-group">
-            <label class="form-label">Weight (kg)</label>
-            <input type="number" class="form-input" id="weight" value="72.5" min="30" max="300">
-          </div>
+              <div class="form-group">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-input" id="lastName" value="" required>
+              </div>
 
-          <div class="form-group">
-            <label class="form-label">Activity Level</label>
-            <select class="form-input form-select" id="activityLevel">
-              <option value="sedentary">Sedentary (little exercise)</option>
-              <option value="light" selected>Light (1-3 days/week)</option>
-              <option value="moderate">Moderate (3-5 days/week)</option>
-              <option value="active">Active (6-7 days/week)</option>
-              <option value="very-active">Very Active (intense daily)</option>
-            </select>
-          </div>
+              <div class="form-group full-width">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" id="email" value="" required readonly>
+              </div>
 
-          <div class="form-group">
-            <label class="form-label">Health Goals</label>
-            <select class="form-input form-select" id="healthGoals">
-              <option value="lose-weight" selected>Lose Weight</option>
-              <option value="maintain">Maintain Weight</option>
-              <option value="gain-weight">Gain Weight</option>
-              <option value="build-muscle">Build Muscle</option>
-              <option value="improve-fitness">Improve Fitness</option>
-            </select>
-          </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-input" id="phone" value="+1 234 567 8900">
+              </div>
 
-          <div class="form-group">
-            <label class="form-label">Daily Calorie Target</label>
-            <input type="number" class="form-input" id="calorieTarget" value="2000" min="1000" max="5000">
-          </div>
+              <div class="form-group">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-input" id="dob" value="1990-01-15">
+              </div>
 
-          <div class="form-group">
-            <label class="form-label">Target Weight (kg)</label>
-            <input type="number" class="form-input" id="targetWeight" value="70" min="30" max="300">
-          </div>
+              <div class="form-group">
+                <label class="form-label">Gender</label>
+                <select class="form-input form-select" id="gender">
+                  <option value="male" selected>Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
 
-          <button type="submit" class="submit-btn">
-            💾
-            <span>Save Health Profile</span>
-          </button>
-        </form>
+              <div class="form-group">
+                <label class="form-label">Country</label>
+                <select class="form-input form-select" id="country">
+                  <option value="us" selected>United States</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="ca">Canada</option>
+                  <option value="au">Australia</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              💾 Save Profile
+            </button>
+          </form>
+        </div>
       </div>
 
-      <!-- Notification Settings -->
-      <div class="card">
-        <h3 class="card-title">
-          <div class="card-icon">🔔</div>
-          Notification Settings
-        </h3>
+      <!-- Health Tab -->
+      <div class="tab-content" id="health-tab">
+        <div class="form-section">
+          <div class="form-section-title">
+            🏥 Health Profile
+          </div>
+          <form id="healthForm" onsubmit="saveHealthProfile(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Height (cm)</label>
+                <input type="number" class="form-input" id="height" value="175" min="100" max="250">
+              </div>
 
-        <div class="settings-section">
-          <div class="settings-section-title">Reminders</div>
+              <div class="form-group">
+                <label class="form-label">Weight (kg)</label>
+                <input type="number" class="form-input" id="weight" value="72.5" min="30" max="300">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Activity Level</label>
+                <select class="form-input form-select" id="activityLevel">
+                  <option value="sedentary">Sedentary (little exercise)</option>
+                  <option value="light" selected>Light (1-3 days/week)</option>
+                  <option value="moderate">Moderate (3-5 days/week)</option>
+                  <option value="active">Active (6-7 days/week)</option>
+                  <option value="very-active">Very Active (intense daily)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Health Goals</label>
+                <select class="form-input form-select" id="healthGoals">
+                  <option value="lose-weight" selected>Lose Weight</option>
+                  <option value="maintain">Maintain Weight</option>
+                  <option value="gain-weight">Gain Weight</option>
+                  <option value="build-muscle">Build Muscle</option>
+                  <option value="improve-fitness">Improve Fitness</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Daily Calorie Target</label>
+                <input type="number" class="form-input" id="calorieTarget" value="2000" min="1000" max="5000">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Target Weight (kg)</label>
+                <input type="number" class="form-input" id="targetWeight" value="70" min="30" max="300">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              💾 Save Health Profile
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Notifications Tab -->
+      <div class="tab-content" id="notifications-tab">
+        <div class="form-section">
+          <div class="form-section-title">
+            ⏰ Reminders
+          </div>
 
           <div class="setting-item">
             <div class="setting-info">
@@ -1163,8 +900,10 @@
           </div>
         </div>
 
-        <div class="settings-section">
-          <div class="settings-section-title">Health Alerts</div>
+        <div class="form-section">
+          <div class="form-section-title">
+            🔔 Health Alerts
+          </div>
 
           <div class="setting-item">
             <div class="setting-info">
@@ -1192,59 +931,65 @@
         </div>
       </div>
 
-      <!-- Security Settings -->
-      <div class="card full-width">
-        <h3 class="card-title">
-          <div class="card-icon">🔒</div>
-          Security Settings
-        </h3>
-
-        <form id="securityForm" onsubmit="updateSecurity(event)">
-          <div class="form-grid">
+      <!-- Security Tab -->
+      <div class="tab-content" id="security-tab">
+        <div class="form-section">
+          <div class="form-section-title">
+            🔒 Change Password
+          </div>
+          <form id="securityForm" onsubmit="updateSecurity(event)">
             <div class="form-group">
               <label class="form-label">Current Password</label>
               <input type="password" class="form-input" id="currentPassword" placeholder="Enter current password">
             </div>
 
-            <div class="form-group">
-              <label class="form-label">New Password</label>
-              <input type="password" class="form-input" id="newPassword" placeholder="Enter new password">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="password" class="form-input" id="newPassword" placeholder="Enter new password">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Confirm New Password</label>
+                <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm new password">
+              </div>
             </div>
 
-            <div class="form-group">
-              <label class="form-label">Confirm New Password</label>
-              <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm new password">
-            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+              🔒 Update Password
+            </button>
+          </form>
+        </div>
 
-            <div class="form-group">
-              <label class="form-label">Two-Factor Authentication</label>
-              <select class="form-input form-select" id="twoFactor">
-                <option value="disabled" selected>Disabled</option>
-                <option value="sms">SMS Authentication</option>
-                <option value="app">Authenticator App</option>
-              </select>
-            </div>
+        <div class="form-section">
+          <div class="form-section-title">
+            🛡️ Two-Factor Authentication
           </div>
-
-          <button type="submit" class="submit-btn">
-            🔒
-            <span>Update Security Settings</span>
+          <div class="form-group">
+            <label class="form-label">2FA Method</label>
+            <select class="form-input form-select" id="twoFactor">
+              <option value="disabled" selected>Disabled</option>
+              <option value="sms">SMS Authentication</option>
+              <option value="app">Authenticator App</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="save2FA()">
+            💾 Save 2FA Settings
           </button>
-        </form>
+        </div>
       </div>
 
-      <!-- Danger Zone -->
-      <div class="card full-width">
+      <!-- Danger Zone Tab -->
+      <div class="tab-content" id="danger-tab">
         <div class="danger-zone">
           <div class="danger-zone-title">
-            ⚠️
-            <span>Danger Zone</span>
+            ⚠️ Danger Zone
           </div>
-          <p style="color: var(--gray); margin-bottom: 16px;">These actions are irreversible. Please be careful.</p>
+          <p style="color: var(--gray); margin-bottom: 24px;">These actions are irreversible. Please be careful.</p>
           <div class="danger-actions">
-            <button class="danger-btn" onclick="exportData()">📤 Export All Data</button>
-            <button class="danger-btn" onclick="deactivateAccount()">⏸️ Deactivate Account</button>
-            <button class="danger-btn" onclick="confirmDeleteAccount()">🗑️ Delete Account</button>
+            <button class="btn btn-outline" onclick="exportData()">📤 Export All Data</button>
+            <button class="btn btn-outline" onclick="deactivateAccount()">⏸️ Deactivate Account</button>
+            <button class="btn btn-danger" onclick="confirmDeleteAccount()">🗑️ Delete Account</button>
           </div>
         </div>
       </div>
@@ -1261,7 +1006,6 @@
     function checkAuthentication() {
       const user = JSON.parse(localStorage.getItem('healthAIUser'));
       if (!user || !user.isAuthenticated) {
-        // User is not authenticated, redirect to login
         window.location.href = 'index.html';
         return false;
       }
@@ -1272,11 +1016,9 @@
     if (!checkAuthentication()) {
       // Redirecting to login...
     } else {
-      // User is authenticated, load profile data
       document.addEventListener('DOMContentLoaded', function() {
         loadUserProfileData();
       });
-      // Also try immediately in case DOM is already ready
       if (document.readyState === 'loading') {
         // DOM is still loading, the event listener will handle it
       } else {
@@ -1287,9 +1029,7 @@
 
     // Load user profile data from localStorage
     function loadUserProfileData() {
-      console.log('Loading profile data...');
       const user = JSON.parse(localStorage.getItem('healthAIUser'));
-      console.log('User data for profile:', user);
 
       if (user) {
         const fullName = `${user.firstName || 'User'} ${user.lastName || ''}`.trim();
@@ -1306,11 +1046,9 @@
           profileDisplayEmail.textContent = user.email || 'No email';
         }
 
-        // Update member since date
-        const memberSince = document.getElementById('memberSince');
-        if (memberSince && user.createdAt) {
-          const createdDate = new Date(user.createdAt);
-          memberSince.textContent = createdDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        const profileAvatar = document.getElementById('profileAvatar');
+        if (profileAvatar) {
+          profileAvatar.textContent = firstInitial;
         }
 
         // Update form fields
@@ -1327,95 +1065,33 @@
         const emailField = document.getElementById('email');
         if (emailField && user.email) {
           emailField.value = user.email;
-          emailField.readOnly = true; // Make email read-only
         }
-
-        // Update sidebar profile button
-        const sidebarAvatar = document.getElementById('sidebarAvatar');
-        if (sidebarAvatar) {
-          sidebarAvatar.textContent = firstInitial;
-        }
-
-        const sidebarUserName = document.getElementById('sidebarUserName');
-        if (sidebarUserName) {
-          sidebarUserName.textContent = fullName;
-        }
-
-        const sidebarUserEmail = document.getElementById('sidebarUserEmail');
-        if (sidebarUserEmail) {
-          sidebarUserEmail.textContent = user.email || 'No email';
-        }
-
-        // Update dropdown content
-        const sidebarDropdownAvatar = document.getElementById('sidebarDropdownAvatar');
-        if (sidebarDropdownAvatar) {
-          sidebarDropdownAvatar.textContent = firstInitial;
-        }
-
-        const sidebarDropdownUserName = document.getElementById('sidebarDropdownUserName');
-        if (sidebarDropdownUserName) {
-          sidebarDropdownUserName.textContent = fullName;
-        }
-
-        const sidebarDropdownUserEmail = document.getElementById('sidebarDropdownUserEmail');
-        if (sidebarDropdownUserEmail) {
-          sidebarDropdownUserEmail.textContent = user.email || 'No email';
-        }
-
-        console.log('Profile data loaded successfully for:', fullName);
-      } else {
-        console.error('No user data found in localStorage');
       }
     }
 
-    // Toggle sidebar profile dropdown menu
-    function toggleSidebarProfile() {
-      const dropdown = document.getElementById('sidebarProfileDropdown');
-      if (dropdown) {
-        const isVisible = dropdown.style.display !== 'none';
-        dropdown.style.display = isVisible ? 'none' : 'block';
-      }
+    // Tab switching
+    function switchTab(tabName) {
+      // Hide all tab contents
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // Remove active class from all tab buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Show selected tab content
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+
+      // Add active class to clicked tab button
+      event.target.classList.add('active');
     }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-      const dropdown = document.getElementById('sidebarProfileDropdown');
-      const profileBtn = document.querySelector('.sidebar-profile-btn');
-
-      if (dropdown && profileBtn && !profileBtn.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.style.display = 'none';
-      }
-    });
-
-    // Logout function
-    function logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('healthAIUser');
-      window.location.href = 'index.html';
-    }
-
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const sidebar = document.getElementById('sidebar');
-
-    mobileMenuBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-          sidebar.classList.remove('active');
-        }
-      }
-    });
 
     // Toggle settings
     function toggleSetting(element) {
       element.classList.toggle('active');
       const isActive = element.classList.contains('active');
-      // Save setting state
       console.log('Setting toggled:', isActive);
     }
 
@@ -1486,9 +1162,19 @@
       document.getElementById('confirmPassword').value = '';
     }
 
-    // Change avatar
-    function changeAvatar() {
-      alert('📷 Avatar upload functionality would open a file picker here.');
+    // Save 2FA settings
+    function save2FA() {
+      const twoFactor = document.getElementById('twoFactor').value;
+      console.log('Saving 2FA settings:', twoFactor);
+      alert('✅ 2FA settings saved successfully!');
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('healthAIUser');
+      window.location.href = 'index.html';
     }
 
     // Export data
@@ -1514,6 +1200,22 @@
         }
       }
     }
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          sidebar.classList.remove('active');
+        }
+      }
+    });
   </script>
 </body>
 </html>
