@@ -1873,18 +1873,33 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
-      // Check if user just completed onboarding
+      // Check if user just completed onboarding (only show first time dashboard ONCE)
+      const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+      const hasSeenFirstTimeDashboard = sessionStorage.getItem('hasSeenFirstTimeDashboard');
       const urlParams = new URLSearchParams(window.location.search);
       const justCompletedOnboarding = urlParams.get('onboarding') === 'complete';
 
-      if (justCompletedOnboarding) {
+      // Only show first-time dashboard if:
+      // 1. User has completed onboarding AND
+      // 2. User hasn't seen the first-time dashboard yet AND
+      // 3. URL parameter is present
+      if (userProfile && userProfile.onboardingComplete && !hasSeenFirstTimeDashboard && justCompletedOnboarding) {
         showFirstTimeDashboard();
+        // Mark that user has seen it and clear URL
+        sessionStorage.setItem('hasSeenFirstTimeDashboard', 'true');
+
+        // Clear URL parameter without reloading
+        window.history.replaceState({}, '', window.location.pathname);
       } else {
         showRegularDashboard();
       }
 
       initBottomNavigation();
       initEngagementFeatures();
+
+      console.log('✅ Dashboard loaded successfully');
+      console.log('User profile:', userProfile ? 'Found' : 'Not found');
+      console.log('First-time dashboard shown:', hasSeenFirstTimeDashboard ? 'No' : 'Yes');
     });
 
     // Show first-time dashboard for new users
