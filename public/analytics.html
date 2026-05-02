@@ -372,12 +372,16 @@
 
     /* Chart Container */
     .chart-container {
-      position: relative;
-      height: 300px;
+      position: relative !important;
+      height: 300px !important;
       margin-bottom: 20px;
-      width: 100%;
-      overflow: visible;
-      z-index: 1;
+      width: 100% !important;
+      overflow: visible !important;
+      z-index: 1 !important;
+      display: block !important;
+      background: white !important;
+      border-radius: 8px !important;
+      padding: 10px !important;
     }
 
     .chart-container canvas {
@@ -385,7 +389,9 @@
       height: 100% !important;
       display: block !important;
       max-width: 100%;
-      position: relative;
+      position: relative !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
 
     /* Time Range Selector */
@@ -1572,6 +1578,11 @@
         <div class="card-icon">🎯</div>
         Overall Health Score
       </h3>
+
+      <!-- Debug indicator -->
+      <div id="chart-debug" style="background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 4px; font-size: 12px;">
+        📊 Charts loading... <span id="chart-status">Checking Chart.js</span>
+      </div>
       <div style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
         <div class="health-score-container">
           <div class="health-score">85</div>
@@ -2215,14 +2226,31 @@
 
     function initCharts() {
       console.log('=== STARTING CHART INITIALIZATION ===');
+
+      const statusEl = document.getElementById('chart-status');
+      if (statusEl) statusEl.textContent = 'Loading Chart.js...';
+
       console.log('Chart.js available:', typeof Chart !== 'undefined');
 
       // Wait for Chart.js to load if not available (max 10 attempts)
       if (typeof Chart === 'undefined') {
         console.log('Chart.js not loaded yet, waiting...');
+        if (statusEl) statusEl.textContent = 'Chart.js not loaded, retrying...';
         setTimeout(initCharts, 300);
         return;
       }
+
+      if (statusEl) statusEl.textContent = 'Chart.js loaded! Creating charts...';
+
+      // Make sure we have access to the canvas elements
+      console.log('DOM ready:', document.readyState);
+      console.log('Canvas elements:', {
+        healthScore: !!document.getElementById('healthScoreChart'),
+        weight: !!document.getElementById('weightChart'),
+        calorie: !!document.getElementById('calorieChart'),
+        sleep: !!document.getElementById('sleepChart'),
+        workout: !!document.getElementById('workoutChart')
+      });
 
       try {
         // Health Score Chart
@@ -2491,9 +2519,24 @@
           sleep: !!sleepChart,
           workout: !!workoutChart
         });
+
+        // Update debug indicator
+        const statusEl = document.getElementById('chart-status');
+        if (statusEl) {
+          const successCount = [!!healthScoreChart, !!weightChart, !!calorieChart, !!sleepChart, !!workoutChart].filter(Boolean).length;
+          statusEl.innerHTML = `✅ <strong>Success!</strong> ${successCount}/5 charts loaded`;
+          statusEl.style.color = 'green';
+        }
       } catch (error) {
         console.error('❌ Error initializing charts:', error);
         console.error('Error details:', error.message);
+
+        // Update debug indicator with error
+        const statusEl = document.getElementById('chart-status');
+        if (statusEl) {
+          statusEl.innerHTML = `❌ <strong>Error:</strong> ${error.message}`;
+          statusEl.style.color = 'red';
+        }
       }
     }
 
@@ -2539,19 +2582,32 @@
 
     // Initialize charts on load with fallback
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCharts);
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, initializing charts...');
+        setTimeout(initCharts, 100); // Small delay to ensure Chart.js is loaded
+      });
     } else {
       // DOM already loaded, initialize immediately
-      initCharts();
+      console.log('DOM already loaded, initializing charts immediately...');
+      setTimeout(initCharts, 100);
     }
 
     // Additional fallback: ensure Chart.js is loaded
     window.addEventListener('load', function() {
+      console.log('Window loaded, checking charts...');
       if (typeof Chart !== 'undefined' && (!healthScoreChart || !weightChart || !calorieChart)) {
         console.log('Retrying chart initialization after page load...');
-        initCharts();
+        setTimeout(initCharts, 500);
       }
     });
+
+    // Final fallback - force initialization after 2 seconds
+    setTimeout(function() {
+      if (typeof Chart !== 'undefined') {
+        console.log('Final chart initialization attempt...');
+        initCharts();
+      }
+    }, 2000);
   </script>
 </body>
 </html>

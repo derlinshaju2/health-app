@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Debug - Chart Issues</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-info {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #6366f1;
+        }
+        .chart-test {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+            background: #f9f9f9;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+        }
+        canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .error {
+            background: #fee;
+            border-left: 4px solid #f44;
+            color: #c33;
+        }
+        .success {
+            background: #efe;
+            border-left: 4px solid #4f4;
+            color: #3c3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Analytics Charts Debug Page</h1>
+
+    <div id="debug-info" class="debug-info">
+        <h3>Debug Information:</h3>
+        <div id="chartjs-status">Checking Chart.js...</div>
+        <div id="canvas-status">Checking canvas elements...</div>
+        <div id="init-status">Chart initialization...</div>
+    </div>
+
+    <div class="chart-test">
+        <h2>Test 1: Simple Chart</h2>
+        <div class="chart-container">
+            <canvas id="testChart1"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-test">
+        <h2>Test 2: Health Score Chart (Original)</h2>
+        <div class="chart-container">
+            <canvas id="healthScoreChart"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-test">
+        <h2>Test 3: Weight Chart (Original)</h2>
+        <div class="chart-container">
+            <canvas id="weightChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        console.log('=== DEBUG PAGE LOADED ===');
+
+        function updateDebugInfo(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = message;
+                element.className = isError ? 'error' : 'success';
+                element.style.marginTop = '10px';
+                element.style.padding = '10px';
+                element.style.borderRadius = '4px';
+            }
+            console.log(message);
+        }
+
+        function testCharts() {
+            try {
+                // Check Chart.js
+                if (typeof Chart === 'undefined') {
+                    updateDebugInfo('chartjs-status', '❌ Chart.js NOT loaded', true);
+                    throw new Error('Chart.js failed to load');
+                } else {
+                    updateDebugInfo('chartjs-status', '✅ Chart.js loaded successfully (v' + Chart.version + ')');
+                }
+
+                // Check canvas elements
+                const canvas1 = document.getElementById('testChart1');
+                const canvas2 = document.getElementById('healthScoreChart');
+                const canvas3 = document.getElementById('weightChart');
+
+                if (!canvas1 || !canvas2 || !canvas3) {
+                    updateDebugInfo('canvas-status', '❌ Some canvas elements missing', true);
+                } else {
+                    updateDebugInfo('canvas-status', '✅ All canvas elements found');
+                }
+
+                // Test 1: Simple chart
+                console.log('Creating Test 1 chart...');
+                const ctx1 = canvas1.getContext('2d');
+                new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: ['A', 'B', 'C'],
+                        datasets: [{
+                            label: 'Test Data',
+                            data: [10, 20, 30],
+                            backgroundColor: '#6366f1'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                console.log('✅ Test 1 chart created');
+
+                // Test 2: Health Score chart (from original)
+                console.log('Creating Health Score chart...');
+                const ctx2 = canvas2.getContext('2d');
+                new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Health Score',
+                            data: [82, 84, 83, 85, 86, 84, 85],
+                            borderColor: '#6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                console.log('✅ Health Score chart created');
+
+                // Test 3: Weight chart (from original)
+                console.log('Creating Weight chart...');
+                const ctx3 = canvas3.getContext('2d');
+                new Chart(ctx3, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Weight (kg)',
+                            data: [75, 74.5, 74, 73.2, 72.8, 72.5],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                console.log('✅ Weight chart created');
+
+                updateDebugInfo('init-status', '✅ All charts created successfully!');
+
+            } catch (error) {
+                updateDebugInfo('init-status', '❌ Error: ' + error.message, true);
+                console.error('Chart test error:', error);
+            }
+        }
+
+        // Run tests when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', testCharts);
+        } else {
+            testCharts();
+        }
+    </script>
+</body>
+</html>
