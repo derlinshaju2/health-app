@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - HealthAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 30px 20px;
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+
+        .sidebar-logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .sidebar-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            color: #1e293b;
+            text-decoration: none;
+            border-radius: 14px;
+            margin-bottom: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            color: #6366f1;
+            transform: translateX(4px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        .chart-container canvas {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #6366f1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-icon">🏥</div>
+            <span class="sidebar-logo-text">HealthAI</span>
+        </div>
+
+        <nav>
+            <a href="dashboard.html" class="nav-link">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="analytics-simple.html" class="nav-link active">
+                <span>📈</span>
+                <span>Analytics</span>
+            </a>
+            <a href="profile.html" class="nav-link">
+                <span>👤</span>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="header">
+            <h1 class="page-title">Health Analytics 📈</h1>
+            <p style="color: #64748b; margin-top: 4px;">Track your health trends and progress over time</p>
+        </div>
+
+        <!-- Health Score Card -->
+        <div class="card">
+            <h3 class="card-title">
+                <span>🎯</span>
+                Overall Health Score
+            </h3>
+            <div class="chart-container">
+                <canvas id="healthScoreChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Weight Trends Card -->
+        <div class="card">
+            <h3 class="card-title">
+                <span>⚖️</span>
+                Weight Trends
+            </h3>
+            <div class="chart-container">
+                <canvas id="weightChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Calorie Trends Card -->
+        <div class="card">
+            <h3 class="card-title">
+                <span>🔥</span>
+                Calorie Trends
+            </h3>
+            <div class="chart-container">
+                <canvas id="calorieChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Key Statistics -->
+        <div class="card">
+            <h3 class="card-title">
+                <span>📊</span>
+                Key Statistics
+            </h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">8,547</div>
+                    <div class="stat-label">Daily Steps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">7.2h</div>
+                    <div class="stat-label">Avg Sleep</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2.1L</div>
+                    <div class="stat-label">Water Intake</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Yoga Sessions</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Wait for page to load
+        console.log('Page loaded');
+        console.log('Chart.js available:', typeof Chart !== 'undefined');
+
+        function initCharts() {
+            console.log('=== STARTING CHART INITIALIZATION ===');
+
+            // Check if Chart.js is loaded
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js is NOT loaded!');
+                alert('Chart library is loading. Please refresh the page in a moment.');
+                return;
+            }
+
+            console.log('✅ Chart.js is loaded');
+            console.log('Chart version:', Chart.version);
+
+            try {
+                // Health Score Chart
+                console.log('Creating health score chart...');
+                const healthScoreCtx = document.getElementById('healthScoreChart').getContext('2d');
+                const healthScoreChart = new Chart(healthScoreCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Health Score',
+                            data: [82, 84, 83, 85, 86, 84, 85],
+                            borderColor: '#6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                min: 70,
+                                max: 100
+                            }
+                        }
+                    }
+                });
+                console.log('✅ Health score chart created');
+
+                // Weight Chart
+                console.log('Creating weight chart...');
+                const weightCtx = document.getElementById('weightChart').getContext('2d');
+                const weightChart = new Chart(weightCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Weight (kg)',
+                            data: [75, 74.5, 74, 73.2, 72.8, 72.5],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+                console.log('✅ Weight chart created');
+
+                // Calorie Chart
+                console.log('Creating calorie chart...');
+                const calorieCtx = document.getElementById('calorieChart').getContext('2d');
+                const calorieChart = new Chart(calorieCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Calories',
+                            data: [1850, 2100, 1920, 2050, 1880, 2200, 1950],
+                            backgroundColor: [
+                                'rgba(99, 102, 241, 0.8)',
+                                'rgba(139, 92, 246, 0.8)',
+                                'rgba(236, 72, 153, 0.8)',
+                                'rgba(245, 158, 11, 0.8)',
+                                'rgba(16, 185, 129, 0.8)',
+                                'rgba(59, 130, 246, 0.8)',
+                                'rgba(239, 68, 68, 0.8)'
+                            ],
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+                console.log('✅ Calorie chart created');
+                console.log('=== ALL CHARTS CREATED SUCCESSFULLY ===');
+
+            } catch (error) {
+                console.error('❌ ERROR creating charts:', error);
+                alert('Error creating charts: ' + error.message);
+            }
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCharts);
+        } else {
+            initCharts();
+        }
+
+        // Fallback: try again after window load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (typeof Chart !== 'undefined') {
+                    console.log('Window load - Chart.js is available');
+                } else {
+                    console.error('Window load - Chart.js still not loaded');
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
