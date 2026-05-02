@@ -248,58 +248,6 @@
     .form-group {
       margin-bottom: 20px;
     }
-
-    /* Unit Toggle Switch */
-    .unit-toggle {
-      display: flex;
-      gap: 12px;
-      background: var(--light);
-      padding: 6px;
-      border-radius: 12px;
-      border: 2px solid var(--border);
-    }
-
-    .unit-btn {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 20px;
-      background: transparent;
-      border: 2px solid transparent;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--gray);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .unit-btn:hover {
-      background: white;
-      color: var(--dark);
-      border-color: rgba(99, 102, 241, 0.3);
-      transform: translateY(-1px);
-    }
-
-    .unit-btn.active {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      border-color: transparent;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-      transform: scale(1.02);
-    }
-
-    .unit-icon {
-      font-size: 20px;
-      line-height: 1;
-    }
-
-    .unit-label {
-      font-size: 15px;
-      font-weight: 700;
-    }
     }
 
     .form-group.full {
@@ -754,52 +702,16 @@
         </h3>
 
         <form id="bmiForm" onsubmit="calculateBMI(event)">
-          <!-- Unit Toggle -->
           <div class="form-group">
-            <label class="form-label">Measurement Unit</label>
-            <div class="unit-toggle">
-              <button type="button" class="unit-btn active" data-unit="metric" onclick="setUnit('metric')">
-                <span class="unit-icon">📏</span>
-                <span class="unit-label">Metric</span>
-              </button>
-              <button type="button" class="unit-btn" data-unit="imperial" onclick="setUnit('imperial')">
-                <span class="unit-icon">🇺🇸</span>
-                <span class="unit-label">Imperial</span>
-              </button>
-            </div>
+            <label class="form-label">Height (centimeters)</label>
+            <input type="number" class="form-input" id="heightCm" placeholder="170" min="100" max="250" required>
+            <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Enter your height in cm</div>
           </div>
 
-          <!-- Metric Inputs -->
-          <div id="metricInputs">
-            <div class="form-group">
-              <label class="form-label">Height (centimeters)</label>
-              <input type="number" class="form-input" id="heightCm" placeholder="170" min="100" max="250" required>
-              <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Enter your height in cm</div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Weight (kilograms)</label>
-              <input type="number" class="form-input" id="weightKg" placeholder="70" min="30" max="300" step="0.1" required>
-              <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Enter your weight in kg</div>
-            </div>
-          </div>
-
-          <!-- Imperial Inputs (Hidden by default) -->
-          <div id="imperialInputs" style="display: none;">
-            <div class="form-group">
-              <label class="form-label">Height (feet/inches)</label>
-              <div style="display: flex; gap: 12px;">
-                <input type="number" class="form-input" id="heightFt" placeholder="5" min="3" max="8" style="flex: 1;">
-                <input type="number" class="form-input" id="heightIn" placeholder="9" min="0" max="11" style="flex: 1;">
-              </div>
-              <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Feet and inches</div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Weight (pounds)</label>
-              <input type="number" class="form-input" id="weightLbs" placeholder="154" min="66" max="661" step="0.1" required>
-              <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Enter your weight in lbs</div>
-            </div>
+          <div class="form-group">
+            <label class="form-label">Weight (kilograms)</label>
+            <input type="number" class="form-input" id="weightKg" placeholder="70" min="30" max="300" step="0.1" required>
+            <div style="font-size: 12px; color: var(--gray); margin-top: 4px;">Enter your weight in kg</div>
           </div>
 
           <div class="form-group">
@@ -994,89 +906,24 @@
       });
     }
 
-    // Unit toggle functionality
-    let currentUnit = 'metric';
-
-    function setUnit(unit) {
-      currentUnit = unit;
-
-      // Update button states
-      document.querySelectorAll('.unit-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      document.querySelector(`.unit-btn[data-unit="${unit}"]`).classList.add('active');
-
-      // Show/hide input groups
-      const metricInputs = document.getElementById('metricInputs');
-      const imperialInputs = document.getElementById('imperialInputs');
-
-      if (unit === 'metric') {
-        metricInputs.style.display = 'block';
-        imperialInputs.style.display = 'none';
-
-        // Clear imperial inputs
-        document.getElementById('heightFt').value = '';
-        document.getElementById('heightIn').value = '';
-        document.getElementById('weightLbs').value = '';
-
-        // Set required attribute on metric inputs
-        document.getElementById('heightCm').required = true;
-        document.getElementById('weightKg').required = true;
-        document.getElementById('heightFt').required = false;
-        document.getElementById('weightLbs').required = false;
-      } else {
-        metricInputs.style.display = 'none';
-        imperialInputs.style.display = 'block';
-
-        // Clear metric inputs
-        document.getElementById('heightCm').value = '';
-        document.getElementById('weightKg').value = '';
-
-        // Set required attribute on imperial inputs
-        document.getElementById('heightCm').required = false;
-        document.getElementById('weightKg').required = false;
-        document.getElementById('heightFt').required = true;
-        document.getElementById('weightIn').required = true;
-        document.getElementById('weightLbs').required = true;
-      }
-    }
-
     // BMI calculation function
     function calculateBMI(event) {
       event.preventDefault();
 
-      let height, weight;
+      // Get metric values
+      const heightCm = parseFloat(document.getElementById('heightCm').value);
+      const weightKg = parseFloat(document.getElementById('weightKg').value);
 
-      if (currentUnit === 'metric') {
-        // Get metric values
-        const heightCm = parseFloat(document.getElementById('heightCm').value);
-        const weightKg = parseFloat(document.getElementById('weightKg').value);
-
-        if (!heightCm || !weightKg) {
-          showToast('error', 'Invalid Input ⚠️', 'Please enter valid height and weight values');
-          return;
-        }
-
-        height = heightCm / 100; // Convert to meters
-        weight = weightKg;
-
-      } else {
-        // Get imperial values
-        const feet = parseFloat(document.getElementById('heightFt').value);
-        const inches = parseFloat(document.getElementById('heightIn').value);
-        const weightLbs = parseFloat(document.getElementById('weightLbs').value);
-
-        if (!feet || !inches || !weightLbs) {
-          showToast('error', 'Invalid Input ⚠️', 'Please enter valid height and weight values');
-          return;
-        }
-
-        height = ((feet * 12) + inches) * 0.0254; // Convert to meters
-        weight = weightLbs * 0.453592; // Convert to kg
+      if (!heightCm || !weightKg) {
+        showToast('error', 'Invalid Input ⚠️', 'Please enter valid height and weight values');
+        return;
       }
 
+      // Convert height to meters
+      const height = heightCm / 100;
+
       // Calculate BMI
-      const bmi = weight / (height * height);
+      const bmi = weightKg / (height * height);
       const bmiRounded = bmi.toFixed(1);
 
       // Display results
