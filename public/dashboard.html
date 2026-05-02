@@ -2181,6 +2181,9 @@
 
     // Show first-time dashboard for new users
     function showFirstTimeDashboard() {
+      // DISABLED: Always show regular dashboard for stability
+      return; // Don't show first-time dashboard anymore
+
       const mainContent = document.querySelector('.main-content');
 
       // Create first-time dashboard HTML
