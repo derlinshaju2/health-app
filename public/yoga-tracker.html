@@ -311,6 +311,83 @@
       height: 100%;
       background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
       border-radius: 8px;
+      transition: width 0.5s ease;
+    }
+
+    /* Enhanced Progress Bar with Milestones */
+    .progress-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-percentage {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--success);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+      padding: 4px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .progress-bar-with-markers {
+      position: relative;
+      margin-top: 8px;
+    }
+
+    .progress-markers {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      position: relative;
+      padding: 0 4px;
+    }
+
+    .milestone-marker {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gray);
+      text-align: center;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .milestone-marker::before {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 1px;
+    }
+
+    .milestone-marker.achieved {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .milestone-marker.achieved::before {
+      background: var(--success);
+      height: 6px;
+      width: 3px;
+    }
+
+    .milestone-marker.current {
+      color: var(--primary);
+      font-weight: 800;
+      transform: scale(1.1);
+    }
+
+    .milestone-marker.current::before {
+      background: var(--primary);
+      height: 8px;
+      width: 4px;
+      box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+    }
       transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -617,6 +694,22 @@
         min-width: 0;
         max-width: none;
       }
+
+      /* Mobile milestone markers */
+      .milestone-marker {
+        font-size: 9px;
+      }
+
+      .progress-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .progress-percentage {
+        font-size: 12px;
+        padding: 3px 8px;
+      }
     }
   </style>
 </head>
@@ -801,10 +894,22 @@
         <div class="progress-item">
           <div class="progress-header">
             <span class="progress-label">🎯 Daily Goal</span>
-            <span class="progress-value" id="goalProgress">45/60 minutes</span>
+            <div class="progress-info">
+              <span class="progress-value" id="goalProgress">45/60 minutes</span>
+              <span class="progress-percentage" id="goalPercentage">75%</span>
+            </div>
           </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 75%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+          <div class="progress-bar-with-markers">
+            <div class="progress-markers">
+              <div class="milestone-marker" data-percent="0">0%</div>
+              <div class="milestone-marker" data-percent="25">25%</div>
+              <div class="milestone-marker" data-percent="50">50%</div>
+              <div class="milestone-marker" data-percent="75">75%</div>
+              <div class="milestone-marker" data-percent="100">100%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="goalProgressFill" style="width: 75%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -915,11 +1020,26 @@
       document.getElementById('caloriesBurned').textContent = caloriesBurned;
       document.getElementById('goalProgress').textContent = `${totalMinutes}/60 minutes`;
 
-      // Update progress bar
+      // Update progress bar with percentage and milestones
       const progressPercent = Math.min(100, (totalMinutes / 60) * 100);
-      document.querySelector('.progress-fill').style.width = progressPercent + '%';
+      const progressRounded = Math.round(progressPercent);
+
+      // Update percentage display
+      document.getElementById('goalPercentage').textContent = progressRounded + '%';
+
+      // Update progress bar width
+      document.getElementById('goalProgressFill').style.width = progressPercent + '%';
+
+      // Update milestone markers
+      updateMilestoneMarkers(progressRounded);
 
       // Add to session list
+      const sessionList = document.getElementById('sessionList');
+
+      // Update milestone markers
+      updateMilestoneMarkers(Math.round(progressPercent));
+
+      const routineIcons = {
       const sessionList = document.getElementById('sessionList');
       const routineIcons = {
         morning: '🌅',
@@ -963,6 +1083,26 @@
 
       // Show success notification
       showToast('success', 'Yoga Session Logged! 🧘', `${duration} minutes of ${routineType.replace('_', ' ')} completed successfully`);
+    }
+
+    // Update milestone markers based on progress
+    function updateMilestoneMarkers(progressPercent) {
+      const markers = document.querySelectorAll('.milestone-marker');
+
+      markers.forEach(marker => {
+        const milestonePercent = parseInt(marker.getAttribute('data-percent'));
+
+        // Remove all existing classes
+        marker.classList.remove('achieved', 'current');
+
+        // Add appropriate class based on progress
+        if (progressPercent >= milestonePercent) {
+          marker.classList.add('achieved');
+        } else if (progressPercent >= milestonePercent - 10) {
+          // Highlight the milestone user is approaching
+          marker.classList.add('current');
+        }
+      });
     }
 
     // Toast notification system
@@ -1129,6 +1269,17 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
+      // Initialize milestone markers based on current progress
+      const initialProgress = Math.min(100, (totalMinutes / 60) * 100);
+      const initialPercent = Math.round(initialProgress);
+
+      // Update percentage display
+      if (document.getElementById('goalPercentage')) {
+        document.getElementById('goalPercentage').textContent = initialPercent + '%';
+      }
+
+      // Initialize milestone markers
+      updateMilestoneMarkers(initialPercent);
     });
   </script>
 </body>
