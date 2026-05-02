@@ -486,6 +486,76 @@
       line-height: 1.6;
     }
 
+    /* Mobile Bottom Navigation */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -4px 20px var(--shadow);
+      z-index: 1000;
+      padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 8px;
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: var(--gray);
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      min-width: 60px;
+    }
+
+    .bottom-nav-item:hover {
+      background: rgba(99, 102, 241, 0.05);
+      color: var(--primary);
+    }
+
+    .bottom-nav-item.active {
+      color: var(--primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .bottom-nav-icon {
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .bottom-nav-label {
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .bottom-nav-item.active .bottom-nav-label {
+      font-weight: 600;
+    }
+
+    /* Add padding to main content to account for bottom nav on mobile */
+    @media (max-width: 768px) {
+      .main-content {
+        padding-bottom: 80px;
+      }
+    }
+
     /* Mobile Menu */
     .mobile-menu-btn {
       display: none;
@@ -538,23 +608,30 @@
     }
 
     @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
+      .bottom-nav {
+        display: block;
       }
 
-      .sidebar.active {
-        transform: translateX(0);
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+      }
+
+      .sidebar-overlay {
+        display: none !important;
       }
 
       .main-content {
         margin-left: 0;
-        padding: 80px 16px 20px;
+        padding: 16px 16px 85px;
+        min-height: 100vh;
       }
 
-      .mobile-menu-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      .sidebar.active {
+        display: none;
       }
 
       .form-grid {
@@ -725,6 +802,101 @@
       padding: 20px;
       color: var(--gray);
       font-size: 14px;
+    }
+
+    /* Enhanced Empty State */
+    .empty-state-meals {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
+      border-radius: 20px;
+      border: 2px dashed rgba(16, 185, 129, 0.3);
+    }
+
+    .empty-state-illustration {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .illustration-icon {
+      font-size: 80px;
+      line-height: 1;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .illustration-decoration {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      font-size: 24px;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    .empty-state-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0 0 12px 0;
+    }
+
+    .empty-state-description {
+      font-size: 15px;
+      color: var(--gray);
+      margin: 0 0 24px 0;
+      line-height: 1.6;
+    }
+
+    .empty-state-stats {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--success);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .cta-button {
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
     }
 
     /* Repeat Yesterday's Meal */
@@ -1063,8 +1235,31 @@
         <div class="recent-meals-section" id="recentMealsSection">
           <h3 class="recent-meals-title">🔄 Recent Meals</h3>
           <div class="recent-meals-list" id="recentMealsList">
-            <div class="no-recent-meals">
-              <p>No recent meals yet. Start logging to see your favorites here!</p>
+            <div class="empty-state-meals">
+              <div class="empty-state-illustration">
+                <div class="illustration-icon">🍽️</div>
+                <div class="illustration-decoration">🥗</div>
+              </div>
+              <h4 class="empty-state-title">Start Your Nutrition Journey!</h4>
+              <p class="empty-state-description">Log your first meal to track calories, macros, and build healthy eating habits.</p>
+              <div class="empty-state-stats">
+                <div class="stat-item">
+                  <div class="stat-number">📊</div>
+                  <div class="stat-label">Track Calories</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">🎯</div>
+                  <div class="stat-label">Hit Goals</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">🏆</div>
+                  <div class="stat-label">Build Habits</div>
+                </div>
+              </div>
+              <button class="btn-primary cta-button" onclick="openMealModal()">
+                <span>➕</span>
+                <span>Log Your First Meal</span>
+              </button>
             </div>
           </div>
         </div>
@@ -1245,6 +1440,32 @@
     ☰
   </button>
 
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-items">
+      <a href="dashboard.html" class="bottom-nav-item" data-page="dashboard">
+        <span class="bottom-nav-icon">📊</span>
+        <span class="bottom-nav-label">Home</span>
+      </a>
+      <a href="yoga-tracker.html" class="bottom-nav-item" data-page="workout">
+        <span class="bottom-nav-icon">🏃</span>
+        <span class="bottom-nav-label">Workout</span>
+      </a>
+      <a href="diet-tracking.html" class="bottom-nav-item active" data-page="diet">
+        <span class="bottom-nav-icon">🥗</span>
+        <span class="bottom-nav-label">Diet</span>
+      </a>
+      <a href="analytics.html" class="bottom-nav-item" data-page="analytics">
+        <span class="bottom-nav-icon">📈</span>
+        <span class="bottom-nav-label">Analytics</span>
+      </a>
+      <a href="profile.html" class="bottom-nav-item" data-page="profile">
+        <span class="bottom-nav-icon">👤</span>
+        <span class="bottom-nav-label">Profile</span>
+      </a>
+    </div>
+  </nav>
+
   <!-- Sidebar Overlay -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
@@ -1413,8 +1634,31 @@
 
       if (recentMeals.length === 0) {
         recentMealsList.innerHTML = `
-          <div class="no-recent-meals">
-            <p>No recent meals yet. Start logging to see your favorites here!</p>
+          <div class="empty-state-meals">
+            <div class="empty-state-illustration">
+              <div class="illustration-icon">🍽️</div>
+              <div class="illustration-decoration">🥗</div>
+            </div>
+            <h4 class="empty-state-title">Start Your Nutrition Journey!</h4>
+            <p class="empty-state-description">Log your first meal to track calories, macros, and build healthy eating habits.</p>
+            <div class="empty-state-stats">
+              <div class="stat-item">
+                <div class="stat-number">📊</div>
+                <div class="stat-label">Track Calories</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">🎯</div>
+                <div class="stat-label">Hit Goals</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">🏆</div>
+                <div class="stat-label">Build Habits</div>
+              </div>
+            </div>
+            <button class="btn-primary cta-button" onclick="openMealModal()">
+              <span>➕</span>
+              <span>Log Your First Meal</span>
+            </button>
           </div>
         `;
         return;
@@ -1542,6 +1786,21 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
+      // Set active state for bottom navigation
+      const currentPage = window.location.pathname.split('/').pop() || 'diet-tracking.html';
+      const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+
+      bottomNavItems.forEach(item => {
+        const itemPage = item.getAttribute('data-page');
+        const itemHref = item.getAttribute('href');
+
+        if (itemHref === currentPage || currentPage.includes(itemPage)) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+
       loadRecentMeals();
       checkYesterdayMeal();
     });

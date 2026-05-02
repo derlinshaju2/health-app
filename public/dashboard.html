@@ -201,6 +201,81 @@
       transform: translateY(-2px);
     }
 
+    /* Mobile Bottom Navigation */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -4px 20px var(--shadow);
+      z-index: 1000;
+      padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    body.dark-mode .bottom-nav {
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 8px;
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: var(--gray);
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      min-width: 60px;
+    }
+
+    .bottom-nav-item:hover {
+      background: rgba(99, 102, 241, 0.05);
+      color: var(--primary);
+    }
+
+    .bottom-nav-item.active {
+      color: var(--primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .bottom-nav-icon {
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .bottom-nav-label {
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .bottom-nav-item.active .bottom-nav-label {
+      font-weight: 600;
+    }
+
+    /* Add padding to main content to account for bottom nav on mobile */
+    @media (max-width: 768px) {
+      .main-content {
+        padding-bottom: 80px;
+      }
+    }
+
     /* Mobile Menu */
     /* Mobile Menu Button */
     .mobile-menu-btn {
@@ -1100,13 +1175,37 @@
     /* Responsive */
     @media (max-width: 768px) {
       body {
-        padding: 16px;
+        padding: 0;
+      }
+
+      .bottom-nav {
+        display: block;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+      }
+
+      .sidebar-overlay {
+        display: none !important;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 16px 16px 90px;
+        min-height: 100vh;
       }
 
       .header {
         padding: 16px 20px;
         flex-wrap: wrap;
         gap: 12px;
+        margin: 0 0 20px 0;
+        padding: 16px;
       }
 
       .greeting {
@@ -1129,7 +1228,106 @@
         padding: 24px;
       }
 
+      .page-title {
+        font-size: 20px;
+      }
 
+      .page-subtitle {
+        font-size: 13px;
+      }
+
+      .header-actions {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .header-btn {
+        flex: 1;
+        min-width: 120px;
+        padding: 10px 16px;
+        font-size: 13px;
+        justify-content: center;
+      }
+
+      /* Cards Grid */
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .card {
+        padding: 20px;
+        border-radius: 16px;
+      }
+
+      .card-title {
+        font-size: 16px;
+        margin-bottom: 16px;
+      }
+
+      /* Stats Grid */
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 16px;
+      }
+
+      .stat-value {
+        font-size: 24px;
+      }
+
+      .stat-label {
+        font-size: 12px;
+      }
+
+      /* Mission Cards */
+      .mission-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .priority-card {
+        padding: 16px;
+      }
+
+      /* Quick Actions */
+      .quick-actions-bar {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .quick-action-btn {
+        flex: 1;
+        min-width: 80px;
+        padding: 12px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 12px 12px 85px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header-actions {
+        flex-direction: column;
+      }
+
+      .header-btn {
+        width: 100%;
+      }
     }
 
     /* Animations */
@@ -1552,6 +1750,101 @@
       margin-bottom: 12px;
     }
 
+    /* Enhanced Empty State */
+    .empty-state-challenges {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border-radius: 20px;
+      border: 2px dashed rgba(99, 102, 241, 0.3);
+    }
+
+    .empty-state-illustration {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .illustration-icon {
+      font-size: 80px;
+      line-height: 1;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .illustration-decoration {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      font-size: 24px;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    .empty-state-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0 0 12px 0;
+    }
+
+    .empty-state-description {
+      font-size: 15px;
+      color: var(--gray);
+      margin: 0 0 24px 0;
+      line-height: 1.6;
+    }
+
+    .empty-state-stats {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .cta-button {
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+
     .btn-small {
       padding: 8px 16px;
       font-size: 13px;
@@ -1690,9 +1983,31 @@
         <div class="active-challenges-preview" id="activeChallengesPreview">
           <h3>Active Challenges</h3>
           <div class="challenges-preview-list" id="challengesPreviewList">
-            <div class="no-challenges-message">
-              <p>No active challenges. Start one to earn rewards!</p>
-              <button class="btn-secondary btn-small" onclick="showChallengeBrowser()">Browse Challenges</button>
+            <div class="empty-state-challenges">
+              <div class="empty-state-illustration">
+                <div class="illustration-icon">🏆</div>
+                <div class="illustration-decoration">✨</div>
+              </div>
+              <h4 class="empty-state-title">Ready to Challenge Yourself?</h4>
+              <p class="empty-state-description">Start a challenge to earn points, unlock badges, and build healthy habits!</p>
+              <div class="empty-state-stats">
+                <div class="stat-item">
+                  <div class="stat-number">5+</div>
+                  <div class="stat-label">Challenges Available</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">🎖️</div>
+                  <div class="stat-label">Earn Badges</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">🔥</div>
+                  <div class="stat-label">Build Streaks</div>
+                </div>
+              </div>
+              <button class="btn-primary cta-button" onclick="showChallengeBrowser()">
+                <span>🎯</span>
+                <span>Browse Challenges</span>
+              </button>
             </div>
           </div>
         </div>
@@ -1704,6 +2019,32 @@
   <button class="mobile-menu-btn" id="mobileMenuBtn">
     ☰
   </button>
+
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-items">
+      <a href="dashboard.html" class="bottom-nav-item active" data-page="dashboard">
+        <span class="bottom-nav-icon">📊</span>
+        <span class="bottom-nav-label">Home</span>
+      </a>
+      <a href="yoga-tracker.html" class="bottom-nav-item" data-page="workout">
+        <span class="bottom-nav-icon">🏃</span>
+        <span class="bottom-nav-label">Workout</span>
+      </a>
+      <a href="diet-tracking.html" class="bottom-nav-item" data-page="diet">
+        <span class="bottom-nav-icon">🥗</span>
+        <span class="bottom-nav-label">Diet</span>
+      </a>
+      <a href="analytics.html" class="bottom-nav-item" data-page="analytics">
+        <span class="bottom-nav-icon">📈</span>
+        <span class="bottom-nav-label">Analytics</span>
+      </a>
+      <a href="profile.html" class="bottom-nav-item" data-page="profile">
+        <span class="bottom-nav-icon">👤</span>
+        <span class="bottom-nav-label">Profile</span>
+      </a>
+    </div>
+  </nav>
 
   <!-- Sidebar Overlay -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -1793,6 +2134,21 @@
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
+      // Set active state for bottom navigation
+      const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+      const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+
+      bottomNavItems.forEach(item => {
+        const itemPage = item.getAttribute('data-page');
+        const itemHref = item.getAttribute('href');
+
+        if (itemHref === currentPage || currentPage.includes(itemPage)) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+
       // Check if user just completed onboarding (only show first time dashboard ONCE)
       const userProfile = JSON.parse(localStorage.getItem('userProfile'));
       const hasSeenFirstTimeDashboard = sessionStorage.getItem('hasSeenFirstTimeDashboard');
