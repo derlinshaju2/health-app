@@ -141,6 +141,45 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 30px;
+      position: relative;
+    }
+
+    /* Hamburger Menu */
+    .hamburger-menu {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1002;
+      position: absolute;
+      left: 0;
+    }
+
+    .hamburger-menu span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--dark);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .header-content {
+      margin-left: 50px;
+      width: 100%;
     }
 
     .page-title {
@@ -193,37 +232,55 @@
 
     /* Grid */
     .content-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 0;
     }
 
     .full-width {
-      grid-column: 1 / -1;
+      width: 100%;
+    }
+
+    .unified-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .unified-grid .full-width {
+      width: 100%;
     }
 
     /* Cards */
     .card {
-      background: white;
-      border-radius: 24px;
-      padding: 16px;
-      box-shadow: 0 4px 24px var(--shadow);
-      transition: all 0.3s ease;
+      background: transparent;
+      border-radius: 0;
+      padding: 20px 0;
+      box-shadow: none;
+      transition: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card:last-child {
+      border-bottom: none;
     }
 
     .card:hover {
-      box-shadow: 0 8px 32px var(--shadow-lg);
+      box-shadow: none;
+      transform: none;
     }
 
     .card-title {
-      font-size: 18px;
+      font-size: 24px;
       font-weight: 700;
       color: var(--dark);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 2px solid var(--primary);
     }
 
     /* Meal Logging Card - Bigger and more prominent */
@@ -312,7 +369,7 @@
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 16px;
       margin-bottom: 20px;
     }
 
@@ -383,7 +440,7 @@
     /* Results */
     .results-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-bottom: 20px;
     }
@@ -486,167 +543,413 @@
       line-height: 1.6;
     }
 
-    /* Mobile Bottom Navigation */
-    .bottom-nav {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      border-top: 1px solid var(--border);
-      box-shadow: 0 -4px 20px var(--shadow);
-      z-index: 1000;
-      padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-      backdrop-filter: blur(20px);
-      background: rgba(255, 255, 255, 0.95);
+    /* Nutrition Education */
+    .nutrition-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
     }
 
-    .bottom-nav-items {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0 8px;
+    .nutrition-section h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
     }
 
-    .bottom-nav-item {
+    .macro-info, .micro-info {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 8px 12px;
-      text-decoration: none;
-      color: var(--gray);
-      transition: all 0.3s ease;
+      gap: 16px;
+    }
+
+    .macro-item, .micro-category {
+      background: var(--light);
       border-radius: 12px;
-      min-width: 60px;
+      padding: 16px;
+      border-left: 4px solid var(--primary);
     }
 
-    .bottom-nav-item:hover {
-      background: rgba(99, 102, 241, 0.05);
-      color: var(--primary);
+    .macro-icon, .avoid-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
     }
 
-    .bottom-nav-item.active {
-      color: var(--primary);
-      background: rgba(99, 102, 241, 0.1);
+    .macro-details h5, .avoid-details h5 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
     }
 
-    .bottom-nav-icon {
-      font-size: 24px;
-      line-height: 1;
-      margin-bottom: 2px;
+    .macro-details p, .avoid-details p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+      margin-bottom: 4px;
     }
 
-    .bottom-nav-label {
+    .avoid-details span {
       font-size: 11px;
-      font-weight: 500;
-      text-align: center;
-      line-height: 1.2;
-    }
-
-    .bottom-nav-item.active .bottom-nav-label {
+      color: var(--danger);
       font-weight: 600;
     }
 
-    /* Add padding to main content to account for bottom nav on mobile */
-    @media (max-width: 768px) {
-      .main-content {
-        padding-bottom: 80px;
-      }
+    .micro-category h5 {
+      margin-bottom: 12px;
     }
 
-    /* Mobile Menu */
-    .mobile-menu-btn {
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: white;
-      border: 2px solid var(--border);
+    .nutrient-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nutrient-list li {
+      font-size: 13px;
       color: var(--dark);
-      font-size: 20px;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-      z-index: 1001;
-      transition: transform 0.3s ease;
+      line-height: 1.6;
+      margin-bottom: 6px;
+      padding-left: 20px;
+      position: relative;
     }
 
-    .mobile-menu-btn:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
+    .nutrient-list li:before {
+      content: "•";
+      position: absolute;
+      left: 8px;
+      color: var(--primary);
+      font-weight: 700;
     }
 
-    /* Sidebar Overlay for Mobile */
-    .sidebar-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
+    /* Eating Guidelines */
+    .eating-guidelines {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .guideline-category h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .portion-visual {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .portion-item {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      text-align: center;
+    }
+
+    .portion-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .portion-info h5 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .portion-info p {
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+
+    .portion-size {
+      font-size: 11px;
+      color: var(--success);
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .avoid-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .avoid-item {
+      background: rgba(239, 68, 68, 0.05);
+      border-radius: 10px;
+      padding: 16px;
+      border-left: 4px solid var(--danger);
+    }
+
+    .avoid-item h5 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 8px;
+    }
+
+    .avoid-reason {
+      font-size: 11px;
+      color: var(--danger);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Meal Planning */
+    .meal-planning {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .planning-section h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .meal-suggestions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .meal-suggestion {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 4px solid var(--success);
+    }
+
+    .meal-suggestion h5 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .meal-suggestion p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .meal-benefits {
+      font-size: 11px;
+      color: var(--success);
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    /* Hydration Content */
+    .hydration-content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .hydration-info h4 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .hydration-facts {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .hydration-facts li {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+      margin-bottom: 8px;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .hydration-facts li:before {
+      content: "💧";
+      position: absolute;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      opacity: 0;
-      transition: opacity 0.3s ease;
     }
 
-    .sidebar-overlay.show {
-      display: block;
-      opacity: 1;
+    /* Mindful Eating */
+    .mindful-eating {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
+
+    .mindful-practice h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .practice-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .practice-item {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .practice-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .practice-details h5 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 6px;
+    }
+
+    .practice-details p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    .practice-tips {
+      font-size: 14px;
+      color: var(--dark);
+      line-height: 1.7;
+    }
+
+    .practice-tips p {
+      margin-bottom: 12px;
+    }
+
+    .practice-tips strong {
+      color: var(--primary);
+    }
+
+    /* Food Labels */
+    .label-guide {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .label-section {
+      background: rgba(245, 158, 11, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      border-left: 4px solid var(--warning);
+    }
+
+    .label-section h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--warning);
+      margin-bottom: 8px;
+    }
+
+    .label-section p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    /* Mobile Menu Button - REMOVED */
 
     /* Responsive */
     @media (max-width: 1024px) {
       .content-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .unified-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 768px) {
-      .bottom-nav {
-        display: block;
+      body {
+        flex-direction: column;
       }
 
       .sidebar {
-        display: none;
+        transform: translateX(-100%);
+        width: 280px;
       }
 
-      .mobile-menu-btn {
-        display: none;
-      }
-
-      .sidebar-overlay {
-        display: none !important;
+      .sidebar.active {
+        transform: translateX(0);
       }
 
       .main-content {
         margin-left: 0;
-        padding: 80px 14px 90px;
-        min-height: 100vh;
+        padding: 16px;
+        width: 100%;
       }
 
-      .sidebar.active {
-        display: none;
+      .hamburger-menu {
+        display: block;
+      }
+
+      .mobile-menu-btn {
+        display: none !important;
+      }
+
+      .header-content {
+        margin-left: 0;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .unified-grid {
+        grid-template-columns: 1fr;
       }
 
       .form-grid {
         grid-template-columns: 1fr;
-        gap: 10px;
+      }
+
+      .meal-logging-card .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
 
       .header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 12px;
       }
 
       .page-title {
-        font-size: 18px;
+        font-size: 22px;
+      }
+
+      .page-subtitle {
+        font-size: 13px;
       }
 
       .header-actions {
@@ -654,118 +957,131 @@
         justify-content: space-between;
       }
 
-      .content-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
       .card {
-        padding: 14px;
-      }
-
-      /* Ensure no horizontal overflow on mobile */
-      body {
-        overflow-x: hidden;
-      }
-
-      .main-content {
-        overflow-x: hidden;
-        width: 100%;
-        max-width: 100%;
-      }
-
-      * {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        -webkit-hyphens: auto;
-        -ms-hyphens: auto;
-        hyphens: auto;
-      }
-    }
-
-    /* Extra small mobile devices */
-    @media (max-width: 480px) {
-      .main-content {
-        padding: 70px 8px 90px !important;
-      }
-
-      .card {
-        padding: 8px !important;
-        border-radius: 8px !important;
+        padding: 16px;
       }
 
       .card-title {
-        font-size: 13px !important;
-        margin-bottom: 6px !important;
-        line-height: 1.2 !important;
+        font-size: 16px;
       }
 
-      .form-input {
-        padding: 8px 10px !important;
-        font-size: 13px !important;
+      .meal-logging-card {
+        padding: 16px;
       }
 
-      .submit-btn {
-        padding: 10px !important;
-        font-size: 13px !important;
+      .meal-logging-card .form-group {
+        margin-bottom: 16px;
       }
 
-      .meal-card {
-        padding: 6px !important;
+      .meal-logging-card .form-label {
+        font-size: 14px;
+      }
+
+      .meal-logging-card .form-input {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .meal-logging-card .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+
+      .meal-item {
+        padding: 12px;
+      }
+
+      .meal-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
       }
 
       .meal-name {
-        font-size: 12px !important;
+        font-size: 14px;
       }
 
       .meal-calories {
-        font-size: 10px !important;
+        font-size: 12px;
       }
 
-      .nutrition-info {
-        font-size: 10px !important;
+      .meal-macros {
+        font-size: 11px;
       }
 
-      .page-title {
-        font-size: 16px !important;
+      .stat-card {
+        padding: 12px;
       }
 
-      /* Fix all buttons */
-      button {
-        font-size: 11px !important;
-        padding: 6px 10px !important;
+      .stat-value {
+        font-size: 18px;
       }
 
-      /* Fix inline styles */
-      [style*="padding: 20px"] {
-        padding: 8px !important;
+      .stat-label {
+        font-size: 11px;
       }
 
-      [style*="padding: 28px"] {
-        padding: 8px !important;
+      .quick-action {
+        padding: 12px;
       }
 
-      [style*="gap: 15px"] {
-        gap: 6px !important;
+      .quick-action-icon {
+        font-size: 20px;
       }
 
-      [style*="gap: 16px"] {
-        gap: 6px !important;
+      .quick-action-title {
+        font-size: 13px;
       }
 
-      /* Prevent text overflow */
-      * {
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
+      .quick-action-description {
+        font-size: 11px;
       }
+    }
 
-      body {
-        overflow-x: hidden !important;
-      }
-
+    @media (max-width: 480px) {
       .main-content {
-        overflow-x: hidden !important;
-        width: 100% !important;
+        padding: 12px;
+      }
+
+      .card {
+        padding: 12px;
+      }
+
+      .meal-logging-card {
+        padding: 12px;
+      }
+
+      .meal-item {
+        padding: 10px;
+      }
+
+      .stat-card {
+        padding: 10px;
+      }
+
+      .stat-value {
+        font-size: 16px;
+      }
+
+      .quick-action {
+        padding: 10px;
+      }
+
+      .quick-action-icon {
+        font-size: 18px;
+      }
+
+      .quick-action-title {
+        font-size: 12px;
+      }
+
+      .quick-action-description {
+        font-size: 10px;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        font-size: 13px;
       }
     }
 
@@ -788,527 +1104,6 @@
     .card:nth-child(1) { animation-delay: 0.1s; }
     .card:nth-child(2) { animation-delay: 0.2s; }
     .card:nth-child(3) { animation-delay: 0.3s; }
-
-    /* Quick Add Section */
-    .quick-add-section {
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 2px solid var(--border);
-    }
-
-    .quick-add-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 16px;
-    }
-
-    .quick-add-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .quick-add-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding: 16px 12px;
-      background: var(--light);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    .quick-add-btn:hover {
-      border-color: var(--primary);
-      background: rgba(99, 102, 241, 0.05);
-      transform: translateY(-2px);
-    }
-
-    .quick-add-icon {
-      font-size: 24px;
-      line-height: 1;
-    }
-
-    .quick-add-label {
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    /* Recent Meals */
-    .recent-meals-section {
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 2px solid var(--border);
-    }
-
-    .recent-meals-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 16px;
-    }
-
-    .recent-meals-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .recent-meal-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      background: var(--light);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .recent-meal-item:hover {
-      background: rgba(99, 102, 241, 0.05);
-      transform: translateX(4px);
-    }
-
-    .meal-info {
-      flex: 1;
-    }
-
-    .meal-name {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-
-    .meal-meta {
-      font-size: 12px;
-      color: var(--gray);
-      margin-top: 2px;
-    }
-
-    .btn-add {
-      padding: 6px 12px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: inherit;
-    }
-
-    .btn-add:hover {
-      background: var(--primary-dark);
-      transform: scale(1.05);
-    }
-
-    .no-recent-meals {
-      text-align: center;
-      padding: 20px;
-      color: var(--gray);
-      font-size: 14px;
-    }
-
-    /* Enhanced Empty State */
-    .empty-state-meals {
-      text-align: center;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
-      border-radius: 20px;
-      border: 2px dashed rgba(16, 185, 129, 0.3);
-    }
-
-    .empty-state-illustration {
-      position: relative;
-      margin-bottom: 24px;
-    }
-
-    .illustration-icon {
-      font-size: 80px;
-      line-height: 1;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    .illustration-decoration {
-      position: absolute;
-      top: -10px;
-      right: 20px;
-      font-size: 24px;
-      animation: sparkle 2s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes sparkle {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.2); }
-    }
-
-    .empty-state-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--dark);
-      margin: 0 0 12px 0;
-    }
-
-    .empty-state-description {
-      font-size: 15px;
-      color: var(--gray);
-      margin: 0 0 24px 0;
-      line-height: 1.6;
-    }
-
-    .empty-state-stats {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin-bottom: 28px;
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--success);
-      margin-bottom: 4px;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--gray);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .cta-button {
-      padding: 14px 28px;
-      font-size: 16px;
-      font-weight: 700;
-      border-radius: 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-    }
-
-    /* Repeat Yesterday's Meal */
-    .repeat-meal-section {
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 2px solid var(--border);
-    }
-
-    .repeat-card {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 16px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-      border: 2px solid rgba(99, 102, 241, 0.2);
-      border-radius: 12px;
-    }
-
-    .repeat-icon {
-      font-size: 32px;
-      line-height: 1;
-    }
-
-    .repeat-content {
-      flex: 1;
-    }
-
-    .repeat-content h4 {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 4px;
-    }
-
-    .repeat-content p {
-      font-size: 13px;
-      color: var(--gray);
-    }
-
-    .btn-repeat {
-      padding: 10px 16px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: inherit;
-    }
-
-    .btn-repeat:hover {
-      background: var(--primary-dark);
-      transform: scale(1.05);
-    }
-
-    /* Collapsible Nutrition Details */
-    .nutrition-details-card {
-      margin-top: 24px;
-    }
-
-    .collapse-toggle {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      background: var(--light);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--dark);
-      font-family: inherit;
-      text-align: left;
-    }
-
-    .collapse-toggle:hover {
-      border-color: var(--primary);
-      background: rgba(99, 102, 241, 0.05);
-    }
-
-    .toggle-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .toggle-icon {
-      font-size: 12px;
-      transition: transform 0.3s ease;
-    }
-
-    .collapse-toggle[data-expanded="true"] .toggle-icon {
-      transform: rotate(180deg);
-    }
-
-    .collapse-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-
-    .collapse-content.expanded {
-      max-height: 500px;
-      padding-top: 16px;
-    }
-
-    .macro-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .macro-item {
-      background: var(--light);
-      padding: 16px;
-      border-radius: 10px;
-    }
-
-    .macro-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--gray);
-      margin-bottom: 8px;
-    }
-
-    .macro-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
-
-    .macro-progress {
-      height: 6px;
-      background: var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .macro-progress .progress-fill {
-      height: 100%;
-      border-radius: 10px;
-      transition: width 0.3s ease;
-    }
-
-    .macro-progress .progress-fill.protein {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    }
-
-    .macro-progress .progress-fill.carbs {
-      background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-    }
-
-    .macro-progress .progress-fill.fats {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    }
-
-    .macro-progress .progress-fill.fiber {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    }
-
-    @media (max-width: 768px) {
-      .quick-add-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .macro-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .repeat-card {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .btn-repeat {
-        width: 100%;
-      }
-    }
-
-    /* Toast Notifications */
-    .toast-notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      min-width: 350px;
-      max-width: 450px;
-      background: white;
-      border-radius: 16px;
-      padding: 16px 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      z-index: 10000;
-      transform: translateX(120%);
-      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      border-left: 5px solid;
-    }
-
-    .toast-notification.show {
-      transform: translateX(0);
-    }
-
-    /* Mobile Toast Notifications */
-    @media (max-width: 480px) {
-      .toast-notification {
-        min-width: auto;
-        width: calc(100% - 40px);
-        max-width: none;
-        left: 20px;
-        right: 20px;
-        top: 80px;
-        padding: 14px 16px;
-        font-size: 14px;
-      }
-
-      .toast-icon {
-        font-size: 18px;
-      }
-
-      .toast-message {
-        font-size: 13px;
-      }
-    }
-
-    .toast-success {
-      border-left-color: #10b981;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
-    }
-
-    .toast-error {
-      border-left-color: #ef4444;
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
-    }
-
-    .toast-info {
-      border-left-color: #3b82f6;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(37, 99, 235, 0.05) 100%);
-    }
-
-    .toast-icon {
-      font-size: 32px;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
-    .toast-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .toast-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 4px;
-    }
-
-    .toast-message {
-      font-size: 14px;
-      color: #64748b;
-      line-height: 1.4;
-    }
-
-    .toast-close {
-      background: none;
-      border: none;
-      font-size: 18px;
-      color: #94a3b8;
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 4px;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-    }
-
-    .toast-close:hover {
-      background: rgba(0, 0, 0, 0.05);
-      color: #64748b;
-    }
-
-    @media (max-width: 768px) {
-      .toast-notification {
-        top: 10px;
-        right: 10px;
-        left: 10px;
-        min-width: 0;
-        max-width: none;
-      }
-    }
   </style>
 </head>
 <body>
@@ -1362,19 +1157,26 @@
   <main class="main-content">
     <!-- Header -->
     <header class="header">
-      <div>
-        <h1 class="page-title">Diet & Nutrition 🥗</h1>
-        <p class="page-subtitle">Track your meals, calories, and nutritional intake</p>
-      </div>
-      <div class="header-actions">
-        <button class="header-btn" onclick="window.location.href='dashboard-main.html'">
-          ←
-          <span>Back to Dashboard</span>
-        </button>
-        <button class="header-btn primary" onclick="saveMealLog()">
+      <button class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="header-content">
+        <div>
+          <h1 class="page-title">Diet & Nutrition 🥗</h1>
+          <p class="page-subtitle">Track your meals, calories, and nutritional intake</p>
+        </div>
+        <div class="header-actions">
+          <button class="header-btn" onclick="window.location.href='dashboard-main.html'">
+            ←
+            <span>Back to Dashboard</span>
+          </button>
+          <button class="header-btn primary" onclick="saveMealLog()">
           💾
           <span>Save Meals</span>
         </button>
+      </div>
       </div>
     </header>
 
@@ -1434,114 +1236,6 @@
             <span>Add Meal</span>
           </button>
         </form>
-
-        <!-- Quick Add Section -->
-        <div class="quick-add-section">
-          <h3 class="quick-add-title">⚡ Quick Add</h3>
-          <div class="quick-add-grid">
-            <button class="quick-add-btn" onclick="quickAddMeal('breakfast')" data-meal="breakfast">
-              <span class="quick-add-icon">🌅</span>
-              <span class="quick-add-label">Breakfast</span>
-            </button>
-            <button class="quick-add-btn" onclick="quickAddMeal('lunch')" data-meal="lunch">
-              <span class="quick-add-icon">☀️</span>
-              <span class="quick-add-label">Lunch</span>
-            </button>
-            <button class="quick-add-btn" onclick="quickAddMeal('dinner')" data-meal="dinner">
-              <span class="quick-add-icon">🌙</span>
-              <span class="quick-add-label">Dinner</span>
-            </button>
-            <button class="quick-add-btn" onclick="quickAddMeal('snack')" data-meal="snack">
-              <span class="quick-add-icon">🍎</span>
-              <span class="quick-add-label">Snack</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Recent Meals -->
-        <div class="recent-meals-section" id="recentMealsSection">
-          <h3 class="recent-meals-title">🔄 Recent Meals</h3>
-          <div class="recent-meals-list" id="recentMealsList">
-            <div class="empty-state-meals">
-              <div class="empty-state-illustration">
-                <div class="illustration-icon">🍽️</div>
-                <div class="illustration-decoration">🥗</div>
-              </div>
-              <h4 class="empty-state-title">Start Your Nutrition Journey!</h4>
-              <p class="empty-state-description">Log your first meal to track calories, macros, and build healthy eating habits.</p>
-              <div class="empty-state-stats">
-                <div class="stat-item">
-                  <div class="stat-number">📊</div>
-                  <div class="stat-label">Track Calories</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number">🎯</div>
-                  <div class="stat-label">Hit Goals</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number">🏆</div>
-                  <div class="stat-label">Build Habits</div>
-                </div>
-              </div>
-              <button class="btn-primary cta-button" onclick="openMealModal()">
-                <span>➕</span>
-                <span>Log Your First Meal</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Repeat Yesterday's Meal -->
-        <div class="repeat-meal-section" id="repeatMealSection" style="display: none;">
-          <div class="repeat-card">
-            <div class="repeat-icon">🔄</div>
-            <div class="repeat-content">
-              <h4>Repeat Yesterday's Meal?</h4>
-              <p id="repeatMealText">You had oatmeal with berries for breakfast</p>
-            </div>
-            <button class="btn-repeat" onclick="repeatYesterdayMeal()">Yes, add it</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Collapsible Nutrition Details -->
-      <div class="card nutrition-details-card">
-        <button class="collapse-toggle" onclick="toggleNutritionDetails()" data-expanded="false">
-          <span class="toggle-title">📊 Detailed Nutrition Breakdown</span>
-          <span class="toggle-icon">▼</span>
-        </button>
-        <div class="collapse-content" id="nutritionDetailsContent">
-          <div class="macro-grid">
-            <div class="macro-item">
-              <div class="macro-label">Protein</div>
-              <div class="macro-value">45g</div>
-              <div class="macro-progress">
-                <div class="progress-fill protein" style="width: 60%"></div>
-              </div>
-            </div>
-            <div class="macro-item">
-              <div class="macro-label">Carbs</div>
-              <div class="macro-value">180g</div>
-              <div class="macro-progress">
-                <div class="progress-fill carbs" style="width: 75%"></div>
-              </div>
-            </div>
-            <div class="macro-item">
-              <div class="macro-label">Fats</div>
-              <div class="macro-value">35g</div>
-              <div class="macro-progress">
-                <div class="progress-fill fats" style="width: 45%"></div>
-              </div>
-            </div>
-            <div class="macro-item">
-              <div class="macro-label">Fiber</div>
-              <div class="macro-value">12g</div>
-              <div class="macro-progress">
-                <div class="progress-fill fiber" style="width: 40%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Today's Nutrition Summary -->
@@ -1659,76 +1353,384 @@
           </div>
         </div>
       </div>
+
+      <!-- Nutrition Education Section -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">📚</div>
+          Understanding Nutrition Basics
+        </h3>
+
+        <div class="nutrition-grid">
+          <div class="nutrition-section">
+            <h4>🥗 Macronutrients Explained</h4>
+            <div class="macro-info">
+              <div class="macro-item">
+                <span class="macro-icon">💪</span>
+                <div class="macro-details">
+                  <h5>Proteins</h5>
+                  <p><strong>Function:</strong> Building blocks for muscles, bones, and enzymes</p>
+                  <p><strong>Sources:</strong> Lean meats, fish, eggs, dairy, legumes, nuts</p>
+                  <p><strong>Daily Need:</strong> 0.8-1.2g per kg body weight</p>
+                </div>
+              </div>
+              <div class="macro-item">
+                <span class="macro-icon">🍞</span>
+                <div class="macro-details">
+                  <h5>Carbohydrates</h5>
+                  <p><strong>Function:</strong> Primary energy source for brain and body</p>
+                  <p><strong>Sources:</strong> Whole grains, fruits, vegetables, legumes</p>
+                  <p><strong>Daily Need:</strong> 45-65% of total calories</p>
+                </div>
+              </div>
+              <div class="macro-item">
+                <span class="macro-icon">🥑</span>
+                <div class="macro-details">
+                  <h5>Fats</h5>
+                  <p><strong>Function:</strong> Energy storage, hormone production, nutrient absorption</p>
+                  <p><strong>Sources:</strong> Avocados, nuts, olive oil, fatty fish</p>
+                  <p><strong>Daily Need:</strong> 20-35% of total calories</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nutrition-section">
+            <h4>🌟 Micronutrients Essentials</h4>
+            <div class="micro-info">
+              <div class="micro-category">
+                <h5>Vitamins</h5>
+                <ul class="nutrient-list">
+                  <li><strong>Vitamin A:</strong> Vision, immune system, skin health</li>
+                  <li><strong>B Complex:</strong> Energy metabolism, brain function, red blood cells</li>
+                  <li><strong>Vitamin C:</strong> Collagen synthesis, immune support, antioxidant</li>
+                  <li><strong>Vitamin D:</strong> Bone health, immune function, mood regulation</li>
+                  <li><strong>Vitamin E:</strong> Cell protection, skin health, antioxidant</li>
+                  <li><strong>Vitamin K:</strong> Blood clotting, bone metabolism</li>
+                </ul>
+              </div>
+              <div class="micro-category">
+                <h5>Minerals</h5>
+                <ul class="nutrient-list">
+                  <li><strong>Calcium:</strong> Bones, teeth, muscle function, nerve signaling</li>
+                  <li><strong>Iron:</strong> Red blood cells, oxygen transport, energy metabolism</li>
+                  <li><strong>Magnesium:</strong> Muscle function, energy production, protein synthesis</li>
+                  <li><strong>Zinc:</strong> Immune function, wound healing, DNA synthesis</li>
+                  <li><strong>Potassium:</strong> Fluid balance, nerve signals, muscle contractions</li>
+                  <li><strong>Sodium:</strong> Fluid balance, nerve transmission, muscle contraction</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Healthy Eating Guidelines -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">🥦</div>
+          Evidence-Based Eating Guidelines
+        </h3>
+
+        <div class="eating-guidelines">
+          <div class="guideline-category">
+            <h4>🍽️ Portion Control Guide</h4>
+            <div class="portion-visual">
+              <div class="portion-item">
+                <span class="portion-icon">🥦</span>
+                <div class="portion-info">
+                  <h5>Vegetables</h5>
+                  <p>Fill half your plate with colorful vegetables</p>
+                  <span class="portion-size">2-3 cups per day</span>
+                </div>
+              </div>
+              <div class="portion-item">
+                <span class="portion-icon">🍚</span>
+                <div class="portion-info">
+                  <h5>Whole Grains</h5>
+                  <p>Choose whole grains over refined grains</p>
+                  <span class="portion-size">6-8 ounces per day</span>
+                </div>
+              </div>
+              <div class="portion-item">
+                <span class="portion-icon">🥩</span>
+                <div class="portion-info">
+                  <h5>Lean Protein</h5>
+                  <p>Palm-sized portion, 3 times per day</p>
+                  <span class="portion-size">5-6 ounces per day</span>
+                </div>
+              </div>
+              <div class="portion-item">
+                <span class="portion-icon">🥑</span>
+                <div class="portion-info">
+                  <h5>Healthy Fats</h5>
+                  <p>Thumb-sized portion with meals</p>
+                  <span class="portion-size">2-3 tablespoons per day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="guideline-category">
+            <h4>🚫 Foods to Limit or Avoid</h4>
+            <div class="avoid-list">
+              <div class="avoid-item">
+                <span class="avoid-icon">🍬</span>
+                <div class="avoid-details">
+                  <h5>Processed Meats</h5>
+                  <p>Bacon, sausage, hot dogs, deli meats</p>
+                  <span class="avoid-reason">High in sodium, nitrates, and saturated fats</span>
+                </div>
+              </div>
+              <div class="avoid-item">
+                <span class="avoid-icon">🥤</span>
+                <div class="avoid-details">
+                  <h5>Sugary Beverages</h5>
+                  <p>Soda, energy drinks, sweet teas, fruit juices</p>
+                  <span class="avoid-reason">Empty calories, blood sugar spikes, weight gain</span>
+                </div>
+              </div>
+              <div class="avoid-item">
+                <span class="avoid-icon">🍟</span>
+                <div class="avoid-details">
+                  <h5>Refined Carbs</h5>
+                  <p>White bread, pastries, white rice, sugary cereals</p>
+                  <span class="avoid-reason">Rapid blood sugar changes, low nutritional value</span>
+                </div>
+              </div>
+              <div class="avoid-item">
+                <span class="avoid-icon">🧈</span>
+                <div class="avoid-details">
+                  <h5>Trans Fats</h5>
+                  <p>Fried foods, baked goods, processed snacks</p>
+                  <span class="avoid-reason">Increase inflammation, raise bad cholesterol</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meal Planning Tips -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">📅</div>
+          Smart Meal Planning Strategies
+        </h3>
+
+        <div class="meal-planning">
+          <div class="planning-section">
+            <h4>🌅 Breakfast Ideas</h4>
+            <div class="meal-suggestions">
+              <div class="meal-suggestion">
+                <h5>Overnight Oats</h5>
+                <p>Oats + chia seeds + Greek yogurt + berries + nuts</p>
+                <span class="meal-benefits">High fiber, protein, and antioxidants</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Eggs & Avocado Toast</h5>
+                <p>Whole grain toast + mashed avocado + poached eggs</p>
+                <span class="meal-benefits">Healthy fats, protein, and complex carbs</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Smoothie Bowl</h5>
+                <p>Banana + spinach + protein powder + almond butter</p>
+                <span class="meal-benefits">Quick, nutritious, and customizable</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="planning-section">
+            <h4>☀️ Lunch Ideas</h4>
+            <div class="meal-suggestions">
+              <div class="meal-suggestion">
+                <h5>Quinoa Buddha Bowl</h5>
+                <p>Quinoa + roasted vegetables + chickpeas + tahini dressing</p>
+                <span class="meal-benefits">Complete protein, fiber-rich, plant-based</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Grilled Chicken Salad</h5>
+                <p>Mixed greens + grilled chicken + vegetables + vinaigrette</p>
+                <span class="meal-benefits">Lean protein, vitamins, healthy fats</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Whole Grain Wrap</h5>
+                <p>Whole wheat wrap + hummus + vegetables + grilled chicken</p>
+                <span class="meal-benefits">Balanced macros, portable, filling</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="planning-section">
+            <h4>🌙 Dinner Ideas</h4>
+            <div class="meal-suggestions">
+              <div class="meal-suggestion">
+                <h5>Baked Salmon</h5>
+                <p>Salmon + roasted vegetables + brown rice + lemon herbs</p>
+                <span class="meal-benefits">Omega-3s, lean protein, complex carbs</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Stir-Fry Vegetables</h5>
+                <p>Colorful vegetables + tofu + brown rice + low-sodium sauce</p>
+                <span class="meal-benefits">Plant-based, antioxidant-rich, fiber-filled</span>
+              </div>
+              <div class="meal-suggestion">
+                <h5>Lean Turkey Chili</h5>
+                <p>Ground turkey + beans + tomatoes + vegetables + herbs</p>
+                <span class="meal-benefits">High protein, fiber, vitamins, minerals</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hydration & Wellness -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">💧</div>
+          Hydration & Beyond
+        </h3>
+
+        <div class="hydration-content">
+          <div class="hydration-info">
+            <h4>💧 Importance of Hydration</h4>
+            <ul class="hydration-facts">
+              <li><strong>Body Composition:</strong> 60% water, essential for all bodily functions</li>
+              <li><strong>Brain Function:</strong> Even mild dehydration can impair cognitive performance</li>
+              <li><strong>Digestion:</strong> Essential for nutrient absorption and waste removal</li>
+              <li><strong>Temperature Regulation:</strong> Sweating and cooling mechanisms</li>
+              <li><strong>Joint Health:</strong> Lubricates joints and protects cartilage</li>
+            </ul>
+          </div>
+
+          <div class="hydration-info">
+            <h4>🎯 Daily Hydration Goals</h4>
+            <ul class="hydration-facts">
+              <li><strong>General:</strong> 8 glasses (64 oz) daily as baseline</li>
+              <li><strong>Exercise:</strong> Add 1-2 glasses for every hour of activity</li>
+              <li><strong>Hot Weather:</strong> Increase intake to compensate for sweat loss</li>
+              <li><strong>Pregnancy:</strong> 10+ glasses daily for fetal development</li>
+              <li><strong>Signs of Adequate Hydration:</strong> Pale yellow urine, rarely thirsty</li>
+            </ul>
+          </div>
+
+          <div class="hydration-info">
+            <h4>🍵 Healthy Beverage Choices</h4>
+            <ul class="hydration-facts">
+              <li><strong>Water:</strong> Best choice - zero calories, pure hydration</li>
+              <li><strong>Herbal Tea:</strong> Antioxidant-rich, no caffeine</li>
+              <li><strong>Vegetable Juice:</strong> Nutrient-dense, watch sodium</li>
+              <li><strong>Green Tea:</strong> Metabolism boost, antioxidant benefits</li>
+              <li><strong>Limit:</strong> Sugary drinks, excessive caffeine, alcohol</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mindful Eating -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">🧘</div>
+          Mindful Eating Practices
+        </h3>
+
+        <div class="mindful-eating">
+          <div class="mindful-practice">
+            <h4>🎯 Core Principles</h4>
+            <div class="practice-list">
+              <div class="practice-item">
+                <span class="practice-icon">👂</span>
+                <div class="practice-details">
+                  <h5>Eat Slowly</h5>
+                  <p>Take 20+ minutes to finish meals. Your brain needs time to register fullness.</p>
+                </div>
+              </div>
+              <div class="practice-item">
+                <span class="practice-icon">🍽️</span>
+                <div class="practice-details">
+                  <h5>Use Smaller Plates</h5>
+                  <p>Research shows people eat 30% less when using smaller plates and bowls.</p>
+                </div>
+              </div>
+              <div class="practice-item">
+                <span class="practice-icon">🚫</span>
+                <div class="practice-details">
+                  <h5>No Distractions</h5>
+                  <p>Eat away from screens, TV, and phones. Focus on your food and company.</p>
+                </div>
+              </div>
+              <div class="practice-item">
+                <span class="practice-icon">😋</span>
+                <div class="practice-details">
+                  <h5>Savor Each Bite</h5>
+                  <p>Put your fork down between bites. Notice flavors, textures, and aromas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mindful-practice">
+            <h4>🛑 Stop When Satisfied</h4>
+            <div class="practice-tips">
+              <p><strong>Hunger Scale:</strong> Eat when moderately hungry (3-4), stop when satisfied (6-7)</p>
+              <p><strong>The 20-Minute Rule:</strong> Wait 20 minutes before getting seconds</p>
+              <p><strong>Portion Awareness:</strong> Start with smaller portions, get more if still hungry</p>
+              <p><strong>Emotional Eating:</strong> Ask if you're eating for hunger or emotions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reading Food Labels -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">🏷️</div>
+          Understanding Food Labels
+        </h3>
+
+        <div class="label-guide">
+          <div class="label-section">
+            <h4>📊 Serving Size Matters</h4>
+            <p>Check the serving size first! All other information is based on this amount. You might eat 2-3 servings without realizing it.</p>
+          </div>
+
+          <div class="label-section">
+            <h4>⚠️ Watch for Hidden Sugars</h4>
+            <p>Look for these in ingredient lists: sucrose, high fructose corn syrup, dextrose, maltose, fruit juice concentrate. Limit foods with sugar in the first 3 ingredients.</p>
+          </div>
+
+          <div class="label-section">
+            <h4>🧈 Sodium Content</h4>
+            <p>Daily value: 2,300mg for healthy adults, 1,500mg for those with high BP. Processed foods often contain excessive sodium.</p>
+          </div>
+
+          <div class="label-section">
+            <h4>🔍 Ingredient Order</h4>
+            <p>Ingredients are listed by weight. If sugar or unhealthy fats appear in the first 3 ingredients, it's not a healthy choice.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
-  <!-- Mobile Menu Button -->
-  <button class="mobile-menu-btn" id="mobileMenuBtn">
-    ☰
-  </button>
-
-  <!-- Bottom Navigation (Mobile) -->
-  <nav class="bottom-nav">
-    <div class="bottom-nav-items">
-      <a href="dashboard.html" class="bottom-nav-item" data-page="dashboard">
-        <span class="bottom-nav-icon">📊</span>
-        <span class="bottom-nav-label">Home</span>
-      </a>
-      <a href="yoga-tracker.html" class="bottom-nav-item" data-page="workout">
-        <span class="bottom-nav-icon">🏃</span>
-        <span class="bottom-nav-label">Workout</span>
-      </a>
-      <a href="diet-tracking.html" class="bottom-nav-item active" data-page="diet">
-        <span class="bottom-nav-icon">🥗</span>
-        <span class="bottom-nav-label">Diet</span>
-      </a>
-      <a href="analytics.html" class="bottom-nav-item" data-page="analytics">
-        <span class="bottom-nav-icon">📈</span>
-        <span class="bottom-nav-label">Analytics</span>
-      </a>
-      <a href="profile.html" class="bottom-nav-item" data-page="profile">
-        <span class="bottom-nav-icon">👤</span>
-        <span class="bottom-nav-label">Profile</span>
-      </a>
-    </div>
-  </nav>
-
-  <!-- Sidebar Overlay -->
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-
   <script>
     // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
     const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-    if (mobileMenuBtn && sidebar) {
-      mobileMenuBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-        if (sidebarOverlay) {
-          sidebarOverlay.classList.toggle('show');
-        }
-      });
+    hamburgerMenu.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      hamburgerMenu.classList.toggle('active');
+    });
 
-      if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', () => {
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !hamburgerMenu.contains(e.target)) {
           sidebar.classList.remove('active');
-          sidebarOverlay.classList.remove('show');
-        });
-      }
-
-      document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            sidebar.classList.remove('active');
-            if (sidebarOverlay) {
-              sidebarOverlay.classList.remove('show');
-            }
-          }
+          hamburgerMenu.classList.remove('active');
         }
-      });
-    }
+      }
+    });
 
     // Diet tracking variables
     let totalCalories = 1850;
@@ -1792,48 +1794,7 @@
 
       // Reset form
       document.getElementById('mealForm').reset();
-
-      // Show success notification
-      showToast('success', 'Meal Logged! 🍽️', `${foodItem} (${calories} calories) added to your daily log`);
-    }
-
-    // Toast notification system
-    function showToast(type, title, message) {
-      // Remove existing toast if any
-      const existingToast = document.querySelector('.toast-notification');
-      if (existingToast) {
-        existingToast.remove();
-      }
-
-      // Create toast element
-      const toast = document.createElement('div');
-      toast.className = `toast-notification toast-${type}`;
-
-      const icons = {
-        success: '✅',
-        error: '❌',
-        info: 'ℹ️'
-      };
-
-      toast.innerHTML = `
-        <div class="toast-icon">${icons[type] || icons.info}</div>
-        <div class="toast-content">
-          <div class="toast-title">${title}</div>
-          <div class="toast-message">${message}</div>
-        </div>
-        <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
-      `;
-
-      document.body.appendChild(toast);
-
-      // Trigger animation
-      setTimeout(() => toast.classList.add('show'), 10);
-
-      // Auto-remove after 4 seconds
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-      }, 4000);
+      alert('Meal logged successfully!');
     }
 
     // Water intake function
@@ -1843,278 +1804,8 @@
     }
 
     function saveMealLog() {
-      showToast('success', 'Meal Log Saved! 💾', 'Your daily meal log has been saved successfully');
+      alert('Meal log saved successfully!');
     }
-
-    // Quick Add Meal Function
-    function quickAddMeal(mealType) {
-      const mealNames = {
-        'breakfast': 'Quick Breakfast',
-        'lunch': 'Quick Lunch',
-        'dinner': 'Quick Dinner',
-        'snack': 'Quick Snack'
-      };
-
-      const mealDefaults = {
-        'breakfast': { calories: 350, protein: 15, carbs: 45, fats: 12 },
-        'lunch': { calories: 500, protein: 25, carbs: 55, fats: 18 },
-        'dinner': { calories: 600, protein: 30, carbs: 65, fats: 20 },
-        'snack': { calories: 200, protein: 5, carbs: 25, fats: 8 }
-      };
-
-      const defaults = mealDefaults[mealType];
-
-      // Fill form with defaults
-      document.getElementById('mealType').value = mealType;
-      document.getElementById('foodItem').value = mealNames[mealType];
-      document.getElementById('calories').value = defaults.calories;
-      document.getElementById('protein').value = defaults.protein;
-      document.getElementById('carbs').value = defaults.carbs;
-      document.getElementById('fats').value = defaults.fats;
-
-      // Show notification
-      showNotification(`Quick ${mealType.charAt(0).toUpperCase() + mealType.slice(1)} Added!`,
-                      `Review and adjust the details before logging.`);
-
-      // Scroll to form
-      document.getElementById('mealForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // Toggle Nutrition Details
-    function toggleNutritionDetails() {
-      const toggle = document.querySelector('.collapse-toggle');
-      const content = document.getElementById('nutritionDetailsContent');
-      const isExpanded = toggle.getAttribute('data-expanded') === 'true';
-
-      if (isExpanded) {
-        content.classList.remove('expanded');
-        toggle.setAttribute('data-expanded', 'false');
-      } else {
-        content.classList.add('expanded');
-        toggle.setAttribute('data-expanded', 'true');
-      }
-    }
-
-    // Load Recent Meals
-    function loadRecentMeals() {
-      const recentMeals = JSON.parse(localStorage.getItem('recentMeals')) || [];
-      const recentMealsList = document.getElementById('recentMealsList');
-
-      if (recentMeals.length === 0) {
-        recentMealsList.innerHTML = `
-          <div class="empty-state-meals">
-            <div class="empty-state-illustration">
-              <div class="illustration-icon">🍽️</div>
-              <div class="illustration-decoration">🥗</div>
-            </div>
-            <h4 class="empty-state-title">Start Your Nutrition Journey!</h4>
-            <p class="empty-state-description">Log your first meal to track calories, macros, and build healthy eating habits.</p>
-            <div class="empty-state-stats">
-              <div class="stat-item">
-                <div class="stat-number">📊</div>
-                <div class="stat-label">Track Calories</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-number">🎯</div>
-                <div class="stat-label">Hit Goals</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-number">🏆</div>
-                <div class="stat-label">Build Habits</div>
-              </div>
-            </div>
-            <button class="btn-primary cta-button" onclick="openMealModal()">
-              <span>➕</span>
-              <span>Log Your First Meal</span>
-            </button>
-          </div>
-        `;
-        return;
-      }
-
-      // Group by meal name and count frequency
-      const mealFrequency = {};
-      recentMeals.forEach(meal => {
-        const key = meal.name.toLowerCase();
-        if (!mealFrequency[key]) {
-          mealFrequency[key] = {
-            name: meal.name,
-            count: 0,
-            lastHad: meal.date,
-            calories: meal.calories,
-            protein: meal.protein,
-            carbs: meal.carbs,
-            fats: meal.fats
-          };
-        }
-        mealFrequency[key].count++;
-        if (new Date(meal.date) > new Date(mealFrequency[key].lastHad)) {
-          mealFrequency[key].lastHad = meal.date;
-        }
-      });
-
-      // Sort by frequency and get top 5
-      const sortedMeals = Object.values(mealFrequency)
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 5);
-
-      recentMealsList.innerHTML = sortedMeals.map(meal => `
-        <div class="recent-meal-item" onclick="autofillMeal('${meal.name}', ${meal.calories}, ${meal.protein}, ${meal.carbs}, ${meal.fats})">
-          <div class="meal-info">
-            <div class="meal-name">${meal.name}</div>
-            <div class="meal-meta">${meal.count}x this week • ${meal.calories} kcal</div>
-          </div>
-          <button class="btn-add">+ Add</button>
-        </div>
-      `).join('');
-    }
-
-    // Autofill Meal
-    function autofillMeal(name, calories, protein, carbs, fats) {
-      document.getElementById('foodItem').value = name;
-      document.getElementById('calories').value = calories;
-      document.getElementById('protein').value = protein || 0;
-      document.getElementById('carbs').value = carbs || 0;
-      document.getElementById('fats').value = fats || 0;
-
-      showNotification('Meal Autofilled! 🍽️', 'Review and adjust the details before logging.');
-
-      // Scroll to form
-      document.getElementById('mealForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // Check for Yesterday's Meal to Repeat
-    function checkYesterdayMeal() {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-
-      const yesterdayStr = yesterday.toISOString().split('T')[0];
-      const recentMeals = JSON.parse(localStorage.getItem('recentMeals')) || [];
-
-      const yesterdayMeals = recentMeals.filter(meal =>
-        meal.date.startsWith(yesterdayStr)
-      );
-
-      if (yesterdayMeals.length > 0) {
-        const breakfastMeal = yesterdayMeals.find(m => m.type === 'breakfast');
-        if (breakfastMeal) {
-          const repeatSection = document.getElementById('repeatMealSection');
-          const repeatText = document.getElementById('repeatMealText');
-
-          repeatText.textContent = `You had ${breakfastMeal.name} for breakfast yesterday (${breakfastMeal.calories} kcal)`;
-          repeatSection.style.display = 'block';
-
-          // Store meal data for repeat function
-          repeatSection.dataset.mealData = JSON.stringify(breakfastMeal);
-        }
-      }
-    }
-
-    // Repeat Yesterday's Meal
-    function repeatYesterdayMeal() {
-      const repeatSection = document.getElementById('repeatMealSection');
-      const mealData = JSON.parse(repeatSection.dataset.mealData);
-
-      if (mealData) {
-        autofillMeal(mealData.name, mealData.calories, mealData.protein, mealData.carbs, mealData.fats);
-        document.getElementById('mealType').value = mealData.type;
-        repeatSection.style.display = 'none';
-      }
-    }
-
-    // Show Notification
-    function showNotification(title, message) {
-      const toast = document.createElement('div');
-      toast.className = 'notification-toast';
-      toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: white;
-        padding: 16px 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        z-index: 2000;
-        animation: slideIn 0.3s ease;
-        max-width: 300px;
-      `;
-
-      toast.innerHTML = `
-        <div style="font-weight: 600; color: var(--dark); margin-bottom: 4px;">${title}</div>
-        <div style="font-size: 14px; color: var(--gray);">${message}</div>
-      `;
-
-      document.body.appendChild(toast);
-
-      setTimeout(() => {
-        toast.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
-    }
-
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      // Set active state for bottom navigation
-      const currentPage = window.location.pathname.split('/').pop() || 'diet-tracking.html';
-      const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
-
-      bottomNavItems.forEach(item => {
-        const itemPage = item.getAttribute('data-page');
-        const itemHref = item.getAttribute('href');
-
-        if (itemHref === currentPage || currentPage.includes(itemPage)) {
-          item.classList.add('active');
-        } else {
-          item.classList.remove('active');
-        }
-      });
-
-      loadRecentMeals();
-      checkYesterdayMeal();
-    });
-  </script>
-
-  <!-- Smart Notifications -->
-  <script src="js/smart-notifications.js"></script>
-
-
-
-      <div class="quick-action-item" onclick="quickAction('start-workout')">
-        <span class="quick-action-icon">🏋️</span>
-        <span class="quick-action-label">Workout</span>
-      </div>
-      <div class="quick-action-item" onclick="quickAction('add-water')">
-        <span class="quick-action-icon">💧</span>
-        <span class="quick-action-label">Add Water</span>
-      </div>
-      <div class="quick-action-item" onclick="quickAction('view-analytics')">
-        <span class="quick-action-icon">📊</span>
-        <span class="quick-action-label">Analytics</span>
-      </div>
-    </div>
-  </div>
-
-  <script>
-
-    // Quick actions
-    function showQuickActions() {
-      document.getElementById('quickActionsOverlay').classList.add('show');
-      document.getElementById('quickActionsModal').classList.add('show');
-    }
-
-    function hideQuickActions() {
-      document.getElementById('quickActionsOverlay').classList.remove('show');
-      document.getElementById('quickActionsModal').classList.remove('show');
-    }
-
-    function quickAction(action) {
-      hideQuickActions();
-      // Action is handled inline in the page
-    }
-
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-    });
   </script>
 </body>
 </html>

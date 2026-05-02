@@ -137,6 +137,48 @@
 
     /* Header */
     .header {
+    position: relative;
+    }
+
+    /* Hamburger Menu */
+    .hamburger-menu {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1002;
+      position: absolute;
+      left: 0;
+    }
+
+    .hamburger-menu span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--dark);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .header-content {
+      margin-left: 50px;
+      width: 100%;
+    }
+
+    /*
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -158,8 +200,8 @@
     /* Grid */
     .content-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
       margin-bottom: 30px;
     }
 
@@ -167,11 +209,21 @@
       grid-column: 1 / -1;
     }
 
+    .unified-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .unified-grid .full-width {
+      grid-column: 1 / -1;
+    }
+
     /* Cards */
     .card {
       background: white;
       border-radius: 24px;
-      padding: 16px;
+      padding: 28px;
       box-shadow: 0 4px 24px var(--shadow);
       transition: all 0.3s ease;
     }
@@ -205,7 +257,7 @@
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 16px;
       margin-bottom: 20px;
     }
 
@@ -311,83 +363,6 @@
       height: 100%;
       background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
       border-radius: 8px;
-      transition: width 0.5s ease;
-    }
-
-    /* Enhanced Progress Bar with Milestones */
-    .progress-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .progress-percentage {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--success);
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-      padding: 4px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .progress-bar-with-markers {
-      position: relative;
-      margin-top: 8px;
-    }
-
-    .progress-markers {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      position: relative;
-      padding: 0 4px;
-    }
-
-    .milestone-marker {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--gray);
-      text-align: center;
-      position: relative;
-      transition: all 0.3s ease;
-    }
-
-    .milestone-marker::before {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 4px;
-      background: var(--border);
-      border-radius: 1px;
-    }
-
-    .milestone-marker.achieved {
-      color: var(--success);
-      font-weight: 700;
-    }
-
-    .milestone-marker.achieved::before {
-      background: var(--success);
-      height: 6px;
-      width: 3px;
-    }
-
-    .milestone-marker.current {
-      color: var(--primary);
-      font-weight: 800;
-      transform: scale(1.1);
-    }
-
-    .milestone-marker.current::before {
-      background: var(--primary);
-      height: 8px;
-      width: 4px;
-      box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
-    }
       transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -450,130 +425,30 @@
       color: var(--primary);
     }
 
-    /* Mobile Bottom Navigation */
-    .bottom-nav {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      border-top: 1px solid var(--border);
-      box-shadow: 0 -4px 20px var(--shadow);
-      z-index: 1000;
-      padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-      backdrop-filter: blur(20px);
-      background: rgba(255, 255, 255, 0.95);
     }
 
-    .bottom-nav-items {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0 8px;
-    }
-
-    .bottom-nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 8px 12px;
-      text-decoration: none;
-      color: var(--gray);
-      transition: all 0.3s ease;
-      border-radius: 12px;
-      min-width: 60px;
-    }
-
-    .bottom-nav-item:hover {
-      background: rgba(99, 102, 241, 0.05);
-      color: var(--primary);
-    }
-
-    .bottom-nav-item.active {
-      color: var(--primary);
-      background: rgba(99, 102, 241, 0.1);
-    }
-
-    .bottom-nav-icon {
-      font-size: 24px;
-      line-height: 1;
-      margin-bottom: 2px;
-    }
-
-    .bottom-nav-label {
-      font-size: 11px;
-      font-weight: 500;
-      text-align: center;
-      line-height: 1.2;
-    }
-
-    .bottom-nav-item.active .bottom-nav-label {
-      font-weight: 600;
-    }
-
-    /* Add padding to main content to account for bottom nav on mobile */
-    @media (max-width: 768px) {
-      .main-content {
-        padding-bottom: 80px;
-      }
-    }
-
-    /* Mobile Menu */
-    .mobile-menu-btn {
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: white;
-      border: 2px solid var(--border);
-      color: var(--dark);
-      font-size: 20px;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-      z-index: 1001;
-      transition: transform 0.3s ease;
-    }
-
-    .mobile-menu-btn:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-
-    /* Sidebar Overlay for Mobile */
-    .sidebar-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .sidebar-overlay.show {
-      display: block;
-      opacity: 1;
+      transform: scale(1.1);
     }
 
     /* Responsive */
     @media (max-width: 1024px) {
       .content-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .unified-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
       .sidebar {
         transform: translateX(-100%);
+        width: 280px;
       }
 
       .sidebar.active {
@@ -582,283 +457,407 @@
 
       .main-content {
         margin-left: 0;
-        padding: 80px 14px 90px;
+        padding: 16px;
+        width: 100%;
       }
 
-      .mobile-menu-btn {
+      .hamburger-menu { display: block; }
+      .header-content {
+        margin-left: 0;
+      }
+      .mobile-menu-btn { display: none !important; }
         display: flex;
         align-items: center;
         justify-content: center;
       }
 
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .unified-grid {
+        grid-template-columns: 1fr;
+      }
+
       .form-grid {
         grid-template-columns: 1fr;
-        gap: 10px;
       }
 
       .header {
+    position: relative;
+    }
+
+    /* Hamburger Menu */
+    .hamburger-menu {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1002;
+      position: absolute;
+      left: 0;
+    }
+
+    .hamburger-menu span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--dark);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .header-content {
+      margin-left: 50px;
+      width: 100%;
+    }
+
+    /*
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 12px;
       }
 
       .page-title {
-        font-size: 18px;
+        font-size: 22px;
       }
 
-      .content-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
+      .page-subtitle {
+        font-size: 13px;
       }
 
       .card {
-        padding: 14px;
+        padding: 16px;
       }
 
       .card-title {
         font-size: 16px;
-        margin-bottom: 10px;
       }
 
-      /* Ensure no horizontal overflow on mobile */
-      body {
-        overflow-x: hidden;
+      .exercise-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
       }
 
-      .main-content {
-        overflow-x: hidden;
-        width: 100%;
-        max-width: 100%;
+      .exercise-card {
+        padding: 12px;
       }
 
-      * {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        -webkit-hyphens: auto;
-        -ms-hyphens: auto;
-        hyphens: auto;
-      }
-    }
-
-    /* Extra small mobile devices */
-    @media (max-width: 480px) {
-      .main-content {
-        padding: 70px 8px 90px !important;
+      .exercise-icon {
+        font-size: 24px;
       }
 
-      .card {
-        padding: 8px !important;
-        border-radius: 8px !important;
+      .exercise-name {
+        font-size: 13px;
       }
 
-      .card-title {
-        font-size: 13px !important;
-        margin-bottom: 6px !important;
-        line-height: 1.2 !important;
+      .exercise-count {
+        font-size: 11px;
       }
 
-      .form-input {
-        padding: 8px 10px !important;
-        font-size: 13px !important;
+      .workout-item {
+        padding: 12px;
       }
 
-      .submit-btn {
-        padding: 10px !important;
-        font-size: 13px !important;
-      }
-
-      .progress-percentage {
-        font-size: 10px !important;
-        padding: 2px 6px !important;
-      }
-
-      .milestone-marker {
-        font-size: 7px !important;
-      }
-
-      .form-group {
-        margin-bottom: 10px !important;
-      }
-
-      .form-label {
-        font-size: 12px !important;
-        margin-bottom: 4px !important;
-      }
-
-      .page-title {
-        font-size: 16px !important;
-      }
-
-      /* Fix progress bar */
-      .progress-bar {
-        height: 8px !important;
-      }
-
-      /* Fix all buttons */
-      button {
-        font-size: 11px !important;
-        padding: 6px 10px !important;
-      }
-
-      /* Fix inline styles */
-      [style*="padding: 20px"] {
-        padding: 8px !important;
-      }
-
-      [style*="padding: 28px"] {
-        padding: 8px !important;
-      }
-
-      [style*="font-size: 18px"] {
-        font-size: 13px !important;
-      }
-
-      [style*="gap: 20px"] {
-        gap: 6px !important;
-      }
-
-      /* Prevent text overflow */
-      * {
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-      }
-
-      body {
-        overflow-x: hidden !important;
-      }
-
-      .main-content {
-        overflow-x: hidden !important;
-        width: 100% !important;
-      }
-    }
-
-    /* Toast Notifications */
-    .toast-notification {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      min-width: 350px;
-      max-width: 450px;
-      background: white;
-      border-radius: 16px;
-      padding: 16px 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      z-index: 10000;
-      transform: translateX(120%);
-      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      border-left: 5px solid;
-    }
-
-    .toast-notification.show {
-      transform: translateX(0);
-    }
-
-    /* Mobile Toast Notifications */
-    @media (max-width: 480px) {
-      .toast-notification {
-        min-width: auto;
-        width: calc(100% - 40px);
-        max-width: none;
-        left: 20px;
-        right: 20px;
-        top: 80px;
-        padding: 14px 16px;
+      .workout-name {
         font-size: 14px;
       }
 
-      .toast-icon {
+      .workout-meta {
+        font-size: 12px;
+      }
+
+      .session-item {
+        padding: 12px;
+      }
+
+      .session-exercise {
+        font-size: 13px;
+      }
+
+      .session-duration {
+        font-size: 11px;
+      }
+
+      .stat-card {
+        padding: 12px;
+      }
+
+      .stat-value {
         font-size: 18px;
       }
 
-      .toast-message {
+      .stat-label {
+        font-size: 11px;
+      }
+
+      .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 12px;
+      }
+
+      .card {
+        padding: 12px;
+      }
+
+      .exercise-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .exercise-card {
+        padding: 10px;
+      }
+
+      .workout-item {
+        padding: 10px;
+      }
+
+      .session-item {
+        padding: 10px;
+      }
+
+      .stat-card {
+        padding: 10px;
+      }
+
+      .stat-value {
+        font-size: 16px;
+      }
+
+      .btn {
+        padding: 10px 16px;
         font-size: 13px;
       }
     }
 
-    .toast-success {
-      border-left-color: #10b981;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
+    /* Exercise Library */
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
 
-    .toast-error {
-      border-left-color: #ef4444;
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
+    .exercise-card {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
-    .toast-info {
-      border-left-color: #3b82f6;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(37, 99, 235, 0.05) 100%);
+    .exercise-card:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+      transform: translateY(-2px);
     }
 
-    .toast-icon {
-      font-size: 32px;
-      line-height: 1;
-      flex-shrink: 0;
+    .exercise-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
     }
 
-    .toast-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .toast-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1e293b;
+    .exercise-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
       margin-bottom: 4px;
     }
 
-    .toast-message {
+    .exercise-count {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* Workout Plans */
+    .workout-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .workout-item {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .workout-item:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .workout-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .workout-name {
       font-size: 14px;
-      color: #64748b;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .workout-duration {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 600;
+      background: rgba(99, 102, 241, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .workout-desc {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 12px;
+    }
+
+    .workout-btn {
+      width: 100%;
+      padding: 8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .workout-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Yoga Pose Guide */
+    .pose-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .pose-card {
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.08) 100%);
+      border-radius: 12px;
+      text-align: center;
+      border: 2px solid rgba(16, 185, 129, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .pose-card:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .pose-emoji {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .pose-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .pose-level {
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .pose-benefits {
+      font-size: 11px;
+      color: var(--gray);
       line-height: 1.4;
     }
 
-    .toast-close {
-      background: none;
-      border: none;
-      font-size: 18px;
-      color: #94a3b8;
-      cursor: pointer;
-      padding: 4px;
+    /* Fitness Challenges */
+    .challenge-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .challenge-item {
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+    }
+
+    .challenge-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .challenge-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .challenge-status {
+      font-size: 12px;
+      color: var(--success);
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .challenge-progress {
+      margin: 8px 0;
+    }
+
+    .challenge-bar {
+      height: 8px;
+      background: rgba(99, 102, 241, 0.1);
       border-radius: 4px;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
+      overflow: hidden;
     }
 
-    .toast-close:hover {
-      background: rgba(0, 0, 0, 0.05);
-      color: #64748b;
+    .challenge-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
     }
 
-    @media (max-width: 768px) {
-      .toast-notification {
-        top: 10px;
-        right: 10px;
-        left: 10px;
-        min-width: 0;
-        max-width: none;
-      }
-
-      /* Mobile milestone markers */
-      .milestone-marker {
-        font-size: 9px;
-      }
-
-      .progress-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-      }
-
-      .progress-percentage {
-        font-size: 12px;
-        padding: 3px 8px;
-      }
+    .challenge-desc {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 8px;
     }
   </style>
 </head>
@@ -913,19 +912,87 @@
   <main class="main-content">
     <!-- Header -->
     <header class="header">
-      <div>
+      <button class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="header-content">
         <h1 class="page-title">Yoga & Exercise 🧘</h1>
         <p class="page-subtitle">Track your yoga sessions, exercise routines, and fitness progress</p>
       </div>
     </header>
 
-    <!-- Recommended Workout Section -->
-    <div class="recommended-workout-section" id="recommendedWorkoutSection">
-      <!-- Will be populated by workout-recommender.js -->
-    </div>
-
     <!-- Content Grid -->
     <div class="content-grid">
+      <!-- Exercise Library -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">💪</div>
+          Exercise Library
+        </h3>
+
+        <div class="exercise-grid">
+          <div class="exercise-card">
+            <div class="exercise-icon">🏃</div>
+            <div class="exercise-name">Cardio</div>
+            <div class="exercise-count">12 exercises</div>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-icon">🏋️</div>
+            <div class="exercise-name">Strength</div>
+            <div class="exercise-count">15 exercises</div>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-icon">🤸</div>
+            <div class="exercise-name">Flexibility</div>
+            <div class="exercise-count">10 exercises</div>
+          </div>
+          <div class="exercise-card">
+            <div class="exercise-icon">🧘</div>
+            <div class="exercise-name">Balance</div>
+            <div class="exercise-count">8 exercises</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workout Plans -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">📋</div>
+          Workout Plans
+        </h3>
+
+        <div class="workout-list">
+          <div class="workout-item">
+            <div class="workout-header">
+              <span class="workout-name">🌅 Morning Starter</span>
+              <span class="workout-duration">15 min</span>
+            </div>
+            <div class="workout-desc">Quick energizing routine to start your day</div>
+            <button class="workout-btn">Start Plan</button>
+          </div>
+
+          <div class="workout-item">
+            <div class="workout-header">
+              <span class="workout-name">💪 Full Body Strength</span>
+              <span class="workout-duration">45 min</span>
+            </div>
+            <div class="workout-desc">Complete strength training workout</div>
+            <button class="workout-btn">Start Plan</button>
+          </div>
+
+          <div class="workout-item">
+            <div class="workout-header">
+              <span class="workout-name">🔥 Fat Burner</span>
+              <span class="workout-duration">30 min</span>
+            </div>
+            <div class="workout-desc">High-intensity cardio session</div>
+            <button class="workout-btn">Start Plan</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Yoga Session Form -->
       <div class="card">
         <h3 class="card-title">
@@ -1043,22 +1110,97 @@
         <div class="progress-item">
           <div class="progress-header">
             <span class="progress-label">🎯 Daily Goal</span>
-            <div class="progress-info">
-              <span class="progress-value" id="goalProgress">45/60 minutes</span>
-              <span class="progress-percentage" id="goalPercentage">75%</span>
-            </div>
+            <span class="progress-value" id="goalProgress">45/60 minutes</span>
           </div>
-          <div class="progress-bar-with-markers">
-            <div class="progress-markers">
-              <div class="milestone-marker" data-percent="0">0%</div>
-              <div class="milestone-marker" data-percent="25">25%</div>
-              <div class="milestone-marker" data-percent="50">50%</div>
-              <div class="milestone-marker" data-percent="75">75%</div>
-              <div class="milestone-marker" data-percent="100">100%</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 75%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Yoga Pose Guide -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">🧘</div>
+          Yoga Pose Guide
+        </h3>
+
+        <div class="pose-grid">
+          <div class="pose-card">
+            <div class="pose-emoji">🧘‍♀️</div>
+            <div class="pose-name">Mountain Pose</div>
+            <div class="pose-level">Beginner</div>
+            <div class="pose-benefits">Improves posture & balance</div>
+          </div>
+
+          <div class="pose-card">
+            <div class="pose-emoji">🙏</div>
+            <div class="pose-name">Tree Pose</div>
+            <div class="pose-level">Beginner</div>
+            <div class="pose-benefits">Builds focus & stability</div>
+          </div>
+
+          <div class="pose-card">
+            <div class="pose-emoji">🐕</div>
+            <div class="pose-name">Downward Dog</div>
+            <div class="pose-level">Intermediate</div>
+            <div class="pose-benefits">Stretches entire body</div>
+          </div>
+
+          <div class="pose-card">
+            <div class="pose-emoji">🧘‍♂️</div>
+            <div class="pose-name">Warrior Pose</div>
+            <div class="pose-level">Intermediate</div>
+            <div class="pose-benefits">Strengthens legs & core</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fitness Challenges -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">🏆</div>
+          Active Challenges
+        </h3>
+
+        <div class="challenge-list">
+          <div class="challenge-item">
+            <div class="challenge-header">
+              <span class="challenge-name">🔥 30-Day Yoga Challenge</span>
+              <span class="challenge-status">Day 7/30</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" id="goalProgressFill" style="width: 75%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" style="width: 23%;"></div>
+              </div>
             </div>
+            <div class="challenge-desc">Complete 15 min yoga daily</div>
+          </div>
+
+          <div class="challenge-item">
+            <div class="challenge-header">
+              <span class="challenge-name">💪 Strength Builder</span>
+              <span class="challenge-status">Day 12/21</span>
+            </div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" style="width: 57%;"></div>
+              </div>
+            </div>
+            <div class="challenge-desc">3 strength workouts per week</div>
+          </div>
+
+          <div class="challenge-item">
+            <div class="challenge-header">
+              <span class="challenge-name">🏃 Cardio King</span>
+              <span class="challenge-status">Day 5/14</span>
+            </div>
+            <div class="challenge-progress">
+              <div class="challenge-bar">
+                <div class="challenge-fill" style="width: 36%;"></div>
+              </div>
+            </div>
+            <div class="challenge-desc">30 min cardio, 5x per week</div>
           </div>
         </div>
       </div>
@@ -1102,47 +1244,29 @@
     </div>
   </main>
 
-  <!-- Mobile Menu Button -->
-  <button class="mobile-menu-btn" id="mobileMenuBtn">
-    ☰
-  </button>
-
-  <!-- Sidebar Overlay -->
-  <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
 
   <script>
     // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
     const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-    if (mobileMenuBtn && sidebar) {
-      mobileMenuBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-        if (sidebarOverlay) {
-          sidebarOverlay.classList.toggle('show');
-        }
-      });
+    hamburgerMenu.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      hamburgerMenu.classList.toggle('active');
+    });
+      sidebar.classList.toggle('active');
+    });
 
-      if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', () => {
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !hamburgerMenu.contains(e.target)) {
           sidebar.classList.remove('active');
-          sidebarOverlay.classList.remove('show');
-        });
-      }
-
-      document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            sidebar.classList.remove('active');
-            if (sidebarOverlay) {
-              sidebarOverlay.classList.remove('show');
-            }
-          }
+          hamburgerMenu.classList.remove('active');
         }
-      });
-    }
+          sidebar.classList.remove('active');
+        }
+      }
+    });
 
     // Yoga session tracking
     let totalMinutes = 45;
@@ -1169,26 +1293,11 @@
       document.getElementById('caloriesBurned').textContent = caloriesBurned;
       document.getElementById('goalProgress').textContent = `${totalMinutes}/60 minutes`;
 
-      // Update progress bar with percentage and milestones
+      // Update progress bar
       const progressPercent = Math.min(100, (totalMinutes / 60) * 100);
-      const progressRounded = Math.round(progressPercent);
-
-      // Update percentage display
-      document.getElementById('goalPercentage').textContent = progressRounded + '%';
-
-      // Update progress bar width
-      document.getElementById('goalProgressFill').style.width = progressPercent + '%';
-
-      // Update milestone markers
-      updateMilestoneMarkers(progressRounded);
+      document.querySelector('.progress-fill').style.width = progressPercent + '%';
 
       // Add to session list
-      const sessionList = document.getElementById('sessionList');
-
-      // Update milestone markers
-      updateMilestoneMarkers(Math.round(progressPercent));
-
-      const routineIcons = {
       const sessionList = document.getElementById('sessionList');
       const routineIcons = {
         morning: '🌅',
@@ -1229,68 +1338,7 @@
 
       // Reset form
       document.getElementById('yogaForm').reset();
-
-      // Show success notification
-      showToast('success', 'Yoga Session Logged! 🧘', `${duration} minutes of ${routineType.replace('_', ' ')} completed successfully`);
-    }
-
-    // Update milestone markers based on progress
-    function updateMilestoneMarkers(progressPercent) {
-      const markers = document.querySelectorAll('.milestone-marker');
-
-      markers.forEach(marker => {
-        const milestonePercent = parseInt(marker.getAttribute('data-percent'));
-
-        // Remove all existing classes
-        marker.classList.remove('achieved', 'current');
-
-        // Add appropriate class based on progress
-        if (progressPercent >= milestonePercent) {
-          marker.classList.add('achieved');
-        } else if (progressPercent >= milestonePercent - 10) {
-          // Highlight the milestone user is approaching
-          marker.classList.add('current');
-        }
-      });
-    }
-
-    // Toast notification system
-    function showToast(type, title, message) {
-      // Remove existing toast if any
-      const existingToast = document.querySelector('.toast-notification');
-      if (existingToast) {
-        existingToast.remove();
-      }
-
-      // Create toast element
-      const toast = document.createElement('div');
-      toast.className = `toast-notification toast-${type}`;
-
-      const icons = {
-        success: '✅',
-        error: '❌',
-        info: 'ℹ️'
-      };
-
-      toast.innerHTML = `
-        <div class="toast-icon">${icons[type] || icons.info}</div>
-        <div class="toast-content">
-          <div class="toast-title">${title}</div>
-          <div class="toast-message">${message}</div>
-        </div>
-        <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
-      `;
-
-      document.body.appendChild(toast);
-
-      // Trigger animation
-      setTimeout(() => toast.classList.add('show'), 10);
-
-      // Auto-remove after 4 seconds
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-      }, 4000);
+      alert('Yoga session logged successfully!');
     }
 
     // Timer functionality
@@ -1336,100 +1384,6 @@
       document.getElementById('timerDisplay').textContent =
         String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
     }
-  </script>
-
-  <!-- Workout Recommender System -->
-  <script src="js/workout-recommender.js"></script>
-
-  <!-- Script to initialize recommended workout -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Render recommended workout
-      const recommendedSection = document.getElementById('recommendedWorkoutSection');
-      if (recommendedSection && workoutRecommender) {
-        recommendedSection.innerHTML = workoutRecommender.renderRecommendedWorkout();
-      }
-    });
-
-    function startRecommendedWorkout(type) {
-      alert(`Starting ${type} workout! This would open a detailed workout guide.`);
-      // Log the workout
-      if (workoutRecommender) {
-        workoutRecommender.completeWorkout(type, 20);
-      }
-    }
-
-    function showAlternativeWorkouts() {
-      alert('Here you would see alternative workout options to choose from.');
-    }
-  </script>
-
-
-
-      <div class="quick-action-item" onclick="quickAction('start-workout')">
-        <span class="quick-action-icon">🏋️</span>
-        <span class="quick-action-label">Workout</span>
-      </div>
-      <div class="quick-action-item" onclick="quickAction('add-water')">
-        <span class="quick-action-icon">💧</span>
-        <span class="quick-action-label">Add Water</span>
-      </div>
-      <div class="quick-action-item" onclick="quickAction('view-analytics')">
-        <span class="quick-action-icon">📊</span>
-        <span class="quick-action-label">Analytics</span>
-      </div>
-    </div>
-  </div>
-
-  <script>
-
-    // Quick actions
-    function showQuickActions() {
-      document.getElementById('quickActionsOverlay').classList.add('show');
-      document.getElementById('quickActionsModal').classList.add('show');
-    }
-
-    function hideQuickActions() {
-      document.getElementById('quickActionsOverlay').classList.remove('show');
-      document.getElementById('quickActionsModal').classList.remove('show');
-    }
-
-    function quickAction(action) {
-      hideQuickActions();
-      switch(action) {
-        case 'log-meal':
-          window.location.href = 'diet-tracking.html';
-          break;
-        case 'start-workout':
-          // Already on workout page
-          break;
-        case 'add-water':
-          if (typeof addWaterGlass === 'function') {
-            addWaterGlass();
-          } else {
-            alert('Water added! 💧');
-          }
-          break;
-        case 'view-analytics':
-          window.location.href = 'analytics.html';
-          break;
-      }
-    }
-
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      // Initialize milestone markers based on current progress
-      const initialProgress = Math.min(100, (totalMinutes / 60) * 100);
-      const initialPercent = Math.round(initialProgress);
-
-      // Update percentage display
-      if (document.getElementById('goalPercentage')) {
-        document.getElementById('goalPercentage').textContent = initialPercent + '%';
-      }
-
-      // Initialize milestone markers
-      updateMilestoneMarkers(initialPercent);
-    });
   </script>
 </body>
 </html>

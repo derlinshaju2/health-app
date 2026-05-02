@@ -1,524 +1,2381 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics - HealthAI</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Analytics - HealthAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            min-height: 100vh;
-            color: #1e293b;
-            display: flex;
-        }
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #8b5cf6;
+      --accent: #ec4899;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --border: #e2e8f0;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --shadow-lg: rgba(0, 0, 0, 0.12);
+    }
 
-        .sidebar {
-            width: 280px;
-            background: white;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            padding: 30px 20px;
-            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
-            z-index: 1000;
-            overflow-y: auto;
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+      min-height: 100vh;
+      color: var(--dark);
+      display: flex;
+      overflow-x: hidden;
+    }
 
-        .sidebar-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 40px;
-            padding: 0 10px;
-        }
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 30px 20px;
+      box-shadow: 4px 0 24px var(--shadow);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+    }
 
-        .sidebar-logo-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      padding: 0 10px;
+    }
 
-        .sidebar-logo-text {
-            font-size: 20px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .sidebar-logo-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
 
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
-            color: #1e293b;
-            text-decoration: none;
-            border-radius: 14px;
-            margin-bottom: 6px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 15px;
-        }
+    .sidebar-logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .nav-link:hover {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-            color: #6366f1;
-            transform: translateX(4px);
-        }
+    .nav-section {
+      margin-bottom: 30px;
+    }
 
-        .nav-link.active {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
+    .nav-section-title {
+      font-size: 11px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      padding: 0 10px;
+    }
 
-        .main-content {
-            margin-left: 280px;
-            flex: 1;
-            padding: 30px;
-            min-height: 100vh;
-        }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 14px;
+      margin-bottom: 6px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 15px;
+    }
 
-        .header {
-            margin-bottom: 30px;
-        }
+    .nav-link:hover {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      color: var(--primary);
+      transform: translateX(4px);
+    }
 
-        .page-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1e293b;
-        }
+    .nav-link.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
 
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 16px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-            margin-bottom: 24px;
-        }
+    .nav-link-icon {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
 
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    /* Main Content */
+    .main-content {
+      margin-left: 280px;
+      flex: 1;
+      padding: 30px;
+      min-height: 100vh;
+    }
 
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-        }
+    /* Header */
+    .header {
+    position: relative;
+    }
 
-        .chart-container canvas {
-            display: block !important;
-            width: 100% !important;
-            height: 100% !important;
-        }
+    /* Hamburger Menu */
+    .hamburger-menu {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1002;
+      position: absolute;
+      left: 0;
+    }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
+    .hamburger-menu span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--dark);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
 
-        .stat-card {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-        }
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
 
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: #6366f1;
-            margin-bottom: 4px;
-        }
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
 
-        .stat-label {
-            font-size: 12px;
-            color: #64748b;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
+    .header-content {
+      margin-left: 50px;
+      width: 100%;
+    }
 
-            .main-content {
-                margin-left: 0;
-                padding: 80px 14px 90px;
-            }
+    /*
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
 
-            .chart-container {
-                height: 250px;
-            }
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--dark);
+    }
 
-            .card {
-                padding: 14px;
-                border-radius: 12px;
-            }
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
 
-            .page-title {
-                font-size: 18px;
-            }
+    .header-actions {
+      display: flex;
+      gap: 15px;
+    }
 
-            .page-subtitle {
-                font-size: 12px;
-            }
+    .header-btn {
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      background: white;
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-            /* Ensure no horizontal overflow */
-            body {
-                overflow-x: hidden;
-            }
+    .header-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
 
-            .main-content {
-                overflow-x: hidden;
-                width: 100%;
-                max-width: 100%;
-            }
+    .header-btn.primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+    }
 
-            * {
-                word-wrap: break-word;
-                overflow-wrap: break-word;
-                -webkit-hyphens: auto;
-                -ms-hyphens: auto;
-                hyphens: auto;
-            }
-        }
+    .header-btn.primary:hover {
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+    }
 
-        @media (max-width: 480px) {
-            .main-content {
-                padding: 70px 8px 90px !important;
-            }
+    /* Unified Grid System */
+    .content-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+    }
 
-            .card {
-                padding: 8px !important;
-            }
+    .full-width {
+      width: 100%;
+    }
 
-            .page-title {
-                font-size: 14px !important;
-            }
+    .half-width {
+      width: 100%;
+    }
 
-            .chart-container {
-                height: 180px !important;
-            }
+    .unified-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
 
-            .stat-value {
-                font-size: 18px !important;
-            }
+    .unified-grid .full-width {
+      width: 100%;
+    }
 
-            .stat-label {
-                font-size: 10px !important;
-            }
+    /* Cards */
+    .card {
+      background: transparent;
+      border-radius: 0;
+      padding: 20px 0;
+      box-shadow: none;
+      transition: none;
+      border-bottom: 1px solid var(--border);
+    }
 
-            .page-subtitle {
-                font-size: 11px !important;
-            }
+    .card:last-child {
+      border-bottom: none;
+    }
 
-            /* Fix all buttons */
-            button {
-                font-size: 11px !important;
-                padding: 6px 10px !important;
-            }
+    .card:hover {
+      box-shadow: none;
+      transform: none;
+    }
 
-            /* Fix inline styles */
-            [style*="padding: 20px"] {
-                padding: 8px !important;
-            }
+    .card-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 2px solid var(--primary);
+    }
 
-            [style*="padding: 24px"] {
-                padding: 8px !important;
-            }
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+    }
 
-            [style*="gap: 16px"] {
-                gap: 6px !important;
-            }
+    /* Stat Cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
 
-            [style*="gap: 20px"] {
-                gap: 6px !important;
-            }
+    .stat-card {
+      background: transparent;
+      border-radius: 0;
+      padding: 16px;
+      text-align: center;
+      transition: none;
+      border-bottom: 1px solid var(--border);
+    }
 
-            /* Prevent text overflow */
-            * {
-                word-wrap: break-word !important;
-                overflow-wrap: break-word !important;
-            }
+    .stat-card:hover {
+      transform: none;
+      box-shadow: none;
+      background: rgba(99, 102, 241, 0.05);
+    }
 
-            body {
-                overflow-x: hidden !important;
-            }
+    .stat-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
 
-            .main-content {
-                overflow-x: hidden !important;
-                width: 100% !important;
-            }
-        }
-    </style>
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-change {
+      font-size: 12px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    .stat-change.positive {
+      color: var(--success);
+    }
+
+    .stat-change.negative {
+      color: var(--danger);
+    }
+
+    /* Chart Container */
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin-bottom: 20px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      max-width: 100%;
+    }
+
+    /* Time Range Selector */
+    .time-range-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+
+    .time-range-btn {
+      padding: 8px 16px;
+      border: 2px solid var(--border);
+      background: white;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .time-range-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .time-range-btn.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+    }
+
+    /* Progress List */
+    .progress-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .progress-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .progress-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .progress-content {
+      flex: 1;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .progress-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .progress-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    /* Health Score */
+    .health-score-container {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .health-score {
+      font-size: 72px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .health-score-label {
+      font-size: 14px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .health-score-description {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+
+    /* Activity List */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--light);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .activity-item:hover {
+      background: white;
+      box-shadow: 0 4px 12px var(--shadow);
+      transform: translateX(4px);
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 2px;
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .activity-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    }
+
+      transform: scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .content-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .half-width {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        overflow-x: hidden;
+        width: 100%;
+      }
+
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+        position: fixed;
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0 !important;
+        padding: 12px;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .hamburger-menu { display: block; }
+      .header-content {
+        margin-left: 0;
+      }
+      .mobile-menu-btn { display: none !important; }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .header {
+    position: relative;
+    }
+
+    /* Hamburger Menu */
+    .hamburger-menu {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1002;
+      position: absolute;
+      left: 0;
+    }
+
+    .hamburger-menu span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--dark);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .header-content {
+      margin-left: 50px;
+      width: 100%;
+    }
+
+    /*
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .page-title {
+        font-size: 18px;
+        line-height: 1.3;
+      }
+
+      .page-subtitle {
+        font-size: 12px;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .header-btn {
+        padding: 8px 12px;
+        font-size: 11px;
+        flex: 1;
+        min-width: 100px;
+      }
+
+      .card {
+        padding: 12px;
+        margin-bottom: 12px;
+        overflow: hidden;
+      }
+
+      .card-title {
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+
+      .card-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+      }
+
+      .chart-container {
+        height: 200px;
+        margin: 8px 0;
+      }
+
+      .time-range-selector {
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+
+      .time-range-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+
+      .insights-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .insight-card {
+        padding: 12px;
+      }
+
+      .insight-title {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      .insight-description {
+        font-size: 11px;
+        line-height: 1.4;
+      }
+
+      .achievements-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .achievement-card {
+        padding: 10px;
+      }
+
+      .achievement-icon {
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+
+      .achievement-title {
+        font-size: 12px;
+      }
+
+      .achievement-description {
+        font-size: 10px;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 10px;
+      }
+
+      .stat-value {
+        font-size: 16px;
+      }
+
+      .stat-label {
+        font-size: 10px;
+      }
+
+      .export-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .export-btn {
+        padding: 10px 14px;
+        font-size: 12px;
+      }
+
+      .health-score-container {
+        transform: scale(0.8);
+      }
+
+      .health-score {
+        font-size: 32px;
+      }
+
+      .daily-metrics {
+        gap: 6px;
+      }
+
+      .day-label {
+        font-size: 9px;
+      }
+
+      .metric-bars {
+        height: 60px;
+      }
+
+      .score-overview {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .score-circle {
+        width: 120px;
+        height: 120px;
+      }
+
+      .score-value {
+        font-size: 36px;
+      }
+
+      .achievement {
+        flex-direction: column;
+        text-align: center;
+        padding: 12px;
+      }
+
+      .achievement-icon {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 8px;
+      }
+
+      .page-title {
+        font-size: 16px;
+      }
+
+      .card {
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      .card-title {
+        font-size: 13px;
+      }
+
+      .chart-container {
+        height: 180px;
+      }
+
+      .header-btn {
+        padding: 6px 10px;
+        font-size: 10px;
+      }
+
+      .time-range-btn {
+        padding: 5px 8px;
+        font-size: 10px;
+      }
+
+      .insight-card {
+        padding: 10px;
+      }
+
+      .achievement-card {
+        padding: 8px;
+      }
+
+      .stat-card {
+        padding: 8px;
+      }
+
+      .stat-value {
+        font-size: 14px;
+      }
+
+      .stat-label {
+        font-size: 9px;
+      }
+
+      .health-score {
+        font-size: 28px;
+      }
+
+      .score-value {
+        font-size: 32px;
+      }
+
+      .score-circle {
+        width: 100px;
+        height: 100px;
+      }
+
+      .daily-metrics {
+        gap: 4px;
+      }
+
+      .day-label {
+        font-size: 8px;
+      }
+
+      .metric-bars {
+        height: 50px;
+      }
+
+      .metric-bar-short {
+        width: 6px;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
+
+    /* AI Insights Section */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .insight-card {
+      background: transparent;
+      border-radius: 0;
+      padding: 20px 0;
+      border-left: none;
+      border-bottom: 1px solid var(--border);
+      transition: none;
+    }
+
+    .insight-card:hover {
+      transform: none;
+      box-shadow: none;
+      background: rgba(99, 102, 241, 0.03);
+    }
+
+    .insight-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .insight-content p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .insight-metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .insight-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .insight-time,
+    .insight-action,
+    .insight-score,
+    .insight-trend {
+      font-size: 11px;
+      color: var(--gray);
+      font-weight: 600;
+    }
+
+    /* Health Score Dashboard */
+    .health-score-dashboard {
+      margin-top: 20px;
+    }
+
+    .score-overview {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .main-score {
+      flex-shrink: 0;
+    }
+
+    .score-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+    }
+
+    .score-value {
+      font-size: 56px;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+    }
+
+    .score-label {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .score-breakdown {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .score-breakdown h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .score-components {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .score-component {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .component-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .component-score {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+    }
+
+    /* Achievements Section */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .achievement {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-radius: 0;
+      transition: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .achievement.earned {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .achievement.locked {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      opacity: 0.6;
+    }
+
+    .achievement.earned:hover {
+      transform: none;
+      box-shadow: none;
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .achievement-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .achievement.locked .achievement-icon {
+      opacity: 0.5;
+    }
+
+    .achievement-info {
+      flex: 1;
+    }
+
+    .achievement-info h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .achievement-info p {
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 6px;
+    }
+
+    .achievement-date,
+    .achievement-progress {
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .achievement.locked .achievement-progress {
+      color: var(--warning);
+    }
+
+    /* Weekly Summary Section */
+    .weekly-summary {
+      margin-top: 20px;
+    }
+
+    .summary-overview {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .summary-stat {
+      background: var(--light);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .summary-stat h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .summary-highlights,
+    .summary-lowlights {
+      list-style: none;
+      padding: 0;
+    }
+
+    .summary-highlights li {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 8px;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .summary-highlights li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .summary-lowlights li {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 8px;
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .summary-lowlights li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--warning);
+      font-weight: 700;
+    }
+
+    .weekly-charts h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .daily-metrics {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .day-metric {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .day-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray);
+      text-transform: uppercase;
+    }
+
+    .metric-bars {
+      display: flex;
+      gap: 4px;
+      align-items: flex-end;
+      height: 100px;
+    }
+
+    .metric-bar-short {
+      width: 12px;
+      border-radius: 4px;
+      transition: height 0.3s ease;
+    }
+
+    .metric-bar-short:hover {
+      transform: scaleY(1.1);
+    }
+
+    .metric-legend {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 600;
+    }
+
+    /* Health Tips Section */
+    .health-tips {
+      margin-top: 20px;
+    }
+
+    .tip-category {
+      background: transparent;
+      border-radius: 0;
+      padding: 20px 0;
+      margin-bottom: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tip-category:last-child {
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    .tip-category h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tips-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tips-list li {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 10px;
+      padding-left: 24px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .tips-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .tips-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Export Options Section */
+    .export-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .export-item {
+      background: transparent;
+      border-radius: 0;
+      padding: 20px 0;
+      text-align: left;
+      transition: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .export-item:hover {
+      transform: none;
+      box-shadow: none;
+      background: rgba(99, 102, 241, 0.03);
+    }
+
+    .export-item h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .export-item p {
+      font-size: 13px;
+      color: var(--gray);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .export-btn {
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .export-btn:hover {
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile Responsive for New Sections */
+    @media (max-width: 768px) {
+      .unified-grid,
+      .insights-grid,
+      .achievements-grid,
+      .export-options,
+      .summary-overview {
+        grid-template-columns: 1fr;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .daily-metrics {
+        grid-template-columns: repeat(7, 1fr);
+      }
+
+      .score-overview {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .score-circle {
+        width: 150px;
+        height: 150px;
+      }
+
+      .score-value {
+        font-size: 48px;
+      }
+
+      .achievement {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .achievement-icon {
+        width: 64px;
+        height: 64px;
+      }
+
+      .metric-bars {
+        height: 80px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .daily-metrics {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+      }
+
+      .day-label {
+        font-size: 10px;
+      }
+
+      .metric-bars {
+        height: 60px;
+      }
+
+      .metric-bar-short {
+        width: 8px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="sidebar-logo-icon">🏥</div>
-            <span class="sidebar-logo-text">HealthAI</span>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🏥</div>
+      <span class="sidebar-logo-text">HealthAI</span>
+    </div>
+
+    <nav>
+      <div class="nav-section">
+        <div class="nav-section-title">Main Menu</div>
+        <a href="dashboard-main.html" class="nav-link">
+          <span class="nav-link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="disease-prediction.html" class="nav-link">
+          <span class="nav-link-icon">🔮</span>
+          <span>Disease Prediction</span>
+        </a>
+        <a href="diet-tracking.html" class="nav-link">
+          <span class="nav-link-icon">🥗</span>
+          <span>Diet & Nutrition</span>
+        </a>
+        <a href="bmi-calculator.html" class="nav-link">
+          <span class="nav-link-icon">⚖️</span>
+          <span>BMI Calculator</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Health & Fitness</div>
+        <a href="yoga-tracker.html" class="nav-link">
+          <span class="nav-link-icon">🧘</span>
+          <span>Yoga & Exercise</span>
+        </a>
+        <a href="analytics.html" class="nav-link active">
+          <span class="nav-link-icon">📈</span>
+          <span>Analytics</span>
+        </a>
+        <a href="profile.html" class="nav-link">
+          <span class="nav-link-icon">👤</span>
+          <span>Profile</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="header">
+      <button class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="header-content">
+        <h1 class="page-title">Health Analytics 📈</h1>
+        <p class="page-subtitle">Track your health trends and progress over time</p>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn" onclick="exportData('pdf')">
+          📄
+          <span>Export PDF</span>
+        </button>
+        <button class="header-btn primary" onclick="exportData('csv')">
+          📊
+          <span>Export CSV</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Health Score Overview -->
+    <div class="card full-width" style="margin-bottom: 24px;">
+      <h3 class="card-title">
+        <div class="card-icon">🎯</div>
+        Overall Health Score
+      </h3>
+      <div style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+        <div class="health-score-container">
+          <div class="health-score">85</div>
+          <div class="health-score-label">Excellent Health</div>
+          <div class="health-score-description">Based on your recent health metrics and activities</div>
         </div>
-
-        <nav>
-            <a href="dashboard.html" class="nav-link">
-                <span>📊</span>
-                <span>Dashboard</span>
-            </a>
-            <a href="analytics-simple.html" class="nav-link active">
-                <span>📈</span>
-                <span>Analytics</span>
-            </a>
-            <a href="profile.html" class="nav-link">
-                <span>👤</span>
-                <span>Profile</span>
-            </a>
-        </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="header">
-            <h1 class="page-title">Health Analytics 📈</h1>
-            <p style="color: #64748b; margin-top: 4px;">Track your health trends and progress over time</p>
+        <div style="flex: 1; min-width: 300px;">
+          <div class="time-range-selector">
+            <button class="time-range-btn active" onclick="updateTimeRange('week')">Week</button>
+            <button class="time-range-btn" onclick="updateTimeRange('month')">Month</button>
+            <button class="time-range-btn" onclick="updateTimeRange('quarter')">Quarter</button>
+            <button class="time-range-btn" onclick="updateTimeRange('year')">Year</button>
+          </div>
+          <div class="chart-container" style="height: 200px;">
+            <canvas id="healthScoreChart" width="400" height="200"></canvas>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Health Score Card -->
-        <div class="card">
-            <h3 class="card-title">
-                <span>🎯</span>
-                Overall Health Score
-            </h3>
-            <div class="chart-container">
-                <canvas id="healthScoreChart" width="400" height="300"></canvas>
+    <!-- Content Grid -->
+    <div class="content-grid">
+      <!-- Weight Trends Chart -->
+      <div class="card half-width">
+        <h3 class="card-title">
+          <div class="card-icon">⚖️</div>
+          Weight Trends
+        </h3>
+        <div class="chart-container">
+          <canvas id="weightChart" width="400" height="300"></canvas>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 16px;">
+          <div>
+            <div style="font-size: 12px; color: var(--gray);">Current Weight</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--primary);">72.5 kg</div>
+          </div>
+          <div>
+            <div style="font-size: 12px; color: var(--gray);">Goal Weight</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--success);">70 kg</div>
+          </div>
+          <div>
+            <div style="font-size: 12px; color: var(--gray);">Progress</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--warning);">-2.5 kg</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calorie Trends Chart -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">🔥</div>
+          Calorie Trends
+        </h3>
+        <div class="chart-container">
+          <canvas id="calorieChart" width="400" height="300"></canvas>
+        </div>
+      </div>
+
+      <!-- Key Statistics -->
+      <div class="card">
+        <h3 class="card-title">
+          <div class="card-icon">📊</div>
+          Key Statistics
+        </h3>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-icon">🏃</div>
+            <div class="stat-value">8,547</div>
+            <div class="stat-label">Daily Steps</div>
+            <div class="stat-change positive">↑ 12% vs last week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">😴</div>
+            <div class="stat-value">7.2h</div>
+            <div class="stat-label">Avg Sleep</div>
+            <div class="stat-change positive">↑ 5% vs last week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">💧</div>
+            <div class="stat-value">2.1L</div>
+            <div class="stat-label">Water Intake</div>
+            <div class="stat-change positive">↑ 8% vs last week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🧘</div>
+            <div class="stat-value">5</div>
+            <div class="stat-label">Yoga Sessions</div>
+            <div class="stat-change positive">↑ 2 vs last week</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Towards Goals -->
+      <div class="card half-width">
+        <h3 class="card-title">
+          <div class="card-icon">🎯</div>
+          Progress Towards Goals
+        </h3>
+        <div class="progress-list">
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">⚖️</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Weight Loss Goal</span>
+                <span class="progress-value">2.5/5 kg</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%;"></div>
+              </div>
             </div>
-        </div>
+          </div>
 
-        <!-- Weight Trends Card -->
-        <div class="card">
-            <h3 class="card-title">
-                <span>⚖️</span>
-                Weight Trends
-            </h3>
-            <div class="chart-container">
-                <canvas id="weightChart" width="400" height="300"></canvas>
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🏃</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Daily Steps Goal</span>
+                <span class="progress-value">8,547/10,000</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+              </div>
             </div>
-        </div>
+          </div>
 
-        <!-- Calorie Trends Card -->
-        <div class="card">
-            <h3 class="card-title">
-                <span>🔥</span>
-                Calorie Trends
-            </h3>
-            <div class="chart-container">
-                <canvas id="calorieChart" width="400" height="300"></canvas>
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">💧</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Water Intake Goal</span>
+                <span class="progress-value">2.1/3 L</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 70%; background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);"></div>
+              </div>
             </div>
-        </div>
+          </div>
 
-        <!-- Key Statistics -->
-        <div class="card">
-            <h3 class="card-title">
-                <span>📊</span>
-                Key Statistics
-            </h3>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">8,547</div>
-                    <div class="stat-label">Daily Steps</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">7.2h</div>
-                    <div class="stat-label">Avg Sleep</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">2.1L</div>
-                    <div class="stat-label">Water Intake</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">5</div>
-                    <div class="stat-label">Yoga Sessions</div>
-                </div>
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">🧘</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Weekly Exercise Goal</span>
+                <span class="progress-value">5/7 days</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 71%; background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%);"></div>
+              </div>
             </div>
+          </div>
+
+          <div class="progress-item">
+            <div class="progress-icon" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">😴</div>
+            <div class="progress-content">
+              <div class="progress-header">
+                <span class="progress-label">Sleep Goal</span>
+                <span class="progress-value">7.2/8 hours</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 90%; background: linear-gradient(90deg, #ec4899 0%, #db2777 100%);"></div>
+              </div>
+            </div>
+          </div>
         </div>
-    </main>
+      </div>
 
-    <script>
-        // Wait for page to load
-        console.log('Page loaded');
-        console.log('Chart.js available:', typeof Chart !== 'undefined');
+      <!-- Recent Activities -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">📋</div>
+          Recent Health Activities
+        </h3>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🏃</div>
+            <div class="activity-content">
+              <div class="activity-title">Completed Morning Yoga Session</div>
+              <div class="activity-time">Today, 6:30 AM • 45 minutes</div>
+            </div>
+            <div class="activity-value">+180 cal</div>
+          </div>
 
-        function initCharts() {
-            console.log('=== STARTING CHART INITIALIZATION ===');
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">💧</div>
+            <div class="activity-content">
+              <div class="activity-title">Reached Daily Water Goal</div>
+              <div class="activity-time">Today, 4:15 PM</div>
+            </div>
+            <div class="activity-value">3L ✓</div>
+          </div>
 
-            // Check if Chart.js is loaded
-            if (typeof Chart === 'undefined') {
-                console.error('Chart.js is NOT loaded!');
-                alert('Chart library is loading. Please refresh the page in a moment.');
-                return;
-            }
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">⚖️</div>
+            <div class="activity-content">
+              <div class="activity-title">Logged Weight</div>
+              <div class="activity-time">Today, 7:00 AM</div>
+            </div>
+            <div class="activity-value">72.5 kg</div>
+          </div>
 
-            console.log('✅ Chart.js is loaded');
-            console.log('Chart version:', Chart.version);
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">🥗</div>
+            <div class="activity-content">
+              <div class="activity-title">Logged Healthy Lunch</div>
+              <div class="activity-time">Today, 1:00 PM</div>
+            </div>
+            <div class="activity-value">550 kcal</div>
+          </div>
 
-            try {
-                // Health Score Chart
-                console.log('Creating health score chart...');
-                const healthScoreCtx = document.getElementById('healthScoreChart').getContext('2d');
-                const healthScoreChart = new Chart(healthScoreCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                        datasets: [{
-                            label: 'Health Score',
-                            data: [82, 84, 83, 85, 86, 84, 85],
-                            borderColor: '#6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                            fill: true,
-                            tension: 0.4,
-                            borderWidth: 3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                min: 70,
-                                max: 100
-                            }
-                        }
-                    }
-                });
-                console.log('✅ Health score chart created');
+          <div class="activity-item">
+            <div class="activity-icon" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">🔮</div>
+            <div class="activity-content">
+              <div class="activity-title">Health Risk Assessment Completed</div>
+              <div class="activity-time">Yesterday, 9:00 PM</div>
+            </div>
+            <div class="activity-value">Low Risk ✓</div>
+          </div>
+        </div>
+      </div>
 
-                // Weight Chart
-                console.log('Creating weight chart...');
-                const weightCtx = document.getElementById('weightChart').getContext('2d');
-                const weightChart = new Chart(weightCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                        datasets: [{
-                            label: 'Weight (kg)',
-                            data: [75, 74.5, 74, 73.2, 72.8, 72.5],
-                            borderColor: '#f59e0b',
-                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                            fill: true,
-                            tension: 0.4,
-                            borderWidth: 3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        }
-                    }
-                });
-                console.log('✅ Weight chart created');
+      <!-- Health Insights Section -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">💡</div>
+          AI-Powered Health Insights
+        </h3>
 
-                // Calorie Chart
-                console.log('Creating calorie chart...');
-                const calorieCtx = document.getElementById('calorieChart').getContext('2d');
-                const calorieChart = new Chart(calorieCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                        datasets: [{
-                            label: 'Calories',
-                            data: [1850, 2100, 1920, 2050, 1880, 2200, 1950],
-                            backgroundColor: [
-                                'rgba(99, 102, 241, 0.8)',
-                                'rgba(139, 92, 246, 0.8)',
-                                'rgba(236, 72, 153, 0.8)',
-                                'rgba(245, 158, 11, 0.8)',
-                                'rgba(16, 185, 129, 0.8)',
-                                'rgba(59, 130, 246, 0.8)',
-                                'rgba(239, 68, 68, 0.8)'
-                            ],
-                            borderRadius: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-                console.log('✅ Calorie chart created');
-                console.log('=== ALL CHARTS CREATED SUCCESSFULLY ===');
+        <div class="insights-grid">
+          <div class="insight-card">
+            <h4>🎯 Personalized Recommendations</h4>
+            <div class="insight-content">
+              <p>Based on your activity patterns, you're most active in the morning. Consider scheduling important meetings or workouts during your peak energy hours (8-10 AM).</p>
+            <div class="insight-metric">
+              <span class="insight-value">High Energy</span>
+              <span class="insight-time">8:00 AM - 10:00 AM</span>
+            </div>
+            </div>
+          </div>
 
-            } catch (error) {
-                console.error('❌ ERROR creating charts:', error);
-                alert('Error creating charts: ' + error.message);
-            }
+          <div class="insight-card">
+            <h4>🥗 Nutrition Analysis</h4>
+            <div class="insight-content">
+              <p>Your protein intake is optimal (85g daily), but consider increasing fiber-rich foods to improve digestion and sustained energy throughout the day.</p>
+              <div class="insight-metric">
+                <span class="insight-value">Great Job</span>
+                <span class="insight-action">Keep it up!</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-card">
+            <h4>😴 Sleep Optimization</h4>
+            <div class="insight-content">
+              <p>Your average sleep duration (7.2h) is excellent! To further improve sleep quality, try maintaining a consistent sleep schedule, even on weekends.</p>
+              <div class="insight-metric">
+                <span class="insight-value">Sleep Score</span>
+                <span class="insight-score">85/100</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-card">
+            <h4>🧘 Exercise Consistency</h4>
+            <div class="insight-content">
+              <p>You're doing great with 5 yoga sessions per week! To prevent plateau, consider adding 1-2 strength training sessions for muscle building.</p>
+              <div class="insight-metric">
+                <span class="insight-value">On Track</span>
+                <span class="insight-trend">↑ improving</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Score Dashboard -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">⭐</div>
+          Your Overall Health Score
+        </h3>
+
+        <div class="health-score-dashboard">
+          <div class="score-overview">
+            <div class="main-score">
+              <div class="score-circle">
+                <div class="score-value">87</div>
+                <div class="score-label">Excellent</div>
+              </div>
+            </div>
+            <div class="score-breakdown">
+              <h4>Score Components</h4>
+              <div class="score-components">
+                <div class="score-component">
+                  <span class="component-label">🏃 Physical Activity</span>
+                  <div class="component-score">
+                    <span class="score-bar-fill" style="width: 92%;">92/100</span>
+                  </div>
+                </div>
+                <div class="score-component">
+                  <span class="component-label">🥗 Nutrition</span>
+                  <div class="component-score">
+                    <span class="score-bar-fill" style="width: 85%;">85/100</span>
+                  </div>
+                </div>
+                <div class="score-component">
+                  <span class="component-label">😴 Sleep Quality</span>
+                  <div class="component-score">
+                    <span class="score-bar-fill" style="width: 88%;">88/100</span>
+                  </div>
+                </div>
+                <div class="score-component">
+                  <span class="component-label">💧 Hydration</span>
+                  <div class="component-score">
+                    <span class="score-bar-fill" style="width: 70%;">70/100</span>
+                  </div>
+                </div>
+                <div class="score-component">
+                  <span class="component-label">🧘 Stress Management</span>
+                  <div class="component-score">
+                    <span class="score-bar-fill" style="width: 90%;">90/100</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Achievements & Milestones -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">🏆</div>
+          Achievements & Milestones
+        </h3>
+
+        <div class="achievements-grid">
+          <div class="achievement earned">
+            <div class="achievement-icon">🔥</div>
+            <div class="achievement-info">
+              <h4>Calorie Champion</h4>
+              <p>Logged meals for 30 days straight</p>
+              <div class="achievement-date">Earned: Apr 15, 2026</div>
+            </div>
+          </div>
+
+          <div class="achievement earned">
+            <div class="achievement-icon">🧘</div>
+            <div class="achievement-info">
+              <h4>Yoga Devotee</h4>
+              <p>Completed 20 yoga sessions this month</p>
+              <div class="achievement-date">Earned: Apr 28, 2026</div>
+            </div>
+          </div>
+
+          <div class="achievement earned">
+            <div class="achievement-icon">💧</div>
+            <div class="achievement-info">
+              <h4>Hydration Hero</h4>
+              <p>Met water goals for 7 consecutive days</p>
+              <div class="achievement-date">Earned: Apr 20, 2026</div>
+            </div>
+          </div>
+
+          <div class="achievement earned">
+            <div class="achievement-icon">⚖️</div>
+            <div class="achievement-info">
+              <h4>Weight Warrior</h4>
+              <p>Achieved 2.5 kg weight loss goal</p>
+              <div class="achievement-date">Earned: Apr 25, 2026</div>
+            </div>
+          </div>
+
+          <div class="achievement locked">
+            <div class="achievement-icon">🏃</div>
+            <div class="achievement-info">
+              <h4>Step Master</h4>
+              <p>Reach 10,000 daily steps for 30 days</p>
+              <div class="achievement-progress">18/30 days completed</div>
+            </div>
+          </div>
+
+          <div class="achievement locked">
+            <div class="achievement-icon">🥗</div>
+            <div class="achievement-info">
+              <h4>Nutrition Expert</h4>
+              <p>Log 100 healthy meals with balanced macros</p>
+              <div class="achievement-progress">67/100 meals logged</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Summary Report -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">📊</div>
+          Weekly Health Report
+        </h3>
+
+        <div class="weekly-summary">
+          <div class="summary-overview">
+            <div class="summary-stat">
+              <h4>This Week's Highlights</h4>
+              <ul class="summary-highlights">
+                <li>✅ Increased daily steps by 12%</li>
+                <li>✅ Improved sleep consistency by 5%</li>
+                <li>✅ Added 2 extra yoga sessions</li>
+                <li>✅ Better hydration throughout the week</li>
+                <li>⚠️ Missed 2 strength training sessions</li>
+              </ul>
+            </div>
+            <div class="summary-stat">
+              <h4>Areas for Improvement</h4>
+              <ul class="summary-lowlights">
+                <li>🎯 Add strength training 2x per week</li>
+                <li>🎯 Increase fiber intake for better digestion</li>
+                <li>🎯 Practice stress management techniques</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="weekly-charts">
+            <h4>Daily Health Metrics This Week</h4>
+            <div class="daily-metrics">
+              <div class="day-metric">
+                <span class="day-label">Mon</span>
+                <div class="metric-bars">
+                  <div class="metric-bar-short" style="height: 85%; background: var(--success);"></div>
+                  <div class="metric-bar-short" style="height: 70%; background: var(--primary);"></div>
+                  <div class="metric-bar-short" style="height: 90%; background: var(--secondary);"></div>
+                  <div class="metric-bar-short" style="height: 75%; background: var(--warning);"></div>
+                </div>
+              </div>
+              <div class="day-metric">
+                <span class="day-label">Tue</span>
+                <div class="metric-bars">
+                  <div class="metric-bar-short" style="height: 90%; background: var(--success);"></div>
+                  <div class="metric-bar-short" style="height: 80%; background: var(--primary);"></div>
+                  <div class="metric-bar-short" style="height: 85%; background: var(--secondary);"></div>
+                  <div class="metric-bar-short" style="height:85%; background: var(--warning);"></div>
+                </div>
+              </div>
+              <div class="day-metric">
+                <span class="day-label">Wed</span>
+                <div class="metric-bars">
+                  <div class="metric-bar-short" style="height: 75%; background: var(--success);"></div>
+                  <div class="metric-bar-short" style="height:65%; background: var(--primary);"></div>
+                  <div class="metric-bar-short" style="height:88%; background: var(--secondary);"></div>
+                  <div class="metric-bar-short" style="height:70%; background: var(--warning);"></div>
+                </div>
+              </div>
+              <div class="day-metric">
+                <span class="day-label">Thu</span>
+                <div class="metric-bars">
+                  <div class="metric-bar-short" style="height:95%; background: var(--success);"></div>
+                  <div class="metric-bar-short" style="height:85%; background: var(--primary);"></div>
+                  <div class="metric-bar-short" style="height:92%; background: var(--secondary);"></div>
+                  <div class="metric-bar-short" style="height:90%; background: var(--warning);"></div>
+                </div>
+              </div>
+              <div class="day-metric">
+                <span class="day-label">Fri</span>
+                <div class="metric-bars">
+                  <div class="metric-bar-short" style="height:88%; background: var(--success);"></div>
+                  <div class="metric-bar-short" style="height:75%; background: var(--primary);"></div>
+                  <div class="metric-bar-short" style="height:80%; background: var(--secondary);"></div>
+                  <div class="metric-bar-short" style="height:82%; background: var(--warning);"></div>
+                </div>
+              </div>
+              <div class="day-metric">
+                <span class="day-label">Sat</span>
+                <div class="metric-bars">
+                  <div class="metric-bar-short" style="height:92%; background: var(--success);"></div>
+                  <div class="metric-bar-short" style="height:90%; background: var(--primary);"></div>
+                  <div class="metric-bar-short" style="height:95%; background: var(--secondary);"></div>
+                  <div class="metric-bar-short" style="height:88%; background: var(--warning);"></div>
+                </div>
+              </div>
+              <div class="day-metric">
+                <span class="day-label">Sun</span>
+                <div class="metric-bars">
+                  <div class="metric-bar-short" style="height:70%; background: var(--success);"></div>
+                  <div class="metric-bar-short" style="height:60%; background: var(--primary);"></div>
+                  <div class="metric-bar-short" style="height:85%; background: var(--secondary);"></div>
+                  <div class="metric-bar-short" style="height:75%; background: var(--warning);"></div>
+                </div>
+              </div>
+            </div>
+            <div class="metric-legend">
+              <span class="legend-item">🥗 Exercise</span>
+              <span class="legend-item">😴 Sleep</span>
+              <span class="legend-item">💧 Water</span>
+              <span class="legend-item">🧘 Mindfulness</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Tips Section -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">🎯</div>
+          Personalized Health Tips
+        </h3>
+
+        <div class="health-tips">
+          <div class="tip-category">
+            <h4>💪 For Better Fitness Results</h4>
+            <ul class="tips-list">
+              <li>Incorporate strength training 2-3x per week to complement your yoga practice</li>
+              <li>Try interval training to boost cardiovascular health and burn more calories</li>
+              <li>Include active recovery days - light walks or gentle stretching on rest days</li>
+              <li>Progressive overload: gradually increase intensity or duration of your workouts</li>
+            </ul>
+          </div>
+
+          <div class="tip-category">
+            <h4>🥗 Nutrition Optimization</h4>
+            <ul class="tips-list">
+              <li>Time your post-workout meal within 30-60 minutes for optimal muscle recovery</li>
+              <li>Include protein-rich snacks: Greek yogurt, nuts, or protein shakes between meals</li>
+              <li>Plan meals ahead to avoid unhealthy food choices when hungry</li>
+              <li>Stay hydrated - drink a glass of water 30 minutes before each meal</li>
+            </ul>
+          </div>
+
+          <div class="tip-category">
+            <h4>😴 Sleep Quality Tips</h4>
+            <ul class="tips-list">
+              <li>Create a relaxing bedtime routine: dim lights, avoid screens 1 hour before bed</li>
+              <li>Keep your bedroom cool (65-68°F) and pitch black for optimal sleep</li>
+              <li>Avoid caffeine after 2 PM and large meals 3 hours before bedtime</li>
+              <li>Use your bed only for sleep and intimacy - no work or screens</li>
+            </ul>
+          </div>
+
+          <div class="tip-category">
+            <h4>🧘 Stress Management</h4>
+            <ul class="tips-list">
+              <li>Practice 5-4-3-2 breathing technique: inhale 4s, hold 4s, exhale 4s, hold 2s</li>
+              <li>Take short movement breaks every hour to stretch and reset your mind</li>
+              <li>Connect with nature: spend time outdoors, even for 10-15 minutes</li>
+              <li>Consider journaling to process thoughts and reduce mental clutter</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export & Share -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">📤</div>
+          Export & Share Your Data
+        </h3>
+
+        <div class="export-options">
+          <div class="export-item">
+            <h4>📊 Download Reports</h4>
+            <p>Export your health data as detailed PDF reports for sharing with healthcare providers or personal records.</p>
+            <button class="export-btn" onclick="exportPDF()">
+              📄 Download PDF Report
+            </button>
+          </div>
+
+          <div class="export-item">
+            <h4>📤 Share Progress</h4>
+            <p>Share your health achievements with friends and family to inspire healthy living together.</p>
+            <button class="export-btn" onclick="shareProgress()">
+              📱 Share Progress
+            </button>
+          </div>
+
+          <div class="export-item">
+            <h4>🔗 Connect Devices</h4>
+            <p>Sync with fitness trackers, smartwatches, and health apps for automatic data collection.</p>
+            <button class="export-btn" onclick="connectDevices()">
+              🔗 Connect Devices
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <script>
+    // Mobile menu toggle
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    hamburgerMenu.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      hamburgerMenu.classList.toggle('active');
+    });
+      sidebar.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !hamburgerMenu.contains(e.target)) {
+          sidebar.classList.remove('active');
+          hamburgerMenu.classList.remove('active');
         }
-
-        // Initialize when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initCharts);
-        } else {
-            initCharts();
+          sidebar.classList.remove('active');
         }
+      }
+    });
 
-        // Fallback: try again after window load
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                if (typeof Chart !== 'undefined') {
-                    console.log('Window load - Chart.js is available');
-                } else {
-                    console.error('Window load - Chart.js still not loaded');
+    // Time range selector
+    function updateTimeRange(range) {
+      document.querySelectorAll('.time-range-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      // Update chart data based on range
+      updateCharts(range);
+    }
+
+    // Initialize Charts
+    let healthScoreChart, weightChart, calorieChart;
+
+    function initCharts() {
+      console.log('Initializing charts...');
+      console.log('Chart.js available:', typeof Chart !== 'undefined');
+
+      // Check if Chart.js is loaded
+      if (typeof Chart === 'undefined') {
+        console.error('Chart.js is not loaded!');
+        return;
+      }
+
+      try {
+        // Health Score Chart
+        const healthScoreCanvas = document.getElementById('healthScoreChart');
+        console.log('Health score canvas found:', healthScoreCanvas);
+        console.log('Health score canvas dimensions:', healthScoreCanvas.width, 'x', healthScoreCanvas.height);
+
+        if (healthScoreCanvas) {
+          const healthScoreCtx = healthScoreCanvas.getContext('2d');
+          console.log('Health score context obtained:', healthScoreCtx);
+
+          healthScoreChart = new Chart(healthScoreCtx, {
+            type: 'line',
+            data: {
+              labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              datasets: [{
+                label: 'Health Score',
+                data: [82, 84, 83, 85, 86, 84, 85],
+                borderColor: '#6366f1',
+                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                fill: true,
+                tension: 0.4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false
                 }
-            }, 500);
-        });
-    </script>
+              },
+              scales: {
+                y: {
+                  min: 70,
+                  max: 100
+                }
+              }
+            }
+          });
+          console.log('Health score chart created successfully');
+        }
+
+        // Weight Chart
+        const weightCanvas = document.getElementById('weightChart');
+        console.log('Weight canvas found:', weightCanvas);
+        console.log('Weight canvas dimensions:', weightCanvas.width, 'x', weightCanvas.height);
+
+        if (weightCanvas) {
+          const weightCtx = weightCanvas.getContext('2d');
+          console.log('Weight context obtained:', weightCtx);
+
+          weightChart = new Chart(weightCtx, {
+            type: 'line',
+            data: {
+              labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+              datasets: [{
+                label: 'Weight (kg)',
+                data: [75, 74.5, 74, 73.2, 72.8, 72.5],
+                borderColor: '#f59e0b',
+                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                fill: true,
+                tension: 0.4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false
+                }
+              }
+            }
+          });
+          console.log('Weight chart created successfully');
+        }
+
+        // Calorie Chart
+        const calorieCanvas = document.getElementById('calorieChart');
+        console.log('Calorie canvas found:', calorieCanvas);
+        console.log('Calorie canvas dimensions:', calorieCanvas.width, 'x', calorieCanvas.height);
+
+        if (calorieCanvas) {
+          const calorieCtx = calorieCanvas.getContext('2d');
+          console.log('Calorie context obtained:', calorieCtx);
+
+          calorieChart = new Chart(calorieCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              datasets: [{
+                label: 'Calories',
+                data: [1850, 2100, 1920, 2050, 1880, 2200, 1950],
+                backgroundColor: [
+                  'rgba(99, 102, 241, 0.8)',
+                  'rgba(139, 92, 246, 0.8)',
+                  'rgba(236, 72, 153, 0.8)',
+                  'rgba(245, 158, 11, 0.8)',
+                  'rgba(16, 185, 129, 0.8)',
+                  'rgba(59, 130, 246, 0.8)',
+                  'rgba(239, 68, 68, 0.8)'
+                ],
+                borderRadius: 8
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+          console.log('Calorie chart created successfully');
+        }
+
+        console.log('All charts initialized successfully');
+      } catch (error) {
+        console.error('Error initializing charts:', error);
+      }
+    }
+
+    function updateCharts(range) {
+      // Update chart data based on time range
+      const rangeData = {
+        week: {
+          healthScore: [82, 84, 83, 85, 86, 84, 85],
+          weight: [72.8, 72.7, 72.6, 72.5, 72.5, 72.4, 72.5],
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        month: {
+          healthScore: [80, 81, 82, 83, 84, 85],
+          weight: [73, 72.8, 72.6, 72.4, 72.3, 72.5],
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6']
+        },
+        quarter: {
+          healthScore: [78, 80, 82],
+          weight: [74, 73, 72.5],
+          labels: ['Month 1', 'Month 2', 'Month 3']
+        },
+        year: {
+          healthScore: [75, 78, 80, 82, 84, 85],
+          weight: [76, 75, 74, 73.5, 73, 72.5],
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+        }
+      };
+
+      const data = rangeData[range];
+      healthScoreChart.data.labels = data.labels;
+      healthScoreChart.data.datasets[0].data = data.healthScore;
+      healthScoreChart.update();
+    }
+
+    // Export functions
+    function exportData(format) {
+      if (format === 'pdf') {
+        alert('Exporting health analytics as PDF...\n\nThis would generate a comprehensive PDF report with all charts and statistics.');
+      } else if (format === 'csv') {
+        alert('Exporting health data as CSV...\n\nThis would download a CSV file with all your health metrics for further analysis.');
+      }
+    }
+
+    // Initialize charts on load with fallback
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCharts);
+    } else {
+      // DOM already loaded, initialize immediately
+      initCharts();
+    }
+
+    // Additional fallback: ensure Chart.js is loaded
+    window.addEventListener('load', function() {
+      if (typeof Chart !== 'undefined' && (!healthScoreChart || !weightChart || !calorieChart)) {
+        console.log('Retrying chart initialization after page load...');
+        initCharts();
+      }
+    });
+  </script>
 </body>
 </html>
