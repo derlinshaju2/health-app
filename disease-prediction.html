@@ -924,8 +924,13 @@
     }
 
     @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
       .sidebar {
         transform: translateX(-100%);
+        width: 280px;
       }
 
       .sidebar.active {
@@ -934,7 +939,8 @@
 
       .main-content {
         margin-left: 0;
-        padding: 20px;
+        padding: 16px;
+        width: 100%;
       }
 
       .mobile-menu-btn {
@@ -955,15 +961,180 @@
         grid-template-columns: 1fr;
       }
 
+      .health-metrics-card .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
       .header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+        gap: 12px;
+      }
+
+      .page-title {
+        font-size: 22px;
+      }
+
+      .page-subtitle {
+        font-size: 13px;
       }
 
       .header-actions {
         width: 100%;
         justify-content: space-between;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .card-title {
+        font-size: 16px;
+      }
+
+      .health-metrics-card {
+        padding: 16px;
+      }
+
+      .health-metrics-card .form-group {
+        margin-bottom: 16px;
+      }
+
+      .health-metrics-card .form-label {
+        font-size: 14px;
+      }
+
+      .health-metrics-card .form-input {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .health-metrics-card .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+
+      .risk-factors {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .risk-factor {
+        padding: 12px;
+      }
+
+      .risk-icon {
+        font-size: 20px;
+      }
+
+      .risk-content h4 {
+        font-size: 14px;
+      }
+
+      .risk-content p {
+        font-size: 11px;
+      }
+
+      .prevention-tips {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .tip-card {
+        padding: 12px;
+      }
+
+      .tip-card .tip-icon {
+        font-size: 20px;
+      }
+
+      .tip-card h4 {
+        font-size: 14px;
+      }
+
+      .tip-card p {
+        font-size: 11px;
+      }
+
+      .stats-overview {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .stat-item {
+        padding: 16px;
+      }
+
+      .stat-number {
+        font-size: 24px;
+      }
+
+      .stat-label {
+        font-size: 12px;
+      }
+
+      .result-card {
+        padding: 16px;
+      }
+
+      .risk-level {
+        font-size: 18px;
+      }
+
+      .recommendation-card {
+        padding: 12px;
+      }
+
+      .recommendation-title {
+        font-size: 14px;
+      }
+
+      .recommendation-text {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 12px;
+      }
+
+      .card {
+        padding: 12px;
+      }
+
+      .health-metrics-card {
+        padding: 12px;
+      }
+
+      .risk-factor {
+        padding: 10px;
+      }
+
+      .tip-card {
+        padding: 10px;
+      }
+
+      .stat-item {
+        padding: 12px;
+      }
+
+      .stat-number {
+        font-size: 20px;
+      }
+
+      .result-card {
+        padding: 12px;
+      }
+
+      .risk-level {
+        font-size: 16px;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        font-size: 13px;
       }
     }
 

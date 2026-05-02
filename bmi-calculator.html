@@ -474,8 +474,13 @@
     }
 
     @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
       .sidebar {
         transform: translateX(-100%);
+        width: 280px;
       }
 
       .sidebar.active {
@@ -484,7 +489,8 @@
 
       .main-content {
         margin-left: 0;
-        padding: 20px;
+        padding: 16px;
+        width: 100%;
       }
 
       .mobile-menu-btn {
@@ -508,12 +514,158 @@
       .header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+        gap: 12px;
+      }
+
+      .page-title {
+        font-size: 22px;
+      }
+
+      .page-subtitle {
+        font-size: 13px;
       }
 
       .header-actions {
         width: 100%;
         justify-content: space-between;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .card-title {
+        font-size: 16px;
+      }
+
+      .bmi-calculator-card {
+        padding: 16px;
+      }
+
+      .bmi-calculator-card .form-group {
+        margin-bottom: 16px;
+      }
+
+      .bmi-calculator-card .form-label {
+        font-size: 14px;
+      }
+
+      .bmi-calculator-card .form-input {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .bmi-calculator-card .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+
+      .bmi-result-card {
+        padding: 16px;
+      }
+
+      .bmi-value {
+        font-size: 32px;
+      }
+
+      .bmi-category {
+        font-size: 18px;
+      }
+
+      .bmi-scale {
+        padding: 12px;
+      }
+
+      .bmi-scale-item {
+        padding: 8px;
+      }
+
+      .health-tips {
+        gap: 12px;
+      }
+
+      .health-tip {
+        padding: 12px;
+      }
+
+      .tip-icon {
+        font-size: 20px;
+      }
+
+      .tip-text {
+        font-size: 13px;
+      }
+
+      .stat-card {
+        padding: 12px;
+      }
+
+      .stat-value {
+        font-size: 18px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 12px;
+      }
+
+      .card {
+        padding: 12px;
+      }
+
+      .bmi-calculator-card {
+        padding: 12px;
+      }
+
+      .bmi-result-card {
+        padding: 12px;
+      }
+
+      .bmi-value {
+        font-size: 28px;
+      }
+
+      .bmi-category {
+        font-size: 16px;
+      }
+
+      .bmi-scale {
+        padding: 10px;
+      }
+
+      .bmi-scale-item {
+        padding: 6px;
+        font-size: 11px;
+      }
+
+      .health-tip {
+        padding: 10px;
+      }
+
+      .tip-icon {
+        font-size: 18px;
+      }
+
+      .tip-text {
+        font-size: 12px;
+      }
+
+      .stat-card {
+        padding: 10px;
+      }
+
+      .stat-value {
+        font-size: 16px;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        font-size: 13px;
       }
     }
 
