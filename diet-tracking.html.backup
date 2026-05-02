@@ -141,45 +141,6 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 30px;
-      position: relative;
-    }
-
-    /* Hamburger Menu */
-    .hamburger-menu {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 10px;
-      z-index: 1002;
-      position: absolute;
-      left: 0;
-    }
-
-    .hamburger-menu span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--dark);
-      margin: 5px 0;
-      transition: all 0.3s ease;
-    }
-
-    .hamburger-menu.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-
-    .hamburger-menu.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger-menu.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -6px);
-    }
-
-    .header-content {
-      margin-left: 50px;
-      width: 100%;
     }
 
     .page-title {
@@ -876,7 +837,28 @@
       line-height: 1.5;
     }
 
-    /* Mobile Menu Button - REMOVED */
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+      z-index: 1001;
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu-btn:hover {
+      transform: scale(1.1);
+    }
 
     /* Responsive */
     @media (max-width: 1024px) {
@@ -909,16 +891,10 @@
         width: 100%;
       }
 
-      .hamburger-menu {
-        display: block;
-      }
-
       .mobile-menu-btn {
-        display: none !important;
-      }
-
-      .header-content {
-        margin-left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .content-grid {
@@ -1157,26 +1133,19 @@
   <main class="main-content">
     <!-- Header -->
     <header class="header">
-      <button class="hamburger-menu" id="hamburgerMenu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <div class="header-content">
-        <div>
-          <h1 class="page-title">Diet & Nutrition 🥗</h1>
-          <p class="page-subtitle">Track your meals, calories, and nutritional intake</p>
-        </div>
-        <div class="header-actions">
-          <button class="header-btn" onclick="window.location.href='dashboard-main.html'">
-            ←
-            <span>Back to Dashboard</span>
-          </button>
-          <button class="header-btn primary" onclick="saveMealLog()">
+      <div>
+        <h1 class="page-title">Diet & Nutrition 🥗</h1>
+        <p class="page-subtitle">Track your meals, calories, and nutritional intake</p>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn" onclick="window.location.href='dashboard-main.html'">
+          ←
+          <span>Back to Dashboard</span>
+        </button>
+        <button class="header-btn primary" onclick="saveMealLog()">
           💾
           <span>Save Meals</span>
         </button>
-      </div>
       </div>
     </header>
 
@@ -1713,21 +1682,24 @@
     </div>
   </main>
 
+  <!-- Mobile Menu Button -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+  </button>
+
   <script>
     // Mobile menu toggle
-    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('sidebar');
 
-    hamburgerMenu.addEventListener('click', () => {
+    mobileMenuBtn.addEventListener('click', () => {
       sidebar.classList.toggle('active');
-      hamburgerMenu.classList.toggle('active');
     });
 
     document.addEventListener('click', (e) => {
       if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && !hamburgerMenu.contains(e.target)) {
+        if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
           sidebar.classList.remove('active');
-          hamburgerMenu.classList.remove('active');
         }
       }
     });
