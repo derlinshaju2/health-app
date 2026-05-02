@@ -8,12 +8,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
-    // Fallback: if Chart.js doesn't load, try alternative CDN
-    if (typeof Chart === 'undefined') {
-      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"><\/script>');
-    }
+    // Load Chart.js from multiple CDNs to avoid tracking prevention
+    (function() {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js';
+      script.crossOrigin = 'anonymous';
+      script.onerror = function() {
+        // Fallback to CDNJS
+        const fallback = document.createElement('script');
+        fallback.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+        fallback.crossOrigin = 'anonymous';
+        document.head.appendChild(fallback);
+      };
+      document.head.appendChild(script);
+    })();
   </script>
   <style>
     * {
@@ -2199,16 +2208,12 @@
       sidebar.classList.toggle('active');
       hamburgerMenu.classList.toggle('active');
     });
-      sidebar.classList.toggle('active');
-    });
 
     document.addEventListener('click', (e) => {
       if (window.innerWidth <= 768) {
         if (!sidebar.contains(e.target) && !hamburgerMenu.contains(e.target)) {
           sidebar.classList.remove('active');
           hamburgerMenu.classList.remove('active');
-        }
-          sidebar.classList.remove('active');
         }
       }
     });
