@@ -2281,18 +2281,8 @@
         dashboardManager.showRegularDashboard();
       }
 
-      // Show quick start guide for new users (users with streak <= 3)
-      const currentStreak = parseInt(localStorage.getItem('currentStreak')) || 1;
-      if (currentStreak <= 3) {
-        setTimeout(() => {
-          showQuickStartGuide();
-        }, 500);
-      }
-
-      // Show behavioral insights after a short delay
-      setTimeout(() => {
-        showBehavioralInsights();
-      }, 1000);
+      // Behavioral insights are now shown manually via a button, not automatically
+      // This keeps the dashboard stable and consistent
     }
 
     // Show quick start guide for new users
@@ -2559,56 +2549,19 @@
       return Math.floor((new Date() - lastWorkoutDate) / (1000 * 60 * 60 * 24));
     }
 
-    // Get time-based suggestions
+    // Get consistent suggestion (no longer time-based to prevent dashboard changes)
     function getTimeBasedSuggestion() {
-      const hour = new Date().getHours();
-      let suggestion = null;
-
-      if (hour >= 5 && hour < 12) {
-        // Morning
-        suggestion = {
-          icon: '🌅',
-          greeting: 'Good Morning!',
-          message: 'Start your day right with a workout or a healthy breakfast.',
-          actions: [
-            { icon: '🏃', label: 'Morning Workout', onclick: "window.location.href='yoga-tracker.html'" },
-            { icon: '🥗', label: 'Log Breakfast', onclick: "window.location.href='diet-tracking.html'" }
-          ]
-        };
-      } else if (hour >= 12 && hour < 17) {
-        // Afternoon
-        suggestion = {
-          icon: '☀️',
-          greeting: 'Good Afternoon!',
-          message: 'Midday check-in! How\'s your progress going today?',
-          actions: [
-            { icon: '🚶', label: 'Quick Walk', onclick: "window.location.href='yoga-tracker.html?type=walk'" },
-            { icon: '💧', label: 'Add Water', onclick: "handleInsightAction('addWater')" }
-          ]
-        };
-      } else if (hour >= 17 && hour < 21) {
-        // Evening
-        suggestion = {
-          icon: '🌆',
-          greeting: 'Good Evening!',
-          message: 'Time to log your dinner and wind down for the day.',
-          actions: [
-            { icon: '🍽️', label: 'Log Dinner', onclick: "window.location.href='diet-tracking.html?type=dinner'" },
-            { icon: '📊', label: 'View Progress', onclick: "window.location.href='analytics.html'" }
-          ]
-        };
-      } else {
-        // Night
-        suggestion = {
-          icon: '🌙',
-          greeting: 'Good Night!',
-          message: 'Great job today! Get some rest and prepare for tomorrow.',
-          actions: [
-            { icon: '😴', label: 'Sleep Tips', onclick: "showNotification('Sleep Tip! 😴', 'Aim for 7-8 hours of sleep for optimal health.')" },
-            { icon: '📅', label: 'Tomorrow\'s Plan', onclick: "showNotification('Plan Ahead! 📋', 'Pack your gym bag and prep meals for tomorrow.')" }
-          ]
-        };
-      }
+      // Return a consistent, static suggestion
+      const suggestion = {
+        icon: '💪',
+        greeting: 'Stay Active!',
+        message: 'Keep up the great work! Log your activities and track your progress.',
+        actions: [
+          { icon: '🏃', label: 'Log Workout', onclick: "window.location.href='yoga-tracker.html'" },
+          { icon: '🥗', label: 'Log Meal', onclick: "window.location.href='diet-tracking.html'" },
+          { icon: '💧', label: 'Add Water', onclick: "handleInsightAction('addWater')" }
+        ]
+      };
 
       return suggestion;
     }
@@ -2724,8 +2677,10 @@
 
     // Initialize Engagement Features
     function initEngagementFeatures() {
-      // Load streak data
-      const currentStreak = parseInt(localStorage.getItem('currentStreak')) || 1;
+      // Load streak data with consistent defaults
+      let currentStreak = parseInt(localStorage.getItem('currentStreak'));
+      if (!currentStreak || currentStreak < 1) currentStreak = 1;
+
       const streakCount = document.getElementById('streakCount');
       const streakStatus = document.getElementById('streakStatus');
 
@@ -2745,8 +2700,10 @@
         }
       }
 
-      // Load points data
-      const userPoints = parseInt(localStorage.getItem('userPoints')) || 100;
+      // Load points data with consistent defaults
+      let userPoints = parseInt(localStorage.getItem('userPoints'));
+      if (!userPoints || userPoints < 0) userPoints = 0;
+
       const pointsCount = document.getElementById('pointsCount');
 
       if (pointsCount) {
