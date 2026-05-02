@@ -373,6 +373,76 @@
       color: var(--primary);
     }
 
+    /* Mobile Bottom Navigation */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -4px 20px var(--shadow);
+      z-index: 1000;
+      padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 8px;
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: var(--gray);
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      min-width: 60px;
+    }
+
+    .bottom-nav-item:hover {
+      background: rgba(99, 102, 241, 0.05);
+      color: var(--primary);
+    }
+
+    .bottom-nav-item.active {
+      color: var(--primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .bottom-nav-icon {
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .bottom-nav-label {
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .bottom-nav-item.active .bottom-nav-label {
+      font-weight: 600;
+    }
+
+    /* Add padding to main content to account for bottom nav on mobile */
+    @media (max-width: 768px) {
+      .main-content {
+        padding-bottom: 80px;
+      }
+    }
+
     /* Mobile Menu */
     .mobile-menu-btn {
       display: none;
@@ -456,6 +526,96 @@
 
       .content-grid {
         grid-template-columns: 1fr;
+      }
+    }
+
+    /* Toast Notifications */
+    .toast-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      min-width: 350px;
+      max-width: 450px;
+      background: white;
+      border-radius: 16px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 10000;
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      border-left: 5px solid;
+    }
+
+    .toast-notification.show {
+      transform: translateX(0);
+    }
+
+    .toast-success {
+      border-left-color: #10b981;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
+    }
+
+    .toast-error {
+      border-left-color: #ef4444;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
+    }
+
+    .toast-info {
+      border-left-color: #3b82f6;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(37, 99, 235, 0.05) 100%);
+    }
+
+    .toast-icon {
+      font-size: 32px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .toast-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .toast-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+
+    .toast-message {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .toast-close:hover {
+      background: rgba(0, 0, 0, 0.05);
+      color: #64748b;
+    }
+
+    @media (max-width: 768px) {
+      .toast-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: 0;
+        max-width: none;
       }
     }
   </style>
@@ -800,7 +960,48 @@
 
       // Reset form
       document.getElementById('yogaForm').reset();
-      alert('Yoga session logged successfully!');
+
+      // Show success notification
+      showToast('success', 'Yoga Session Logged! 🧘', `${duration} minutes of ${routineType.replace('_', ' ')} completed successfully`);
+    }
+
+    // Toast notification system
+    function showToast(type, title, message) {
+      // Remove existing toast if any
+      const existingToast = document.querySelector('.toast-notification');
+      if (existingToast) {
+        existingToast.remove();
+      }
+
+      // Create toast element
+      const toast = document.createElement('div');
+      toast.className = `toast-notification toast-${type}`;
+
+      const icons = {
+        success: '✅',
+        error: '❌',
+        info: 'ℹ️'
+      };
+
+      toast.innerHTML = `
+        <div class="toast-icon">${icons[type] || icons.info}</div>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+      `;
+
+      document.body.appendChild(toast);
+
+      // Trigger animation
+      setTimeout(() => toast.classList.add('show'), 10);
+
+      // Auto-remove after 4 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
     }
 
     // Timer functionality
