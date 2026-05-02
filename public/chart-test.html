@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .chart-box {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        .chart-box h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        canvas {
+            display: block;
+            width: 100% !important;
+            height: 300px !important;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>📊 Chart.js Test Page</h1>
+        <div id="status" class="status info">Loading Chart.js...</div>
+
+        <div class="chart-box">
+            <h3>Test Chart 1: Line Chart</h3>
+            <canvas id="testChart1" width="400" height="300"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3>Test Chart 2: Bar Chart</h3>
+            <canvas id="testChart2" width="400" height="300"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3>Test Chart 3: Pie Chart</h3>
+            <canvas id="testChart3" width="400" height="300"></canvas>
+        </div>
+    </div>
+
+    <script>
+        console.log('=== CHART TEST START ===');
+
+        function updateStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = 'status ' + type;
+        }
+
+        function testCharts() {
+            console.log('Testing Chart.js...');
+            console.log('Chart available:', typeof Chart !== 'undefined');
+            console.log('Chart version:', typeof Chart !== 'undefined' ? Chart.version : 'N/A');
+
+            if (typeof Chart === 'undefined') {
+                updateStatus('❌ Chart.js failed to load', 'error');
+                console.error('Chart.js is not available!');
+                return;
+            }
+
+            updateStatus('✅ Chart.js loaded successfully!', 'success');
+            console.log('✅ Chart.js is loaded');
+
+            try {
+                // Test Chart 1: Line Chart
+                console.log('Creating test chart 1...');
+                const ctx1 = document.getElementById('testChart1').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Test Data',
+                            data: [12, 19, 3, 5, 2, 3],
+                            borderColor: 'rgb(75, 192, 192)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                console.log('✅ Test chart 1 created');
+
+                // Test Chart 2: Bar Chart
+                console.log('Creating test chart 2...');
+                const ctx2 = document.getElementById('testChart2').getContext('2d');
+                new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                        datasets: [{
+                            label: 'Votes',
+                            data: [12, 19, 3, 5, 2, 3],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.8)',
+                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(255, 206, 86, 0.8)',
+                                'rgba(75, 192, 192, 0.8)',
+                                'rgba(153, 102, 255, 0.8)',
+                                'rgba(255, 159, 64, 0.8)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                console.log('✅ Test chart 2 created');
+
+                // Test Chart 3: Pie Chart
+                console.log('Creating test chart 3...');
+                const ctx3 = document.getElementById('testChart3').getContext('2d');
+                new Chart(ctx3, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Red', 'Blue', 'Yellow'],
+                        datasets: [{
+                            data: [300, 50, 100],
+                            backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 205, 86)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                console.log('✅ Test chart 3 created');
+
+                updateStatus('✅ All charts created successfully!', 'success');
+                console.log('=== ALL TESTS PASSED ===');
+
+            } catch (error) {
+                updateStatus('❌ Error creating charts: ' + error.message, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        // Test when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', testCharts);
+        } else {
+            testCharts();
+        }
+
+        // Also try after window load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (typeof Chart !== 'undefined') {
+                    console.log('Window load test - Chart.js is working');
+                } else {
+                    console.error('Window load test - Chart.js still not loaded');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
