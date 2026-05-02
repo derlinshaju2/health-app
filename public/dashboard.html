@@ -436,20 +436,74 @@
       }
 
       .card {
-        padding: 16px;
+        padding: 14px;
+        border-radius: 16px;
+      }
+
+      .card-title {
+        font-size: 15px;
+        margin-bottom: 12px;
       }
 
       .stats-grid {
         grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px;
+      }
+
+      .stat-value {
+        font-size: 22px;
+      }
+
+      .stat-label {
+        font-size: 11px;
       }
 
       .header-actions {
         flex-direction: column;
+        gap: 10px;
       }
 
       .header-btn {
         width: 100%;
+        padding: 12px 16px;
+        font-size: 13px;
       }
+
+      .priority-card {
+        padding: 14px;
+      }
+
+      .priority-value {
+        font-size: 20px;
+      }
+
+      .quick-action-btn {
+        padding: 10px;
+        font-size: 11px;
+        min-width: 70px;
+      }
+
+      /* Prevent text overflow */
+      * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      /* Ensure no horizontal scroll */
+      body {
+        overflow-x: hidden;
+      }
+
+      .main-content {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
     }
     .header {
       background: rgba(255, 255, 255, 0.9);

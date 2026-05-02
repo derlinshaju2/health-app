@@ -652,6 +652,61 @@
       .content-grid {
         grid-template-columns: 1fr;
       }
+
+      /* Ensure no horizontal overflow on mobile */
+      body {
+        overflow-x: hidden;
+      }
+
+      .main-content {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+    }
+
+    /* Extra small mobile devices */
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 70px 12px 85px;
+      }
+
+      .card {
+        padding: 14px;
+        border-radius: 16px;
+      }
+
+      .card-title {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
+      .form-input {
+        padding: 12px 14px;
+        font-size: 14px;
+      }
+
+      .submit-btn {
+        padding: 14px;
+        font-size: 14px;
+      }
+
+      .meal-card {
+        padding: 12px;
+      }
+
+      .meal-name {
+        font-size: 14px;
+      }
+
+      .meal-calories {
+        font-size: 12px;
+      }
     }
 
     /* Animations */
@@ -1105,6 +1160,28 @@
 
     .toast-notification.show {
       transform: translateX(0);
+    }
+
+    /* Mobile Toast Notifications */
+    @media (max-width: 480px) {
+      .toast-notification {
+        min-width: auto;
+        width: calc(100% - 40px);
+        max-width: none;
+        left: 20px;
+        right: 20px;
+        top: 80px;
+        padding: 14px 16px;
+        font-size: 14px;
+      }
+
+      .toast-icon {
+        font-size: 18px;
+      }
+
+      .toast-message {
+        font-size: 13px;
+      }
     }
 
     .toast-success {

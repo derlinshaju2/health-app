@@ -1235,6 +1235,61 @@
       .content-grid {
         grid-template-columns: 1fr;
       }
+
+      /* Ensure no horizontal overflow on mobile */
+      body {
+        overflow-x: hidden;
+      }
+
+      .main-content {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+    }
+
+    /* Extra small mobile devices */
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 70px 12px 16px;
+      }
+
+      .card {
+        padding: 14px;
+        border-radius: 16px;
+      }
+
+      .card-title {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
+      .form-input {
+        padding: 12px 14px;
+        font-size: 14px;
+      }
+
+      .submit-btn {
+        padding: 14px;
+        font-size: 14px;
+      }
+
+      .risk-factor {
+        padding: 12px;
+      }
+
+      .risk-icon {
+        font-size: 20px;
+      }
+
+      .tip-card {
+        padding: 12px;
+      }
     }
 
     /* Animations */
