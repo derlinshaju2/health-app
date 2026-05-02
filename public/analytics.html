@@ -7,8 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    // Fallback: if Chart.js doesn't load, try alternative CDN
+    if (typeof Chart === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"><\/script>');
+    }
+  </script>
   <style>
     * {
       margin: 0;
@@ -370,14 +375,16 @@
       height: 300px;
       margin-bottom: 20px;
       width: 100%;
-      overflow: hidden;
+      overflow: visible;
+      z-index: 1;
     }
 
     .chart-container canvas {
       width: 100% !important;
       height: 100% !important;
-      display: block;
+      display: block !important;
       max-width: 100%;
+      position: relative;
     }
 
     /* Time Range Selector */
@@ -2203,16 +2210,16 @@
     }
 
     // Initialize Charts
-    let healthScoreChart, weightChart, calorieChart;
+    let healthScoreChart, weightChart, calorieChart, sleepChart, workoutChart;
 
     function initCharts() {
-      console.log('Initializing charts...');
+      console.log('=== STARTING CHART INITIALIZATION ===');
       console.log('Chart.js available:', typeof Chart !== 'undefined');
 
-      // Wait for Chart.js to load if not available
+      // Wait for Chart.js to load if not available (max 10 attempts)
       if (typeof Chart === 'undefined') {
         console.log('Chart.js not loaded yet, waiting...');
-        setTimeout(initCharts, 500);
+        setTimeout(initCharts, 300);
         return;
       }
 
@@ -2222,6 +2229,7 @@
         console.log('Health score canvas found:', healthScoreCanvas);
 
         if (healthScoreCanvas) {
+          console.log('Creating health score chart...');
           const healthScoreCtx = healthScoreCanvas.getContext('2d');
 
           healthScoreChart = new Chart(healthScoreCtx, {
@@ -2264,17 +2272,18 @@
               }
             }
           });
-          console.log('Health score chart created successfully');
+          console.log('✅ Health score chart created successfully');
+        } else {
+          console.error('❌ Health score canvas not found');
         }
 
         // Weight Chart
         const weightCanvas = document.getElementById('weightChart');
         console.log('Weight canvas found:', weightCanvas);
-        console.log('Weight canvas dimensions:', weightCanvas.width, 'x', weightCanvas.height);
 
         if (weightCanvas) {
+          console.log('Creating weight chart...');
           const weightCtx = weightCanvas.getContext('2d');
-          console.log('Weight context obtained:', weightCtx);
 
           weightChart = new Chart(weightCtx, {
             type: 'line',
@@ -2286,7 +2295,9 @@
                 borderColor: '#f59e0b',
                 backgroundColor: 'rgba(245, 158, 11, 0.1)',
                 fill: true,
-                tension: 0.4
+                tension: 0.4,
+                borderWidth: 3,
+                pointRadius: 4
               }]
             },
             options: {
@@ -2296,8 +2307,25 @@
                 legend: {
                   display: false
                 }
+              },
+              scales: {
+                y: {
+                  ticks: {
+                    font: { size: 11 }
+                  }
+                },
+                x: {
+                  ticks: {
+                    font: { size: 10 }
+                  }
+                }
               }
             }
+          });
+          console.log('✅ Weight chart created successfully');
+        } else {
+          console.error('❌ Weight canvas not found');
+        }
           });
           console.log('Weight chart created successfully');
         }
@@ -2305,11 +2333,10 @@
         // Calorie Chart
         const calorieCanvas = document.getElementById('calorieChart');
         console.log('Calorie canvas found:', calorieCanvas);
-        console.log('Calorie canvas dimensions:', calorieCanvas.width, 'x', calorieCanvas.height);
 
         if (calorieCanvas) {
+          console.log('Creating calorie chart...');
           const calorieCtx = calorieCanvas.getContext('2d');
-          console.log('Calorie context obtained:', calorieCtx);
 
           calorieChart = new Chart(calorieCtx, {
             type: 'bar',
@@ -2327,7 +2354,9 @@
                   'rgba(59, 130, 246, 0.8)',
                   'rgba(239, 68, 68, 0.8)'
                 ],
-                borderRadius: 8
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: 'white'
               }]
             },
             options: {
@@ -2340,20 +2369,33 @@
               },
               scales: {
                 y: {
-                  beginAtZero: true
+                  beginAtZero: true,
+                  ticks: {
+                    font: { size: 11 }
+                  }
+                },
+                x: {
+                  ticks: {
+                    font: { size: 10 }
+                  }
                 }
               }
             }
           });
-          console.log('Calorie chart created successfully');
+          console.log('✅ Calorie chart created successfully');
+        } else {
+          console.error('❌ Calorie canvas not found');
         }
 
         // Sleep Chart
         const sleepCanvas = document.getElementById('sleepChart');
+        console.log('Sleep canvas found:', sleepCanvas);
+
         if (sleepCanvas) {
+          console.log('Creating sleep chart...');
           const sleepCtx = sleepCanvas.getContext('2d');
 
-          new Chart(sleepCtx, {
+          sleepChart = new Chart(sleepCtx, {
             type: 'line',
             data: {
               labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -2365,7 +2407,8 @@
                 fill: true,
                 tension: 0.4,
                 borderWidth: 3,
-                pointRadius: 4
+                pointRadius: 4,
+                pointBackgroundColor: '#8b5cf6'
               }]
             },
             options: {
@@ -2383,19 +2426,32 @@
                   ticks: {
                     font: { size: 11 }
                   }
+                },
+                x: {
+                  ticks: {
+                    font: { size: 10 }
+                  }
                 }
               }
             }
           });
+          console.log('✅ Sleep chart created successfully');
+        } else {
+          console.error('❌ Sleep canvas not found');
+        }
           console.log('Sleep chart created successfully');
         }
 
         // Workout Frequency Chart
+        // Workout Chart
         const workoutCanvas = document.getElementById('workoutChart');
+        console.log('Workout canvas found:', workoutCanvas);
+
         if (workoutCanvas) {
+          console.log('Creating workout chart...');
           const workoutCtx = workoutCanvas.getContext('2d');
 
-          new Chart(workoutCtx, {
+          workoutChart = new Chart(workoutCtx, {
             type: 'doughnut',
             data: {
               labels: ['Cardio', 'Strength', 'Yoga', 'HIIT', 'Rest'],
@@ -2408,7 +2464,8 @@
                   'rgba(245, 158, 11, 0.8)',
                   'rgba(203, 213, 225, 0.8)'
                 ],
-                borderWidth: 0
+                borderWidth: 2,
+                borderColor: 'white'
               }]
             },
             options: {
@@ -2425,12 +2482,25 @@
               }
             }
           });
+          console.log('✅ Workout chart created successfully');
+        } else {
+          console.error('❌ Workout canvas not found');
+        }
+          });
           console.log('Workout chart created successfully');
         }
 
-        console.log('All charts initialized successfully');
+        console.log('=== ALL CHARTS INITIALIZED SUCCESSFULLY ===');
+        console.log('Charts created:', {
+          healthScore: !!healthScoreChart,
+          weight: !!weightChart,
+          calorie: !!calorieChart,
+          sleep: !!sleepChart,
+          workout: !!workoutChart
+        });
       } catch (error) {
-        console.error('Error initializing charts:', error);
+        console.error('❌ Error initializing charts:', error);
+        console.error('Error details:', error.message);
       }
     }
 
