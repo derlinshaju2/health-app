@@ -173,7 +173,7 @@
 
             .main-content {
                 margin-left: 0;
-                padding: 80px 16px 20px;
+                padding: 80px 14px 90px;
             }
 
             .chart-container {
@@ -182,11 +182,15 @@
 
             .card {
                 padding: 14px;
-                border-radius: 16px;
+                border-radius: 12px;
             }
 
             .page-title {
-                font-size: 22px;
+                font-size: 18px;
+            }
+
+            .page-subtitle {
+                font-size: 12px;
             }
 
             /* Ensure no horizontal overflow */
@@ -203,12 +207,15 @@
             * {
                 word-wrap: break-word;
                 overflow-wrap: break-word;
+                -webkit-hyphens: auto;
+                -ms-hyphens: auto;
+                hyphens: auto;
             }
         }
 
         @media (max-width: 480px) {
             .main-content {
-                padding: 70px 12px 16px;
+                padding: 70px 10px 90px;
             }
 
             .card {
@@ -216,11 +223,19 @@
             }
 
             .page-title {
-                font-size: 20px;
+                font-size: 16px;
             }
 
             .chart-container {
                 height: 200px;
+            }
+
+            .stat-value {
+                font-size: 20px;
+            }
+
+            .stat-label {
+                font-size: 11px;
             }
         }
     </style>
