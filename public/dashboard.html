@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Health Dashboard - HealthAI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -147,12 +147,18 @@
       cursor: pointer;
       transition: all 0.3s ease;
       border: 2px solid transparent;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .action-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 16px var(--shadow);
       border-color: var(--primary);
+    }
+
+    .action-card:active {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px var(--shadow);
     }
 
     .action-card .icon {
@@ -203,17 +209,23 @@
     .card-header .action-btn {
       background: var(--light);
       border: none;
-      padding: 6px 12px;
+      padding: 8px 16px;
       border-radius: 6px;
       font-size: 12px;
       cursor: pointer;
       color: var(--gray);
       transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      font-weight: 500;
     }
 
     .card-header .action-btn:hover {
       background: var(--border);
       color: var(--dark);
+    }
+
+    .card-header .action-btn:active {
+      transform: scale(0.95);
     }
 
     /* Today's Goals */
@@ -233,13 +245,24 @@
     }
 
     .goal-checkbox {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       border: 2px solid var(--border);
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
       position: relative;
       flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+      transition: all 0.2s ease;
+    }
+
+    .goal-checkbox:hover {
+      border-color: var(--primary);
+      transform: scale(1.1);
+    }
+
+    .goal-checkbox:active {
+      transform: scale(0.95);
     }
 
     .goal-checkbox.checked {
@@ -448,6 +471,20 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
+        padding: 16px;
+      }
+
+      .header-left h1 {
+        font-size: 20px;
+      }
+
+      .header-left p {
+        font-size: 12px;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: space-between;
       }
 
       .welcome-banner {
@@ -458,21 +495,107 @@
         font-size: 20px;
       }
 
+      .welcome-banner p {
+        font-size: 14px;
+      }
+
       .welcome-banner .stats {
         flex-direction: column;
         gap: 16px;
       }
 
+      .welcome-banner .stat-value {
+        font-size: 24px;
+      }
+
       .dashboard-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
       }
 
       .metrics-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
       }
 
       .quick-actions {
         grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .action-card {
+        padding: 16px;
+      }
+
+      .action-card .icon {
+        font-size: 24px;
+      }
+
+      .action-card h3 {
+        font-size: 14px;
+      }
+
+      .action-card p {
+        font-size: 11px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .card-header h3 {
+        font-size: 16px;
+      }
+
+      .goal-item, .activity-item {
+        padding: 10px;
+      }
+
+      .progress-ring {
+        width: 100px;
+        height: 100px;
+      }
+
+      .progress-text .value {
+        font-size: 20px;
+      }
+
+      .tip-item {
+        padding: 10px;
+      }
+
+      .tip-title {
+        font-size: 13px;
+      }
+
+      .tip-text {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-banner .stats {
+        gap: 12px;
+      }
+
+      .date-display {
+        font-size: 12px;
+      }
+
+      .metric-value {
+        font-size: 20px !important;
+      }
+
+      .goal-title, .activity-title {
+        font-size: 13px;
+      }
+
+      .goal-progress, .activity-time {
+        font-size: 11px;
       }
     }
 
@@ -769,7 +892,10 @@
     document.addEventListener('DOMContentLoaded', () => {
       updateDateTime();
       setGreeting();
-      loadUserProgress();
+      loadUserData();
+      initializeGoals();
+      initializeActivity();
+      updateProgress();
     });
 
     // Update current date and time
@@ -797,23 +923,113 @@
       document.getElementById('motivationalMessage').textContent = message;
     }
 
-    // Load user progress (simulated)
-    function loadUserProgress() {
-      // This would typically load from a database
-      const userProgress = {
-        todayScore: 85,
-        streakDays: 7,
-        completedGoals: '3/5'
+    // Load user data from localStorage
+    function loadUserData() {
+      let userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {
+        todayScore: 75,
+        streakDays: 5,
+        waterIntake: 5,
+        waterGoal: 8,
+        weight: 72.5,
+        calories: 1850,
+        lastLogin: new Date().toDateString()
       };
 
-      document.getElementById('todayScore').textContent = userProgress.todayScore;
-      document.getElementById('streakDays').textContent = userProgress.streakDays;
-      document.getElementById('completedGoals').textContent = userProgress.completedGoals;
+      // Check if it's a new day
+      const today = new Date().toDateString();
+      if (userData.lastLogin !== today) {
+        // Reset daily goals but keep streak
+        userData.streakDays++;
+        userData.todayScore = 60;
+        userData.waterIntake = 0;
+        userData.lastLogin = today;
+        saveUserData(userData);
+      }
+
+      document.getElementById('todayScore').textContent = userData.todayScore;
+      document.getElementById('streakDays').textContent = userData.streakDays;
+
+      // Update water intake display
+      const waterMetric = document.querySelectorAll('.metric-value')[3];
+      if (waterMetric) {
+        waterMetric.textContent = `${userData.waterIntake}/${userData.waterGoal}`;
+      }
+
+      return userData;
+    }
+
+    // Save user data
+    function saveUserData(data) {
+      localStorage.setItem('healthDashboardData', JSON.stringify(data));
+    }
+
+    // Initialize goals from localStorage or defaults
+    function initializeGoals() {
+      const savedGoals = JSON.parse(localStorage.getItem('healthGoals')) || [
+        { title: 'Drink 8 glasses of water', progress: '5/8 completed', completed: false },
+        { title: '30 minutes of exercise', progress: 'Completed', completed: true },
+        { title: 'Eat 5 servings of vegetables', progress: '3/5 completed', completed: false },
+        { title: 'Sleep 8 hours', progress: 'Target: 8 hours', completed: false },
+        { title: 'Take morning walk', progress: 'Completed', completed: true }
+      ];
+
+      const goalsList = document.getElementById('goalsList');
+      goalsList.innerHTML = '';
+
+      savedGoals.forEach((goal, index) => {
+        const goalElement = document.createElement('div');
+        goalElement.className = 'goal-item';
+        goalElement.innerHTML = `
+          <div class="goal-checkbox ${goal.completed ? 'checked' : ''}" onclick="toggleGoal(this, ${index})"></div>
+          <div class="goal-content">
+            <div class="goal-title">${goal.title}</div>
+            <div class="goal-progress">${goal.progress}</div>
+          </div>
+        `;
+        goalsList.appendChild(goalElement);
+      });
+
+      return savedGoals;
+    }
+
+    // Initialize recent activity
+    function initializeActivity() {
+      const activities = JSON.parse(localStorage.getItem('healthActivities')) || [
+        { icon: '🏃', title: 'Morning workout completed', time: '2 hours ago' },
+        { icon: '🍽️', title: 'Breakfast logged - 450 calories', time: '4 hours ago' },
+        { icon: '⚖️', title: 'Weight logged: 72.5 kg', time: 'Yesterday' },
+        { icon: '💧', title: 'Water intake: 6 glasses', time: 'Yesterday' }
+      ];
+
+      const activityList = document.getElementById('activityList');
+      activityList.innerHTML = '';
+
+      activities.slice(0, 4).forEach(activity => {
+        const activityElement = document.createElement('div');
+        activityElement.className = 'activity-item';
+        activityElement.innerHTML = `
+          <div class="activity-icon">${activity.icon}</div>
+          <div class="activity-content">
+            <div class="activity-title">${activity.title}</div>
+            <div class="activity-time">${activity.time}</div>
+          </div>
+        `;
+        activityList.appendChild(activityElement);
+      });
     }
 
     // Toggle goal completion
-    function toggleGoal(checkbox) {
+    function toggleGoal(checkbox, index) {
       checkbox.classList.toggle('checked');
+
+      // Update goals in localStorage
+      let goals = JSON.parse(localStorage.getItem('healthGoals')) || [];
+      if (goals[index]) {
+        goals[index].completed = checkbox.classList.contains('checked');
+        goals[index].progress = checkbox.classList.contains('checked') ? 'Completed ✅' : 'In progress';
+        localStorage.setItem('healthGoals', JSON.stringify(goals));
+      }
+
       updateProgress();
     }
 
@@ -821,53 +1037,104 @@
     function updateProgress() {
       const totalGoals = document.querySelectorAll('.goal-checkbox').length;
       const completedGoals = document.querySelectorAll('.goal-checkbox.checked').length;
-      const progress = Math.round((completedGoals / totalGoals) * 100);
+      const progress = totalGoals > 0 ? Math.round((completedGoals / totalGoals) * 100) : 0;
 
       // Update progress ring
       const progressCircle = document.querySelector('.progress-ring .progress');
-      const circumference = 314; // 2 * π * 50
+      const circumference = 314;
       const offset = circumference - (progress / 100) * circumference;
       progressCircle.style.strokeDashoffset = offset;
 
       // Update progress text
       document.querySelector('.progress-text .value').textContent = progress + '%';
 
-      // Update completed goals
+      // Update completed goals count
       document.getElementById('completedGoals').textContent = `${completedGoals}/${totalGoals}`;
 
       // Update today's score
-      const newScore = Math.min(100, 60 + progress);
-      document.getElementById('todayScore').textContent = newScore;
+      const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {};
+      userData.todayScore = Math.min(100, 60 + progress);
+      saveUserData(userData);
+      document.getElementById('todayScore').textContent = userData.todayScore;
     }
 
     // Quick log actions
     function quickLog(type) {
-      const messages = {
-        weight: '⚖️ Weight logged successfully!',
-        meal: '🍽️ Meal logged successfully!',
-        workout: '🏃 Workout started! Good luck!',
-        water: '💧 Water intake logged!'
-      };
+      const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {};
+      let activity = { icon: '', title: '', time: 'Just now' };
 
-      alert(messages[type]);
-      // Here you would typically open a modal or navigate to the logging page
+      switch(type) {
+        case 'weight':
+          const weight = prompt('Enter your weight (kg):', userData.weight || '72.5');
+          if (weight) {
+            userData.weight = parseFloat(weight);
+            activity = { icon: '⚖️', title: `Weight logged: ${weight} kg`, time: 'Just now' };
+            addActivity(activity);
+          }
+          break;
+
+        case 'meal':
+          const calories = prompt('Enter meal calories:', '450');
+          if (calories) {
+            userData.calories = (userData.calories || 0) + parseInt(calories);
+            activity = { icon: '🍽️', title: `Meal logged - ${calories} calories`, time: 'Just now' };
+            addActivity(activity);
+          }
+          break;
+
+        case 'workout':
+          const duration = prompt('Workout duration (minutes):', '30');
+          if (duration) {
+            activity = { icon: '🏃', title: `Workout logged - ${duration} minutes`, time: 'Just now' };
+            addActivity(activity);
+          }
+          break;
+
+        case 'water':
+          userData.waterIntake = (userData.waterIntake || 0) + 1;
+          const waterMetric = document.querySelectorAll('.metric-value')[3];
+          if (waterMetric) {
+            waterMetric.textContent = `${userData.waterIntake}/${userData.waterGoal}`;
+          }
+          activity = { icon: '💧', title: `Water intake logged - Glass ${userData.waterIntake}`, time: 'Just now' };
+          addActivity(activity);
+          break;
+      }
+
+      saveUserData(userData);
+
+      // Show success notification
+      showNotification('✅ Successfully logged!');
+    }
+
+    // Add activity to timeline
+    function addActivity(activity) {
+      let activities = JSON.parse(localStorage.getItem('healthActivities')) || [];
+      activities.unshift(activity);
+
+      // Keep only last 10 activities
+      if (activities.length > 10) {
+        activities = activities.slice(0, 10);
+      }
+
+      localStorage.setItem('healthActivities', JSON.stringify(activities));
+      initializeActivity();
     }
 
     // Add new goal
     function addGoal() {
       const goalTitle = prompt('Enter your new goal:');
       if (goalTitle) {
-        const goalsList = document.getElementById('goalsList');
-        const newGoal = document.createElement('div');
-        newGoal.className = 'goal-item';
-        newGoal.innerHTML = `
-          <div class="goal-checkbox" onclick="toggleGoal(this)"></div>
-          <div class="goal-content">
-            <div class="goal-title">${goalTitle}</div>
-            <div class="goal-progress">Just added</div>
-          </div>
-        `;
-        goalsList.appendChild(newGoal);
+        let goals = JSON.parse(localStorage.getItem('healthGoals')) || [];
+        goals.push({
+          title: goalTitle,
+          progress: 'Just added',
+          completed: false
+        });
+        localStorage.setItem('healthGoals', JSON.stringify(goals));
+        initializeGoals();
+        updateProgress();
+        showNotification('✅ Goal added successfully!');
       }
     }
 
@@ -878,8 +1145,27 @@
 
     // Update metrics
     function updateMetrics() {
-      alert('Opening health metrics update form...');
-      // Here you would typically open a modal to update metrics
+      const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {};
+      const newWeight = prompt('Update your weight (kg):', userData.weight || '72.5');
+      if (newWeight) {
+        userData.weight = parseFloat(newWeight);
+        saveUserData(userData);
+
+        // Update display
+        const weightMetric = document.querySelectorAll('.metric-value')[0];
+        if (weightMetric) {
+          weightMetric.textContent = userData.weight + ' kg';
+        }
+
+        // Add to activity
+        addActivity({
+          icon: '⚖️',
+          title: `Weight updated: ${userData.weight} kg`,
+          time: 'Just now'
+        });
+
+        showNotification('✅ Weight updated successfully!');
+      }
     }
 
     // View details
@@ -894,7 +1180,10 @@
         { title: 'Take Breaks', text: 'Stand up and stretch every hour.' },
         { title: 'Sleep Well', text: 'Aim for 7-8 hours of quality sleep.' },
         { title: 'Eat Mindfully', text: 'Focus on your food while eating.' },
-        { title: 'Move More', text: 'Take short walks throughout the day.' }
+        { title: 'Move More', text: 'Take short walks throughout the day.' },
+        { title: 'Reduce Sugar', text: 'Try to limit sugary drinks and snacks.' },
+        { title: 'Portion Control', text: 'Use smaller plates to help control portions.' },
+        { title: 'Stay Active', text: 'Take the stairs instead of the elevator.' }
       ];
 
       const tipsList = document.querySelector('.tips-list');
@@ -912,22 +1201,133 @@
         `;
         tipsList.appendChild(tipElement);
       });
+
+      showNotification('✅ Tips refreshed!');
     }
 
     // Manage reminders
     function manageReminders() {
-      alert('Opening reminder settings...');
-      // Here you would typically navigate to reminder settings
+      showNotification('⏰ Reminder settings coming soon!');
     }
 
     // Show notifications
     function showNotifications() {
-      alert('🔔 Notifications:\n\n• You have 3 completed goals today!\n• Don\'t forget your evening workout\n• Water reminder in 30 minutes');
+      const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {};
+      const completedGoals = document.querySelectorAll('.goal-checkbox.checked').length;
+
+      alert(`🔔 Notifications:\n\n• ✅ You have ${completedGoals} completed goals today!\n• 🔥 ${userData.streakDays} day streak - keep it up!\n• 💧 Don't forget to stay hydrated\n• 🏃 Great progress on your fitness journey!`);
     }
 
     // Show settings
     function showSettings() {
-      alert('⚙️ Settings:\n\n• Profile Settings\n• Notification Preferences\n• Data Export\n• Privacy Settings');
+      const choice = confirm('⚙️ Settings\n\nClick OK for:\n• Data Export\n• Reset Progress\n• Privacy Settings\n\nClick Cancel to close');
+
+      if (choice) {
+        const action = prompt('Choose an action:\n1. Export Data\n2. Reset Progress\n3. Clear All Data\n\nEnter number (1-3):');
+
+        switch(action) {
+          case '1':
+            exportData();
+            break;
+          case '2':
+            if (confirm('Reset today\'s progress?')) {
+              resetProgress();
+            }
+            break;
+          case '3':
+            if (confirm('Clear ALL data? This cannot be undone.')) {
+              clearAllData();
+            }
+            break;
+        }
+      }
+    }
+
+    // Export data
+    function exportData() {
+      const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {};
+      const goals = JSON.parse(localStorage.getItem('healthGoals')) || [];
+      const activities = JSON.parse(localStorage.getItem('healthActivities')) || [];
+
+      const exportData = {
+        userData: userData,
+        goals: goals,
+        activities: activities,
+        exportDate: new Date().toISOString()
+      };
+
+      const dataStr = JSON.stringify(exportData, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'health-dashboard-export.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      showNotification('✅ Data exported successfully!');
+    }
+
+    // Reset progress
+    function resetProgress() {
+      let goals = JSON.parse(localStorage.getItem('healthGoals')) || [];
+      goals.forEach(goal => goal.completed = false);
+      localStorage.setItem('healthGoals', JSON.stringify(goals));
+
+      initializeGoals();
+      updateProgress();
+      showNotification('✅ Progress reset for today!');
+    }
+
+    // Clear all data
+    function clearAllData() {
+      localStorage.removeItem('healthDashboardData');
+      localStorage.removeItem('healthGoals');
+      localStorage.removeItem('healthActivities');
+
+      location.reload();
+    }
+
+    // Show notification
+    function showNotification(message) {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #10b981;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+      `;
+      notification.textContent = message;
+
+      // Add animation keyframes
+      if (!document.getElementById('notificationStyles')) {
+        const style = document.createElement('style');
+        style.id = 'notificationStyles';
+        style.textContent = `
+          @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+
+      document.body.appendChild(notification);
+
+      // Remove after 3 seconds
+      setTimeout(() => {
+        notification.style.animation = 'slideIn 0.3s ease reverse';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
     }
   </script>
 </body>
