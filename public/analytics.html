@@ -82,7 +82,7 @@
 
     .charts-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 20px;
       margin-bottom: 20px;
     }
@@ -139,6 +139,15 @@
       grid-column: 1 / -1;
     }
 
+    .charts-container {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .charts-container.loaded {
+      opacity: 1;
+    }
+
     @media (max-width: 768px) {
       .charts-container {
         grid-template-columns: 1fr;
@@ -146,6 +155,34 @@
 
       .stat-card .value {
         font-size: 24px;
+      }
+
+      .header h1 {
+        font-size: 20px;
+      }
+
+      .chart-wrapper {
+        height: 250px;
+      }
+
+      .time-selector {
+        flex-wrap: wrap;
+      }
+
+      .time-selector button {
+        flex: 1 1 calc(50% - 5px);
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-wrapper {
+        height: 200px;
       }
     }
 
@@ -174,26 +211,30 @@
       <div class="stat-card">
         <h3>Health Score</h3>
         <div class="value">85</div>
-        <div class="change">+3.2% from last week</div>
+        <div class="change">↑ +3.2% from last week</div>
       </div>
       <div class="stat-card">
         <h3>Weight (kg)</h3>
         <div class="value">72.5</div>
-        <div class="change">-0.5kg from last week</div>
+        <div class="change">↓ -0.5kg from last week</div>
       </div>
       <div class="stat-card">
         <h3>Daily Calories</h3>
         <div class="value">1,950</div>
-        <div class="change">On target</div>
+        <div class="change">✓ On target</div>
       </div>
       <div class="stat-card">
         <h3>Workouts This Week</h3>
         <div class="value">4</div>
-        <div class="change">+1 from last week</div>
+        <div class="change">↑ +1 from last week</div>
       </div>
     </div>
 
-    <div class="charts-container">
+    <div id="loadingState" class="loading">
+      Loading analytics data...
+    </div>
+
+    <div class="charts-container" id="chartsContainer" style="display: none;">
       <div class="chart-card">
         <h2>Health Score Trend</h2>
         <div class="chart-wrapper">
@@ -257,9 +298,9 @@
               position: 'bottom',
               labels: {
                 usePointStyle: true,
-                padding: 15,
+                padding: 10,
                 font: {
-                  size: 12
+                  size: 11
                 }
               }
             }
@@ -269,11 +310,21 @@
               beginAtZero: false,
               grid: {
                 color: '#ecf0f1'
+              },
+              ticks: {
+                font: {
+                  size: 10
+                }
               }
             },
             x: {
               grid: {
                 display: false
+              },
+              ticks: {
+                font: {
+                  size: 10
+                }
               }
             }
           }
@@ -402,8 +453,29 @@
         chartsInitialized = true;
         console.log('✅ All charts created successfully');
 
+        // Hide loading state and show charts
+        const loadingState = document.getElementById('loadingState');
+        if (loadingState) {
+          loadingState.style.display = 'none';
+        }
+
+        const chartsContainer = document.getElementById('chartsContainer');
+        if (chartsContainer) {
+          chartsContainer.style.display = 'grid';
+          setTimeout(() => {
+            chartsContainer.classList.add('loaded');
+          }, 100);
+        }
+
       } catch (error) {
         console.error('❌ Error creating charts:', error);
+
+        // Show error message
+        const loadingState = document.getElementById('loadingState');
+        if (loadingState) {
+          loadingState.innerHTML = 'Error loading charts. Please refresh the page.';
+          loadingState.style.color = '#e74c3c';
+        }
       }
     }
 
@@ -423,7 +495,7 @@
         week: { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
         month: { labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'] },
         quarter: { labels: ['Jan', 'Feb', 'Mar'] },
-        year: { labels: ['Q1', 'Q2', 'Q3', 'Q4']
+        year: { labels: ['Q1', 'Q2', 'Q3', 'Q4'] }
       };
 
       // Update charts with new labels
