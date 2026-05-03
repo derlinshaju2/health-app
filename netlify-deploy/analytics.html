@@ -1811,6 +1811,20 @@
     let healthScoreChart, weightChart, calorieChart;
 
     function initCharts() {
+      // Destroy existing charts before creating new ones to prevent canvas reuse error
+      if (healthScoreChart) {
+        healthScoreChart.destroy();
+        healthScoreChart = null;
+      }
+      if (weightChart) {
+        weightChart.destroy();
+        weightChart = null;
+      }
+      if (calorieChart) {
+        calorieChart.destroy();
+        calorieChart = null;
+      }
+
       // Health Score Chart
       const healthScoreCtx = document.getElementById('healthScoreChart').getContext('2d');
       healthScoreChart = new Chart(healthScoreCtx, {
