@@ -32,107 +32,122 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+      background: #f5f7fa;
       min-height: 100vh;
       color: var(--dark);
       display: flex;
     }
 
-    /* Sidebar */
+    /* Sidebar Navigation */
     .sidebar {
-      width: 280px;
-      background: white;
-      height: 100vh;
+      width: 250px;
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      color: white;
       position: fixed;
       left: 0;
       top: 0;
-      padding: 30px 20px;
-      box-shadow: 4px 0 24px var(--shadow);
-      z-index: 1000;
-      transition: transform 0.3s ease;
+      height: 100vh;
       overflow-y: auto;
+      z-index: 1000;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 40px;
-      padding: 0 10px;
+    .sidebar-header {
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .sidebar-logo-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    }
-
-    .sidebar-logo-text {
+    .sidebar-header h2 {
       font-size: 20px;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .sidebar-header p {
+      font-size: 12px;
+      opacity: 0.8;
     }
 
     .nav-section {
-      margin-bottom: 30px;
+      padding: 20px 0;
     }
 
     .nav-section-title {
+      padding: 0 20px;
       font-size: 11px;
-      color: var(--gray);
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      padding: 0 10px;
+      letter-spacing: 1px;
+      opacity: 0.6;
+      margin-bottom: 10px;
     }
 
-    .nav-link {
+    .nav-item {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      color: var(--dark);
-      text-decoration: none;
-      border-radius: 14px;
-      margin-bottom: 6px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      font-size: 15px;
-    }
-
-    .nav-link:hover {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-      color: var(--primary);
-      transform: translateX(4px);
-    }
-
-    .nav-link.active {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 12px 20px;
       color: white;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
     }
 
-    .nav-link-icon {
-      font-size: 20px;
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-left-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-left-color: white;
+      font-weight: 600;
+    }
+
+    .nav-icon {
+      font-size: 18px;
+      margin-right: 12px;
       width: 24px;
       text-align: center;
     }
 
-    /* Main Content */
+    .nav-text {
+      font-size: 14px;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
     .main-content {
-      margin-left: 280px;
+      margin-left: 250px;
       flex: 1;
-      padding: 30px;
-      min-height: 100vh;
+      width: calc(100% - 250px);
     }
 
     /* Header */
@@ -442,30 +457,23 @@
     }
 
     @media (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
-
       .sidebar {
         transform: translateX(-100%);
-        width: 280px;
+        transition: transform 0.3s ease;
       }
 
-      .sidebar.active {
+      .sidebar.open {
         transform: translateX(0);
       }
 
       .main-content {
         margin-left: 0;
-        padding: 16px;
         width: 100%;
       }
 
-      .hamburger-menu { display: block; }
-      .header-content {
-        margin-left: 0;
+      .mobile-menu-toggle {
+        display: block;
       }
-      .mobile-menu-btn { display: none !important; }
         display: flex;
         align-items: center;
         justify-content: center;
@@ -862,51 +870,70 @@
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <div class="sidebar-logo-icon">🏥</div>
-      <span class="sidebar-logo-text">HealthAI</span>
+  <!-- Mobile menu toggle -->
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <h2>🏥 HealthAI</h2>
+      <p>Your Health Companion</p>
     </div>
 
-    <nav>
-      <div class="nav-section">
-        <div class="nav-section-title">Main Menu</div>
-        <a href="dashboard-main.html" class="nav-link">
-          <span class="nav-link-icon">📊</span>
-          <span>Dashboard</span>
-        </a>
-        <a href="disease-prediction.html" class="nav-link">
-          <span class="nav-link-icon">🔮</span>
-          <span>Disease Prediction</span>
-        </a>
-        <a href="diet-tracking.html" class="nav-link">
-          <span class="nav-link-icon">🥗</span>
-          <span>Diet & Nutrition</span>
-        </a>
-        <a href="bmi-calculator.html" class="nav-link">
-          <span class="nav-link-icon">⚖️</span>
-          <span>BMI Calculator</span>
-        </a>
-      </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Main</div>
+      <a href="dashboard.html" class="nav-item" id="nav-dashboard">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-text">Dashboard</span>
+      </a>
+      <a href="analytics.html" class="nav-item" id="nav-analytics">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text">Analytics</span>
+      </a>
+      <a href="profile.html" class="nav-item" id="nav-profile">
+        <span class="nav-icon">👤</span>
+        <span class="nav-text">Profile</span>
+      </a>
+    </div>
 
-      <div class="nav-section">
-        <div class="nav-section-title">Health & Fitness</div>
-        <a href="yoga-tracker.html" class="nav-link active">
-          <span class="nav-link-icon">🧘</span>
-          <span>Yoga & Exercise</span>
-        </a>
-        <a href="analytics.html" class="nav-link">
-          <span class="nav-link-icon">📈</span>
-          <span>Analytics</span>
-        </a>
-        <a href="profile.html" class="nav-link">
-          <span class="nav-link-icon">👤</span>
-          <span>Profile</span>
-        </a>
-      </div>
-    </nav>
-  </aside>
+    <div class="nav-section">
+      <div class="nav-section-title">Tracking</div>
+      <a href="diet-tracking.html" class="nav-item" id="nav-diet">
+        <span class="nav-icon">🥗</span>
+        <span class="nav-text">Diet & Nutrition</span>
+      </a>
+      <a href="yoga-tracker.html" class="nav-item active" id="nav-yoga">
+        <span class="nav-icon">🧘</span>
+        <span class="nav-text">Yoga & Fitness</span>
+      </a>
+      <a href="bmi-calculator.html" class="nav-item" id="nav-bmi">
+        <span class="nav-icon">⚖️</span>
+        <span class="nav-text">BMI Calculator</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">Health</div>
+      <a href="disease-prediction.html" class="nav-item" id="nav-disease">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-text">Disease Prediction</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">Account</div>
+      <a href="index.html" class="nav-item" id="nav-logout">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-text">Logout</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Sidebar overlay for mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- Main content area -->
+  <div class="main-content">
 
   <!-- Main Content -->
   <main class="main-content">
@@ -1267,7 +1294,35 @@
         }
       }
     });
+  </script>
 
+  <script>
+    // Set active navigation item based on current page
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentPage = window.location.pathname.split('/').pop() || 'yoga-tracker.html';
+      const navItems = document.querySelectorAll('.nav-item');
+
+      navItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (href === currentPage) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    });
+
+    // Toggle sidebar for mobile
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+  </script>
+
+  <script>
     // Yoga session tracking
     let totalMinutes = 45;
     let totalSessions = 1;
@@ -1385,5 +1440,6 @@
         String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
     }
   </script>
+  </div><!-- End main-content -->
 </body>
 </html>
