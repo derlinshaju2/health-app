@@ -106,6 +106,36 @@
       transform: scale(1.05);
     }
 
+    /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    /* Hide hamburger button on desktop */
+    @media (min-width: 769px) {
+      .sidebar-hamburger {
+        display: none;
+      }
+    }
+
     .sidebar-overlay {
       display: none;
       position: fixed;
@@ -515,6 +545,14 @@
         margin-left: 0;
         width: 100%;
       }
+
+      .sidebar-hamburger {
+        display: flex;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
         display: flex;
         align-items: center;
         justify-content: center;
@@ -721,6 +759,11 @@
   </style>
 </head>
 <body>
+  <!-- Mobile menu toggle button -->
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
+    ☰
+  </button>
+
   <!-- Sidebar Overlay for Mobile -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
@@ -958,19 +1001,43 @@
     // Toggle sidebar for mobile and desktop
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
-      const mainContent = document.querySelector('.main-content');
       const overlay = document.getElementById('sidebarOverlay');
+      const mobileToggle = document.getElementById('mobileMenuToggle');
 
       if (sidebar) {
-        sidebar.classList.toggle('collapsed');
-      }
-      if (mainContent) {
-        mainContent.classList.toggle('expanded');
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+          const isOpen = sidebar.classList.toggle('open');
+          if (mobileToggle) {
+            mobileToggle.style.display = isOpen ? 'none' : 'block';
+          }
+        } else {
+          sidebar.classList.toggle('collapsed');
+        }
       }
       if (overlay) {
         overlay.classList.toggle('active');
       }
     }
+
+    window.addEventListener('resize', function() {
+      const sidebar = document.querySelector('.sidebar');
+      const mobileToggle = document.getElementById('mobileMenuToggle');
+
+      if (window.innerWidth > 768) {
+        if (sidebar) {
+          sidebar.classList.remove('open');
+        }
+        if (mobileToggle) {
+          mobileToggle.style.display = 'none';
+        }
+      } else {
+        if (mobileToggle && sidebar && !sidebar.classList.contains('open')) {
+          mobileToggle.style.display = 'block';
+        }
+      }
+    });
   </script>
 
   <script>

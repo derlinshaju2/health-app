@@ -10,7 +10,9 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+          referrerpolicy="no-referrer"
+          crossorigin="anonymous"></script>
   <style>
     * {
       margin: 0;
@@ -91,6 +93,36 @@
     .sidebar-hamburger:hover {
       background: rgba(255, 255, 255, 0.3);
       transform: scale(1.05);
+    }
+
+    /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    /* Hide hamburger button on desktop */
+    @media (min-width: 769px) {
+      .sidebar-hamburger {
+        display: none;
+      }
     }
 
     .sidebar-overlay {
@@ -313,6 +345,14 @@
         width: 100%;
       }
 
+      .sidebar-hamburger {
+        display: flex;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
       .charts-container {
         grid-template-columns: 1fr;
       }
@@ -358,6 +398,11 @@
   </style>
 </head>
 <body>
+  <!-- Mobile menu toggle button -->
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
+    ☰
+  </button>
+
   <!-- Sidebar Overlay for Mobile -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
@@ -982,12 +1027,50 @@
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
       const overlay = document.getElementById('sidebarOverlay');
+      const mobileToggle = document.getElementById('mobileMenuToggle');
 
-      if (sidebar && overlay) {
-        sidebar.classList.toggle('open');
+      if (sidebar) {
+        // Check if we're on mobile
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+          // Mobile: toggle 'open' class
+          const isOpen = sidebar.classList.toggle('open');
+
+          // Show/hide mobile toggle button based on sidebar state
+          if (mobileToggle) {
+            mobileToggle.style.display = isOpen ? 'none' : 'block';
+          }
+        } else {
+          // Desktop: toggle 'collapsed' class
+          sidebar.classList.toggle('collapsed');
+        }
+      }
+      if (overlay) {
         overlay.classList.toggle('active');
       }
     }
+
+    // Handle window resize to reset mobile toggle button visibility
+    window.addEventListener('resize', function() {
+      const sidebar = document.querySelector('.sidebar');
+      const mobileToggle = document.getElementById('mobileMenuToggle');
+
+      if (window.innerWidth > 768) {
+        // Desktop: reset mobile states
+        if (sidebar) {
+          sidebar.classList.remove('open');
+        }
+        if (mobileToggle) {
+          mobileToggle.style.display = 'none';
+        }
+      } else {
+        // Mobile: show toggle if sidebar is closed
+        if (mobileToggle && sidebar && !sidebar.classList.contains('open')) {
+          mobileToggle.style.display = 'block';
+        }
+      }
+    });
   </script>
   </div><!-- End main-content -->
 </body>
