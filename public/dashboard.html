@@ -52,9 +52,16 @@
     }
 
     .sidebar-header {
-      padding: 24px 20px;
+      padding: 20px;
       border-bottom: 1px solid var(--border);
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-header-content {
+      flex: 1;
     }
 
     .sidebar-header h2 {
@@ -67,6 +74,24 @@
     .sidebar-header p {
       font-size: 12px;
       color: rgba(255, 255, 255, 0.9);
+    }
+
+    .sidebar-menu-toggle {
+      display: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      transition: all 0.2s ease;
+      margin-left: 10px;
+    }
+
+    .sidebar-menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
 
     .nav-section {
@@ -118,39 +143,6 @@
       font-weight: 500;
     }
 
-    .mobile-menu-toggle {
-      display: none;
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 1001;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 1;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 38px;
-      min-height: 38px;
-    }
-
-    .mobile-menu-toggle:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
-    }
-
-    .mobile-menu-toggle:active {
-      transform: translateY(0);
-    }
-
     .sidebar-overlay {
       display: none;
       position: fixed;
@@ -164,6 +156,12 @@
 
     .sidebar-overlay.active {
       display: block;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar-menu-toggle {
+        display: block;
+      }
     }
 
     .main-content {
@@ -613,8 +611,10 @@
         width: 100%;
       }
 
-      .mobile-menu-toggle {
-        display: block;
+      .sidebar-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .container {
@@ -781,15 +781,16 @@
 </head>
 <body>
   <!-- Mobile menu toggle -->
-  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
-    ☰
-  </button>
-
   <!-- Sidebar Navigation -->
   <nav class="sidebar">
     <div class="sidebar-header">
-      <h2>🏥 HealthAI</h2>
-      <p>Your Health Companion</p>
+      <div class="sidebar-header-content">
+        <h2>🏥 HealthAI</h2>
+        <p>Your Health Companion</p>
+      </div>
+      <button class="sidebar-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+        ☰
+      </button>
     </div>
 
     <div class="nav-section">

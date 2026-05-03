@@ -36,9 +36,16 @@
     }
 
     .sidebar-header {
-      padding: 24px 20px;
+      padding: 20px;
       border-bottom: 1px solid #e2e8f0;
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-header-content {
+      flex: 1;
     }
 
     .sidebar-header h2 {
@@ -51,6 +58,24 @@
     .sidebar-header p {
       font-size: 12px;
       color: rgba(255, 255, 255, 0.9);
+    }
+
+    .sidebar-menu-toggle {
+      display: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      transition: all 0.2s ease;
+      margin-left: 10px;
+    }
+
+    .sidebar-menu-toggle:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
 
     .nav-section {
@@ -349,16 +374,16 @@
   </style>
 </head>
 <body>
-  <!-- Mobile menu toggle -->
-  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
-    ☰
-  </button>
-
   <!-- Sidebar Navigation -->
   <nav class="sidebar">
     <div class="sidebar-header">
-      <h2>🏥 HealthAI</h2>
-      <p>Your Health Companion</p>
+      <div class="sidebar-header-content">
+        <h2>🏥 HealthAI</h2>
+        <p>Your Health Companion</p>
+      </div>
+      <button class="sidebar-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+        ☰
+      </button>
     </div>
 
     <div class="nav-section">
