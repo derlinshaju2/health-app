@@ -878,9 +878,18 @@
         waterIntake: 5,
         waterGoal: 8,
         weight: 72.5,
-        calories: 1850,
+        calories: 0,
         lastLogin: new Date().toDateString()
       };
+
+      // Ensure all properties exist
+      userData.todayScore = userData.todayScore || 75;
+      userData.streakDays = userData.streakDays || 5;
+      userData.waterIntake = userData.waterIntake || 0;
+      userData.waterGoal = userData.waterGoal || 8;
+      userData.weight = userData.weight || 72.5;
+      userData.calories = userData.calories || 0;
+      userData.lastLogin = userData.lastLogin || new Date().toDateString();
 
       // Check if it's a new day
       const today = new Date().toDateString();
@@ -903,8 +912,15 @@
       }
 
       // Update displays
-      document.getElementById('todayScore').textContent = userData.todayScore;
-      document.getElementById('streakDays').textContent = userData.streakDays;
+      const todayScoreElement = document.getElementById('todayScore');
+      if (todayScoreElement) {
+        todayScoreElement.textContent = userData.todayScore;
+      }
+
+      const streakDaysElement = document.getElementById('streakDays');
+      if (streakDaysElement) {
+        streakDaysElement.textContent = userData.streakDays;
+      }
 
       return userData;
     }
@@ -916,31 +932,36 @@
       // Update weight display
       const weightDisplay = document.getElementById('weightDisplay');
       if (weightDisplay) {
-        weightDisplay.textContent = userData.weight + ' kg';
+        const weight = userData.weight || 72.5;
+        weightDisplay.textContent = weight + ' kg';
       }
 
       // Calculate and update BMI
       const bmiDisplay = document.getElementById('bmiDisplay');
-      if (bmiDisplay && userData.weight) {
+      if (bmiDisplay) {
+        const weight = userData.weight || 72.5;
         // Assuming height is 1.75m for BMI calculation
         const height = 1.75;
-        const bmi = (userData.weight / (height * height)).toFixed(1);
+        const bmi = (weight / (height * height)).toFixed(1);
         bmiDisplay.textContent = bmi;
       }
 
       // Update calories display
       const caloriesDisplay = document.getElementById('caloriesDisplay');
       if (caloriesDisplay) {
-        caloriesDisplay.textContent = userData.calories.toLocaleString();
+        const calories = userData.calories || 0;
+        caloriesDisplay.textContent = calories.toLocaleString();
       }
 
       // Update water display
       const waterDisplay = document.getElementById('waterDisplay');
       const waterMessage = document.getElementById('waterMessage');
       if (waterDisplay) {
-        waterDisplay.textContent = `${userData.waterIntake}/${userData.waterGoal}`;
+        const waterIntake = userData.waterIntake || 0;
+        const waterGoal = userData.waterGoal || 8;
+        waterDisplay.textContent = `${waterIntake}/${waterGoal}`;
         if (waterMessage) {
-          const remaining = userData.waterGoal - userData.waterIntake;
+          const remaining = waterGoal - waterIntake;
           if (remaining > 0) {
             waterMessage.textContent = `${remaining} more to go`;
             waterMessage.className = 'metric-change';
@@ -1248,10 +1269,10 @@
       // Find the progress section and update text
       const progressSection = document.querySelector('.progress-section');
       if (progressSection) {
-        const infoDiv = progressSection.querySelector('div');
+        const infoDiv = progressSection.querySelector('div:not(.progress-ring)');
         if (infoDiv) {
           const html = `
-            <h4 style="margin-bottom: 12px;">${completedGoals === totalGoals ? '🎉 All goals completed!' : 'Great progress today!'}</h4>
+            <h4 style="margin-bottom: 12px;">${completedGoals === totalGoals && totalGoals > 0 ? '🎉 All goals completed!' : 'Great progress today!'}</h4>
             <p style="font-size: 14px; color: var(--gray); margin-bottom: 8px;">
               ${completedGoals > 0 ? '✅' : '○'} ${completedGoals} of ${totalGoals} main goals completed
             </p>
