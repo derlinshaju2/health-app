@@ -76,7 +76,7 @@
       font-size: 18px;
       font-weight: 700;
       margin-bottom: 4px;
-      color: white;
+      color: var(--primary);
     }
 
     .sidebar-header p {
@@ -86,7 +86,7 @@
 
     .sidebar-hamburger {
       background: rgba(255, 255, 255, 0.2);
-      color: white;
+      color: var(--primary);
       border: none;
       padding: 8px 12px;
       border-radius: 8px;
@@ -113,26 +113,32 @@
       top: 16px;
       left: 16px;
       z-index: 1001;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 14px 18px;
-      border-radius: 14px;
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 12px;
       cursor: pointer;
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 1;
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4), 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      min-width: 50px;
-      min-height: 50px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s ease;
+      min-width: 48px;
+      min-height: 48px;
     }
 
     .mobile-menu-toggle:hover {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 12px 35px rgba(99, 102, 241, 0.5), 0 6px 15px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    }
+
+    .mobile-menu-toggle:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
 
     /* Hide hamburger button on desktop */
@@ -164,7 +170,7 @@
     .nav-section-title {
       padding: 0 20px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       color: #64748b;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -190,7 +196,7 @@
     .nav-item.active {
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
       border-left-color: #6366f1;
-      font-weight: 600;
+      font-weight: 500;
       color: #6366f1;
     }
 
@@ -312,7 +318,7 @@
     .form-label {
       display: block;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--dark);
       margin-bottom: 8px;
       text-transform: uppercase;
@@ -346,12 +352,12 @@
     .submit-btn {
       width: 100%;
       padding: 16px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
+      background: white;
+      color: var(--primary);
       border: none;
-      border-radius: 14px;
+      border-radius: 12px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
@@ -383,7 +389,7 @@
 
     .progress-label {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--dark);
       display: flex;
       align-items: center;
@@ -392,7 +398,7 @@
 
     .progress-value {
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--gray);
     }
 
@@ -423,7 +429,7 @@
       gap: 16px;
       padding: 16px;
       background: var(--light);
-      border-radius: 14px;
+      border-radius: 12px;
       transition: all 0.3s ease;
       border: 2px solid transparent;
     }
@@ -452,7 +458,7 @@
     }
 
     .activity-title {
-      font-weight: 600;
+      font-weight: 500;
       font-size: 15px;
       color: var(--dark);
       margin-bottom: 4px;
@@ -691,7 +697,7 @@
 
     .exercise-name {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--dark);
       margin-bottom: 4px;
     }
@@ -729,14 +735,14 @@
 
     .workout-name {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--dark);
     }
 
     .workout-duration {
       font-size: 12px;
       color: var(--primary);
-      font-weight: 600;
+      font-weight: 500;
       background: rgba(99, 102, 241, 0.1);
       padding: 4px 8px;
       border-radius: 6px;
@@ -751,12 +757,12 @@
     .workout-btn {
       width: 100%;
       padding: 8px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
+      background: white;
+      color: var(--primary);
       border: none;
       border-radius: 8px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
     }
@@ -796,7 +802,7 @@
 
     .pose-name {
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--dark);
       margin-bottom: 4px;
     }
@@ -804,7 +810,7 @@
     .pose-level {
       font-size: 11px;
       color: var(--primary);
-      font-weight: 600;
+      font-weight: 500;
       margin-bottom: 4px;
     }
 
@@ -836,14 +842,14 @@
 
     .challenge-name {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--dark);
     }
 
     .challenge-status {
       font-size: 12px;
       color: var(--success);
-      font-weight: 600;
+      font-weight: 500;
       background: rgba(16, 185, 129, 0.1);
       padding: 4px 8px;
       border-radius: 6px;
@@ -1101,21 +1107,21 @@
         </div>
 
         <div style="display: flex; gap: 12px; justify-content: center; margin-bottom: 20px;">
-          <button onclick="startTimer()" id="startBtn" style="padding: 12px 24px; border: none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+          <button onclick="startTimer()" id="startBtn" style="padding: 12px 24px; border: none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: var(--primary); border-radius: 12px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
             ▶️ Start
           </button>
-          <button onclick="pauseTimer()" id="pauseBtn" style="padding: 12px 24px; border: 2px solid var(--border); background: white; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: none;">
+          <button onclick="pauseTimer()" id="pauseBtn" style="padding: 12px 24px; border: 2px solid var(--border); background: white; border-radius: 12px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: none;">
             ⏸️ Pause
           </button>
-          <button onclick="resetTimer()" style="padding: 12px 24px; border: 2px solid var(--border); background: white; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+          <button onclick="resetTimer()" style="padding: 12px 24px; border: 2px solid var(--border); background: white; border-radius: 12px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
             🔄 Reset
           </button>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-          <button onclick="setTimer(15)" style="padding: 10px; border: 2px solid var(--border); background: white; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">15 min</button>
-          <button onclick="setTimer(30)" style="padding: 10px; border: 2px solid var(--border); background: white; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">30 min</button>
-          <button onclick="setTimer(45)" style="padding: 10px; border: 2px solid var(--border); background: white; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">45 min</button>
+          <button onclick="setTimer(15)" style="padding: 10px; border: 2px solid var(--border); background: white; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">15 min</button>
+          <button onclick="setTimer(30)" style="padding: 10px; border: 2px solid var(--border); background: white; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">30 min</button>
+          <button onclick="setTimer(45)" style="padding: 10px; border: 2px solid var(--border); background: white; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">45 min</button>
         </div>
       </div>
 

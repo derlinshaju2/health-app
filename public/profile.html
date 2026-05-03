@@ -76,7 +76,7 @@
       font-size: 18px;
       font-weight: 700;
       margin-bottom: 4px;
-      color: white;
+      color: var(--primary);
     }
 
     .sidebar-header p {
@@ -86,7 +86,7 @@
 
     .sidebar-hamburger {
       background: rgba(255, 255, 255, 0.2);
-      color: white;
+      color: var(--primary);
       border: none;
       padding: 8px 12px;
       border-radius: 8px;
@@ -113,26 +113,32 @@
       top: 16px;
       left: 16px;
       z-index: 1001;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 14px 18px;
-      border-radius: 14px;
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 12px;
       cursor: pointer;
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 1;
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4), 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      min-width: 50px;
-      min-height: 50px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s ease;
+      min-width: 48px;
+      min-height: 48px;
     }
 
     .mobile-menu-toggle:hover {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 12px 35px rgba(99, 102, 241, 0.5), 0 6px 15px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    }
+
+    .mobile-menu-toggle:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
 
     /* Hide hamburger button on desktop */
@@ -164,7 +170,7 @@
     .nav-section-title {
       padding: 0 20px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       color: #64748b;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -190,7 +196,7 @@
     .nav-item.active {
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
       border-left-color: #6366f1;
-      font-weight: 600;
+      font-weight: 500;
       color: #6366f1;
     }
 
@@ -249,7 +255,7 @@
       border: 2px solid var(--border);
       background: white;
       color: var(--dark);
-      font-weight: 600;
+      font-weight: 500;
       font-size: 14px;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -264,8 +270,8 @@
     }
 
     .header-btn.primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
+      background: white;
+      color: var(--primary);
       border: none;
     }
 
@@ -290,12 +296,12 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: white;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 36px;
-      color: white;
+      color: var(--primary);
       box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
       flex-shrink: 0;
     }
@@ -360,7 +366,7 @@
       border: none;
       color: var(--gray);
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
       white-space: nowrap;
@@ -383,7 +389,7 @@
       left: 0;
       right: 0;
       height: 2px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: white;
     }
 
     .tab-icon {
@@ -445,7 +451,7 @@
     .form-label {
       display: block;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--dark);
       margin-bottom: 8px;
       text-transform: uppercase;
@@ -509,7 +515,7 @@
 
     .setting-title {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--dark);
       margin-bottom: 4px;
     }
@@ -523,7 +529,7 @@
       width: 56px;
       height: 28px;
       background: var(--border);
-      border-radius: 14px;
+      border-radius: 12px;
       position: relative;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -531,7 +537,7 @@
     }
 
     .setting-toggle.active {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: white;
     }
 
     .setting-toggle::after {
@@ -556,7 +562,7 @@
       padding: 14px 24px;
       border-radius: 12px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
       display: inline-flex;
@@ -567,8 +573,8 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
+      background: white;
+      color: var(--primary);
     }
 
     .btn-primary:hover {
@@ -578,7 +584,7 @@
 
     .btn-danger {
       background: var(--danger);
-      color: white;
+      color: var(--primary);
     }
 
     .btn-danger:hover {
