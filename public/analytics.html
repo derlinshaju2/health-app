@@ -201,10 +201,10 @@
     </div>
 
     <div class="time-selector">
-      <button class="active" onclick="updateTimeRange('week')">Week</button>
-      <button onclick="updateTimeRange('month')">Month</button>
-      <button onclick="updateTimeRange('quarter')">Quarter</button>
-      <button onclick="updateTimeRange('year')">Year</button>
+      <button class="active" onclick="updateTimeRange('week', this)">Week</button>
+      <button onclick="updateTimeRange('month', this)">Month</button>
+      <button onclick="updateTimeRange('quarter', this)">Quarter</button>
+      <button onclick="updateTimeRange('year', this)">Year</button>
       <button onclick="refreshData()" style="background: #27ae60; color: white; border-color: #27ae60;">🔄 Refresh</button>
       <button onclick="exportData()" style="background: #3498db; color: white; border-color: #3498db;">📊 Export</button>
     </div>
@@ -508,12 +508,19 @@
       }
     }
 
-    function updateTimeRange(range) {
+    function updateTimeRange(range, buttonElement) {
       // Update active button
       document.querySelectorAll('.time-selector button').forEach(btn => {
         btn.classList.remove('active');
       });
-      event.target.classList.add('active');
+
+      // Use the passed button element or find it by text content
+      const targetButton = buttonElement || Array.from(document.querySelectorAll('.time-selector button'))
+        .find(btn => btn.textContent.toLowerCase().includes(range));
+
+      if (targetButton) {
+        targetButton.classList.add('active');
+      }
 
       // Update chart data based on time range
       console.log('Updating charts for range:', range);
