@@ -67,7 +67,6 @@
 
     .header-right {
       display: flex;
-      gap: 12px;
       align-items: center;
     }
 
@@ -634,8 +633,6 @@
       </div>
       <div class="header-right">
         <div class="date-display" id="currentDate"></div>
-        <button class="action-btn" onclick="showNotifications()">🔔</button>
-        <button class="action-btn" onclick="showSettings()">⚙️</button>
       </div>
     </div>
 
@@ -1030,6 +1027,7 @@
         localStorage.setItem('healthGoals', JSON.stringify(goals));
       }
 
+      // Update progress display
       updateProgress();
     }
 
@@ -1060,31 +1058,43 @@
 
     // Quick log actions
     function quickLog(type) {
-      const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {};
+      const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || loadUserData();
       let activity = { icon: '', title: '', time: 'Just now' };
 
       switch(type) {
         case 'weight':
           const weight = prompt('Enter your weight (kg):', userData.weight || '72.5');
-          if (weight) {
+          if (weight && !isNaN(weight)) {
             userData.weight = parseFloat(weight);
             activity = { icon: '⚖️', title: `Weight logged: ${weight} kg`, time: 'Just now' };
             addActivity(activity);
+
+            // Update weight display
+            const weightMetric = document.querySelectorAll('.metric-value')[0];
+            if (weightMetric) {
+              weightMetric.textContent = userData.weight + ' kg';
+            }
           }
           break;
 
         case 'meal':
           const calories = prompt('Enter meal calories:', '450');
-          if (calories) {
+          if (calories && !isNaN(calories)) {
             userData.calories = (userData.calories || 0) + parseInt(calories);
             activity = { icon: '🍽️', title: `Meal logged - ${calories} calories`, time: 'Just now' };
             addActivity(activity);
+
+            // Update calories display
+            const calorieMetric = document.querySelectorAll('.metric-value')[2];
+            if (calorieMetric) {
+              calorieMetric.textContent = userData.calories.toLocaleString();
+            }
           }
           break;
 
         case 'workout':
           const duration = prompt('Workout duration (minutes):', '30');
-          if (duration) {
+          if (duration && !isNaN(duration)) {
             activity = { icon: '🏃', title: `Workout logged - ${duration} minutes`, time: 'Just now' };
             addActivity(activity);
           }
@@ -1096,14 +1106,13 @@
           if (waterMetric) {
             waterMetric.textContent = `${userData.waterIntake}/${userData.waterGoal}`;
           }
-          activity = { icon: '💧', title: `Water intake logged - Glass ${userData.waterIntake}`, time: 'Just now' };
+          activity = { icon: '💧', title: `Water logged - Glass ${userData.waterIntake}`, time: 'Just now' };
           addActivity(activity);
           break;
       }
 
+      // Save and show notification
       saveUserData(userData);
-
-      // Show success notification
       showNotification('✅ Successfully logged!');
     }
 
@@ -1208,39 +1217,6 @@
     // Manage reminders
     function manageReminders() {
       showNotification('⏰ Reminder settings coming soon!');
-    }
-
-    // Show notifications
-    function showNotifications() {
-      const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {};
-      const completedGoals = document.querySelectorAll('.goal-checkbox.checked').length;
-
-      alert(`🔔 Notifications:\n\n• ✅ You have ${completedGoals} completed goals today!\n• 🔥 ${userData.streakDays} day streak - keep it up!\n• 💧 Don't forget to stay hydrated\n• 🏃 Great progress on your fitness journey!`);
-    }
-
-    // Show settings
-    function showSettings() {
-      const choice = confirm('⚙️ Settings\n\nClick OK for:\n• Data Export\n• Reset Progress\n• Privacy Settings\n\nClick Cancel to close');
-
-      if (choice) {
-        const action = prompt('Choose an action:\n1. Export Data\n2. Reset Progress\n3. Clear All Data\n\nEnter number (1-3):');
-
-        switch(action) {
-          case '1':
-            exportData();
-            break;
-          case '2':
-            if (confirm('Reset today\'s progress?')) {
-              resetProgress();
-            }
-            break;
-          case '3':
-            if (confirm('Clear ALL data? This cannot be undone.')) {
-              clearAllData();
-            }
-            break;
-        }
-      }
     }
 
     // Export data
