@@ -1724,13 +1724,17 @@
       });
     });
 
-    // Toggle sidebar for mobile
+    // Toggle sidebar for mobile and desktop
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
+      const mainContent = document.querySelector('.main-content');
       const overlay = document.getElementById('sidebarOverlay');
 
       if (sidebar) {
-        sidebar.classList.toggle('open');
+        sidebar.classList.toggle('collapsed');
+      }
+      if (mainContent) {
+        mainContent.classList.toggle('expanded');
       }
       if (overlay) {
         overlay.classList.toggle('active');
