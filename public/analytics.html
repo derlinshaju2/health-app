@@ -205,6 +205,8 @@
       <button onclick="updateTimeRange('month')">Month</button>
       <button onclick="updateTimeRange('quarter')">Quarter</button>
       <button onclick="updateTimeRange('year')">Year</button>
+      <button onclick="refreshData()" style="background: #27ae60; color: white; border-color: #27ae60;">🔄 Refresh</button>
+      <button onclick="exportData()" style="background: #3498db; color: white; border-color: #3498db;">📊 Export</button>
     </div>
 
     <div class="stats-grid">
@@ -292,6 +294,10 @@
         const commonOptions = {
           responsive: true,
           maintainAspectRatio: false,
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          },
           plugins: {
             legend: {
               display: true,
@@ -303,6 +309,19 @@
                   size: 11
                 }
               }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              titleFont: {
+                size: 13,
+                weight: 'bold'
+              },
+              bodyFont: {
+                size: 12
+              },
+              padding: 12,
+              cornerRadius: 6,
+              displayColors: true
             }
           },
           scales: {
@@ -326,6 +345,16 @@
                   size: 10
                 }
               }
+            }
+          },
+          onClick: (event, elements) => {
+            if (elements.length > 0) {
+              const element = elements[0];
+              const chart = element.chart;
+              const label = chart.data.labels[element.index];
+              const value = chart.data.datasets[element.datasetIndex].data[element.index];
+              console.log(`📊 Clicked: ${label} = ${value}`);
+              alert(`${label}: ${value}`);
             }
           }
         };
@@ -489,22 +518,203 @@
       // Update chart data based on time range
       console.log('Updating charts for range:', range);
 
-      // This would typically fetch new data from an API
-      // For now, we'll just show a message
-      const dataMap = {
-        week: { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
-        month: { labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'] },
-        quarter: { labels: ['Jan', 'Feb', 'Mar'] },
-        year: { labels: ['Q1', 'Q2', 'Q3', 'Q4'] }
+      const dataSets = {
+        week: {
+          healthScore: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: [82, 84, 83, 85, 86, 84, 85]
+          },
+          weight: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: [72.8, 72.7, 72.6, 72.5, 72.5, 72.4, 72.5]
+          },
+          calories: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: [1850, 2100, 1920, 2050, 1880, 2200, 1950]
+          },
+          sleep: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: [7.5, 6.8, 7.2, 8.0, 7.0, 8.5, 7.8]
+          },
+          workout: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: [1, 1, 0, 1, 0, 1, 0]
+          }
+        },
+        month: {
+          healthScore: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            data: [83, 84, 85, 85]
+          },
+          weight: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            data: [73.0, 72.8, 72.6, 72.5]
+          },
+          calories: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            data: [1950, 1980, 1920, 1950]
+          },
+          sleep: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            data: [7.2, 7.5, 7.8, 7.6]
+          },
+          workout: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            data: [3, 4, 3, 4]
+          }
+        },
+        quarter: {
+          healthScore: {
+            labels: ['Jan', 'Feb', 'Mar'],
+            data: [82, 84, 85]
+          },
+          weight: {
+            labels: ['Jan', 'Feb', 'Mar'],
+            data: [74.0, 73.5, 72.5]
+          },
+          calories: {
+            labels: ['Jan', 'Feb', 'Mar'],
+            data: [2000, 1950, 1920]
+          },
+          sleep: {
+            labels: ['Jan', 'Feb', 'Mar'],
+            data: [7.0, 7.5, 7.8]
+          },
+          workout: {
+            labels: ['Jan', 'Feb', 'Mar'],
+            data: [12, 15, 14]
+          }
+        },
+        year: {
+          healthScore: {
+            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            data: [82, 84, 85, 85]
+          },
+          weight: {
+            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            data: [75.0, 74.0, 73.0, 72.5]
+          },
+          calories: {
+            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            data: [2050, 2000, 1950, 1920]
+          },
+          sleep: {
+            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            data: [7.0, 7.3, 7.6, 7.8]
+          },
+          workout: {
+            labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+            data: [35, 40, 45, 48]
+          }
+        }
       };
 
-      // Update charts with new labels
-      Object.values(charts).forEach(chart => {
-        if (chart && dataMap[range]) {
-          chart.data.labels = dataMap[range].labels;
-          chart.update();
+      // Update stats cards
+      const statsMap = {
+        week: { healthScore: 85, weight: 72.5, calories: 1950, workouts: 4 },
+        month: { healthScore: 85, weight: 72.5, calories: 1950, workouts: 14 },
+        quarter: { healthScore: 85, weight: 72.5, calories: 1950, workouts: 41 },
+        year: { healthScore: 84, weight: 72.5, calories: 1980, workouts: 168 }
+      };
+
+      const stats = statsMap[range];
+      document.querySelector('.stat-card:nth-child(1) .value').textContent = stats.healthScore;
+      document.querySelector('.stat-card:nth-child(2) .value').textContent = stats.weight;
+      document.querySelector('.stat-card:nth-child(3) .value').textContent = stats.calories.toLocaleString();
+      document.querySelector('.stat-card:nth-child(4) .value').textContent = stats.workouts;
+
+      // Update charts with new data
+      const data = dataSets[range];
+
+      if (charts.healthScore && data.healthScore) {
+        charts.healthScore.data.labels = data.healthScore.labels;
+        charts.healthScore.data.datasets[0].data = data.healthScore.data;
+        charts.healthScore.update();
+      }
+
+      if (charts.weight && data.weight) {
+        charts.weight.data.labels = data.weight.labels;
+        charts.weight.data.datasets[0].data = data.weight.data;
+        charts.weight.update();
+      }
+
+      if (charts.calorie && data.calories) {
+        charts.calorie.data.labels = data.calories.labels;
+        charts.calorie.data.datasets[0].data = data.calories.data;
+        charts.calorie.update();
+      }
+
+      if (charts.sleep && data.sleep) {
+        charts.sleep.data.labels = data.sleep.labels;
+        charts.sleep.data.datasets[0].data = data.sleep.data;
+        charts.sleep.update();
+      }
+
+      if (charts.workout && data.workout) {
+        charts.workout.data.labels = data.workout.labels;
+        charts.workout.data.datasets[0].data = data.workout.data;
+        charts.workout.update();
+      }
+
+      console.log('✅ Charts updated for', range);
+    }
+
+    function refreshData() {
+      console.log('🔄 Refreshing data...');
+
+      // Add loading state
+      const chartsContainer = document.getElementById('chartsContainer');
+      if (chartsContainer) {
+        chartsContainer.style.opacity = '0.5';
+      }
+
+      // Simulate data refresh
+      setTimeout(() => {
+        // Get current active time range
+        const activeButton = document.querySelector('.time-selector button.active');
+        if (activeButton) {
+          const range = activeButton.textContent.toLowerCase();
+          if (['week', 'month', 'quarter', 'year'].includes(range)) {
+            updateTimeRange(range);
+          }
         }
-      });
+
+        // Remove loading state
+        if (chartsContainer) {
+          chartsContainer.style.opacity = '1';
+        }
+
+        console.log('✅ Data refreshed');
+      }, 500);
+    }
+
+    function exportData() {
+      console.log('📊 Exporting data...');
+
+      // Gather current analytics data
+      const exportData = {
+        date: new Date().toISOString(),
+        healthScore: charts.healthScore ? charts.healthScore.data.datasets[0].data : [],
+        weight: charts.weight ? charts.weight.data.datasets[0].data : [],
+        calories: charts.calorie ? charts.calorie.data.datasets[0].data : [],
+        sleep: charts.sleep ? charts.sleep.data.datasets[0].data : [],
+        workouts: charts.workout ? charts.workout.data.datasets[0].data : []
+      };
+
+      // Create downloadable JSON file
+      const dataStr = JSON.stringify(exportData, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'health-analytics-export.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      console.log('✅ Data exported successfully');
+      alert('Health analytics data exported successfully!');
     }
 
     // Initialize charts when DOM is ready
