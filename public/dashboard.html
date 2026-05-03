@@ -689,40 +689,10 @@
           <button class="action-btn" onclick="addGoal()">+ Add Goal</button>
         </div>
         <div class="goals-list" id="goalsList">
-          <div class="goal-item">
-            <div class="goal-checkbox" onclick="toggleGoal(this)"></div>
-            <div class="goal-content">
-              <div class="goal-title">Drink 8 glasses of water</div>
-              <div class="goal-progress">5/8 completed</div>
-            </div>
-          </div>
-          <div class="goal-item">
-            <div class="goal-checkbox checked" onclick="toggleGoal(this)"></div>
-            <div class="goal-content">
-              <div class="goal-title">30 minutes of exercise</div>
-              <div class="goal-progress">Completed ✅</div>
-            </div>
-          </div>
-          <div class="goal-item">
-            <div class="goal-checkbox" onclick="toggleGoal(this)"></div>
-            <div class="goal-content">
-              <div class="goal-title">Eat 5 servings of vegetables</div>
-              <div class="goal-progress">3/5 completed</div>
-            </div>
-          </div>
-          <div class="goal-item">
-            <div class="goal-checkbox" onclick="toggleGoal(this)"></div>
-            <div class="goal-content">
-              <div class="goal-title">Sleep 8 hours</div>
-              <div class="goal-progress">Target: 8 hours</div>
-            </div>
-          </div>
-          <div class="goal-item">
-            <div class="goal-checkbox checked" onclick="toggleGoal(this)"></div>
-            <div class="goal-content">
-              <div class="goal-title">Take morning walk</div>
-              <div class="goal-progress">Completed ✅</div>
-            </div>
+          <!-- Goals will be loaded dynamically -->
+          <div class="empty-state">
+            <div class="icon">📋</div>
+            <h3>Loading goals...</h3>
           </div>
         </div>
       </div>
@@ -734,33 +704,10 @@
           <button class="action-btn" onclick="viewAllActivity()">View All</button>
         </div>
         <div class="activity-list" id="activityList">
-          <div class="activity-item">
-            <div class="activity-icon">🏃</div>
-            <div class="activity-content">
-              <div class="activity-title">Morning workout completed</div>
-              <div class="activity-time">2 hours ago</div>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon">🍽️</div>
-            <div class="activity-content">
-              <div class="activity-title">Breakfast logged - 450 calories</div>
-              <div class="activity-time">4 hours ago</div>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon">⚖️</div>
-            <div class="activity-content">
-              <div class="activity-title">Weight logged: 72.5 kg</div>
-              <div class="activity-time">Yesterday</div>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon">💧</div>
-            <div class="activity-content">
-              <div class="activity-title">Water intake: 6 glasses</div>
-              <div class="activity-time">Yesterday</div>
-            </div>
+          <!-- Activities will be loaded dynamically -->
+          <div class="empty-state">
+            <div class="icon">🕐</div>
+            <h3>Loading activities...</h3>
           </div>
         </div>
       </div>
@@ -774,23 +721,23 @@
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-label">Current Weight</div>
-            <div class="metric-value">72.5 kg</div>
-            <div class="metric-change">↓ 0.5kg from last week</div>
+            <div class="metric-value" id="weightDisplay">72.5 kg</div>
+            <div class="metric-change" id="weightChange">↓ 0.5kg from last week</div>
           </div>
           <div class="metric-card">
             <div class="metric-label">BMI</div>
-            <div class="metric-value">23.1</div>
+            <div class="metric-value" id="bmiDisplay">23.1</div>
             <div class="metric-change">Normal range</div>
           </div>
           <div class="metric-card">
             <div class="metric-label">Daily Calories</div>
-            <div class="metric-value">1,850</div>
+            <div class="metric-value" id="caloriesDisplay">1,850</div>
             <div class="metric-change">On target</div>
           </div>
           <div class="metric-card">
             <div class="metric-label">Water Intake</div>
-            <div class="metric-value">5/8</div>
-            <div class="metric-change">3 more to go</div>
+            <div class="metric-value" id="waterDisplay">5/8</div>
+            <div class="metric-change" id="waterMessage">3 more to go</div>
           </div>
         </div>
       </div>
@@ -887,12 +834,15 @@
   <script>
     // Initialize dashboard
     document.addEventListener('DOMContentLoaded', () => {
+      console.log('🚀 Initializing dashboard...');
       updateDateTime();
       setGreeting();
       loadUserData();
       initializeGoals();
       initializeActivity();
+      initializeMetrics();
       updateProgress();
+      console.log('✅ Dashboard initialized successfully');
     });
 
     // Update current date and time
@@ -939,20 +889,67 @@
         userData.streakDays++;
         userData.todayScore = 60;
         userData.waterIntake = 0;
+        userData.calories = 0;
         userData.lastLogin = today;
         saveUserData(userData);
+
+        // Reset goals for new day
+        const goals = JSON.parse(localStorage.getItem('healthGoals')) || [];
+        goals.forEach(goal => {
+          goal.completed = false;
+          goal.progress = 'Not started';
+        });
+        localStorage.setItem('healthGoals', JSON.stringify(goals));
       }
 
+      // Update displays
       document.getElementById('todayScore').textContent = userData.todayScore;
       document.getElementById('streakDays').textContent = userData.streakDays;
 
-      // Update water intake display
-      const waterMetric = document.querySelectorAll('.metric-value')[3];
-      if (waterMetric) {
-        waterMetric.textContent = `${userData.waterIntake}/${userData.waterGoal}`;
+      return userData;
+    }
+
+    // Initialize metrics display
+    function initializeMetrics() {
+      const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || loadUserData();
+
+      // Update weight display
+      const weightDisplay = document.getElementById('weightDisplay');
+      if (weightDisplay) {
+        weightDisplay.textContent = userData.weight + ' kg';
       }
 
-      return userData;
+      // Calculate and update BMI
+      const bmiDisplay = document.getElementById('bmiDisplay');
+      if (bmiDisplay && userData.weight) {
+        // Assuming height is 1.75m for BMI calculation
+        const height = 1.75;
+        const bmi = (userData.weight / (height * height)).toFixed(1);
+        bmiDisplay.textContent = bmi;
+      }
+
+      // Update calories display
+      const caloriesDisplay = document.getElementById('caloriesDisplay');
+      if (caloriesDisplay) {
+        caloriesDisplay.textContent = userData.calories.toLocaleString();
+      }
+
+      // Update water display
+      const waterDisplay = document.getElementById('waterDisplay');
+      const waterMessage = document.getElementById('waterMessage');
+      if (waterDisplay) {
+        waterDisplay.textContent = `${userData.waterIntake}/${userData.waterGoal}`;
+        if (waterMessage) {
+          const remaining = userData.waterGoal - userData.waterIntake;
+          if (remaining > 0) {
+            waterMessage.textContent = `${remaining} more to go`;
+            waterMessage.className = 'metric-change';
+          } else {
+            waterMessage.textContent = 'Goal reached! 🎉';
+            waterMessage.className = 'metric-change';
+          }
+        }
+      }
     }
 
     // Save user data
@@ -971,7 +968,20 @@
       ];
 
       const goalsList = document.getElementById('goalsList');
+      if (!goalsList) return;
+
       goalsList.innerHTML = '';
+
+      if (savedGoals.length === 0) {
+        goalsList.innerHTML = `
+          <div class="empty-state">
+            <div class="icon">📋</div>
+            <h3>No goals yet</h3>
+            <p>Click "+ Add Goal" to create your first goal!</p>
+          </div>
+        `;
+        return savedGoals;
+      }
 
       savedGoals.forEach((goal, index) => {
         const goalElement = document.createElement('div');
@@ -991,15 +1001,23 @@
 
     // Initialize recent activity
     function initializeActivity() {
-      const activities = JSON.parse(localStorage.getItem('healthActivities')) || [
-        { icon: '🏃', title: 'Morning workout completed', time: '2 hours ago' },
-        { icon: '🍽️', title: 'Breakfast logged - 450 calories', time: '4 hours ago' },
-        { icon: '⚖️', title: 'Weight logged: 72.5 kg', time: 'Yesterday' },
-        { icon: '💧', title: 'Water intake: 6 glasses', time: 'Yesterday' }
-      ];
+      const activities = JSON.parse(localStorage.getItem('healthActivities')) || [];
 
       const activityList = document.getElementById('activityList');
+      if (!activityList) return;
+
       activityList.innerHTML = '';
+
+      if (activities.length === 0) {
+        activityList.innerHTML = `
+          <div class="empty-state">
+            <div class="icon">🕐</div>
+            <h3>No recent activity</h3>
+            <p>Start logging to see your activity here!</p>
+          </div>
+        `;
+        return;
+      }
 
       activities.slice(0, 4).forEach(activity => {
         const activityElement = document.createElement('div');
@@ -1017,6 +1035,12 @@
 
     // Toggle goal completion
     function toggleGoal(checkbox, index) {
+      if (typeof index === 'undefined') {
+        // Find index from DOM
+        const allCheckboxes = Array.from(document.querySelectorAll('.goal-checkbox'));
+        index = allCheckboxes.indexOf(checkbox);
+      }
+
       checkbox.classList.toggle('checked');
 
       // Update goals in localStorage
@@ -1039,21 +1063,36 @@
 
       // Update progress ring
       const progressCircle = document.querySelector('.progress-ring .progress');
-      const circumference = 314;
-      const offset = circumference - (progress / 100) * circumference;
-      progressCircle.style.strokeDashoffset = offset;
+      if (progressCircle) {
+        const circumference = 314;
+        const offset = circumference - (progress / 100) * circumference;
+        progressCircle.style.strokeDashoffset = offset;
+      }
 
       // Update progress text
-      document.querySelector('.progress-text .value').textContent = progress + '%';
+      const progressText = document.querySelector('.progress-text .value');
+      if (progressText) {
+        progressText.textContent = progress + '%';
+      }
 
       // Update completed goals count
-      document.getElementById('completedGoals').textContent = `${completedGoals}/${totalGoals}`;
+      const completedGoalsElement = document.getElementById('completedGoals');
+      if (completedGoalsElement) {
+        completedGoalsElement.textContent = `${completedGoals}/${totalGoals}`;
+      }
 
       // Update today's score
       const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {};
       userData.todayScore = Math.min(100, 60 + progress);
       saveUserData(userData);
-      document.getElementById('todayScore').textContent = userData.todayScore;
+
+      const todayScoreElement = document.getElementById('todayScore');
+      if (todayScoreElement) {
+        todayScoreElement.textContent = userData.todayScore;
+      }
+
+      // Update progress section text
+      updateProgressSection();
     }
 
     // Quick log actions
@@ -1068,12 +1107,6 @@
             userData.weight = parseFloat(weight);
             activity = { icon: '⚖️', title: `Weight logged: ${weight} kg`, time: 'Just now' };
             addActivity(activity);
-
-            // Update weight display
-            const weightMetric = document.querySelectorAll('.metric-value')[0];
-            if (weightMetric) {
-              weightMetric.textContent = userData.weight + ' kg';
-            }
           }
           break;
 
@@ -1083,12 +1116,6 @@
             userData.calories = (userData.calories || 0) + parseInt(calories);
             activity = { icon: '🍽️', title: `Meal logged - ${calories} calories`, time: 'Just now' };
             addActivity(activity);
-
-            // Update calories display
-            const calorieMetric = document.querySelectorAll('.metric-value')[2];
-            if (calorieMetric) {
-              calorieMetric.textContent = userData.calories.toLocaleString();
-            }
           }
           break;
 
@@ -1102,17 +1129,14 @@
 
         case 'water':
           userData.waterIntake = (userData.waterIntake || 0) + 1;
-          const waterMetric = document.querySelectorAll('.metric-value')[3];
-          if (waterMetric) {
-            waterMetric.textContent = `${userData.waterIntake}/${userData.waterGoal}`;
-          }
           activity = { icon: '💧', title: `Water logged - Glass ${userData.waterIntake}`, time: 'Just now' };
           addActivity(activity);
           break;
       }
 
-      // Save and show notification
+      // Save and update all displays
       saveUserData(userData);
+      initializeMetrics();
       showNotification('✅ Successfully logged!');
     }
 
@@ -1133,10 +1157,10 @@
     // Add new goal
     function addGoal() {
       const goalTitle = prompt('Enter your new goal:');
-      if (goalTitle) {
+      if (goalTitle && goalTitle.trim()) {
         let goals = JSON.parse(localStorage.getItem('healthGoals')) || [];
         goals.push({
-          title: goalTitle,
+          title: goalTitle.trim(),
           progress: 'Just added',
           completed: false
         });
@@ -1156,15 +1180,12 @@
     function updateMetrics() {
       const userData = JSON.parse(localStorage.getItem('healthDashboardData')) || {};
       const newWeight = prompt('Update your weight (kg):', userData.weight || '72.5');
-      if (newWeight) {
+      if (newWeight && !isNaN(newWeight)) {
         userData.weight = parseFloat(newWeight);
         saveUserData(userData);
 
-        // Update display
-        const weightMetric = document.querySelectorAll('.metric-value')[0];
-        if (weightMetric) {
-          weightMetric.textContent = userData.weight + ' kg';
-        }
+        // Update all metric displays
+        initializeMetrics();
 
         // Add to activity
         addActivity({
@@ -1216,7 +1237,28 @@
 
     // Manage reminders
     function manageReminders() {
-      showNotification('⏰ Reminder settings coming soon!');
+      showNotification('⏰ Reminder feature coming soon!');
+    }
+
+    // Update progress section text
+    function updateProgressSection() {
+      const totalGoals = document.querySelectorAll('.goal-checkbox').length;
+      const completedGoals = document.querySelectorAll('.goal-checkbox.checked').length;
+
+      // Find the progress section and update text
+      const progressSection = document.querySelector('.progress-section');
+      if (progressSection) {
+        const infoDiv = progressSection.querySelector('div');
+        if (infoDiv) {
+          const html = `
+            <h4 style="margin-bottom: 12px;">${completedGoals === totalGoals ? '🎉 All goals completed!' : 'Great progress today!'}</h4>
+            <p style="font-size: 14px; color: var(--gray); margin-bottom: 8px;">
+              ${completedGoals > 0 ? '✅' : '○'} ${completedGoals} of ${totalGoals} main goals completed
+            </p>
+          `;
+          infoDiv.innerHTML = html;
+        }
+      }
     }
 
     // Export data
