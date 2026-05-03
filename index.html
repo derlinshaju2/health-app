@@ -336,17 +336,10 @@
 
           if (!userProfile) {
             // New user - redirect to onboarding
-            sessionStorage.setItem('startOnboarding', 'true');
-            window.location.href = 'public/onboarding.html';
+            window.location.href = 'onboarding.html';
           } else {
-            const profile = JSON.parse(userProfile);
-            if (profile.onboardingComplete) {
-              // Returning user - redirect to dashboard
-              window.location.href = 'public/dashboard.html';
-            } else {
-              // Incomplete onboarding - resume
-              window.location.href = 'public/onboarding.html';
-            }
+            // Returning user - redirect to dashboard
+            window.location.href = 'dashboard.html';
           }
         }, 1000);
 
