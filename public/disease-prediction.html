@@ -1315,11 +1315,6 @@
   <main class="main-content">
     <!-- Header -->
     <header class="header">
-      <button class="hamburger-menu" id="hamburgerMenu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
       <div class="header-content">
         <h1 class="page-title">AI Disease Prediction 🔮</h1>
         <p class="page-subtitle">Get personalized health risk assessments based on your metrics</p>
@@ -1799,25 +1794,7 @@
 
 
   <script>
-    // Mobile menu toggle
-    const hamburgerMenu = document.getElementById('hamburgerMenu');
-    const sidebar = document.getElementById('sidebar');
-
-    if (hamburgerMenu && sidebar) {
-      hamburgerMenu.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-        hamburgerMenu.classList.toggle('active');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          if (!sidebar.contains(e.target) && !hamburgerMenu.contains(e.target)) {
-            sidebar.classList.remove('active');
-            hamburgerMenu.classList.remove('active');
-          }
-        }
-      });
-    }
+    // Mobile menu functionality removed
   </script>
 
   <script>
