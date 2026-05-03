@@ -1331,23 +1331,7 @@
       }
     }
 
-    // Mobile menu toggle
-    const hamburgerMenu = document.getElementById('hamburgerMenu');
-    const sidebar = document.getElementById('sidebar');
-
-    hamburgerMenu.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-      hamburgerMenu.classList.toggle('active');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        if (!sidebar.contains(e.target) && !hamburgerMenu.contains(e.target)) {
-          sidebar.classList.remove('active');
-          hamburgerMenu.classList.remove('active');
-        }
-      }
-    });
+    // Mobile menu functionality removed
   </script>
 
   <script>
