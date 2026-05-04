@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v25-20260504-kebab-button">
+  <meta name="cache-buster" content="v26-20260504-original-kebab">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -111,12 +111,13 @@
       background: rgba(255, 255, 255, 0.25);
     }
 
-    /* Fixed Hamburger Button - Always Visible */
-    .fixed-hamburger-btn {
+    /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
+    .mobile-menu-toggle {
+      display: none;
       position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 10000;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
       background: white;
       color: #6366f1;
       border: 2px solid #e2e8f0;
@@ -125,8 +126,9 @@
       cursor: pointer;
       font-size: 20px;
       font-weight: 600;
+      line-height: 1;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      transition: box-shadow 0.3s ease;
       min-width: 48px;
       min-height: 48px;
       display: flex;
@@ -134,19 +136,22 @@
       justify-content: center;
     }
 
-    .fixed-hamburger-btn:hover {
-      border-color: #6366f1;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    .mobile-menu-toggle:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
-    .fixed-hamburger-btn:active {
-      transform: scale(0.95);
+    .mobile-menu-toggle:active {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     /* Hide hamburger button on desktop */
     @media (min-width: 769px) {
       .sidebar-hamburger {
         display: none;
+      }
+
+      .mobile-menu-toggle {
+        display: none !important;
       }
     }
 
@@ -1069,49 +1074,47 @@
         transform: translateX(0);
       }
 
-      /* Fixed hamburger button positioning on mobile */
-      .fixed-hamburger-btn {
-        left: 20px !important;
-      }
-
-      .sidebar.open ~ .fixed-hamburger-btn {
-        left: 270px !important;
-      }
-
       /* Main Content */
       .main-content {
         margin-left: 0;
         width: 100%;
-        padding-top: 0;
+        padding-top: 80px;
       }
 
       .container {
-        padding: 12px;
-        padding-left: 40px;
+        padding: 16px;
+      }
+
+      /* Hamburger Buttons */
+      .sidebar-hamburger {
+        display: flex;
+      }
+
+      .mobile-menu-toggle {
+        display: flex;
       }
 
       /* Header */
       .header-content {
         margin-left: 0;
         padding-left: 0;
-        padding-top: 80px;
+        padding-top: 8px;
       }
 
       .header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
-        padding: 16px;
-        margin-bottom: 20px;
+        gap: 16px;
+        margin-bottom: 24px;
       }
 
       .page-title {
-        font-size: 20px;
+        font-size: 24px;
         line-height: 1.3;
       }
 
       .page-subtitle {
-        font-size: 12px;
+        font-size: 14px;
         line-height: 1.4;
       }
 
@@ -1124,15 +1127,15 @@
 
       .header-btn {
         flex: 1;
-        min-width: 100px;
-        padding: 10px 14px;
-        font-size: 13px;
+        min-width: 120px;
+        padding: 12px 16px;
+        font-size: 14px;
       }
 
       /* Content Grid */
       .content-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 20px;
       }
 
       .unified-grid {
@@ -1150,7 +1153,7 @@
 
       /* Cards */
       .card {
-        padding: 16px;
+        padding: 20px;
         border-radius: 12px;
       }
 
@@ -1999,8 +2002,8 @@
   </style>
 </head>
 <body>
-  <!-- Fixed Hamburger Button -->
-  <button class="fixed-hamburger-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
+  <!-- Mobile menu toggle button -->
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
     ⋮
   </button>
 

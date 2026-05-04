@@ -6,7 +6,7 @@
   <title>Disease Prediction - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v25-20260504-kebab-button">
+  <meta name="cache-buster" content="v26-20260504-original-kebab">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -108,12 +108,13 @@
       transform: scale(1.05);
     }
 
-    /* Fixed Hamburger Button - Always Visible */
-    .fixed-hamburger-btn {
+    /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
+    .mobile-menu-toggle {
+      display: none;
       position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 10000;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
       background: white;
       color: #6366f1;
       border: 2px solid #e2e8f0;
@@ -122,8 +123,9 @@
       cursor: pointer;
       font-size: 20px;
       font-weight: 600;
+      line-height: 1;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      transition: box-shadow 0.3s ease;
       min-width: 48px;
       min-height: 48px;
       display: flex;
@@ -131,19 +133,22 @@
       justify-content: center;
     }
 
-    .fixed-hamburger-btn:hover {
-      border-color: #6366f1;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    .mobile-menu-toggle:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
-    .fixed-hamburger-btn:active {
-      transform: scale(0.95);
+    .mobile-menu-toggle:active {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     /* Hide hamburger button on desktop */
     @media (min-width: 769px) {
       .sidebar-hamburger {
         display: none;
+      }
+
+      .mobile-menu-toggle {
+        display: none !important;
       }
     }
 
@@ -1009,26 +1014,23 @@
       .main-content {
         margin-left: 0;
         width: 100%;
-        padding-top: 0;
+        padding-top: 80px;
       }
 
       .container {
-        padding: 12px;
-        padding-left: 40px;
+        padding: 20px 16px;
       }
 
-      /* Fixed hamburger button positioning on mobile */
-      .fixed-hamburger-btn {
-        left: 20px !important;
+      .sidebar-hamburger {
+        display: flex;
       }
 
-      .sidebar.open ~ .fixed-hamburger-btn {
-        left: 270px !important;
+      .mobile-menu-toggle {
+        display: flex;
       }
 
       .header {
         position: relative;
-        padding-top: 80px;
       }
 
       .header-content {
@@ -1054,18 +1056,16 @@
       }
 
       .page-title {
-        font-size: 20px;
+        font-size: 22px;
       }
 
       .page-subtitle {
-        font-size: 12px;
+        font-size: 13px;
       }
 
       .header-actions {
         width: 100%;
         justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 8px;
       }
 
       .card {
@@ -1096,7 +1096,6 @@
       .health-metrics-card .btn {
         padding: 12px 20px;
         font-size: 14px;
-        min-height: 44px;
       }
 
       .risk-factors {
@@ -1244,8 +1243,8 @@
   </style>
 </head>
 <body>
-  <!-- Fixed Hamburger Button -->
-  <button class="fixed-hamburger-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
+  <!-- Mobile menu toggle button -->
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
     ⋮
   </button>
 
