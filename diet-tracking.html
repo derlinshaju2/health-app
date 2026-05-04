@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v21-20260504-enhanced-mobile">
+  <meta name="cache-buster" content="v22-20260504-all-content-visible">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -1473,13 +1473,75 @@
 
       /* Mobile activity list */
       .activity-list {
-        max-height: 300px;
-        overflow-y: auto;
+        max-height: none;
+        overflow-y: visible;
       }
 
       /* Better mobile cards */
       .card {
         margin-bottom: 16px;
+        height: auto;
+        overflow: visible;
+      }
+
+      /* Ensure all content is visible */
+      .content-grid {
+        overflow: visible;
+      }
+
+      .main-content {
+        overflow: visible;
+        height: auto;
+      }
+
+      .container {
+        overflow: visible;
+        height: auto;
+      }
+
+      /* Ensure sections are fully visible */
+      .nutrition-section,
+      .meal-logging-card,
+      .water-tracker,
+      .label-section {
+        overflow: visible;
+        height: auto;
+      }
+
+      /* Ensure all text content is visible */
+      .card p,
+      .card li,
+      .card h3,
+      .card h4 {
+        overflow: visible;
+        height: auto;
+      }
+
+      /* Better spacing for content */
+      .card-title {
+        margin-bottom: 16px;
+      }
+
+      /* Ensure form content is visible */
+      .form-group {
+        overflow: visible;
+        height: auto;
+      }
+
+      /* Better results display */
+      .results-grid {
+        overflow: visible;
+        height: auto;
+      }
+
+      /* Ensure buttons are fully visible */
+      button,
+      .btn,
+      .submit-btn,
+      .header-btn {
+        overflow: visible;
+        white-space: normal;
+        height: auto;
       }
 
       /* Mobile form improvements */
@@ -1506,6 +1568,66 @@
       /* Mobile overlay improvements */
       .sidebar-overlay {
         -webkit-overflow-scrolling: touch;
+      }
+
+      /* Ensure all content sections are visible */
+      .card,
+      .meal-logging-card,
+      .nutrition-section,
+      .water-tracker,
+      .stat-card,
+      .activity-item,
+      .quick-action,
+      .label-section {
+        display: block;
+        visibility: visible;
+        opacity: 1;
+        overflow: visible;
+        height: auto;
+      }
+
+      /* Ensure all text is visible and readable */
+      p,
+      li,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        overflow: visible;
+        height: auto;
+        white-space: normal;
+      }
+
+      /* Ensure interactive elements are visible */
+      button,
+      a,
+      input,
+      select,
+      textarea {
+        display: block;
+        visibility: visible;
+        opacity: 1;
+      }
+
+      /* Better mobile content flow */
+      .content-grid > * {
+        display: block;
+        visibility: visible;
+      }
+
+      /* Ensure education sections are visible */
+      .tips-list,
+      .guidelines-list {
+        display: block;
+        overflow: visible;
+      }
+
+      .tips-list li,
+      .guidelines-list li {
+        display: list-item;
+        visibility: visible;
       }
     }
 
@@ -1798,6 +1920,39 @@
       /* Better small screen layout */
       .content-grid {
         gap: 12px;
+        overflow: visible;
+      }
+
+      /* Ensure all content is visible on small screens */
+      .card {
+        overflow: visible;
+        height: auto;
+      }
+
+      /* Better mobile text visibility */
+      .page-title,
+      .page-subtitle,
+      .card-title,
+      .section-title {
+        overflow: visible;
+        height: auto;
+        white-space: normal;
+      }
+
+      /* Ensure form elements are visible */
+      .form-group,
+      .form-input,
+      .form-select {
+        height: auto;
+        overflow: visible;
+      }
+
+      /* Better button visibility */
+      button,
+      .btn {
+        white-space: normal;
+        overflow: visible;
+        height: auto;
       }
 
       /* Compact activity items */
