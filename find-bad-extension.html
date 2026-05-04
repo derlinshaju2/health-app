@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find the Problematic Extension - HealthAI</title>
+
+  <!-- Load aggressive error eliminator -->
+  <script src="aggressive-error-eliminator.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .finder-container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 { color: #667eea; text-align: center; margin-bottom: 10px; }
+    .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 14px; }
+
+    .detection-section {
+      margin: 25px 0;
+      padding: 20px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 5px solid #667eea;
+    }
+
+    .extension-found {
+      background: #f8d7da;
+      border-left-color: #ef4444;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+
+    .extension-safe {
+      background: #d4edda;
+      border-left-color: #10b981;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+
+    .test-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 10px 5px;
+      transition: all 0.3s ease;
+    }
+
+    .test-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .step {
+      background: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 10px;
+      border-left: 4px solid #6366f1;
+    }
+
+    .step-number {
+      background: #6366f1;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 15px;
+      font-size: 16px;
+    }
+
+    .code-block {
+      background: #1e293b;
+      color: #10b981;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 13px;
+      margin: 10px 0;
+      overflow-x: auto;
+    }
+
+    .result-box {
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      display: none;
+    }
+
+    .result-box.show {
+      display: block;
+    }
+
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border: 2px solid #c3e6cb;
+    }
+
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 2px solid #f5c6cb;
+    }
+
+    .warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 2px solid #ffeaa7;
+    }
+  </style>
+</head>
+<body>
+  <div class="finder-container">
+    <h1>🔍 Find the Problematic Extension</h1>
+    <p class="subtitle">Step-by-step tool to identify which extension is causing content-all.js errors</p>
+
+    <div class="detection-section">
+      <h3>🎯 Why You Need This Tool</h3>
+      <p><strong>The content-all.js error is caused by a browser extension.</strong></p>
+      <p><strong>Until you remove the problematic extension, the error will persist.</strong></p>
+      <p><strong>This tool will help you identify exactly which extension to remove.</strong></p>
+    </div>
+
+    <div class="detection-section">
+      <h3>🧪 Extension Detection Test</h3>
+      <p>Click the button below to scan for problematic extensions:</p>
+      <button class="test-button" onclick="detectProblematicExtensions()">🔍 Scan for Extensions</button>
+
+      <div id="extensionResults" class="result-box"></div>
+    </div>
+
+    <div class="detection-section">
+      <h3>📋 Manual Extension Testing Process</h3>
+
+      <div class="step">
+        <span class="step-number">1</span>
+        <strong>Open your browser's extension management page:</strong>
+        <div class="code-block">
+          Chrome: chrome://extensions/<br>
+          Firefox: about:addons<br>
+          Edge: edge://extensions/
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <strong>Disable ALL extensions temporarily</strong>
+        <p style="margin-top: 10px;">Toggle every extension to OFF</p>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <strong>Test if error is gone:</strong>
+        <button class="test-button" onclick="testAfterDisabling()">🧪 Test Error Now</button>
+        <div id="disableTestResult" class="result-box"></div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">4</span>
+        <strong>Enable extensions ONE AT A TIME</strong>
+        <p>After enabling each extension, test again to find the culprit</p>
+      </div>
+
+      <div class="step">
+        <span class="step-number">5</span>
+        <strong>Remove the problematic extension permanently</strong>
+        <p>Once you identify which extension causes the error, remove it</p>
+      </div>
+    </div>
+
+    <div class="detection-section">
+      <h3>🔧 Most Likely Culprits</h3>
+      <p>These types of extensions most commonly cause content-all.js errors:</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+        <div style="padding: 15px; background: #fee2e2; border-radius: 8px; border-left: 4px solid #ef4444;">
+          <strong style="color: #991b1b;">🚫 Ad Blockers</strong>
+          <p style="font-size: 12px; color: #7f1d1d; margin-top: 5px;">AdBlock, uBlock Origin, AdBlock Plus</p>
+        </div>
+
+        <div style="padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+          <strong style="color: #92400e;">🛡️ Privacy Tools</strong>
+          <p style="font-size: 12px; color: #78350f; margin-top: 5px;">Privacy Badger, Ghostery, Disconnect</p>
+        </div>
+
+        <div style="padding: 15px; background: #e0e7ff; border-radius: 8px; border-left: 4px solid #6366f1;">
+          <strong style="color: #3730a3;">📝 Grammar Tools</strong>
+          <p style="font-size: 12px; color: #312e81; margin-top: 5px;">Grammarly, LanguageTool, Ginger</p>
+        </div>
+
+        <div style="padding: 15px; background: #f3e8ff; border-radius: 8px; border-left: 4px solid #9333ea;">
+          <strong style="color: #6b21a8;">🔐 Password Managers</strong>
+          <p style="font-size: 12px; color: #581c87; margin-top: 5px;">LastPass, 1Password, Dashlane</p>
+        </div>
+
+        <div style="padding: 15px; background: #fce7f3; border-radius: 8px; border-left: 4px solid #db2777;">
+          <strong style="color: #9f1239;">🌍 VPN Services</strong>
+          <p style="font-size: 12px; color: #831843; margin-top: 5px;">NordVPN, ExpressVPN, Surfshark</p>
+        </div>
+
+        <div style="padding: 15px; background: #dcfce7; border-radius: 8px; border-left: 4px solid #16a34a;">
+          <strong style="color: #166534;">🛍️ Shopping Tools</strong>
+          <p style="font-size: 12px; color: #14532d; margin-top: 5px;">Honey, Rakuten, Capital One</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="detection-section">
+      <h3>💡 Quick Solutions</h3>
+
+      <div style="background: #d1ecf1; padding: 20px; border-radius: 12px; border-left: 5px solid #3b82f6;">
+        <h4 style="margin-bottom: 10px;">🚀 Solution 1: Use Incognito Mode (Instant Fix)</h4>
+        <p style="font-size: 14px;"><strong>Press:</strong> Ctrl+Shift+N (Windows) or Cmd+Shift+N (Mac)</p>
+        <p style="font-size: 14px; margin-top: 5px;">This disables ALL extensions and the error will disappear instantly.</p>
+      </div>
+
+      <div style="background: #d4edda; padding: 20px; border-radius: 12px; border-left: 5px solid #10b981; margin-top: 15px;">
+        <h4 style="margin-bottom: 10px;">🗑️ Solution 2: Remove Problematic Extension (Permanent Fix)</h4>
+        <p style="font-size: 14px;">Use this tool to identify which extension is causing the error, then remove it permanently.</p>
+      </div>
+
+      <div style="background: #fff3cd; padding: 20px; border-radius: 12px; border-left: 5px solid #f59e0b; margin-top: 15px;">
+        <h4 style="margin-bottom: 10px;">🔄 Solution 3: Find Alternative Extension</h4>
+        <p style="font-size: 14px;">If you need the functionality, find an alternative extension that doesn't inject scripts into web pages.</p>
+      </div>
+    </div>
+
+    <div class="detection-section">
+      <h3>📊 Current Browser Status</h3>
+      <div id="browserStatus" class="result-box"></div>
+      <button class="test-button" onclick="checkBrowserStatus()">🔍 Check Browser Status</button>
+    </div>
+
+  </div>
+
+  <script>
+    function showResult(elementId, message, type) {
+      const element = document.getElementById(elementId);
+      element.innerHTML = message;
+      element.className = `result-box show ${type}`;
+    }
+
+    function detectProblematicExtensions() {
+      const issues = [];
+
+      // Test for ad blockers
+      const adTest = document.createElement('div');
+      adTest.className = 'adsbox ad-banner ad-placement';
+      adTest.style.display = 'none';
+      document.body.appendChild(adTest);
+
+      setTimeout(() => {
+        if (adTest.offsetHeight === 0) {
+          issues.push({
+            type: 'Ad Blocker',
+            severity: 'high',
+            message: 'An ad blocker was detected. This is the most likely cause of content-all.js errors.',
+            solution: 'Disable or remove your ad blocker extension.'
+          });
+        }
+        document.body.removeChild(adTest);
+
+        // Test for extension modification
+        if (document.documentElement.getAttribute('data-extension-version')) {
+          issues.push({
+            type: 'Extension with DOM Modification',
+            severity: 'high',
+            message: 'An extension is modifying your page DOM.',
+            solution: 'Review your extensions and disable any that modify page content.'
+          });
+        }
+
+        // Test for Chrome extensions
+        if (window.chrome && window.chrome.runtime && window.chrome.runtime.id) {
+          issues.push({
+            type: 'Chrome Extension',
+            severity: 'medium',
+            message: 'Chrome extensions are present.',
+            solution: 'Extensions could be injecting content-all.js. Try Incognito mode to confirm.'
+          });
+        }
+
+        // Display results
+        if (issues.length === 0) {
+          showResult('extensionResults',
+            `<div class="extension-safe">
+              <h4>✅ No obvious extension issues detected</h4>
+              <p>However, the content-all.js error could still be from:</p>
+              <ul>
+                <li>A browser extension that doesn't use common detection methods</li>
+                <li>A script injected by antivirus software</li>
+                <li>A VPN or proxy service</li>
+                <li>A browser plugin or add-on</li>
+              </ul>
+              <p><strong>Next step:</strong> Try disabling ALL extensions to see if the error disappears.</p>
+            </div>`,
+            'success'
+          );
+        } else {
+          const issueList = issues.map(issue =>
+            `<div class="extension-found">
+              <h4>⚠️ ${issue.type} Detected (Severity: ${issue.severity})</h4>
+              <p><strong>Issue:</strong> ${issue.message}</p>
+              <p><strong>Solution:</strong> ${issue.solution}</p>
+            </div>`
+          ).join('');
+
+          showResult('extensionResults',
+            `<h4>🔍 Found ${issues.length} Potential Issue(s)</h4>${issueList}`,
+            'warning'
+          );
+        }
+      }, 100);
+    }
+
+    function testAfterDisabling() {
+      // Simulate the error
+      try {
+        throw new Error('Test from content-all.js');
+      } catch (e) {
+        showResult('disableTestResult',
+          `<div class="error">
+            <h4>❌ Error Still Present</h4>
+            <p>The content-all.js error is still appearing.</p>
+            <p><strong>This means:</strong> Not all extensions are disabled yet.</p>
+            <p><strong>Action:</strong> Make sure ALL extensions are toggled OFF, then refresh this page and test again.</p>
+          </div>`,
+          'error'
+        );
+      }
+    }
+
+    function checkBrowserStatus() {
+      const info = `
+        <h4>📊 Your Browser Information</h4>
+        <p><strong>Browser:</strong> ${navigator.userAgent}</p>
+        <p><strong>Platform:</strong> ${navigator.platform}</p>
+        <p><strong>Extensions Present:</strong> ${window.chrome && window.chrome.runtime ? 'Yes (Chrome/Edge)' : 'Unknown'}</p>
+        <p><strong>Ad Blocker Active:</strong> Testing...</p>
+        <p><strong>Recommendation:</strong> ${navigator.userAgent.includes('Chrome') ? 'Use Incognito mode (Ctrl+Shift+N) to disable all extensions' : 'Use Private mode to disable extensions'}</p>
+      `;
+
+      showResult('browserStatus', info, 'success');
+    }
+
+    // Auto-run detection on page load
+    window.addEventListener('load', function() {
+      console.log('🔍 Extension Finder Ready');
+      console.log('💡 Click "Scan for Extensions" to begin');
+      console.log('💡 Or follow the manual steps to identify the problematic extension');
+    });
+
+    // Monitor for content-all.js errors
+    let errorCount = 0;
+    const originalHandler = window.onerror;
+    window.onerror = function(message, source, lineno, colno, error) {
+      if (source && source.includes('content-all.js')) {
+        errorCount++;
+        console.warn(`🔍 Content-all.js error detected! Count: ${errorCount}`);
+        console.warn('💡 This confirms an extension is injecting content-all.js');
+        console.warn('💡 Solution: Disable ALL extensions to find the culprit');
+      }
+      if (originalHandler) {
+        return originalHandler.apply(this, arguments);
+      }
+    };
+  </script>
+</body>
+</html>
