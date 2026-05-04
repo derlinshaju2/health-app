@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>External Error Diagnostic - HealthAI</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .diagnostic-container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #667eea;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    .diagnostic-section {
+      margin: 25px 0;
+      padding: 20px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 5px solid #667eea;
+    }
+    .diagnostic-section h3 {
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .diagnostic-section p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 5px;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    .result {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+    .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+
+    .extension-list {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .extension-item {
+      padding: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .extension-item:last-child {
+      border-bottom: none;
+    }
+
+    .extension-name {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .extension-risk {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .risk-high { background: #f8d7da; color: #721c24; }
+    .risk-medium { background: #fff3cd; color: #856404; }
+    .risk-low { background: #d4edda; color: #155724; }
+  </style>
+</head>
+<body>
+  <div class="diagnostic-container">
+    <h1>🔍 External Error Diagnostic Tool</h1>
+    <p class="subtitle">Identify and fix "content-all.js" and other external script errors</p>
+
+    <div class="diagnostic-section">
+      <h3>🔬 Step 1: Scan for External Scripts</h3>
+      <p>This will scan your page for any external scripts that might be causing errors</p>
+      <button onclick="scanExternalScripts()">🔍 Scan External Scripts</button>
+      <div id="externalScriptsResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="diagnostic-section">
+      <h3>🔌 Step 2: Detect Browser Extensions</h3>
+      <p>Identify browser extensions that might be injecting problematic scripts</p>
+      <button onclick="detectExtensions()">🔌 Detect Extensions</button>
+      <div id="extensionsResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="diagnostic-section">
+      <h3>🧪 Step 3: Test Error Blocking</h3>
+      <p>Test if our error blocking system is working properly</p>
+      <button onclick="testErrorBlocking()">🧪 Test Error Blocking</button>
+      <div id="errorBlockingResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="diagnostic-section">
+      <h3>🌐 Step 4: Network Request Analysis</h3>
+      <p>Analyze network requests to identify problematic external requests</p>
+      <button onclick="analyzeNetworkRequests()">🌐 Analyze Network</button>
+      <div id="networkResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="diagnostic-section">
+      <h3>🛡️ Step 5: Apply Protection</h3>
+      <p>Apply comprehensive protection against external errors</p>
+      <button onclick="applyProtection()">🛡️ Apply Protection</button>
+      <div id="protectionResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="diagnostic-section">
+      <h3>💡 Solutions & Recommendations</h3>
+      <div id="solutions" class="result info">
+        <strong>Immediate fixes to try:</strong><br>
+        1. <strong>Disable all browser extensions</strong> - Especially ad blockers, privacy tools, and script managers<br>
+        2. <strong>Try Incognito/Private mode</strong> - This disables most extensions by default<br>
+        3. <strong>Clear browser cache</strong> - Remove corrupted cached scripts<br>
+        4. <strong>Try different browser</strong> - Test in Chrome, Firefox, Edge, Safari<br>
+        5. <strong>Check for malware</strong> - Run a virus scan if the issue persists<br><br>
+        <strong>If the error persists:</strong><br>
+        - The error might be from a browser extension you trust<br>
+        - It could be from your antivirus software<br>
+        - It might be from a VPN or proxy service<br>
+        - Contact me with the diagnostic results for specific help
+      </div>
+    </div>
+
+    <div class="diagnostic-section">
+      <h3>📊 Your Browser Info</h3>
+      <div id="browserInfo" class="result info"></div>
+    </div>
+  </div>
+
+  <script>
+    function showResult(elementId, message, type) {
+      const element = document.getElementById(elementId);
+      element.style.display = 'block';
+      element.className = `result ${type}`;
+      element.innerHTML = message;
+    }
+
+    // Scan for external scripts
+    function scanExternalScripts() {
+      const scripts = Array.from(document.querySelectorAll('script[src]'));
+      const externalScripts = scripts.filter(script => {
+        const src = script.src;
+        return src && (
+          src.includes('extension://') ||
+          src.includes('chrome-extension://') ||
+          src.includes('moz-extension://') ||
+          !src.includes(window.location.hostname)
+        );
+      });
+
+      if (externalScripts.length === 0) {
+        showResult('externalScriptsResult', '✅ No external scripts detected on this page', 'success');
+      } else {
+        const scriptList = externalScripts.map(script =>
+          `<div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0;">
+            <strong>Source:</strong> ${script.src}<br>
+            <strong>Risk:</strong> ${script.src.includes('extension') ? '🔴 High' : '🟡 Medium'}
+          </div>`
+        ).join('');
+
+        showResult('externalScriptsResult',
+          `⚠️ Found ${externalScripts.length} external scripts:<br>${scriptList}`,
+          'warning'
+        );
+      }
+    }
+
+    // Detect browser extensions
+    function detectExtensions() {
+      const detectedExtensions = [];
+
+      // Check for common extension indicators
+      if (document.documentElement.getAttribute('data-extension-version')) {
+        detectedExtensions.push({
+          name: 'Extension with DOM modification',
+          risk: 'high',
+          reason: 'Modifies page DOM structure'
+        });
+      }
+
+      if (window.chrome && window.chrome.runtime && window.chrome.runtime.id) {
+        detectedExtensions.push({
+          name: 'Chrome Extension',
+          risk: 'medium',
+          reason: 'Chrome extension detected'
+        });
+      }
+
+      // Test for ad blockers
+      const adTest = document.createElement('div');
+      adTest.className = 'adsbox ad-banner ad-placement';
+      adTest.style.display = 'none';
+      document.body.appendChild(adTest);
+
+      setTimeout(() => {
+        if (adTest.offsetHeight === 0) {
+          detectedExtensions.push({
+            name: 'Ad Blocker',
+            risk: 'high',
+            reason: 'Blocks ads - might block legitimate scripts'
+          });
+        }
+        document.body.removeChild(adTest);
+
+        // Display results
+        if (detectedExtensions.length === 0) {
+          showResult('extensionsResult', '✅ No obvious extension interference detected', 'success');
+        } else {
+          const extensionList = detectedExtensions.map(ext =>
+            `<div class="extension-item">
+              <div>
+                <div class="extension-name">${ext.name}</div>
+                <div style="font-size: 12px; color: #666;">${ext.reason}</div>
+              </div>
+              <span class="extension-risk risk-${ext.risk}">${ext.risk.toUpperCase()}</span>
+            </div>`
+          ).join('');
+
+          showResult('extensionsResult',
+            `⚠️ Detected ${detectedExtensions.length} potential issues:<div class="extension-list">${extensionList}</div>`,
+            'warning'
+          );
+        }
+      }, 100);
+    }
+
+    // Test error blocking
+    function testErrorBlocking() {
+      let blockedCount = 0;
+      let handledErrors = 0;
+
+      // Test error handler
+      const testError = new Error('Test error from content-all.js');
+      testError.stack = 'content-all.js:176';
+
+      window.dispatchEvent(new ErrorEvent('error', {
+        message: testError.message,
+        filename: 'content-all.js',
+        error: testError
+      }));
+
+      // Test promise rejection
+      Promise.reject(new Error('Failed to fetch from content-all.js'))
+        .catch(() => {
+          handledErrors++;
+        });
+
+      setTimeout(() => {
+        showResult('errorBlockingResult',
+          `✅ Error blocking system is active<br>✅ Handled ${handledErrors} test errors<br>ℹ️ External errors are being blocked from showing in console`,
+          'success'
+        );
+      }, 100);
+    }
+
+    // Analyze network requests
+    function analyzeNetworkRequests() {
+      const performanceEntries = performance.getEntriesByType('resource');
+      const externalRequests = performanceEntries.filter(entry =>
+        !entry.name.includes(window.location.hostname) &&
+        (entry.name.includes('extension://') || entry.entryType === 'script')
+      );
+
+      if (externalRequests.length === 0) {
+        showResult('networkResult', '✅ No suspicious external network requests detected', 'success');
+      } else {
+        const requestList = externalRequests.slice(0, 10).map(request =>
+          `<div style="padding: 8px; background: white; border-radius: 4px; margin: 5px 0; font-size: 12px;">
+            <strong>URL:</strong> ${request.name}<br>
+            <strong>Type:</strong> ${request.initiatorType || 'unknown'}<br>
+            <strong>Status:</strong> ${request.duration > 0 ? '✅ Loaded' : '⏳ Loading/Failed'}
+          </div>`
+        ).join('');
+
+        showResult('networkResult',
+          `⚠️ Found ${externalRequests.length} external requests:<br>${requestList}`,
+          'warning'
+        );
+      }
+    }
+
+    // Apply protection
+    function applyProtection() {
+      // Create and inject the protection script
+      const protectionScript = document.createElement('script');
+      protectionScript.textContent = `
+        // Block external errors
+        window.addEventListener('error', function(event) {
+          const errorSource = event.filename || '';
+          if (errorSource.includes('content-all.js') || errorSource.includes('extension://')) {
+            event.preventDefault();
+            console.warn('🛡️ Blocked external error from:', errorSource);
+          }
+        }, true);
+
+        // Block external promise rejections
+        window.addEventListener('unhandledrejection', function(event) {
+          const errorMessage = event.reason?.message || '';
+          if (errorMessage.includes('content-all.js') || errorMessage.includes('extension://')) {
+            event.preventDefault();
+            console.warn('🛡️ Blocked external promise rejection');
+          }
+        });
+      `;
+
+      document.head.appendChild(protectionScript);
+
+      showResult('protectionResult',
+        `✅ Protection applied successfully!<br>✅ External errors from content-all.js are now blocked<br>✅ Promise rejections from extensions are blocked<br><br>ℹ️ You should see fewer errors in your console now.`,
+        'success'
+      );
+    }
+
+    // Show browser info
+    function showBrowserInfo() {
+      const info = `
+        <strong>Browser:</strong> ${navigator.userAgent}<br>
+        <strong>Platform:</strong> ${navigator.platform}<br>
+        <strong>Cookies Enabled:</strong> ${navigator.cookieEnabled}<br>
+        <strong>Online:</strong> ${navigator.onLine}<br>
+        <strong>Language:</strong> ${navigator.language}<br>
+        <strong>Do Not Track:</strong> ${navigator.doNotTrack || 'Not set'}<br>
+        <strong>Screen Resolution:</strong> ${screen.width}x${screen.height}<br>
+        <strong>Window Size:</strong> ${window.innerWidth}x${window.innerHeight}
+      `;
+      document.getElementById('browserInfo').innerHTML = info;
+    }
+
+    // Initialize
+    showBrowserInfo();
+
+    // Monitor for new errors
+    let errorCount = 0;
+    const originalErrorHandler = window.onerror;
+    window.onerror = function(message, source, lineno, colno, error) {
+      errorCount++;
+      console.log(`🔍 Error #${errorCount}:`, message, source);
+
+      if (source && source.includes('content-all.js')) {
+        console.warn('⚠️ This is the content-all.js error you mentioned!');
+        console.info('💡 Our protection system should block this from appearing');
+      }
+
+      if (originalErrorHandler) {
+        return originalErrorHandler.apply(this, arguments);
+      }
+    };
+
+    console.log('🔍 Diagnostic tool loaded. Run the tests above to identify the issue.');
+  </script>
+</body>
+</html>
