@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v18-20260504-hamburger-color-match">
+  <meta name="cache-buster" content="v19-20260504-mobile-responsive">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -1058,40 +1058,84 @@
     }
 
     @media (max-width: 768px) {
+      /* Sidebar */
       .sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
+        width: 280px;
       }
 
       .sidebar.open {
         transform: translateX(0);
       }
 
+      /* Overlay */
+      .sidebar-overlay.active {
+        display: block;
+      }
+
+      /* Main Content */
       .main-content {
         margin-left: 0;
         width: 100%;
-        padding-top: 90px;
+        padding-top: 80px;
       }
 
       .container {
-        padding: 20px 16px 20px 70px;
+        padding: 16px;
       }
 
+      /* Hamburger Buttons */
       .sidebar-hamburger {
         display: flex;
       }
 
       .mobile-menu-toggle {
-        display: block;
+        display: flex;
       }
 
+      /* Header */
       .header-content {
         margin-left: 0;
-        padding-left: 60px;
+        padding-left: 0;
+        padding-top: 8px;
       }
 
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .page-title {
+        font-size: 24px;
+        line-height: 1.3;
+      }
+
+      .page-subtitle {
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .header-actions {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .header-btn {
+        flex: 1;
+        min-width: 120px;
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+
+      /* Content Grid */
       .content-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
       }
 
       .unified-grid {
@@ -1102,19 +1146,315 @@
         grid-template-columns: 1fr;
       }
 
+      .content-grid > div,
+      .content-grid > div[style*="grid-column"] {
+        grid-column: 1 / -1 !important;
+      }
+
+      /* Cards */
+      .card {
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      .card-title {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+
+      .card-icon {
+        font-size: 28px;
+        width: 50px;
+        height: 50px;
+      }
+
+      /* Meal Logging Card */
+      .meal-logging-card {
+        padding: 20px;
+      }
+
+      .meal-logging-title {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+
+      .meal-logging-subtitle {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
       .meal-logging-card .form-grid {
         grid-template-columns: 1fr;
         gap: 16px;
       }
 
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
+      .meal-logging-card .form-group {
+        margin-bottom: 18px;
+      }
+
+      .meal-logging-card .form-label {
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .meal-logging-card .form-input,
+      .meal-logging-card .form-select {
+        padding: 14px 16px;
+        font-size: 15px;
+        border-radius: 10px;
+      }
+
+      .meal-logging-card .submit-btn {
+        padding: 16px 20px;
+        font-size: 16px;
+        border-radius: 12px;
+        margin-top: 8px;
+      }
+
+      /* Form Elements */
+      .form-input,
+      .form-select {
+        padding: 14px 16px;
+        font-size: 15px;
+        border-radius: 10px;
+      }
+
+      .submit-btn {
+        padding: 16px 20px;
+        font-size: 16px;
+        border-radius: 12px;
+      }
+
+      /* Results Grid */
+      .results-grid {
+        grid-template-columns: 1fr;
         gap: 12px;
       }
 
+      /* Stat Cards */
+      .stat-card {
+        padding: 16px;
+        border-radius: 12px;
+      }
+
+      .stat-value {
+        font-size: 28px;
+        margin-bottom: 4px;
+      }
+
+      .stat-label {
+        font-size: 13px;
+      }
+
+      /* Activity Items */
+      .activity-item {
+        padding: 12px;
+        border-radius: 10px;
+      }
+
+      .activity-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+
+      .activity-title {
+        font-size: 14px;
+      }
+
+      .activity-time {
+        font-size: 12px;
+      }
+
+      .activity-value {
+        font-size: 14px;
+      }
+
+      /* Quick Actions */
+      .quick-action {
+        padding: 16px;
+        border-radius: 12px;
+      }
+
+      .quick-action-icon {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+
+      .quick-action-title {
+        font-size: 15px;
+        margin-bottom: 4px;
+      }
+
+      .quick-action-description {
+        font-size: 13px;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+        border-radius: 10px;
+        min-height: 44px;
+      }
+
+      /* Water Tracker */
+      .water-tracker {
+        padding: 16px;
+      }
+
+      .water-buttons {
+        gap: 8px;
+      }
+
+      .water-buttons button {
+        padding: 10px 16px;
+        font-size: 14px;
+        min-height: 44px;
+      }
+
+      /* Nutrition Section */
+      .nutrition-section {
+        padding: 16px;
+      }
+
+      .section-title {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+
+      /* Label Section */
+      .label-section {
+        padding: 12px;
+      }
+
+      .label-section h4 {
+        font-size: 15px;
+        margin-bottom: 6px;
+      }
+
+      .label-section p {
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      /* Progress Bars */
+      .progress-bar {
+        height: 8px;
+        border-radius: 4px;
+      }
+
+      /* Text Content */
+      .card p,
+      .card li {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      /* Tips and Guidelines */
+      .tips-list li {
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+
+      /* Navigation Items */
+      .nav-item {
+        padding: 12px 16px;
+        min-height: 48px;
+      }
+
+      .nav-icon {
+        font-size: 18px;
+      }
+
+      .nav-text {
+        font-size: 14px;
+      }
+
+      /* Touch-friendly improvements */
+      .mobile-menu-toggle {
+        min-width: 48px;
+        min-height: 48px;
+      }
+
+      button,
+      .btn,
+      .submit-btn,
+      .header-btn {
+        min-height: 48px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(99, 102, 241, 0.2);
+      }
+
+      /* Better scrolling */
+      .main-content {
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Prevent text selection on touch */
+      .mobile-menu-toggle,
+      .sidebar-hamburger,
+      button {
+        -webkit-user-select: none;
+        user-select: none;
+      }
+    }
+
+    /* Medium screens (tablets) */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .sidebar {
+        width: 220px;
+      }
+
+      .main-content {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+      }
+
+      .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
       .page-title {
-        font-size: 22px;
+        font-size: 26px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+
+    /* Large mobile phones */
+    @media (min-width: 481px) and (max-width: 600px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      /* Main Content */
+      .main-content {
+        padding-top: 70px;
+      }
+
+      .container {
+        padding: 12px;
+      }
+
+      /* Header */
+      .page-title {
+        font-size: 20px;
       }
 
       .page-subtitle {
@@ -1122,83 +1462,103 @@
       }
 
       .header-actions {
+        flex-direction: column;
+      }
+
+      .header-btn {
         width: 100%;
-        justify-content: space-between;
+        min-width: auto;
       }
 
-      .content-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .content-grid > div {
-        grid-column: 1 / -1 !important;
-      }
-
+      /* Cards */
       .card {
         padding: 16px;
+        border-radius: 10px;
       }
 
       .card-title {
         font-size: 16px;
       }
 
+      .card-icon {
+        font-size: 24px;
+        width: 45px;
+        height: 45px;
+      }
+
+      /* Meal Logging */
       .meal-logging-card {
         padding: 16px;
       }
 
-      .meal-logging-card .form-group {
-        margin-bottom: 16px;
+      .meal-logging-title {
+        font-size: 18px;
       }
 
-      .meal-logging-card .form-label {
+      .meal-logging-subtitle {
+        font-size: 13px;
+      }
+
+      .meal-logging-card .form-input,
+      .meal-logging-card .form-select {
+        padding: 12px 14px;
         font-size: 14px;
       }
 
-      .meal-logging-card .form-input {
-        padding: 12px;
+      .meal-logging-card .submit-btn {
+        padding: 14px 16px;
+        font-size: 15px;
+      }
+
+      /* Form Elements */
+      .form-input,
+      .form-select {
+        padding: 12px 14px;
         font-size: 14px;
       }
 
-      .meal-logging-card .btn {
-        padding: 12px 20px;
-        font-size: 14px;
+      .submit-btn {
+        padding: 14px 16px;
+        font-size: 15px;
       }
 
-      .meal-item {
-        padding: 12px;
-      }
-
-      .meal-item-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-
-      .meal-name {
-        font-size: 14px;
-      }
-
-      .meal-calories {
-        font-size: 12px;
-      }
-
-      .meal-macros {
-        font-size: 11px;
-      }
-
+      /* Stat Cards */
       .stat-card {
         padding: 12px;
       }
 
       .stat-value {
-        font-size: 18px;
+        font-size: 24px;
       }
 
       .stat-label {
+        font-size: 12px;
+      }
+
+      /* Activity Items */
+      .activity-item {
+        padding: 10px;
+      }
+
+      .activity-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+
+      .activity-title {
+        font-size: 13px;
+      }
+
+      .activity-time {
         font-size: 11px;
       }
 
+      .activity-value {
+        font-size: 13px;
+      }
+
+      /* Quick Actions */
       .quick-action {
         padding: 12px;
       }
@@ -1208,45 +1568,51 @@
       }
 
       .quick-action-title {
-        font-size: 13px;
+        font-size: 14px;
       }
 
       .quick-action-description {
-        font-size: 11px;
+        font-size: 12px;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+        min-height: 44px;
+      }
+
+      /* Water Tracker */
+      .water-buttons button {
+        padding: 8px 12px;
+        font-size: 13px;
+        min-height: 44px;
+      }
+
+      /* Text Content */
+      .card p,
+      .card li {
+        font-size: 13px;
+      }
+
+      /* Progress Bars */
+      .progress-bar {
+        height: 6px;
+      }
+
+      /* Tips */
+      .tips-list li {
+        padding: 8px 10px;
+        font-size: 13px;
+      }
+
+      /* Hamburger Button */
+      .mobile-menu-toggle {
+        min-width: 44px;
+        min-height: 44px;
+        font-size: 18px;
       }
     }
-
-    @media (max-width: 480px) {
-      .main-content {
-        padding: 12px;
-      }
-
-      .card {
-        padding: 12px;
-      }
-
-      .meal-logging-card {
-        padding: 12px;
-      }
-
-      .meal-item {
-        padding: 10px;
-      }
-
-      .stat-card {
-        padding: 10px;
-      }
-
-      .stat-value {
-        font-size: 16px;
-      }
-
-      .quick-action {
-        padding: 10px;
-      }
-
-      .quick-action-icon {
-        font-size: 18px;
       }
 
       .quick-action-title {
