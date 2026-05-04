@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v28-20260504-force-refresh">
+  <meta name="cache-buster" content="v29-20260504-complete-fix">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -18,6 +18,12 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
     }
 
     :root {
@@ -305,6 +311,9 @@
       grid-template-columns: repeat(12, 1fr);
       gap: 24px;
       margin-bottom: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
     }
 
     .full-width {
@@ -331,6 +340,9 @@
       box-shadow: 0 2px 8px var(--shadow);
       transition: all 0.3s ease;
       border: 1px solid var(--border);
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     .card:last-child {
@@ -1168,6 +1180,63 @@
         max-width: 100%;
         overflow: hidden;
         word-wrap: break-word;
+        box-sizing: border-box;
+      }
+
+      /* Ensure all elements fit */
+      *,
+      *::before,
+      *::after {
+        max-width: 100%;
+      }
+
+      /* Prevent image overflow */
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Form elements */
+      input,
+      select,
+      textarea,
+      button {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Text content */
+      p,
+      span,
+      div,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      li {
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      /* Grid items */
+      .content-grid > * {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Results grid */
+      .results-grid {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Form grid */
+      .form-grid {
+        max-width: 100%;
+        box-sizing: border-box;
       }
 
       .card-title {
