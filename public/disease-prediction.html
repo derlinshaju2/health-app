@@ -6,7 +6,7 @@
   <title>Disease Prediction - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v26-20260504-original-kebab">
+  <meta name="cache-buster" content="v27-20260504-no-horizontal-scroll">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -42,6 +42,8 @@
       min-height: 100vh;
       color: var(--dark);
       display: flex;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     /* Sidebar Navigation */
@@ -220,6 +222,7 @@
       margin-left: 250px;
       flex: 1;
       width: calc(100% - 250px);
+      overflow-x: hidden;
     }
 
     /* Header */
@@ -1015,10 +1018,13 @@
         margin-left: 0;
         width: 100%;
         padding-top: 80px;
+        overflow-x: hidden;
       }
 
       .container {
         padding: 20px 16px;
+        max-width: 100%;
+        overflow-x: hidden;
       }
 
       .sidebar-hamburger {
@@ -1040,6 +1046,8 @@
 
       .content-grid {
         grid-template-columns: 1fr;
+        max-width: 100%;
+        overflow: hidden;
       }
 
       .unified-grid {
@@ -1070,6 +1078,9 @@
 
       .card {
         padding: 16px;
+        max-width: 100%;
+        overflow: hidden;
+        word-wrap: break-word;
       }
 
       .card-title {
