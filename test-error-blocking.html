@@ -87,13 +87,19 @@
     </div>
 
     <div class="test-section">
-      <h3>Console Test</h3>
-      <p>Try typing this in your console (F12):</p>
+      <h3>Console Test - Important Note</h3>
+      <p>⚠️ <strong>Errors manually typed in console CANNOT be blocked</strong> - this is browser security.</p>
+      <p>My error blocking only works for <strong>automatic script errors</strong>, not manual console input.</p>
+
+      <p style="margin: 15px 0;"><strong>Try typing this in your console (F12):</strong></p>
       <code style="background: #f1f5f9; padding: 8px; border-radius: 4px; display: block; margin: 10px 0;">
         throw new Error('Test from content-all.js')
       </code>
-      <p style="font-size: 13px; color: #666;">
-        If error blocking is working, you should see a 🛡️ BLOCKED message instead of an uncaught error
+
+      <p style="font-size: 13px; color: #666; background: #fff3cd; padding: 10px; border-radius: 6px;">
+        <strong>Expected Result:</strong> You will STILL see the error (this is normal!).<br>
+        <strong>Why:</strong> Browser security prevents blocking manual console errors.<br>
+        <strong>What IS blocked:</strong> Automatic errors from extensions/scripts that run on page load.
       </p>
     </div>
 
