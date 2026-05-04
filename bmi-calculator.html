@@ -940,6 +940,64 @@
           </div>
         </div>
       </div>
+
+      <!-- Nutrition Guide Based on BMI -->
+      <div class="card full-width">
+        <h3 class="card-title">
+          <div class="card-icon">🥗</div>
+          Nutrition Guide for Your BMI Category
+        </h3>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+          <!-- Underweight Nutrition -->
+          <div style="padding: 20px; background: rgba(59, 130, 246, 0.05); border-radius: 16px; border-left: 5px solid #3b82f6;">
+            <h4 style="font-size: 18px; font-weight: 700; color: #3b82f6; margin-bottom: 12px;">🔵 Underweight Nutrition</h4>
+            <ul style="font-size: 14px; color: var(--gray); line-height: 1.6; padding-left: 20px;">
+              <li><strong>Calorie Surplus:</strong> Eat 300-500 calories more than maintenance</li>
+              <li><strong>Protein:</strong> 1.2-1.5g per kg body weight for muscle building</li>
+              <li><strong>Healthy Fats:</strong> Avocados, nuts, olive oil, fatty fish</li>
+              <li><strong>Complex Carbs:</strong> Whole grains, oats, sweet potatoes</li>
+              <li><strong>Meal Frequency:</strong> 5-6 smaller meals per day</li>
+            </ul>
+          </div>
+
+          <!-- Normal Weight Nutrition -->
+          <div style="padding: 20px; background: rgba(16, 185, 129, 0.05); border-radius: 16px; border-left: 5px solid #10b981;">
+            <h4 style="font-size: 18px; font-weight: 700; color: #10b981; margin-bottom: 12px;">🟢 Normal Weight Nutrition</h4>
+            <ul style="font-size: 14px; color: var(--gray); line-height: 1.6; padding-left: 20px;">
+              <li><strong>Maintenance:</strong> Eat at calorie maintenance to preserve weight</li>
+              <li><strong>Balanced Diet:</strong> Include all food groups in moderation</li>
+              <li><strong>Protein:</strong> 0.8-1.0g per kg body weight for maintenance</li>
+              <li><strong>Fruits & Vegetables:</strong> 5-9 servings daily for antioxidants</li>
+              <li><strong>Hydration:</strong> 8 glasses of water per day</li>
+            </ul>
+          </div>
+
+          <!-- Overweight Nutrition -->
+          <div style="padding: 20px; background: rgba(245, 158, 11, 0.05); border-radius: 16px; border-left: 5px solid #f59e0b;">
+            <h4 style="font-size: 18px; font-weight: 700; color: #f59e0b; margin-bottom: 12px;">🟡 Overweight Nutrition</h4>
+            <ul style="font-size: 14px; color: var(--gray); line-height: 1.6; padding-left: 20px;">
+              <li><strong>Calorie Deficit:</strong> Reduce 300-500 calories from maintenance</li>
+              <li><strong>High Protein:</strong> 1.0-1.2g per kg to preserve muscle mass</li>
+              <li><strong>Fiber:</strong> 25-30g daily for satiety and digestive health</li>
+              <li><strong>Whole Foods:</strong> Focus on unprocessed, nutrient-dense foods</li>
+              <li><strong>Portion Control:</strong> Use smaller plates and mindful eating</li>
+            </ul>
+          </div>
+
+          <!-- Obese Nutrition -->
+          <div style="padding: 20px; background: rgba(239, 68, 68, 0.05); border-radius: 16px; border-left: 5px solid #ef4444;">
+            <h4 style="font-size: 18px; font-weight: 700; color: #ef4444; margin-bottom: 12px;">🔴 Obesity Nutrition</h4>
+            <ul style="font-size: 14px; color: var(--gray); line-height: 1.6; padding-left: 20px;">
+              <li><strong>Medical Supervision:</strong> Work with healthcare provider</li>
+              <li><strong>Gradual Deficit:</strong> 500-750 calorie reduction for safe loss</li>
+              <li><strong>Protein Priority:</strong> 1.2-1.5g per kg to preserve muscle</li>
+              <li><strong>Low Energy Density:</strong> Vegetables, fruits, lean proteins</li>
+              <li><strong>Professional Support:</strong> Registered dietitian recommended</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -1048,40 +1106,48 @@
         color = '#3b82f6';
         position = 15;
         recommendations = [
-          'Increase calorie intake with nutrient-dense foods',
-          'Include more protein-rich foods in your diet',
-          'Consider strength training to build muscle mass',
-          'Consult a healthcare provider for personalized advice'
+          '🥗 Increase calorie intake with nutrient-dense foods (nuts, avocados, dairy)',
+          '💪 Include more protein-rich foods (lean meats, eggs, legumes) for muscle building',
+          '🍛 Eat 5-6 smaller meals throughout the day',
+          '🥛 Add healthy fats like olive oil, nut butters, and fatty fish',
+          '🏋️ Consider strength training to build muscle mass',
+          '👨‍⚕️ Consult a healthcare provider for personalized weight gain plan'
         ];
       } else if (bmi >= 18.5 && bmi < 25) {
         category = 'Normal Weight';
         color = '#10b981';
         position = 45;
         recommendations = [
-          'Maintain your current healthy lifestyle',
-          'Continue balanced diet and regular exercise',
-          'Keep up the great work!',
-          'Regular health check-ups recommended'
+          '✅ Maintain your current healthy lifestyle',
+          '🥗 Continue balanced diet with plenty of fruits and vegetables',
+          '💪 Keep up regular exercise and physical activity',
+          '💧 Stay hydrated with 8 glasses of water daily',
+          '😴 Prioritize sleep and stress management',
+          '📅 Schedule regular health check-ups'
         ];
       } else if (bmi >= 25 && bmi < 30) {
         category = 'Overweight';
         color = '#f59e0b';
         position = 70;
         recommendations = [
-          'Create a moderate calorie deficit through diet and exercise',
-          'Increase physical activity to 150 minutes per week',
-          'Focus on whole foods and reduce processed foods',
-          'Consider consulting a dietitian for guidance'
+          '🔥 Create a moderate calorie deficit (500 kcal/day) for gradual weight loss',
+          '🥗 Focus on whole foods and reduce processed foods and sugars',
+          '🏃 Increase physical activity to 150 minutes per week',
+          '🥢 Practice portion control and mindful eating',
+          '💧 Replace sugary drinks with water and herbal teas',
+          '👨‍⚕️ Consider consulting a dietitian for personalized guidance'
         ];
       } else {
         category = 'Obese';
         color = '#ef4444';
         position = 90;
         recommendations = [
-          'Consult a healthcare provider for weight management',
-          'Aim for 5-10% weight loss for health benefits',
-          'Consider working with a registered dietitian',
-          'Start with low-impact exercises like walking or swimming'
+          '👨‍⚕️ Consult a healthcare provider for comprehensive weight management plan',
+          '🎯 Aim for 5-10% weight loss for significant health benefits',
+          '🥗 Focus on nutrient-dense, low-calorie foods (vegetables, lean proteins)',
+          '🚶 Start with low-impact exercises like walking or swimming',
+          '🍽️ Work with a registered dietitian for meal planning',
+          '💊 Address any underlying medical conditions affecting weight'
         ];
       }
 

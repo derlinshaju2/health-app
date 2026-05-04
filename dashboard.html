@@ -1092,6 +1092,100 @@
         </div>
       </div>
 
+      <!-- Quick Meal Logging -->
+      <div class="card">
+        <div class="card-header">
+          <h3>🍽️ Quick Meal Logging</h3>
+          <button class="action-btn" onclick="toggleMealForm()">+ Add Meal</button>
+        </div>
+        <div id="quickMealForm" style="display: none;">
+          <form onsubmit="logQuickMeal(event)" style="margin-top: 15px;">
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label style="display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600;">Meal Type</label>
+              <select id="quickMealType" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;">
+                <option value="breakfast">🌅 Breakfast</option>
+                <option value="lunch">☀️ Lunch</option>
+                <option value="dinner">🌙 Dinner</option>
+                <option value="snack">🍎 Snack</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label style="display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600;">Food Item</label>
+              <input type="text" id="quickFoodItem" placeholder="e.g., Grilled Chicken Salad" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label style="display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600;">Calories</label>
+              <input type="number" id="quickCalories" placeholder="kcal" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px;" required>
+            </div>
+            <button type="submit" class="action-btn" style="width: 100%; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white;">➕ Log Meal</button>
+          </form>
+        </div>
+        <div id="todayMeals" class="activity-list" style="margin-top: 15px;">
+          <div class="empty-state">
+            <div class="icon">🍽️</div>
+            <h3>No meals logged today</h3>
+            <p>Click "+ Add Meal" to start tracking</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nutrition Summary -->
+      <div class="card">
+        <div class="card-header">
+          <h3>🥗 Today's Nutrition</h3>
+        </div>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="font-size: 36px; font-weight: 700; color: #6366f1; margin-bottom: 5px;" id="dashboardTotalCalories">1,850</div>
+          <div style="font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Total Calories</div>
+          <div style="font-size: 11px; color: #64748b; margin-top: 3px;">Target: 2,000 kcal</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px;">
+              <span>🔥 Calories</span>
+              <span id="dashboardCaloriesProgress">1,850/2,000 kcal</span>
+            </div>
+            <div style="width: 100%; height: 6px; background: #f8fafc; border-radius: 10px; overflow: hidden;">
+              <div style="width: 92.5%; height: 100%; background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%); border-radius: 10px;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px;">
+              <span>💪 Protein</span>
+              <span id="dashboardProteinProgress">85g/120g</span>
+            </div>
+            <div style="width: 100%; height: 6px; background: #f8fafc; border-radius: 10px; overflow: hidden;">
+              <div style="width: 70%; height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); border-radius: 10px;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 13px;">
+              <span>🍞 Carbs</span>
+              <span id="dashboardCarbsProgress">180g/200g</span>
+            </div>
+            <div style="width: 100%; height: 6px; background: #f8fafc; border-radius: 10px; overflow: hidden;">
+              <div style="width: 90%; height: 100%; background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%); border-radius: 10px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Water Tracker -->
+      <div class="card">
+        <div class="card-header">
+          <h3>💧 Water Intake</h3>
+        </div>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="font-size: 48px; font-weight: 700; color: #3b82f6; margin-bottom: 5px;" id="dashboardWaterCount">5</div>
+          <div style="font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">Glasses of Water</div>
+          <div style="font-size: 11px; color: #64748b; margin-top: 3px;">Goal: 8 glasses</div>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+          <button onclick="addDashboardWater(-1)" style="padding: 10px 20px; border: 2px solid #e2e8f0; background: white; border-radius: 8px; cursor: pointer; font-size: 16px;">➖</button>
+          <button onclick="addDashboardWater(1)" style="padding: 10px 20px; border: none; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border-radius: 8px; cursor: pointer; font-size: 16px;">➕ Add Glass</button>
+        </div>
+      </div>
+
       <!-- Daily Progress -->
       <div class="card">
         <div class="card-header">
@@ -1192,6 +1286,12 @@
       initializeActivity();
       initializeMetrics();
       updateProgress();
+
+      // Initialize nutrition tracking
+      updateTodayMeals();
+      updateNutritionSummary();
+      loadWaterCount();
+
       console.log('✅ Dashboard initialized successfully');
     });
 
@@ -1652,6 +1752,152 @@
       URL.revokeObjectURL(url);
 
       showNotification('✅ Data exported successfully!');
+    }
+
+    // ===== NUTRITION TRACKING FUNCTIONS =====
+
+    // Toggle meal form
+    function toggleMealForm() {
+      const mealForm = document.getElementById('quickMealForm');
+      if (mealForm) {
+        mealForm.style.display = mealForm.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    // Log quick meal
+    function logQuickMeal(event) {
+      event.preventDefault();
+
+      const mealType = document.getElementById('quickMealType').value;
+      const foodItem = document.getElementById('quickFoodItem').value;
+      const calories = parseInt(document.getElementById('quickCalories').value);
+
+      if (!foodItem || !calories) {
+        showNotification('❌ Please fill all fields');
+        return;
+      }
+
+      // Get existing meals
+      const meals = JSON.parse(localStorage.getItem('dashboardMeals')) || [];
+
+      // Add new meal
+      const meal = {
+        id: Date.now(),
+        type: mealType,
+        food: foodItem,
+        calories: calories,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        date: new Date().toDateString()
+      };
+
+      meals.push(meal);
+      localStorage.setItem('dashboardMeals', JSON.stringify(meals));
+
+      // Update UI
+      updateTodayMeals();
+      updateNutritionSummary();
+
+      // Clear form
+      document.getElementById('quickFoodItem').value = '';
+      document.getElementById('quickCalories').value = '';
+
+      showNotification('✅ Meal logged successfully!');
+    }
+
+    // Update today's meals display
+    function updateTodayMeals() {
+      const meals = JSON.parse(localStorage.getItem('dashboardMeals')) || [];
+      const todayMeals = meals.filter(meal => meal.date === new Date().toDateString());
+      const mealsContainer = document.getElementById('todayMeals');
+
+      if (!mealsContainer) return;
+
+      if (todayMeals.length === 0) {
+        mealsContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="icon">🍽️</div>
+            <h3>No meals logged today</h3>
+            <p>Click "+ Add Meal" to start tracking</p>
+          </div>
+        `;
+        return;
+      }
+
+      const mealIcons = {
+        breakfast: '🌅',
+        lunch: '☀️',
+        dinner: '🌙',
+        snack: '🍎'
+      };
+
+      const mealColors = {
+        breakfast: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+        lunch: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
+        dinner: 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)',
+        snack: 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)'
+      };
+
+      mealsContainer.innerHTML = todayMeals.map(meal => `
+        <div class="activity-item">
+          <div class="activity-icon" style="background: ${mealColors[meal.type]};">${mealIcons[meal.type]}</div>
+          <div class="activity-content">
+            <div class="activity-title">${meal.food}</div>
+            <div class="activity-time">${meal.type.charAt(0).toUpperCase() + meal.type.slice(1)} • ${meal.time}</div>
+          </div>
+          <div style="font-weight: 700; color: #6366f1;">${meal.calories} kcal</div>
+        </div>
+      `).join('');
+    }
+
+    // Update nutrition summary
+    function updateNutritionSummary() {
+      const meals = JSON.parse(localStorage.getItem('dashboardMeals')) || [];
+      const todayMeals = meals.filter(meal => meal.date === new Date().toDateString());
+
+      const totalCalories = todayMeals.reduce((sum, meal) => sum + meal.calories, 0);
+      const targetCalories = 2000;
+
+      // Update displays
+      const caloriesElement = document.getElementById('dashboardTotalCalories');
+      const progressElement = document.getElementById('dashboardCaloriesProgress');
+
+      if (caloriesElement) {
+        caloriesElement.textContent = totalCalories.toLocaleString();
+      }
+
+      if (progressElement) {
+        progressElement.textContent = `${totalCalories}/${targetCalories} kcal`;
+      }
+    }
+
+    // Dashboard water tracking
+    let dashboardWaterCount = 5;
+
+    function addDashboardWater(amount) {
+      dashboardWaterCount = Math.max(0, Math.min(12, dashboardWaterCount + amount));
+      const waterElement = document.getElementById('dashboardWaterCount');
+      if (waterElement) {
+        waterElement.textContent = dashboardWaterCount;
+      }
+
+      // Save to localStorage
+      localStorage.setItem('dashboardWaterCount', dashboardWaterCount.toString());
+
+      if (amount > 0) {
+        showNotification(`💧 Water added! (${dashboardWaterCount}/8 glasses)`);
+      }
+    }
+
+    // Load water count from localStorage
+    function loadWaterCount() {
+      const saved = localStorage.getItem('dashboardWaterCount');
+      if (saved) {
+        dashboardWaterCount = parseInt(saved);
+        const waterElement = document.getElementById('dashboardWaterCount');
+        if (waterElement) {
+          waterElement.textContent = dashboardWaterCount;
+        }
+      }
     }
 
     // Reset progress
