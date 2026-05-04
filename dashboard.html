@@ -1676,6 +1676,15 @@
 
     // Show notification
     function showNotification(message) {
+      // Play safe notification sound
+      try {
+        if (typeof playNotificationSound === 'function') {
+          playNotificationSound();
+        }
+      } catch (e) {
+        console.warn('Could not play notification sound:', e);
+      }
+
       // Create notification element
       const notification = document.createElement('div');
       notification.style.cssText = `
@@ -1761,6 +1770,9 @@
 
   <!-- Error Handler for Fetch Issues -->
   <script src="error-handler.js"></script>
+
+  <!-- Audio Error Handler -->
+  <script src="audio-error-handler.js"></script>
   </div><!-- End main-content -->
 </body>
 </html>
