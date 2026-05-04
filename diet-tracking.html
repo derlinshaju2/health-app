@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v14-20260504-public-sync-fix">
+  <meta name="cache-buster" content="v15-20260504-hamburger-fix">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -87,25 +87,26 @@
     }
 
     .sidebar-hamburger {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.25);
       color: white;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.3);
       padding: 8px 12px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 36px;
-      min-height: 36px;
+      min-width: 40px;
+      min-height: 40px;
     }
 
     .sidebar-hamburger:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.35);
       transform: scale(1.05);
+      border-color: rgba(255, 255, 255, 0.5);
     }
 
     /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
@@ -115,26 +116,29 @@
       top: 16px;
       left: 16px;
       z-index: 1001;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 14px 18px;
-      border-radius: 14px;
+      background: #ffffff;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 12px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 600;
       line-height: 1;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4), 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      min-width: 50px;
-      min-height: 50px;
+      min-width: 48px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .mobile-menu-toggle:hover {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 12px 35px rgba(99, 102, 241, 0.5), 0 6px 15px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.25);
     }
 
     /* Hide hamburger button on desktop */
@@ -1065,7 +1069,7 @@
       .main-content {
         margin-left: 0;
         width: 100%;
-        padding-top: 80px;
+        padding-top: 100px;
       }
 
       .container {
@@ -1105,6 +1109,7 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
+        padding-top: 8px;
       }
 
       .page-title {
