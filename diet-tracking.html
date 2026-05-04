@@ -1309,6 +1309,10 @@
 
     <div class="nav-section">
       <div class="nav-section-title">Tracking</div>
+      <a href="diet-tracking.html" class="nav-item active" id="nav-diet">
+        <span class="nav-icon">🥗</span>
+        <span class="nav-text">Diet & Nutrition</span>
+      </a>
       <a href="yoga-tracker.html" class="nav-item" id="nav-yoga">
         <span class="nav-icon">🧘</span>
         <span class="nav-text">Yoga & Fitness</span>
@@ -1373,62 +1377,6 @@
 
     <!-- Content Grid -->
     <div class="content-grid">
-      <!-- Meal Logging Form -->
-      <div class="card meal-logging-card" style="grid-column: 1 / -1;">
-        <h2 class="meal-logging-title">
-          <div class="card-icon" style="font-size: 32px;">📝</div>
-          Log Today's Meals
-        </h2>
-        <p class="meal-logging-subtitle">Track your daily food intake and monitor your nutritional goals</p>
-
-        <form id="mealForm" onsubmit="logMeal(event)">
-          <div class="form-group">
-            <label class="form-label">Meal Type</label>
-            <select class="form-input form-select" id="mealType" required>
-              <option value="">Select meal</option>
-              <option value="breakfast">🌅 Breakfast</option>
-              <option value="lunch">☀️ Lunch</option>
-              <option value="dinner">🌙 Dinner</option>
-              <option value="snack">🍎 Snack</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Food Item</label>
-            <input type="text" class="form-input" id="foodItem" placeholder="e.g., Grilled Chicken Salad" required>
-          </div>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Calories</label>
-              <input type="number" class="form-input" id="calories" placeholder="kcal" min="0" required>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Protein (g)</label>
-              <input type="number" class="form-input" id="protein" placeholder="g" min="0">
-            </div>
-          </div>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Carbs (g)</label>
-              <input type="number" class="form-input" id="carbs" placeholder="g" min="0">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Fats (g)</label>
-              <input type="number" class="form-input" id="fats" placeholder="g" min="0">
-            </div>
-          </div>
-
-          <button type="submit" class="submit-btn">
-            ➕
-            <span>Add Meal</span>
-          </button>
-        </form>
-      </div>
-
       <!-- Today's Nutrition Summary -->
       <div class="card" style="grid-column: 1 / 8;">
         <h3 class="card-title">
