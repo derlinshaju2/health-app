@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v20-20260504-no-color-change">
+  <meta name="cache-buster" content="v21-20260504-enhanced-mobile">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -42,6 +42,9 @@
       min-height: 100vh;
       color: var(--dark);
       display: flex;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* Sidebar Navigation */
@@ -1400,6 +1403,110 @@
         -webkit-user-select: none;
         user-select: none;
       }
+
+      /* Mobile-specific optimizations */
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* Better mobile input handling */
+      input,
+      select,
+      textarea {
+        font-size: 16px !important;
+      }
+
+      /* Mobile scroll improvements */
+      .sidebar {
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Prevent horizontal scroll on mobile */
+      body,
+      .main-content,
+      .container {
+        overflow-x: hidden;
+      }
+
+      /* Better mobile spacing */
+      .meal-logging-card {
+        margin-bottom: 16px;
+      }
+
+      /* Mobile-friendly results display */
+      .results-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      /* Better water display on mobile */
+      .water-display {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .water-count {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      /* Mobile nutrition summary */
+      .nutrition-summary {
+        text-align: center;
+      }
+
+      /* Better button layout on mobile */
+      .header-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .header-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      /* Mobile activity list */
+      .activity-list {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      /* Better mobile cards */
+      .card {
+        margin-bottom: 16px;
+      }
+
+      /* Mobile form improvements */
+      form {
+        max-width: 100%;
+      }
+
+      /* Better select dropdown on mobile */
+      select {
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      /* Mobile-friendly spacing */
+      .content-grid > div {
+        margin-bottom: 0;
+      }
+
+      /* Better touch targets for navigation */
+      .nav-item {
+        min-height: 52px;
+      }
+
+      /* Mobile overlay improvements */
+      .sidebar-overlay {
+        -webkit-overflow-scrolling: touch;
+      }
     }
 
     /* Medium screens (tablets) */
@@ -1613,6 +1720,98 @@
         min-width: 44px;
         min-height: 44px;
         font-size: 18px;
+        top: 12px;
+        left: 12px;
+      }
+
+      /* Better small screen layout */
+      .main-content {
+        padding-top: 70px;
+      }
+
+      /* Compact meal logging */
+      .meal-logging-card .form-group {
+        margin-bottom: 14px;
+      }
+
+      .meal-logging-card .form-input,
+      .meal-logging-card .form-select {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      /* Smaller stat cards */
+      .stat-card {
+        padding: 10px;
+      }
+
+      .stat-value {
+        font-size: 20px;
+      }
+
+      /* Compact buttons */
+      .btn,
+      .submit-btn {
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+
+      /* Better small screen text */
+      .page-title {
+        font-size: 20px;
+        line-height: 1.2;
+      }
+
+      .page-subtitle {
+        font-size: 12px;
+      }
+
+      /* Compact cards */
+      .card {
+        padding: 12px;
+      }
+
+      /* Better spacing */
+      .container {
+        padding: 10px;
+      }
+
+      /* Mobile-friendly inputs */
+      input,
+      select,
+      textarea {
+        font-size: 16px !important;
+      }
+
+      /* Better mobile navigation */
+      .sidebar {
+        width: 260px;
+      }
+
+      /* Small screen water tracker */
+      .water-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      /* Better small screen layout */
+      .content-grid {
+        gap: 12px;
+      }
+
+      /* Compact activity items */
+      .activity-item {
+        padding: 8px;
+      }
+
+      /* Mobile-friendly tips */
+      .tips-list {
+        padding-left: 20px;
+      }
+
+      .tips-list li {
+        margin-bottom: 8px;
       }
     }
       }
