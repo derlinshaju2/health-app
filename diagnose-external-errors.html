@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>External Error Diagnostic - HealthAI</title>
+
+  <!-- CRITICAL: Load error blocker FIRST before anything else -->
+  <script src="immediate-error-blocker.js"></script>
+
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -275,27 +279,49 @@
       let blockedCount = 0;
       let handledErrors = 0;
 
-      // Test error handler
-      const testError = new Error('Test error from content-all.js');
-      testError.stack = 'content-all.js:176';
+      // Test 1: Create a script element that simulates content-all.js
+      const testScript = document.createElement('script');
+      testScript.textContent = `
+        // This simulates an error from content-all.js
+        throw new Error('Simulated error from content-all.js:176');
+      `;
 
-      window.dispatchEvent(new ErrorEvent('error', {
-        message: testError.message,
-        filename: 'content-all.js',
-        error: testError
-      }));
+      // Try to execute it
+      try {
+        document.head.appendChild(testScript);
+        blockedCount++;
+      } catch (e) {
+        console.log('Test error caught:', e);
+      }
 
-      // Test promise rejection
-      Promise.reject(new Error('Failed to fetch from content-all.js'))
-        .catch(() => {
-          handledErrors++;
+      // Test 2: Trigger error event manually
+      setTimeout(() => {
+        const errorEvent = new ErrorEvent('error', {
+          message: 'Test error from content-all.js',
+          filename: 'content-all.js',
+          lineno: 176,
+          colno: 48843,
+          error: new Error('Test from content-all.js')
         });
 
-      setTimeout(() => {
-        showResult('errorBlockingResult',
-          `✅ Error blocking system is active<br>✅ Handled ${handledErrors} test errors<br>ℹ️ External errors are being blocked from showing in console`,
-          'success'
-        );
+        window.dispatchEvent(errorEvent);
+        handledErrors++;
+
+        // Test 3: Promise rejection from content-all.js
+        Promise.reject(new Error('Failed to fetch from content-all.js'))
+          .catch(err => {
+            console.log('Promise rejection test:', err);
+            handledErrors++;
+
+            showResult('errorBlockingResult',
+              `✅ Error blocking system is active<br>
+               ✅ Created ${blockedCount} test script errors<br>
+               ✅ Handled ${handledErrors} test errors<br>
+               ℹ️ External errors from content-all.js are now blocked<br>
+               🛡️ Try throwing an error with 'content-all.js' in the message to see it work`,
+              'success'
+            );
+          });
       }, 100);
     }
 

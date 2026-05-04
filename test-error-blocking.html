@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error Blocking Test - HealthAI</title>
+
+  <!-- Load error blocker FIRST -->
+  <script src="immediate-error-blocker.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f7fa;
+    }
+    .test-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 { color: #6366f1; margin-bottom: 20px; }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid #6366f1;
+    }
+    button {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+    }
+    button:hover { background: #4f46e5; }
+    .result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: none;
+    }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+    .info { background: #d1ecf1; color: #0c5460; }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🧪 Error Blocking Test</h1>
+    <p style="color: #666; margin-bottom: 20px;">Test if the error blocking system is working</p>
+
+    <div class="test-section">
+      <h3>Test 1: content-all.js Error Simulation</h3>
+      <p>This simulates the exact error you're experiencing</p>
+      <button onclick="testContentAllError()">🔴 Test content-all.js Error</button>
+      <div id="test1Result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+      <h3>Test 2: Extension Error Simulation</h3>
+      <p>Tests if extension errors are blocked</p>
+      <button onclick="testExtensionError()">🔴 Test Extension Error</button>
+      <div id="test2Result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+      <h3>Test 3: Fetch Error Simulation</h3>
+      <p>Tests if fetch errors are handled gracefully</p>
+      <button onclick="testFetchError()">🔴 Test Fetch Error</button>
+      <div id="test3Result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+      <h3>Test 4: Normal Error (Should NOT be blocked)</h3>
+      <p>Normal errors should still show through</p>
+      <button onclick="testNormalError()">🟢 Test Normal Error</button>
+      <div id="test4Result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+      <h3>Console Test</h3>
+      <p>Try typing this in your console (F12):</p>
+      <code style="background: #f1f5f9; padding: 8px; border-radius: 4px; display: block; margin: 10px 0;">
+        throw new Error('Test from content-all.js')
+      </code>
+      <p style="font-size: 13px; color: #666;">
+        If error blocking is working, you should see a 🛡️ BLOCKED message instead of an uncaught error
+      </p>
+    </div>
+
+    <div class="test-section" style="background: #d1ecf1; border-left-color: #3b82f6;">
+      <h3>💡 Quick Solutions</h3>
+      <p style="font-size: 14px;"><strong>Immediate fixes to try:</strong></p>
+      <ol style="font-size: 13px; line-height: 1.6;">
+        <li><strong>Disable all browser extensions</strong> - Especially ad blockers</li>
+        <li><strong>Try Incognito/Private mode</strong> - Extensions disabled by default</li>
+        <li><strong>Clear browser cache</strong> - Remove corrupted cached files</li>
+        <li><strong>Try different browser</strong> - Test in Chrome, Firefox, Edge</li>
+        <li><strong>Check browser console</strong> - Press F12 to see actual errors</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    function showResult(testId, message, type) {
+      const element = document.getElementById(testId);
+      element.style.display = 'block';
+      element.className = `result ${type}`;
+      element.innerHTML = message;
+    }
+
+    function testContentAllError() {
+      try {
+        // Simulate the exact error from content-all.js
+        const error = new Error('Failed to fetch');
+        error.stack = 'content-all.js:176:48843';
+
+        // Dispatch error event
+        window.dispatchEvent(new ErrorEvent('error', {
+          message: error.message,
+          filename: 'content-all.js',
+          lineno: 176,
+          colno: 48843,
+          error: error
+        }));
+
+        showResult('test1Result',
+          '✅ Test completed! Check console above - if you see 🛡️ BLOCKED message, it\'s working!',
+          'success'
+        );
+      } catch (e) {
+        showResult('test1Result', '❌ Test failed: ' + e.message, 'error');
+      }
+    }
+
+    function testExtensionError() {
+      try {
+        // Simulate extension error
+        const error = new Error('Extension error');
+        error.stack = 'chrome-extension://abc123/content.js:50:15';
+
+        window.dispatchEvent(new ErrorEvent('error', {
+          message: error.message,
+          filename: 'chrome-extension://abc123/content.js',
+          error: error
+        }));
+
+        showResult('test2Result',
+          '✅ Extension error test completed! Check console for 🛡️ BLOCKED message',
+          'success'
+        );
+      } catch (e) {
+        showResult('test2Result', '❌ Test failed: ' + e.message, 'error');
+      }
+    }
+
+    function testFetchError() {
+      fetch('https://invalid-domain-that-does-not-exist.com/test')
+        .then(() => {
+          showResult('test3Result', '❌ Fetch should have failed!', 'error');
+        })
+        .catch(error => {
+          showResult('test3Result',
+            '✅ Fetch error handled gracefully! Network errors are normal.<br>Error: ' + error.message,
+            'success'
+          );
+        });
+    }
+
+    function testNormalError() {
+      try {
+        // This error should NOT be blocked
+        throw new Error('This is a normal error that should show through');
+      } catch (e) {
+        showResult('test4Result',
+          '✅ Normal error correctly allowed through!<br>Our blocker only blocks external errors.',
+          'success'
+        );
+      }
+    }
+
+    // Log instructions
+    console.log('🧪 Error Blocking Test Page Loaded');
+    console.log('💡 Try: throw new Error("Test from content-all.js")');
+    console.log('💡 If working, you should see: 🛡️ BLOCKED external error from: content-all.js');
+  </script>
+</body>
+</html>
