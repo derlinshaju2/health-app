@@ -6,7 +6,7 @@
   <title>Disease Prediction - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v10-20260503-final">
+  <meta name="cache-buster" content="v24-20260504-dashboard-style-mobile">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -57,6 +57,8 @@
       z-index: 1000;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
       border-right: 1px solid #e2e8f0;
+      transition: transform 0.3s ease;
+      transform: translateX(0);
     }
 
     .sidebar-header {
@@ -76,7 +78,7 @@
       font-size: 18px;
       font-weight: 700;
       margin-bottom: 4px;
-      color: var(--primary);
+      color: white;
     }
 
     .sidebar-header p {
@@ -86,7 +88,7 @@
 
     .sidebar-hamburger {
       background: rgba(255, 255, 255, 0.2);
-      color: var(--primary);
+      color: white;
       border: none;
       padding: 8px 12px;
       border-radius: 8px;
@@ -106,39 +108,38 @@
       transform: scale(1.05);
     }
 
-    /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
-    .mobile-menu-toggle {
-      display: none;
+    /* Fixed Hamburger Button - Always Visible (Dashboard Style) */
+    .fixed-hamburger-btn {
       position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 1001;
-      background: white;
-      color: var(--primary);
-      border: 2px solid var(--border);
-      padding: 12px 16px;
+      top: 20px;
+      left: 20px;
+      z-index: 10000;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%) !important;
+      color: white;
+      border: 3px solid #000 !important;
+      padding: 15px 20px;
       border-radius: 12px;
       cursor: pointer;
-      font-size: 18px;
-      font-weight: 500;
-      line-height: 1;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
       transition: all 0.2s ease;
-      min-width: 48px;
-      min-height: 48px;
+      min-width: 60px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .mobile-menu-toggle:hover {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
-      border-color: var(--primary);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    .fixed-hamburger-btn:hover {
+      background: linear-gradient(135deg, #ff5252 0%, #e04a5f 100%) !important;
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
     }
 
-    .mobile-menu-toggle:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    .fixed-hamburger-btn:active {
+      transform: scale(0.9);
+      background: #ff0000 !important;
     }
 
     /* Hide hamburger button on desktop */
@@ -170,7 +171,7 @@
     .nav-section-title {
       padding: 0 20px;
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 600;
       color: #64748b;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -196,7 +197,7 @@
     .nav-item.active {
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
       border-left-color: #6366f1;
-      font-weight: 500;
+      font-weight: 600;
       color: #6366f1;
     }
 
@@ -258,7 +259,7 @@
       border: 2px solid var(--border);
       background: white;
       color: var(--dark);
-      font-weight: 500;
+      font-weight: 600;
       font-size: 14px;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -273,8 +274,8 @@
     }
 
     .header-btn.primary {
-      background: white;
-      color: var(--primary);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
       border: none;
     }
 
@@ -348,7 +349,7 @@
     .health-metrics-title {
       font-size: 32px;
       font-weight: 700;
-      background: white;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 12px;
@@ -395,7 +396,7 @@
     .form-label {
       display: block;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--dark);
       margin-bottom: 8px;
       text-transform: uppercase;
@@ -451,7 +452,7 @@
 
     .health-metrics-card .form-label {
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 600;
       margin-bottom: 12px;
     }
 
@@ -472,12 +473,12 @@
     .submit-btn {
       width: 100%;
       padding: 16px;
-      background: white;
-      color: var(--primary);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 14px;
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
@@ -541,7 +542,7 @@
 
     .metric-details h5 {
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--dark);
       margin-bottom: 8px;
     }
@@ -587,7 +588,7 @@
 
     .risk-content h5 {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--dark);
       margin-bottom: 4px;
     }
@@ -625,7 +626,7 @@
 
     .tip-card h5 {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--dark);
       margin-bottom: 6px;
     }
@@ -660,7 +661,7 @@
     .stat-number {
       font-size: 28px;
       font-weight: 700;
-      background: white;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 8px;
@@ -716,7 +717,7 @@
 
     .risk-disease {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--dark);
       margin-bottom: 8px;
     }
@@ -731,7 +732,7 @@
     .risk-label {
       font-size: 12px;
       color: var(--gray);
-      font-weight: 500;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -763,8 +764,8 @@
       width: 32px;
       height: 32px;
       border-radius: 8px;
-      background: white;
-      color: var(--primary);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -822,7 +823,7 @@
     .disease-stats {
       font-size: 11px;
       color: var(--primary);
-      font-weight: 500;
+      font-weight: 600;
       background: rgba(99, 102, 241, 0.1);
       padding: 6px 10px;
       border-radius: 6px;
@@ -1010,23 +1011,31 @@
       .main-content {
         margin-left: 0;
         width: 100%;
-        padding-top: 80px;
+        padding-top: 0;
       }
 
       .container {
-        padding: 20px 16px;
+        padding: 12px;
+        padding-left: 40px;
       }
 
-      .sidebar-hamburger {
-        display: flex;
+      /* Fixed hamburger button positioning on mobile */
+      .fixed-hamburger-btn {
+        left: 20px !important;
       }
 
-      .mobile-menu-toggle {
-        display: block;
+      .sidebar.open ~ .fixed-hamburger-btn {
+        left: 270px !important;
       }
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+      .header {
+        position: relative;
+        padding-top: 80px;
+      }
+
+      .header-content {
+        margin-left: 0;
+        width: 100%;
       }
 
       .content-grid {
@@ -1046,32 +1055,19 @@
         gap: 16px;
       }
 
-      .header {
-    position: relative;
-    }
-
-    .header-content {
-      margin-left: 0;
-      width: 100%;
-    }
-
-    /*
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-
       .page-title {
-        font-size: 22px;
+        font-size: 20px;
       }
 
       .page-subtitle {
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .header-actions {
         width: 100%;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
       }
 
       .card {
@@ -1102,6 +1098,7 @@
       .health-metrics-card .btn {
         padding: 12px 20px;
         font-size: 14px;
+        min-height: 44px;
       }
 
       .risk-factors {
@@ -1249,9 +1246,9 @@
   </style>
 </head>
 <body>
-  <!-- Mobile menu toggle button -->
-  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
-    ⋮
+  <!-- Fixed Hamburger Button (Dashboard Style) -->
+  <button class="fixed-hamburger-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
+    ☰
   </button>
 
   <!-- Sidebar Overlay for Mobile -->
@@ -1279,10 +1276,6 @@
 
     <div class="nav-section">
       <div class="nav-section-title">Tracking</div>
-      <a href="diet-tracking.html" class="nav-item" id="nav-diet">
-        <span class="nav-icon">🥗</span>
-        <span class="nav-text">Diet & Nutrition</span>
-      </a>
       <a href="yoga-tracker.html" class="nav-item" id="nav-yoga">
         <span class="nav-icon">🧘</span>
         <span class="nav-text">Yoga & Fitness</span>
@@ -1535,8 +1528,11 @@
             </div>
             <div class="tip-card">
               <div class="tip-icon">🥗</div>
-              <h5>Eat Balanced</h5>
-              <p>Include fruits, vegetables, whole grains, and lean proteins in your daily diet</p>
+              <h5>Nutrition for Disease Prevention</h5>
+              <p><strong>Heart Health:</strong> Limit sodium, eat omega-3s, whole grains</p>
+              <p><strong>Diabetes Prevention:</strong> Control portions, choose complex carbs, limit sugars</p>
+              <p><strong>Cancer Risk:</strong> Eat antioxidant-rich foods, limit processed meats</p>
+              <p><strong>Immune Support:</strong> Vitamin C, D, zinc, and probiotics</p>
             </div>
             <div class="tip-card">
               <div class="tip-icon">😴</div>

@@ -6,7 +6,7 @@
   <title>Disease Prediction - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v11-20260504-layout-fix">
+  <meta name="cache-buster" content="v24-20260504-dashboard-style-mobile">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -108,33 +108,38 @@
       transform: scale(1.05);
     }
 
-    /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
-    .mobile-menu-toggle {
-      display: none;
+    /* Fixed Hamburger Button - Always Visible (Dashboard Style) */
+    .fixed-hamburger-btn {
       position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 1001;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      top: 20px;
+      left: 20px;
+      z-index: 10000;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%) !important;
       color: white;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 14px 18px;
-      border-radius: 14px;
+      border: 3px solid #000 !important;
+      padding: 15px 20px;
+      border-radius: 12px;
       cursor: pointer;
-      font-size: 18px;
-      font-weight: 600;
-      line-height: 1;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4), 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      min-width: 50px;
-      min-height: 50px;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s ease;
+      min-width: 60px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .mobile-menu-toggle:hover {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 12px 35px rgba(99, 102, 241, 0.5), 0 6px 15px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    .fixed-hamburger-btn:hover {
+      background: linear-gradient(135deg, #ff5252 0%, #e04a5f 100%) !important;
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .fixed-hamburger-btn:active {
+      transform: scale(0.9);
+      background: #ff0000 !important;
     }
 
     /* Hide hamburger button on desktop */
@@ -1006,23 +1011,31 @@
       .main-content {
         margin-left: 0;
         width: 100%;
-        padding-top: 80px;
+        padding-top: 0;
       }
 
       .container {
-        padding: 20px 16px;
+        padding: 12px;
+        padding-left: 40px;
       }
 
-      .sidebar-hamburger {
-        display: flex;
+      /* Fixed hamburger button positioning on mobile */
+      .fixed-hamburger-btn {
+        left: 20px !important;
       }
 
-      .mobile-menu-toggle {
-        display: block;
+      .sidebar.open ~ .fixed-hamburger-btn {
+        left: 270px !important;
       }
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+      .header {
+        position: relative;
+        padding-top: 80px;
+      }
+
+      .header-content {
+        margin-left: 0;
+        width: 100%;
       }
 
       .content-grid {
@@ -1042,32 +1055,19 @@
         gap: 16px;
       }
 
-      .header {
-    position: relative;
-    }
-
-    .header-content {
-      margin-left: 0;
-      width: 100%;
-    }
-
-    /*
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-
       .page-title {
-        font-size: 22px;
+        font-size: 20px;
       }
 
       .page-subtitle {
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .header-actions {
         width: 100%;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
       }
 
       .card {
@@ -1098,6 +1098,7 @@
       .health-metrics-card .btn {
         padding: 12px 20px;
         font-size: 14px;
+        min-height: 44px;
       }
 
       .risk-factors {
@@ -1245,9 +1246,9 @@
   </style>
 </head>
 <body>
-  <!-- Mobile menu toggle button -->
-  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
-    ⋮
+  <!-- Fixed Hamburger Button (Dashboard Style) -->
+  <button class="fixed-hamburger-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
+    ☰
   </button>
 
   <!-- Sidebar Overlay for Mobile -->
