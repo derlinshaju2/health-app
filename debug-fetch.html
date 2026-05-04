@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch Error Debug - HealthAI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f7fa;
+    }
+    .debug-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 { color: #6366f1; margin-bottom: 20px; }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid #6366f1;
+    }
+    button {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+    }
+    button:hover { background: #4f46e5; }
+    .result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+    .info { background: #d1ecf1; color: #0c5460; }
+  </style>
+</head>
+<body>
+  <div class="debug-container">
+    <h1>🔍 Fetch Error Debug Tool</h1>
+
+    <div class="test-section">
+      <h3>Test 1: Basic Fetch Test</h3>
+      <p>Tests if fetch API works in your browser</p>
+      <button onclick="testBasicFetch()">Test Basic Fetch</button>
+      <div id="basicFetchResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+      <h3>Test 2: Local File Access</h3>
+      <p>Tests if local files are accessible</p>
+      <button onclick="testLocalFile()">Test Local File</button>
+      <div id="localFileResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+      <h3>Test 3: External API Test</h3>
+      <p>Tests if external APIs are accessible</p>
+      <button onclick="testExternalAPI()">Test External API</button>
+      <div id="externalAPIResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+      <h3>Test 4: Browser Extensions Check</h3>
+      <p>Check if browser extensions might be interfering</p>
+      <button onclick="checkExtensions()">Check Extensions</button>
+      <div id="extensionsResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+      <h3>Test 5: Console Error Log</h3>
+      <p>Check for any console errors</p>
+      <button onclick="checkConsoleErrors()">Check Console Errors</button>
+      <div id="consoleErrorsResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+      <h3>Environment Info</h3>
+      <div id="envInfo" class="result info"></div>
+    </div>
+  </div>
+
+  <script>
+    // Show environment info
+    function showEnvironmentInfo() {
+      const info = `
+        <strong>Browser:</strong> ${navigator.userAgent}<br>
+        <strong>Platform:</strong> ${navigator.platform}<br>
+        <strong>Current URL:</strong> ${window.location.href}<br>
+        <strong>Screen Resolution:</strong> ${screen.width}x${screen.height}<br>
+        <strong>Window Size:</strong> ${window.innerWidth}x${window.innerHeight}<br>
+        <strong>Online Status:</strong> ${navigator.onLine ? 'Online' : 'Offline'}<br>
+        <strong>Cookie Enabled:</strong> ${navigator.cookieEnabled}<br>
+        <strong>Do Not Track:</strong> ${navigator.doNotTrack}<br>
+        <strong>Language:</strong> ${navigator.language}
+      `;
+      document.getElementById('envInfo').innerHTML = info;
+    }
+
+    function showResult(elementId, message, type) {
+      const element = document.getElementById(elementId);
+      element.style.display = 'block';
+      element.className = `result ${type}`;
+      element.innerHTML = message;
+    }
+
+    async function testBasicFetch() {
+      try {
+        const response = await fetch('https://httpbin.org/get');
+        const data = await response.json();
+        showResult('basicFetchResult', '✅ Basic fetch works! API responded successfully.', 'success');
+      } catch (error) {
+        showResult('basicFetchResult', `❌ Basic fetch failed: ${error.message}`, 'error');
+      }
+    }
+
+    async function testLocalFile() {
+      try {
+        const response = await fetch('dashboard.html');
+        const content = await response.text();
+        showResult('localFileResult', `✅ Local file access works! Fetched ${content.length} bytes.`, 'success');
+      } catch (error) {
+        showResult('localFileResult', `❌ Local file access failed: ${error.message}`, 'error');
+      }
+    }
+
+    async function testExternalAPI() {
+      try {
+        const response = await fetch('https://api.github.com/zen');
+        const text = await response.text();
+        showResult('externalAPIResult', `✅ External API works! GitHub API responded.`, 'success');
+      } catch (error) {
+        showResult('externalAPIResult', `❌ External API failed: ${error.message}`, 'error');
+      }
+    }
+
+    function checkExtensions() {
+      const possibleIssues = [];
+
+      // Check for common extension indicators
+      if (window.chrome && window.chrome.runtime) {
+        possibleIssues.push('Chrome extensions detected - they might interfere with fetch');
+      }
+
+      if (document.querySelector('[data-extension-version]')) {
+        possibleIssues.push('Extension-modified DOM detected');
+      }
+
+      // Check for ad blockers
+      const adBlockTest = document.createElement('div');
+      adBlockTest.innerHTML = '&nbsp;';
+      adBlockTest.className = 'adsbox';
+      document.body.appendChild(adBlockTest);
+      setTimeout(() => {
+        if (adBlockTest.offsetHeight === 0) {
+          possibleIssues.push('Ad blocker detected - might block network requests');
+        }
+        document.body.removeChild(adBlockTest);
+      }, 100);
+
+      if (possibleIssues.length > 0) {
+        showResult('extensionsResult', `⚠️ Potential issues detected:<br>${possibleIssues.join('<br>')}`, 'error');
+      } else {
+        showResult('extensionsResult', '✅ No obvious extension conflicts detected', 'success');
+      }
+    }
+
+    function checkConsoleErrors() {
+      const errors = [];
+      const originalError = console.error;
+      const originalLog = console.log;
+
+      // Capture any new errors
+      console.error = function(...args) {
+        errors.push(['ERROR', ...args]);
+        originalError.apply(console, args);
+      };
+
+      // Trigger some actions that might cause errors
+      setTimeout(() => {
+        if (errors.length > 0) {
+          const errorMessages = errors.map(e => `${e[0]}: ${e[1]}`).join('<br>');
+          showResult('consoleErrorsResult', `⚠️ Console errors detected:<br>${errorMessages}`, 'error');
+        } else {
+          showResult('consoleErrorsResult', '✅ No console errors detected during test', 'success');
+        }
+
+        // Restore original console
+        console.error = originalError;
+      }, 1000);
+
+      showResult('consoleErrorsResult', '🔍 Monitoring console for 1 second...', 'info');
+    }
+
+    // Initialize
+    showEnvironmentInfo();
+
+    // Set up global error handler
+    window.addEventListener('error', function(event) {
+      console.error('Global error caught:', event.message);
+    });
+
+    window.addEventListener('unhandledrejection', function(event) {
+      console.error('Unhandled promise rejection:', event.reason);
+    });
+  </script>
+</body>
+</html>
