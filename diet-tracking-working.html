@@ -1250,6 +1250,62 @@
 
     <!-- Content Grid -->
     <div class="content-grid">
+      <!-- Meal Logging Form -->
+      <div class="card meal-logging-card">
+        <h2 class="meal-logging-title">
+          <div class="card-icon" style="font-size: 32px;">📝</div>
+          Log Today's Meals
+        </h2>
+        <p class="meal-logging-subtitle">Track your daily food intake and monitor your nutritional goals</p>
+
+        <form id="mealForm" onsubmit="logMeal(event)">
+          <div class="form-group">
+            <label class="form-label">Meal Type</label>
+            <select class="form-input form-select" id="mealType" required>
+              <option value="">Select meal</option>
+              <option value="breakfast">🌅 Breakfast</option>
+              <option value="lunch">☀️ Lunch</option>
+              <option value="dinner">🌙 Dinner</option>
+              <option value="snack">🍎 Snack</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Food Item</label>
+            <input type="text" class="form-input" id="foodItem" placeholder="e.g., Grilled Chicken Salad" required>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Calories</label>
+              <input type="number" class="form-input" id="calories" placeholder="kcal" min="0" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Protein (g)</label>
+              <input type="number" class="form-input" id="protein" placeholder="g" min="0">
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Carbs (g)</label>
+              <input type="number" class="form-input" id="carbs" placeholder="g" min="0">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Fats (g)</label>
+              <input type="number" class="form-input" id="fats" placeholder="g" min="0">
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            ➕
+            <span>Add Meal</span>
+          </button>
+        </form>
+      </div>
+
       <!-- Today's Nutrition Summary -->
       <div class="card">
         <h3 class="card-title">
