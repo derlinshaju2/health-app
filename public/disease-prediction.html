@@ -6,7 +6,7 @@
   <title>Disease Prediction - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v29-20260504-complete-fix">
+  <meta name="cache-buster" content="v30-20260504-all-content-visible">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -1101,12 +1101,14 @@
       *::before,
       *::after {
         max-width: 100%;
+        box-sizing: border-box;
       }
 
       /* Prevent image overflow */
       img {
         max-width: 100%;
         height: auto;
+        display: block;
       }
 
       /* Form elements */
@@ -1128,10 +1130,14 @@
       h4,
       h5,
       h6,
-      li {
+      li,
+      strong,
+      em,
+      small {
         max-width: 100%;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        hyphens: auto;
       }
 
       /* Grid items */
@@ -1150,6 +1156,74 @@
       .health-metrics-card {
         max-width: 100%;
         box-sizing: border-box;
+      }
+
+      /* Ensure all content sections are visible */
+      .health-metrics-card,
+      .prediction-results,
+      .risk-factors,
+      .recommendations,
+      .action-plan,
+      .info-card {
+        display: block;
+        visibility: visible;
+        opacity: 1;
+        max-width: 100%;
+        overflow: visible;
+        height: auto;
+      }
+
+      /* Ensure form content is visible */
+      .form-group,
+      .form-label,
+      .form-input,
+      .btn-primary,
+      .btn-secondary {
+        display: block;
+        visibility: visible;
+        max-width: 100%;
+      }
+
+      /* Make sure all lists are visible */
+      ul,
+      ol {
+        display: block;
+        max-width: 100%;
+        overflow: visible;
+      }
+
+      ul li,
+      ol li {
+        display: list-item;
+        visibility: visible;
+        max-width: 100%;
+        word-wrap: break-word;
+      }
+
+      /* Ensure headings and text are visible */
+      h2, h3, h4, h5, h6 {
+        display: block;
+        visibility: visible;
+        overflow: visible;
+        white-space: normal;
+      }
+
+      /* Make sure all card content is visible */
+      .card > *,
+      .health-metrics-card > * {
+        display: block;
+        visibility: visible;
+        max-width: 100%;
+      }
+
+      /* Ensure buttons and forms are visible */
+      button[type="submit"],
+      button[type="button"],
+      .btn {
+        display: block;
+        visibility: visible;
+        white-space: normal;
+        word-wrap: break-word;
       }
 
       .card-title {
