@@ -56,10 +56,45 @@
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
       border-right: 1px solid var(--border);
       transition: transform 0.3s ease;
+      transform: translateX(0);
+    }
+
+    /* Fixed Hamburger Button - Always Visible */
+    .fixed-hamburger-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10000;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%) !important;
+      color: white;
+      border: 3px solid #000 !important;
+      padding: 15px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s ease;
+      min-width: 60px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fixed-hamburger-btn:hover {
+      background: linear-gradient(135deg, #ff5252 0%, #e04a5f 100%) !important;
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .fixed-hamburger-btn:active {
+      transform: scale(0.9);
+      background: #ff0000 !important;
     }
 
     .sidebar.collapsed {
-      transform: translateX(-250px);
+      transform: translateX(-100%) !important;
     }
 
     .sidebar-header {
@@ -88,25 +123,31 @@
     }
 
     .sidebar-hamburger {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.3);
       color: white;
-      border: none;
-      padding: 8px 12px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      padding: 10px 14px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 36px;
-      min-height: 36px;
+      min-width: 40px;
+      min-height: 40px;
+      font-weight: bold;
     }
 
     .sidebar-hamburger:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(1.1);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .sidebar-hamburger:active {
+      transform: scale(0.95);
     }
 
     .nav-section {
@@ -165,7 +206,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: transparent;
+      background: rgba(0, 0, 0, 0.5);
       z-index: 999;
     }
 
@@ -180,9 +221,10 @@
       transition: margin-left 0.3s ease, width 0.3s ease;
     }
 
-    .main-content.expanded {
-      margin-left: 0;
-      width: 100%;
+    /* When sidebar is collapsed (hidden), main content takes full width */
+    body.sidebar-collapsed .main-content {
+      margin-left: 0 !important;
+      width: 100% !important;
     }
 
     .container {
@@ -201,6 +243,39 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+    }
+
+    /* Mobile menu toggle button (hidden on desktop) */
+    .mobile-menu-toggle {
+      display: none;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      transition: all 0.2s ease;
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .mobile-menu-toggle:hover {
+      background: var(--primary-dark);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .header-left {
+      padding-left: 0;
+    }
+
+    /* Add padding when mobile menu is visible */
+    .header-left.has-mobile-menu {
+      padding-left: 50px;
     }
 
     .header-left h1 {
@@ -216,6 +291,31 @@
     }
 
     .header-right {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Mobile menu toggle button */
+    .mobile-menu-toggle {
+      display: none;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      transition: all 0.2s ease;
+      margin-right: 12px;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    .header-left {
       display: flex;
       align-items: center;
     }
@@ -626,13 +726,23 @@
         width: 100%;
       }
 
-      .sidebar-menu-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      /* Fixed hamburger button on mobile */
+      .fixed-hamburger-btn {
+        left: 20px !important;
       }
 
-      .container {
+      .sidebar.open ~ .fixed-hamburger-btn {
+        left: 270px !important;
+      }
+
+      .header-left.has-mobile-menu {
+        padding-left: 0;
+      }
+
+      .header-left {
+        padding-left: 40px;
+      }
+
       .container {
         padding: 12px;
       }
@@ -642,6 +752,12 @@
         align-items: flex-start;
         gap: 12px;
         padding: 16px;
+      }
+
+      .header-left {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
       }
 
       .header-left h1 {
@@ -795,19 +911,21 @@
   </style>
 </head>
 <body>
+  <!-- Fixed Hamburger Button (Always Visible) -->
+  <button class="fixed-hamburger-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
+    ☰
+  </button>
+
   <!-- Sidebar Overlay for Mobile -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
   <!-- Sidebar Navigation -->
-  <nav class="sidebar">
+  <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-header-content">
         <h2>🏥 HealthAI</h2>
         <p>Your Health Companion</p>
       </div>
-      <button class="sidebar-hamburger" onclick="toggleSidebar()" aria-label="Toggle menu">
-        ☰
-      </button>
     </div>
 
     <div class="nav-section">
@@ -1617,13 +1735,29 @@
       });
     });
 
-    // Toggle sidebar for mobile
+    // Toggle sidebar for mobile and desktop
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
+      const mainContent = document.querySelector('.main-content');
       const overlay = document.getElementById('sidebarOverlay');
 
-      if (sidebar && overlay) {
-        sidebar.classList.toggle('open');
+      // Check if we're on mobile
+      const isMobile = window.innerWidth <= 768;
+
+      if (sidebar) {
+        if (isMobile) {
+          // Mobile: toggle 'open' class
+          sidebar.classList.toggle('open');
+        } else {
+          // Desktop: toggle 'collapsed' class
+          sidebar.classList.toggle('collapsed');
+        }
+      }
+      if (mainContent && !isMobile) {
+        // Only toggle expanded on desktop
+        mainContent.classList.toggle('expanded');
+      }
+      if (overlay) {
         overlay.classList.toggle('active');
       }
     }

@@ -106,6 +106,42 @@
       transform: scale(1.05);
     }
 
+    /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 14px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4), 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 50px;
+      min-height: 50px;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(99, 102, 241, 0.5), 0 6px 15px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    /* Hide hamburger button on desktop */
+    @media (min-width: 769px) {
+      .sidebar-hamburger {
+        display: none;
+      }
+    }
+
     .sidebar-overlay {
       display: none;
       position: fixed;
@@ -184,12 +220,6 @@
     .header-content {
       margin-left: 0;
       width: 100%;
-    }
-
-    /* Mobile menu toggle button */
-    .mobile-menu-toggle:hover {
-      background: var(--primary-dark);
-      transform: scale(1.05);
     }
 
     /*
@@ -971,13 +1001,22 @@
         transform: translateX(0);
       }
 
-      .mobile-menu-toggle {
-        display: flex !important;
-      }
-
       .main-content {
         margin-left: 0;
         width: 100%;
+        padding-top: 80px;
+      }
+
+      .container {
+        padding: 20px 16px;
+      }
+
+      .sidebar-hamburger {
+        display: flex;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
       }
         display: flex;
         align-items: center;
@@ -1008,12 +1047,6 @@
     .header-content {
       margin-left: 0;
       width: 100%;
-    }
-
-    /* Mobile menu toggle button */
-    .mobile-menu-toggle:hover {
-      background: var(--primary-dark);
-      transform: scale(1.05);
     }
 
     /*
@@ -1210,6 +1243,11 @@
   </style>
 </head>
 <body>
+  <!-- Mobile menu toggle button -->
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
+    ⋮
+  </button>
+
   <!-- Sidebar Overlay for Mobile -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
@@ -1221,7 +1259,7 @@
         <p>Your Health Companion</p>
       </div>
       <button class="sidebar-hamburger" onclick="toggleSidebar()" aria-label="Toggle menu">
-        ☰
+        ⋮
       </button>
     </div>
 
@@ -1230,14 +1268,6 @@
       <a href="dashboard.html" class="nav-item" id="nav-dashboard">
         <span class="nav-icon">🏠</span>
         <span class="nav-text">Dashboard</span>
-      </a>
-      <a href="analytics.html" class="nav-item" id="nav-analytics">
-        <span class="nav-icon">📊</span>
-        <span class="nav-text">Analytics</span>
-      </a>
-      <a href="profile.html" class="nav-item" id="nav-profile">
-        <span class="nav-icon">👤</span>
-        <span class="nav-text">Profile</span>
       </a>
     </div>
 
@@ -1266,6 +1296,18 @@
     </div>
 
     <div class="nav-section">
+      <div class="nav-section-title">Personal</div>
+      <a href="analytics.html" class="nav-item" id="nav-analytics">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text">Analytics</span>
+      </a>
+      <a href="profile.html" class="nav-item" id="nav-profile">
+        <span class="nav-icon">👤</span>
+        <span class="nav-text">Profile</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
       <div class="nav-section-title">Account</div>
       <a href="index.html" class="nav-item" id="nav-logout">
         <span class="nav-icon">🚪</span>
@@ -1282,16 +1324,8 @@
     <!-- Header -->
     <header class="header">
       <div class="header-content">
-        <div style="display: flex; align-items: center;">
-          <!-- Mobile menu toggle -->
-          <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" style="display: none; background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 18px; line-height: 1; transition: all 0.2s ease; margin-right: 12px;">
-            ☰
-          </button>
-          <div>
-            <h1 class="page-title">AI Disease Prediction 🔮</h1>
-            <p class="page-subtitle">Get personalized health risk assessments based on your metrics</p>
-          </div>
-        </div>
+        <h1 class="page-title">AI Disease Prediction 🔮</h1>
+        <p class="page-subtitle">Get personalized health risk assessments based on your metrics</p>
       </div>
       <div class="header-actions">
         <button class="header-btn" onclick="window.location.href='dashboard-main.html'">
@@ -1790,29 +1824,43 @@
     // Toggle sidebar for mobile and desktop
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
-      const mainContent = document.querySelector('.main-content');
       const overlay = document.getElementById('sidebarOverlay');
-
-      // Check if we're on mobile
-      const isMobile = window.innerWidth <= 768;
+      const mobileToggle = document.getElementById('mobileMenuToggle');
 
       if (sidebar) {
+        const isMobile = window.innerWidth <= 768;
+
         if (isMobile) {
-          // Mobile: toggle 'open' class
-          sidebar.classList.toggle('open');
+          const isOpen = sidebar.classList.toggle('open');
+          if (mobileToggle) {
+            mobileToggle.style.display = isOpen ? 'none' : 'block';
+          }
         } else {
-          // Desktop: toggle 'collapsed' class
           sidebar.classList.toggle('collapsed');
         }
-      }
-      if (mainContent && !isMobile) {
-        // Only toggle expanded on desktop
-        mainContent.classList.toggle('expanded');
       }
       if (overlay) {
         overlay.classList.toggle('active');
       }
     }
+
+    window.addEventListener('resize', function() {
+      const sidebar = document.querySelector('.sidebar');
+      const mobileToggle = document.getElementById('mobileMenuToggle');
+
+      if (window.innerWidth > 768) {
+        if (sidebar) {
+          sidebar.classList.remove('open');
+        }
+        if (mobileToggle) {
+          mobileToggle.style.display = 'none';
+        }
+      } else {
+        if (mobileToggle && sidebar && !sidebar.classList.contains('open')) {
+          mobileToggle.style.display = 'block';
+        }
+      }
+    });
   </script>
 
   <script>

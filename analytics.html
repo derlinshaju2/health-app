@@ -10,8 +10,53 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+          referrerpolicy="no-referrer"
+          crossorigin="anonymous"></script>
   <style>
+    /* Fixed Hamburger Button - Always Visible */
+    .fixed-hamburger-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10000;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%) !important;
+      color: white;
+      border: 3px solid #000 !important;
+      padding: 15px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s ease;
+      min-width: 60px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fixed-hamburger-btn:hover {
+      background: linear-gradient(135deg, #ff5252 0%, #e04a5f 100%) !important;
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .fixed-hamburger-btn:active {
+      transform: scale(0.9);
+      background: #ff0000 !important;
+    }
+
+    .sidebar.collapsed {
+      transform: translateX(-100%) !important;
+    }
+
+    body.sidebar-collapsed .main-content {
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+  </style>
     * {
       margin: 0;
       padding: 0;
@@ -190,6 +235,12 @@
       margin-bottom: 5px;
     }
 
+    /* Mobile menu toggle button */
+    .mobile-menu-toggle:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
     .header p {
       font-size: 14px;
       color: #7f8c8d;
@@ -313,6 +364,10 @@
         width: 100%;
       }
 
+      .mobile-menu-toggle {
+        display: flex !important;
+      }
+
       .charts-container {
         grid-template-columns: 1fr;
       }
@@ -358,6 +413,11 @@
   </style>
 </head>
 <body>
+  <!-- Fixed Hamburger Button (Always Visible) -->
+  <button class="fixed-hamburger-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
+    ☰
+  </button>
+
   <!-- Sidebar Overlay for Mobile -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
@@ -426,8 +486,16 @@
   <div class="main-content">
     <div class="container">
     <div class="header">
-      <h1>Health Analytics Dashboard</h1>
-      <p>Track your health metrics and progress over time</p>
+      <div style="display: flex; align-items: center; width: 100%;">
+        <!-- Mobile menu toggle -->
+        <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" style="display: none; background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 18px; line-height: 1; transition: all 0.2s ease; margin-right: 12px;">
+          ☰
+        </button>
+        <div>
+          <h1>Health Analytics Dashboard</h1>
+          <p>Track your health metrics and progress over time</p>
+        </div>
+      </div>
     </div>
 
     <div class="time-selector">
@@ -978,13 +1046,29 @@
       });
     });
 
-    // Toggle sidebar for mobile
+    // Toggle sidebar for mobile and desktop
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
+      const mainContent = document.querySelector('.main-content');
       const overlay = document.getElementById('sidebarOverlay');
 
-      if (sidebar && overlay) {
-        sidebar.classList.toggle('open');
+      // Check if we're on mobile
+      const isMobile = window.innerWidth <= 768;
+
+      if (sidebar) {
+        if (isMobile) {
+          // Mobile: toggle 'open' class
+          sidebar.classList.toggle('open');
+        } else {
+          // Desktop: toggle 'collapsed' class
+          sidebar.classList.toggle('collapsed');
+        }
+      }
+      if (mainContent && !isMobile) {
+        // Only toggle expanded on desktop
+        mainContent.classList.toggle('expanded');
+      }
+      if (overlay) {
         overlay.classList.toggle('active');
       }
     }
