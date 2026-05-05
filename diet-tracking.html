@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v36-20260505-kebab-button-restored">
+  <meta name="cache-buster" content="v37-20260505-original-kebab-button">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -122,7 +122,7 @@
 
     /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
     .mobile-menu-toggle {
-      display: none; /* Hidden by default, shown on mobile via media query */
+      display: none;
       position: fixed;
       top: 16px;
       left: 16px;
@@ -130,39 +130,27 @@
       background: white;
       color: #6366f1;
       border: 2px solid #e2e8f0;
-      padding: 10px 14px;
-      border-radius: 8px;
+      padding: 12px 16px;
+      border-radius: 10px;
       cursor: pointer;
       font-size: 20px;
       font-weight: 600;
       line-height: 1;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      width: 44px;
-      height: 44px;
-      min-width: 44px;
-      min-height: 44px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: box-shadow 0.3s ease;
+      min-width: 48px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .mobile-menu-toggle:hover {
-      background: #f8fafc;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
     .mobile-menu-toggle:active {
-      transform: scale(0.95);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Kebab icon dots */
-    .mobile-menu-toggle .kebab-dot {
-      display: block;
-      width: 5px;
-      height: 5px;
-      background: #6366f1;
-      border-radius: 50%;
-      margin: 2px 0;
     }
 
     /* Hide hamburger button on desktop */
@@ -2313,9 +2301,7 @@
 <body>
   <!-- Mobile menu toggle button -->
   <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
-    <span class="kebab-dot"></span>
-    <span class="kebab-dot"></span>
-    <span class="kebab-dot"></span>
+    ⋮
   </button>
 
   <!-- Sidebar Overlay for Mobile -->
@@ -3005,12 +2991,8 @@
           if (mobileToggle) {
             if (isOpen) {
               mobileToggle.innerHTML = '✕'; // Show X when menu is open
-              mobileToggle.style.background = '#6366f1';
-              mobileToggle.style.color = 'white';
             } else {
-              mobileToggle.innerHTML = '<span class="kebab-dot"></span><span class="kebab-dot"></span><span class="kebab-dot"></span>'; // Show kebab when closed
-              mobileToggle.style.background = 'white';
-              mobileToggle.style.color = '#6366f1';
+              mobileToggle.innerHTML = '⋮'; // Show kebab when closed
             }
           }
         } else {
@@ -3040,9 +3022,7 @@
         // Mobile: show toggle and reset to kebab state
         if (mobileToggle) {
           mobileToggle.style.display = 'flex';
-          mobileToggle.innerHTML = '<span class="kebab-dot"></span><span class="kebab-dot"></span><span class="kebab-dot"></span>';
-          mobileToggle.style.background = 'white';
-          mobileToggle.style.color = '#6366f1';
+          mobileToggle.innerHTML = '⋮';
         }
       }
     });
