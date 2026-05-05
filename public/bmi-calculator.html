@@ -42,6 +42,7 @@
       min-height: 100vh;
       color: var(--dark);
       display: flex;
+      flex-direction: column;
     }
 
     /* Sidebar Navigation */
@@ -64,8 +65,9 @@
       border-bottom: 1px solid #e2e8f0;
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      
+      
     }
 
     .sidebar-header-content {
@@ -95,7 +97,8 @@
       line-height: 1;
       transition: all 0.2s ease;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       justify-content: center;
       min-width: 36px;
       min-height: 36px;
@@ -179,7 +182,8 @@
 
     .nav-item {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       padding: 12px 20px;
       color: #1e293b;
       text-decoration: none;
@@ -230,8 +234,9 @@
 
     /*
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      
+      
       margin-bottom: 30px;
     }
 
@@ -247,8 +252,64 @@
       margin-top: 4px;
     }
 
+    /* Kebab Menu Button */
+    .header-top {
+      display: flex;
+      flex-direction: column;
+      
+      margin-bottom: 12px;
+    }
+    
+    .kebab-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 1002;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .kebab-menu:hover {
+      background: rgba(99, 102, 241, 0.1);
+    }
+    
+    .kebab-menu span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #6366f1;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    .kebab-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+      background: #8b5cf6;
+    }
+    
+    .kebab-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .kebab-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+      background: #8b5cf6;
+    }
+    
+    .kebab-menu.active {
+      background: rgba(99, 102, 241, 0.15);
+    }
+
     .header-actions {
       display: flex;
+      flex-direction: column;
       gap: 15px;
     }
 
@@ -263,7 +324,8 @@
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       gap: 8px;
     }
 
@@ -287,6 +349,7 @@
     .content-grid {
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       gap: 0;
       margin-bottom: 0;
     }
@@ -297,6 +360,7 @@
 
     .unified-grid {
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       gap: 0;
     }
@@ -330,7 +394,8 @@
       color: var(--dark);
       margin-bottom: 24px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       gap: 12px;
       padding: 16px 0;
       border-bottom: 2px solid var(--primary);
@@ -341,7 +406,8 @@
       height: 40px;
       border-radius: 12px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       justify-content: center;
       font-size: 20px;
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
@@ -409,7 +475,8 @@
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       justify-content: center;
       gap: 10px;
     }
@@ -487,11 +554,13 @@
     .recommendation-list {
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       gap: 12px;
     }
 
     .recommendation-item {
       display: flex;
+      flex-direction: column;
       align-items: flex-start;
       gap: 16px;
       padding: 20px;
@@ -514,7 +583,8 @@
       background: white;
       color: var(--primary);
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       justify-content: center;
       font-size: 24px;
       flex-shrink: 0;
@@ -544,6 +614,12 @@
     }
 
     @media (max-width: 768px) {
+    /* Show kebab menu on mobile */
+      .kebab-menu {
+        display: flex;
+      flex-direction: column;
+      }
+
       .sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
@@ -565,13 +641,15 @@
 
       .sidebar-hamburger {
         display: flex;
+      flex-direction: column;
       }
 
       .mobile-menu-toggle {
         display: block;
       }
         display: flex;
-        align-items: center;
+      flex-direction: column;
+        
         justify-content: center;
       }
 
@@ -610,9 +688,64 @@
         font-size: 13px;
       }
 
+    /* Kebab Menu Button */
+    .header-top {
+      display: flex;
+      flex-direction: column;
+      
+      margin-bottom: 12px;
+    }
+    
+    .kebab-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 1002;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .kebab-menu:hover {
+      background: rgba(99, 102, 241, 0.1);
+    }
+    
+    .kebab-menu span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #6366f1;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    .kebab-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+      background: #8b5cf6;
+    }
+    
+    .kebab-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .kebab-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+      background: #8b5cf6;
+    }
+    
+    .kebab-menu.active {
+      background: rgba(99, 102, 241, 0.15);
+    }
+
       .header-actions {
         width: 100%;
-        justify-content: space-between;
+        
       }
 
       .card {
@@ -856,6 +989,13 @@
   <main class="main-content">
     <!-- Header -->
     <header class="header">
+      <div class="header-top">
+        <button class="kebab-menu" id="kebabMenu" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
       <div class="header-content">
         <h1 class="page-title">BMI Calculator ⚖️</h1>
         <p class="page-subtitle">Calculate your Body Mass Index and get health recommendations</p>
@@ -884,7 +1024,8 @@
         <form id="bmiForm" onsubmit="calculateBMI(event)">
           <div class="form-group">
             <label class="form-label" style="font-size: 18px !important; font-weight: 700 !important;">📏 Height</label>
-            <div style="display: flex; gap: 16px;">
+            <div style="display: flex;
+      flex-direction: column; gap: 16px;">
               <input type="number" class="form-input" id="heightCm" placeholder="Centimeters (cm)" min="100" max="250" required style="flex: 1; padding: 18px 20px; font-size: 18px; border-radius: 12px;">
               <input type="number" class="form-input" id="heightFt" placeholder="Feet (ft)" min="3" max="8" style="flex: 1; padding: 18px 20px; font-size: 18px; border-radius: 12px;">
               <input type="number" class="form-input" id="heightIn" placeholder="Inches (in)" min="0" max="11" style="flex: 1; padding: 18px 20px; font-size: 18px; border-radius: 12px;">
@@ -894,7 +1035,8 @@
 
           <div class="form-group">
             <label class="form-label" style="font-size: 18px !important; font-weight: 700 !important;">⚖️ Weight</label>
-            <div style="display: flex; gap: 16px;">
+            <div style="display: flex;
+      flex-direction: column; gap: 16px;">
               <input type="number" class="form-input" id="weightKg" placeholder="Kilograms (kg)" min="30" max="300" step="0.1" required style="flex: 1; padding: 18px 20px; font-size: 18px; border-radius: 12px;">
               <input type="number" class="form-input" id="weightLbs" placeholder="Pounds (lbs)" min="66" max="661" step="0.1" style="flex: 1; padding: 18px 20px; font-size: 18px; border-radius: 12px;">
             </div>
@@ -1001,6 +1143,25 @@
     // Mobile menu toggle
 
     // Mobile menu functionality removed
+    // Kebab menu toggle for mobile navigation
+    const kebabMenu = document.getElementById('kebabMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    if (kebabMenu && sidebar) {
+      kebabMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        kebabMenu.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
+            sidebar.classList.remove('active');
+            kebabMenu.classList.remove('active');
+          }
+        }
+      });
+    }
   </script>
 
   <script>
@@ -1059,6 +1220,25 @@
         }
       }
     });
+    // Kebab menu toggle for mobile navigation
+    const kebabMenu = document.getElementById('kebabMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    if (kebabMenu && sidebar) {
+      kebabMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        kebabMenu.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
+            sidebar.classList.remove('active');
+            kebabMenu.classList.remove('active');
+          }
+        }
+      });
+    }
   </script>
 
   <script>
@@ -1172,6 +1352,25 @@
 
     function savePrediction() {
       alert('BMI results saved successfully!');
+    }
+    // Kebab menu toggle for mobile navigation
+    const kebabMenu = document.getElementById('kebabMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    if (kebabMenu && sidebar) {
+      kebabMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        kebabMenu.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
+            sidebar.classList.remove('active');
+            kebabMenu.classList.remove('active');
+          }
+        }
+      });
     }
   </script>
   </div><!-- End main-content -->

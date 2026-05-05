@@ -26,6 +26,7 @@
       color: #333;
       line-height: 1.6;
       display: flex;
+      flex-direction: column;
     }
 
     /* Sidebar Navigation */
@@ -53,8 +54,9 @@
       border-bottom: 1px solid #e2e8f0;
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      
+      
     }
 
     .sidebar-header-content {
@@ -84,7 +86,8 @@
       line-height: 1;
       transition: all 0.2s ease;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       justify-content: center;
       min-width: 36px;
       min-height: 36px;
@@ -108,7 +111,8 @@
       line-height: 1;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       justify-content: center;
       min-width: 40px;
       min-height: 40px;
@@ -194,7 +198,8 @@
 
     .nav-item {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       padding: 12px 20px;
       color: #1e293b;
       text-decoration: none;
@@ -330,6 +335,7 @@
 
     .time-selector {
       display: flex;
+      flex-direction: column;
       gap: 10px;
       margin-bottom: 20px;
       justify-content: center;
@@ -369,6 +375,12 @@
     }
 
     @media (max-width: 768px) {
+    /* Show kebab menu on mobile */
+      .kebab-menu {
+        display: flex;
+      flex-direction: column;
+      }
+
       .sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
@@ -390,6 +402,7 @@
 
       .sidebar-hamburger {
         display: flex;
+      flex-direction: column;
       }
 
       .mobile-menu-toggle {
@@ -1056,6 +1069,25 @@
     } else {
       createCharts();
     }
+    // Kebab menu toggle for mobile navigation
+    const kebabMenu = document.getElementById('kebabMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    if (kebabMenu && sidebar) {
+      kebabMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        kebabMenu.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
+            sidebar.classList.remove('active');
+            kebabMenu.classList.remove('active');
+          }
+        }
+      });
+    }
   </script>
 
   <script>
@@ -1122,6 +1154,25 @@
         }
       }
     });
+    // Kebab menu toggle for mobile navigation
+    const kebabMenu = document.getElementById('kebabMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    if (kebabMenu && sidebar) {
+      kebabMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        kebabMenu.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
+            sidebar.classList.remove('active');
+            kebabMenu.classList.remove('active');
+          }
+        }
+      });
+    }
   </script>
   </div><!-- End main-content -->
 </body>

@@ -42,6 +42,7 @@
       min-height: 100vh;
       color: var(--dark);
       display: flex;
+      flex-direction: column;
     }
 
     /* Sidebar Navigation */
@@ -64,8 +65,9 @@
       border-bottom: 1px solid #e2e8f0;
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      
+      
     }
 
     .sidebar-header-content {
@@ -95,7 +97,8 @@
       line-height: 1;
       transition: all 0.2s ease;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       justify-content: center;
       min-width: 36px;
       min-height: 36px;
@@ -179,7 +182,8 @@
 
     .nav-item {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       padding: 12px 20px;
       color: #1e293b;
       text-decoration: none;
@@ -221,8 +225,9 @@
     /* Header */
     .header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      
+      
       margin-bottom: 30px;
       position: relative;
     }
@@ -244,8 +249,64 @@
       margin-top: 4px;
     }
 
+    /* Kebab Menu Button */
+    .header-top {
+      display: flex;
+      flex-direction: column;
+      
+      margin-bottom: 12px;
+    }
+    
+    .kebab-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 1002;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .kebab-menu:hover {
+      background: rgba(99, 102, 241, 0.1);
+    }
+    
+    .kebab-menu span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #6366f1;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    .kebab-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+      background: #8b5cf6;
+    }
+    
+    .kebab-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .kebab-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+      background: #8b5cf6;
+    }
+    
+    .kebab-menu.active {
+      background: rgba(99, 102, 241, 0.15);
+    }
+
     .header-actions {
       display: flex;
+      flex-direction: column;
       gap: 15px;
     }
 
@@ -260,7 +321,8 @@
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       gap: 8px;
     }
 
@@ -288,7 +350,8 @@
       box-shadow: 0 4px 24px var(--shadow);
       margin-bottom: 24px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       gap: 20px;
     }
 
@@ -298,7 +361,8 @@
       border-radius: 50%;
       background: white;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       justify-content: center;
       font-size: 36px;
       color: var(--primary);
@@ -324,6 +388,7 @@
 
     .profile-stats {
       display: flex;
+      flex-direction: column;
       gap: 24px;
     }
 
@@ -355,6 +420,7 @@
     /* Tabs Navigation */
     .tabs-nav {
       display: flex;
+      flex-direction: column;
       border-bottom: 2px solid var(--border);
       padding: 0 8px;
       overflow-x: auto;
@@ -429,7 +495,8 @@
       color: var(--dark);
       margin-bottom: 20px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       gap: 10px;
     }
 
@@ -495,8 +562,9 @@
     /* Settings Toggle */
     .setting-item {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      
+      
       padding: 16px;
       background: var(--light);
       border-radius: 12px;
@@ -566,7 +634,7 @@
       cursor: pointer;
       transition: all 0.3s ease;
       display: inline-flex;
-      align-items: center;
+      
       gap: 8px;
       font-family: inherit;
       border: none;
@@ -623,7 +691,8 @@
       color: var(--danger);
       margin-bottom: 16px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      
       gap: 10px;
     }
 
@@ -644,6 +713,12 @@
     }
 
     @media (max-width: 768px) {
+    /* Show kebab menu on mobile */
+      .kebab-menu {
+        display: flex;
+      flex-direction: column;
+      }
+
       .sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
@@ -665,6 +740,7 @@
 
       .sidebar-hamburger {
         display: flex;
+      flex-direction: column;
       }
 
       .mobile-menu-toggle {
@@ -689,9 +765,64 @@
         font-size: 13px;
       }
 
+    /* Kebab Menu Button */
+    .header-top {
+      display: flex;
+      flex-direction: column;
+      
+      margin-bottom: 12px;
+    }
+    
+    .kebab-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 1002;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .kebab-menu:hover {
+      background: rgba(99, 102, 241, 0.1);
+    }
+    
+    .kebab-menu span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #6366f1;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    .kebab-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+      background: #8b5cf6;
+    }
+    
+    .kebab-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .kebab-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+      background: #8b5cf6;
+    }
+    
+    .kebab-menu.active {
+      background: rgba(99, 102, 241, 0.15);
+    }
+
       .header-actions {
         width: 100%;
-        justify-content: space-between;
+        
       }
 
       .profile-summary {
@@ -898,6 +1029,13 @@
   <main class="main-content">
     <!-- Header -->
     <header class="header">
+      <div class="header-top">
+        <button class="kebab-menu" id="kebabMenu" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
       <div class="header-content">
         <div>
           <h1 class="page-title">Profile Settings 👤</h1>
@@ -1412,6 +1550,25 @@
     }
 
     // Mobile menu functionality removed
+    // Kebab menu toggle for mobile navigation
+    const kebabMenu = document.getElementById('kebabMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    if (kebabMenu && sidebar) {
+      kebabMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        kebabMenu.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
+            sidebar.classList.remove('active');
+            kebabMenu.classList.remove('active');
+          }
+        }
+      });
+    }
   </script>
 
   <script>
@@ -1470,6 +1627,25 @@
         }
       }
     });
+    // Kebab menu toggle for mobile navigation
+    const kebabMenu = document.getElementById('kebabMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    if (kebabMenu && sidebar) {
+      kebabMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        kebabMenu.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
+            sidebar.classList.remove('active');
+            kebabMenu.classList.remove('active');
+          }
+        }
+      });
+    }
   </script>
   </div><!-- End main-content -->
 </body>
