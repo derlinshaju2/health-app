@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v33-20260505-kebab-button-positioning-fix">
+  <meta name="cache-buster" content="v34-20260505-kebab-button-fully-functional">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -164,16 +164,8 @@
       height: 6px;
       background: #6366f1;
       border-radius: 50%;
-      margin: 3px 0;
+      margin: 2px 0;
       transition: all 0.3s ease;
-    }
-
-    .mobile-menu-toggle:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    }
-
-    .mobile-menu-toggle:active {
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     /* Hide hamburger button on desktop */
@@ -196,10 +188,13 @@
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
       z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .sidebar-overlay.active {
       display: block;
+      opacity: 1;
     }
 
     .nav-section {
@@ -1143,10 +1138,15 @@
         top: 16px !important;
         left: 16px !important;
         z-index: 1001 !important;
-        width: auto !important;
+        width: 50px !important;
         min-width: 50px !important;
         max-width: 50px !important;
         height: 50px !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 3px !important;
+        padding: 10px !important;
       }
 
       /* Header */
@@ -2267,7 +2267,7 @@
 
       /* Exception for mobile menu toggle button - keep proper sizing */
       .mobile-menu-toggle {
-        width: auto !important;
+        width: 50px !important;
         min-width: 50px !important;
         max-width: 50px !important;
         height: 50px !important;
@@ -2275,6 +2275,12 @@
         top: 16px !important;
         left: 16px !important;
         z-index: 1001 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 3px !important;
+        padding: 10px !important;
       }
 
       /* Prevent text overflow */
