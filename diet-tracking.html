@@ -122,48 +122,14 @@
       background: rgba(255, 255, 255, 0.25);
     }
 
-    /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
-    .mobile-menu-toggle {
-      display: none;
-      background: #6366f1;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 18px;
-      line-height: 1;
-      transition: all 0.2s ease;
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .mobile-menu-toggle:hover {
-      background: #4f46e5;
-      transform: translateY(-50%) scale(1.05);
-    }
-
-    .mobile-menu-toggle:hover {
-      background: #f8fafc;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-      transform: scale(1.05);
-    }
-
-    .mobile-menu-toggle:active {
-      transform: scale(0.95);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    .sidebar.collapsed {
+      transform: translateX(-100%) !important;
     }
 
     /* Hide hamburger button on desktop */
     @media (min-width: 769px) {
       .sidebar-hamburger {
         display: none;
-      }
-
-      .mobile-menu-toggle {
-        display: none !important;
       }
     }
 
@@ -1120,10 +1086,6 @@
         display: flex;
       }
 
-      .mobile-menu-toggle {
-        display: block;
-      }
-
       /* Header */
       .header-content {
         margin-left: 0;
@@ -1613,12 +1575,6 @@
         font-size: 14px;
       }
 
-      /* Touch-friendly improvements */
-      .mobile-menu-toggle {
-        min-width: 48px;
-        min-height: 48px;
-      }
-
       button,
       .btn,
       .submit-btn,
@@ -1634,7 +1590,6 @@
       }
 
       /* Prevent text selection on touch */
-      .mobile-menu-toggle,
       .sidebar-hamburger,
       button {
         -webkit-user-select: none;
@@ -2074,15 +2029,6 @@
         font-size: 13px;
       }
 
-      /* Hamburger Button */
-      .mobile-menu-toggle {
-        min-width: 44px;
-        min-height: 44px;
-        font-size: 18px;
-        top: 12px;
-        left: 12px;
-      }
-
       /* Better small screen layout */
       .main-content {
         padding-top: 20px;
@@ -2232,8 +2178,8 @@
       .form-group,
       .form-input,
       .form-select,
-      button:not(.mobile-menu-toggle),
-      .btn:not(.mobile-menu-toggle) {
+      button,
+      .btn {
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
@@ -2298,16 +2244,11 @@
   </style>
 </head>
 <body>
-  <!-- Mobile menu toggle button -->
-  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
-    ☰
-  </button>
-
   <!-- Sidebar Overlay for Mobile -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
   <!-- Sidebar Navigation -->
-  <nav class="sidebar">
+  <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-header-content">
         <h2>🏥 HealthAI</h2>
