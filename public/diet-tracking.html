@@ -129,6 +129,10 @@
       .kebab-menu {
         display: flex;
       }
+
+      .main-content {
+        padding-top: 60px;
+      }
     }
 
     .nav-section {
@@ -187,6 +191,7 @@
       transition: margin-left 0.3s ease, width 0.3s ease;
       overflow-x: hidden;
       position: relative;
+      padding-top: 60px;
     }
 
     .container {
@@ -201,7 +206,8 @@
     /* Header */
     .header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 8px;
       position: relative;
     }
@@ -215,6 +221,14 @@
     .header-content {
       margin-left: 0;
       width: 100%;
+    }
+
+    /* Kebab wrapper - positions kebab outside cards */
+    .kebab-wrapper {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1003;
     }
 
     /* Kebab Menu Button */
@@ -2340,16 +2354,18 @@
 
   <!-- Main content area -->
   <div class="main-content">
+    <!-- Kebab Menu Button - Outside any card -->
+    <div class="kebab-wrapper">
+      <button class="kebab-menu" id="kebabMenu" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
     <div class="container">
     <!-- Header -->
     <header class="header">
-      <div class="header-top">
-        <button class="kebab-menu" id="kebabMenu" aria-label="Toggle menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
       <div class="header-content">
         <div>
           <h1 class="page-title">Diet & Nutrition 🥗</h1>

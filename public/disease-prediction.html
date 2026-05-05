@@ -49,6 +49,7 @@
       color: var(--dark);
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       overflow-x: hidden;
       width: 100%;
     }
@@ -75,6 +76,7 @@
       border-bottom: 1px solid #e2e8f0;
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       
@@ -108,6 +110,7 @@
       transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       
       justify-content: center;
       min-width: 36px;
@@ -140,6 +143,7 @@
       min-width: 48px;
       min-height: 48px;
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       justify-content: center;
@@ -196,6 +200,7 @@
     .nav-item {
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       
       padding: 12px 20px;
       color: #1e293b;
@@ -230,6 +235,7 @@
     }
 
     .main-content {
+      padding-top: 60px;
       margin-left: 250px;
       flex: 1;
       width: calc(100% - 250px);
@@ -241,6 +247,14 @@
     position: relative;
     }
 
+    /* Kebab wrapper - positions kebab outside cards */
+    .kebab-wrapper {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1003;
+    }
+
     .header-content {
       margin-left: 0;
       width: 100%;
@@ -248,6 +262,7 @@
 
     /*
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       
@@ -269,6 +284,7 @@
     /* Kebab Menu Button */
     .header-top {
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       margin-bottom: 12px;
@@ -324,6 +340,7 @@
     .header-actions {
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       gap: 15px;
     }
 
@@ -338,6 +355,7 @@
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       gap: 8px;
@@ -364,6 +382,7 @@
       display: flex;
       flex-direction: column;
       flex-direction: column;
+      flex-direction: column;
       gap: 0;
       margin-bottom: 0;
       width: 100%;
@@ -377,6 +396,7 @@
 
     .unified-grid {
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       flex-direction: column;
       gap: 0;
@@ -415,6 +435,7 @@
       margin-bottom: 24px;
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       
       gap: 12px;
       padding: 16px 0;
@@ -439,6 +460,7 @@
       margin-bottom: 12px;
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       
       gap: 16px;
     }
@@ -456,6 +478,7 @@
       height: 40px;
       border-radius: 12px;
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       justify-content: center;
@@ -531,6 +554,7 @@
       .kebab-menu {
         display: flex;
       flex-direction: column;
+      flex-direction: column;
       }
 
       .health-metrics-card .form-grid {
@@ -575,6 +599,7 @@
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       
       justify-content: center;
       gap: 10px;
@@ -614,6 +639,7 @@
       margin-bottom: 20px;
       display: flex;
       flex-direction: column;
+      flex-direction: column;
       
       gap: 8px;
     }
@@ -621,6 +647,7 @@
     /* Metric Explanations */
     .metric-explanation {
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       gap: 16px;
       margin-bottom: 20px;
@@ -666,6 +693,7 @@
       .kebab-menu {
         display: flex;
       flex-direction: column;
+      flex-direction: column;
       }
 
       .risk-factors {
@@ -675,6 +703,7 @@
 
     .risk-factor {
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       gap: 12px;
       padding: 16px;
@@ -712,6 +741,7 @@
     /* Show kebab menu on mobile */
       .kebab-menu {
         display: flex;
+      flex-direction: column;
       flex-direction: column;
       }
 
@@ -757,6 +787,7 @@
     /* Show kebab menu on mobile */
       .kebab-menu {
         display: flex;
+      flex-direction: column;
       flex-direction: column;
       }
 
@@ -856,11 +887,13 @@
       display: flex;
       flex-direction: column;
       flex-direction: column;
+      flex-direction: column;
       gap: 12px;
     }
 
     .recommendation-item {
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       align-items: flex-start;
       gap: 12px;
@@ -883,6 +916,7 @@
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       justify-content: center;
@@ -908,6 +942,7 @@
       border-radius: 12px;
       padding: 20px;
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       gap: 16px;
       transition: all 0.3s ease;
@@ -953,6 +988,7 @@
       display: flex;
       flex-direction: column;
       flex-direction: column;
+      flex-direction: column;
       gap: 16px;
     }
 
@@ -962,6 +998,7 @@
       padding: 16px;
       border-left: 4px solid var(--primary);
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       gap: 16px;
     }
@@ -977,6 +1014,7 @@
       border-radius: 8px;
       padding: 8px;
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       justify-content: center;
@@ -1002,6 +1040,7 @@
       color: var(--dark);
       margin-bottom: 12px;
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       gap: 8px;
@@ -1125,6 +1164,7 @@
       .kebab-menu {
         display: flex;
       flex-direction: column;
+      flex-direction: column;
       }
 
       .sidebar {
@@ -1137,6 +1177,7 @@
       }
 
       .main-content {
+      padding-top: 60px;
         margin-left: 0;
         width: 100%;
         padding-top: 80px;
@@ -1152,16 +1193,26 @@
       .sidebar-hamburger {
         display: flex;
       flex-direction: column;
+      flex-direction: column;
       }
 
       .mobile-menu-toggle {
         display: flex;
+      flex-direction: column;
       flex-direction: column;
       }
 
       .header {
         position: relative;
       }
+
+    /* Kebab wrapper - positions kebab outside cards */
+    .kebab-wrapper {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1003;
+    }
 
       .header-content {
         margin-left: 0;
@@ -1198,6 +1249,7 @@
     /* Kebab Menu Button */
     .header-top {
       display: flex;
+      flex-direction: column;
       flex-direction: column;
       
       margin-bottom: 12px;
@@ -1501,6 +1553,7 @@
 
     @media (max-width: 480px) {
       .main-content {
+      padding-top: 60px;
         padding: 12px;
       }
 
@@ -1639,14 +1692,15 @@
   <!-- Main Content -->
   <main class="main-content">
     <!-- Header -->
-    <header class="header">
-      <div class="header-top">
+    <div class="kebab-wrapper">
         <button class="kebab-menu" id="kebabMenu" aria-label="Toggle menu">
           <span></span>
           <span></span>
           <span></span>
         </button>
       </div>
+
+    <header class="header">
       <div class="header-content">
         <h1 class="page-title">AI Disease Prediction 🔮</h1>
         <p class="page-subtitle">Get personalized health risk assessments based on your metrics</p>
@@ -1744,14 +1798,17 @@
             <label class="form-label">Family Medical History</label>
             <div class="form-grid">
               <label style="display: flex;
+      flex-direction: column;
       flex-direction: column;  gap: 8px; font-size: 14px;">
                 <input type="checkbox" id="diabetesHistory"> Diabetes
               </label>
               <label style="display: flex;
+      flex-direction: column;
       flex-direction: column;  gap: 8px; font-size: 14px;">
                 <input type="checkbox" id="hypertensionHistory"> Hypertension
               </label>
               <label style="display: flex;
+      flex-direction: column;
       flex-direction: column;  gap: 8px; font-size: 14px;">
                 <input type="checkbox" id="heartDiseaseHistory"> Heart Disease
               </label>
@@ -1762,10 +1819,12 @@
             <label class="form-label">Lifestyle Factors</label>
             <div class="form-grid">
               <label style="display: flex;
+      flex-direction: column;
       flex-direction: column;  gap: 8px; font-size: 14px;">
                 <input type="checkbox" id="smoking"> Current Smoker
               </label>
               <label style="display: flex;
+      flex-direction: column;
       flex-direction: column;  gap: 8px; font-size: 14px;">
                 <input type="checkbox" id="alcohol"> Regular Alcohol
               </label>
