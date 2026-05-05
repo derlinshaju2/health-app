@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - HealthAI</title>
-  <meta name="cache-buster" content="v8-20260505-no-hamburger">
+  <meta name="cache-buster" content="v9-20260505-kebab-menu">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -157,6 +157,53 @@
       font-size: 14px;
       color: var(--gray);
       margin-top: 4px;
+    }
+
+    /* Kebab Menu Button */
+    .kebab-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 1002;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .kebab-menu:hover {
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .kebab-menu span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #6366f1;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .kebab-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+      background: #8b5cf6;
+    }
+
+    .kebab-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .kebab-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+      background: #8b5cf6;
+    }
+
+    .kebab-menu.active {
+      background: rgba(99, 102, 241, 0.15);
     }
 
     /* Onboarding Welcome Card */
@@ -528,6 +575,10 @@
         width: 100%;
       }
 
+      .kebab-menu {
+        display: flex;
+      }
+
       .mobile-menu-btn {
         display: none !important;
       }
@@ -739,6 +790,11 @@
         <h1 class="page-title" id="welcomeTitle">Welcome to HealthAI! 🎉</h1>
         <p class="page-subtitle" id="welcomeSubtitle">Your personalized health journey starts here</p>
       </div>
+      <button class="kebab-menu" id="kebabMenu" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </header>
 
     <!-- Onboarding Card (shown for new users) -->
@@ -1193,6 +1249,24 @@
       btn.addEventListener('click', () => {
         localStorage.setItem('hasCompletedOnboarding', 'true');
       });
+    });
+
+    // Kebab menu toggle for mobile navigation
+    const kebabMenu = document.getElementById('kebabMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    kebabMenu.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      kebabMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
+          sidebar.classList.remove('active');
+          kebabMenu.classList.remove('active');
+        }
+      }
     });
 
     // Simulate some initial progress for new users
