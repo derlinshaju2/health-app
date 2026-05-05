@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v39-20260505-same-as-dashboard">
+  <meta name="cache-buster" content="v40-20260505-removed-red-hamburger">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -123,65 +123,34 @@
     /* Mobile menu toggle button (shown when sidebar is closed on mobile) */
     .mobile-menu-toggle {
       display: none;
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
+      background: white;
+      color: #6366f1;
+      border: 2px solid #e2e8f0;
+      padding: 12px 16px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
+      font-weight: 600;
       line-height: 1;
-      transition: all 0.2s ease;
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      min-width: 48px;
+      min-height: 48px;
     }
 
     .mobile-menu-toggle:hover {
-      background: var(--primary-dark);
-      transform: translateY(-50%) scale(1.05);
-    }
-
-    /* Fixed Hamburger Button - Always Visible (Same as Dashboard) */
-    .fixed-hamburger-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 10000;
-      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%) !important;
-      color: white;
-      border: 3px solid #000 !important;
-      padding: 15px 20px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 24px;
-      font-weight: bold;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-      transition: all 0.2s ease;
-      min-width: 60px;
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .fixed-hamburger-btn:hover {
-      background: linear-gradient(135deg, #ff5252 0%, #e04a5f 100%) !important;
-      transform: scale(1.1);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-    }
-
-    .fixed-hamburger-btn:active {
+      background: #f8fafc;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
       transform: scale(1.05);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
-    /* Hide fixed hamburger button on desktop */
-    @media (min-width: 769px) {
-      .fixed-hamburger-btn {
-        display: none !important;
-      }
+    .mobile-menu-toggle:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     /* Hide hamburger button on desktop */
@@ -1150,11 +1119,6 @@
 
       .mobile-menu-toggle {
         display: flex;
-      }
-
-      /* Show fixed hamburger button on mobile */
-      .fixed-hamburger-btn {
-        display: flex !important;
       }
 
       /* Header */
@@ -2332,8 +2296,8 @@
 </head>
 <body>
   <!-- Mobile menu toggle button -->
-  <button class="fixed-hamburger-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
-    ☰
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
+    ⋮
   </button>
 
   <!-- Sidebar Overlay for Mobile -->
@@ -3001,50 +2965,66 @@
       }
     });
 
-    // Toggle sidebar for mobile and desktop (Same as Dashboard)
+    // Toggle sidebar for mobile and desktop
     function toggleSidebar() {
       const sidebar = document.querySelector('.sidebar');
-      const mainContent = document.querySelector('.main-content');
       const overlay = document.getElementById('sidebarOverlay');
-
-      // Check if we're on mobile
-      const isMobile = window.innerWidth <= 768;
+      const mobileToggle = document.getElementById('mobileMenuToggle');
 
       if (sidebar) {
+        const isMobile = window.innerWidth <= 768;
+
         if (isMobile) {
-          // Mobile: toggle 'open' class
-          sidebar.classList.toggle('open');
+          // Mobile: toggle sidebar open/closed
+          const isOpen = sidebar.classList.toggle('open');
+
+          // Show/hide overlay
+          if (overlay) {
+            overlay.classList.toggle('active', isOpen);
+          }
+
+          // Update mobile toggle button
+          if (mobileToggle) {
+            if (isOpen) {
+              mobileToggle.innerHTML = '✕'; // Show X when menu is open
+              mobileToggle.style.background = '#6366f1';
+              mobileToggle.style.color = 'white';
+            } else {
+              mobileToggle.innerHTML = '⋮'; // Show kebab when closed
+              mobileToggle.style.background = 'white';
+              mobileToggle.style.color = '#6366f1';
+            }
+          }
         } else {
-          // Desktop: toggle 'collapsed' class
+          // Desktop: toggle collapsed state
           sidebar.classList.toggle('collapsed');
         }
       }
-      if (mainContent && !isMobile) {
-        // Only toggle expanded on desktop
-        mainContent.classList.toggle('expanded');
-      }
-      if (overlay) {
-        overlay.classList.toggle('active');
-      }
     }
 
-    // Handle window resize (Same as Dashboard)
+    // Handle window resize
     window.addEventListener('resize', function() {
       const sidebar = document.querySelector('.sidebar');
-      const mainContent = document.querySelector('.main-content');
+      const mobileToggle = document.getElementById('mobileMenuToggle');
 
       if (window.innerWidth > 768) {
-        // Desktop: remove mobile classes
+        // Desktop: reset mobile states
         if (sidebar) {
           sidebar.classList.remove('open');
         }
-      } else {
-        // Mobile: remove desktop classes
-        if (sidebar) {
-          sidebar.classList.remove('collapsed');
+        if (mobileToggle) {
+          mobileToggle.style.display = 'none';
         }
-        if (mainContent) {
-          mainContent.classList.remove('expanded');
+        if (document.getElementById('sidebarOverlay')) {
+          document.getElementById('sidebarOverlay').classList.remove('active');
+        }
+      } else {
+        // Mobile: show toggle and reset to kebab state
+        if (mobileToggle) {
+          mobileToggle.style.display = 'flex';
+          mobileToggle.innerHTML = '⋮';
+          mobileToggle.style.background = 'white';
+          mobileToggle.style.color = '#6366f1';
         }
       }
     });
