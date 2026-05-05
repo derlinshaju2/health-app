@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Responsive Test - HealthAI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .test-container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    h1 { color: #667eea; text-align: center; margin-bottom: 20px; }
+    .test-item {
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      background: #f8fafc;
+      border-left: 4px solid #10b981;
+    }
+    .test-item.issue {
+      background: #fef3c7;
+      border-left-color: #f59e0b;
+    }
+    .test-item.good {
+      background: #d4edda;
+      border-left-color: #10b981;
+    }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+      width: 100%;
+      max-width: 300px;
+    }
+    .instructions {
+      background: #d1ecf1;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      border-left: 5px solid #0c5460;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>📱 Mobile Responsive Test</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 30px;">
+      Test the Diet & Nutrition page mobile responsiveness
+    </p>
+
+    <div class="instructions">
+      <h3>🔍 How to Test:</h3>
+      <ol style="line-height: 1.8;">
+        <li><strong>Open Browser DevTools:</strong> Press F12 or right-click → Inspect</li>
+        <li><strong>Enable Device Mode:</strong> Click the device icon (Ctrl+Shift+M)</li>
+        <li><strong>Test Different Devices:</strong> iPhone SE, iPhone 12, Samsung Galaxy, etc.</li>
+        <li><strong>Check for Horizontal Scroll:</strong> Try scrolling sideways - there should be NO horizontal scroll</li>
+        <li><strong>Test Portrait & Landscape:</strong> Rotate the device to test both orientations</li>
+      </ol>
+    </div>
+
+    <div style="text-align: center;">
+      <button onclick="window.open('diet-tracking.html', '_blank')">
+        📱 Open Diet Page in New Tab
+      </button>
+      <button onclick="runTests()">
+        🧪 Run Diagnostic Tests
+      </button>
+    </div>
+
+    <div id="testResults"></div>
+  </div>
+
+  <script>
+    function runTests() {
+      const results = [];
+      const resultsDiv = document.getElementById('testResults');
+
+      // Test 1: Viewport Meta Tag
+      const viewport = document.querySelector('meta[name="viewport"]');
+      results.push({
+        name: 'Viewport Meta Tag',
+        status: viewport && viewport.content.includes('width=device-width') ? 'PASS' : 'FAIL',
+        description: viewport ? 'Found viewport meta tag' : 'Missing viewport meta tag'
+      });
+
+      // Test 2: CSS Overflow
+      const testDiv = document.createElement('div');
+      testDiv.style.cssText = 'position: absolute; left: -9999px; width: 100%;';
+      document.body.appendChild(testDiv);
+      const htmlWidth = document.documentElement.scrollWidth;
+      const windowWidth = window.innerWidth;
+      document.body.removeChild(testDiv);
+
+      results.push({
+        name: 'Horizontal Overflow Check',
+        status: htmlWidth <= windowWidth ? 'PASS' : 'FAIL',
+        description: `HTML width: ${htmlWidth}px, Window width: ${windowWidth}px`
+      });
+
+      // Test 3: CSS Media Queries
+      const hasMobileStyles = window.innerWidth <= 768;
+      results.push({
+        name: 'Current Viewport',
+        status: 'INFO',
+        description: `Current width: ${window.innerWidth}px - ${hasMobileStyles ? 'Mobile' : 'Desktop'} styles should apply`
+      });
+
+      // Display results
+      let html = '<h3 style="margin: 20px 0; color: #667eea;">🧪 Test Results:</h3>';
+      results.forEach(result => {
+        const statusClass = result.status === 'PASS' ? 'good' : (result.status === 'FAIL' ? 'issue' : '');
+        html += `
+          <div class="test-item ${statusClass}">
+            <strong>${result.name}:</strong> ${result.status}<br>
+            <small>${result.description}</small>
+          </div>
+        `;
+      });
+
+      resultsDiv.innerHTML = html;
+
+      // Scroll to results
+      resultsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Auto-run tests on page load
+    window.addEventListener('load', function() {
+      console.log('📱 Mobile Responsive Test Page Loaded');
+      console.log('💡 Open DevTools (F12) and enable Device Mode (Ctrl+Shift+M) to test');
+    });
+  </script>
+</body>
+</html>
