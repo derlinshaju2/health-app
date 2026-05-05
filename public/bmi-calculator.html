@@ -1182,9 +1182,6 @@
 
 
   <script>
-    // Mobile menu toggle
-
-    // Mobile menu functionality removed
     // Kebab menu toggle for mobile navigation
     const kebabMenu = document.getElementById('kebabMenu');
     const sidebar = document.getElementById('sidebar');
@@ -1262,40 +1259,6 @@
         }
       }
     });
-    // Kebab menu toggle for mobile navigation
-    const kebabMenu = document.getElementById('kebabMenu');
-    const sidebar = document.getElementById('sidebar');
-
-    if (kebabMenu && sidebar) {
-      kebabMenu.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-        kebabMenu.classList.toggle('active');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
-            sidebar.classList.remove('active');
-            kebabMenu.classList.remove('active');
-          }
-        }
-      });
-    }
-  </script>
-
-  <script>
-    // BMI calculation function
-    function calculateBMI(event) {
-      event.preventDefault();
-
-      let height, weight;
-
-      // Get height in cm
-      if (document.getElementById('heightCm').value) {
-        height = parseFloat(document.getElementById('heightCm').value) / 100; // Convert to meters
-      } else if (document.getElementById('heightFt').value && document.getElementById('heightIn').value) {
-        const feet = parseFloat(document.getElementById('heightFt').value);
-        const inches = parseFloat(document.getElementById('heightIn').value);
         height = ((feet * 12) + inches) * 0.0254; // Convert to meters
       }
 
@@ -1394,25 +1357,6 @@
 
     function savePrediction() {
       alert('BMI results saved successfully!');
-    }
-    // Kebab menu toggle for mobile navigation
-    const kebabMenu = document.getElementById('kebabMenu');
-    const sidebar = document.getElementById('sidebar');
-
-    if (kebabMenu && sidebar) {
-      kebabMenu.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-        kebabMenu.classList.toggle('active');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
-            sidebar.classList.remove('active');
-            kebabMenu.classList.remove('active');
-          }
-        }
-      });
     }
   </script>
   </div><!-- End main-content -->

@@ -2271,25 +2271,6 @@
         }
       }
     });
-    // Kebab menu toggle for mobile navigation
-    const kebabMenu = document.getElementById('kebabMenu');
-    const sidebar = document.getElementById('sidebar');
-
-    if (kebabMenu && sidebar) {
-      kebabMenu.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-        kebabMenu.classList.toggle('active');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          if (!sidebar.contains(e.target) && !kebabMenu.contains(e.target)) {
-            sidebar.classList.remove('active');
-            kebabMenu.classList.remove('active');
-          }
-        }
-      });
-    }
   </script>
 
   <script>
