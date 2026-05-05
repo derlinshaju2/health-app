@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v37-20260505-original-kebab-button">
+  <meta name="cache-buster" content="v38-20260505-earlier-working-kebab">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -140,9 +140,6 @@
       transition: box-shadow 0.3s ease;
       min-width: 48px;
       min-height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .mobile-menu-toggle:hover {
@@ -1118,11 +1115,7 @@
       }
 
       .mobile-menu-toggle {
-        display: flex !important;
-        position: fixed !important;
-        top: 16px !important;
-        left: 16px !important;
-        z-index: 1001 !important;
+        display: flex;
       }
 
       /* Header */
@@ -2979,26 +2972,16 @@
         const isMobile = window.innerWidth <= 768;
 
         if (isMobile) {
-          // Mobile: toggle sidebar open/closed
           const isOpen = sidebar.classList.toggle('open');
-
-          // Show/hide overlay
-          if (overlay) {
-            overlay.classList.toggle('active', isOpen);
-          }
-
-          // Update mobile toggle button
           if (mobileToggle) {
-            if (isOpen) {
-              mobileToggle.innerHTML = '✕'; // Show X when menu is open
-            } else {
-              mobileToggle.innerHTML = '⋮'; // Show kebab when closed
-            }
+            mobileToggle.style.display = isOpen ? 'none' : 'block';
           }
         } else {
-          // Desktop: toggle collapsed state
           sidebar.classList.toggle('collapsed');
         }
+      }
+      if (overlay) {
+        overlay.classList.toggle('active');
       }
     }
 
@@ -3008,21 +2991,15 @@
       const mobileToggle = document.getElementById('mobileMenuToggle');
 
       if (window.innerWidth > 768) {
-        // Desktop: reset mobile states
         if (sidebar) {
           sidebar.classList.remove('open');
         }
         if (mobileToggle) {
           mobileToggle.style.display = 'none';
         }
-        if (document.getElementById('sidebarOverlay')) {
-          document.getElementById('sidebarOverlay').classList.remove('active');
-        }
       } else {
-        // Mobile: show toggle and reset to kebab state
-        if (mobileToggle) {
-          mobileToggle.style.display = 'flex';
-          mobileToggle.innerHTML = '⋮';
+        if (mobileToggle && sidebar && !sidebar.classList.contains('open')) {
+          mobileToggle.style.display = 'block';
         }
       }
     });
