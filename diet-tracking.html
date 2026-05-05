@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v32-20260505-kebab-button-fix">
+  <meta name="cache-buster" content="v33-20260505-kebab-button-positioning-fix">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -158,36 +158,13 @@
     }
 
     /* Kebab icon dots */
-    .mobile-menu-toggle::before {
-      content: '';
-      display: block;
-      width: 6px;
-      height: 6px;
-      background: #6366f1;
-      border-radius: 50%;
-      margin: 2px 0;
-      transition: all 0.3s ease;
-    }
-
-    .mobile-menu-toggle::after {
-      content: '';
-      display: block;
-      width: 6px;
-      height: 6px;
-      background: #6366f1;
-      border-radius: 50%;
-      margin: 2px 0;
-      transition: all 0.3s ease;
-    }
-
-    /* Create three dots for kebab icon */
     .mobile-menu-toggle .kebab-dot {
       display: block;
       width: 6px;
       height: 6px;
       background: #6366f1;
       border-radius: 50%;
-      margin: 2px 0;
+      margin: 3px 0;
       transition: all 0.3s ease;
     }
 
@@ -1162,10 +1139,14 @@
 
       .mobile-menu-toggle {
         display: flex !important;
-        position: fixed;
-        top: 16px;
-        left: 16px;
-        z-index: 1001;
+        position: fixed !important;
+        top: 16px !important;
+        left: 16px !important;
+        z-index: 1001 !important;
+        width: auto !important;
+        min-width: 50px !important;
+        max-width: 50px !important;
+        height: 50px !important;
       }
 
       /* Header */
@@ -2276,12 +2257,24 @@
       .form-group,
       .form-input,
       .form-select,
-      button,
-      .btn {
+      button:not(.mobile-menu-toggle),
+      .btn:not(.mobile-menu-toggle) {
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
         overflow-x: hidden !important;
+      }
+
+      /* Exception for mobile menu toggle button - keep proper sizing */
+      .mobile-menu-toggle {
+        width: auto !important;
+        min-width: 50px !important;
+        max-width: 50px !important;
+        height: 50px !important;
+        position: fixed !important;
+        top: 16px !important;
+        left: 16px !important;
+        z-index: 1001 !important;
       }
 
       /* Prevent text overflow */
