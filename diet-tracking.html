@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v31-20260505-mobile-responsive-fix">
+  <meta name="cache-buster" content="v32-20260505-kebab-button-fix">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -124,24 +124,71 @@
     .mobile-menu-toggle {
       display: none; /* Hidden by default, shown on mobile via media query */
       position: fixed;
-      top: 12px;
-      left: 12px;
+      top: 16px;
+      left: 16px;
       z-index: 1001;
       background: white;
       color: #6366f1;
       border: 2px solid #e2e8f0;
-      padding: 10px 14px;
-      border-radius: 8px;
+      padding: 12px 16px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 600;
       line-height: 1;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       transition: all 0.3s ease;
-      min-width: 44px;
-      min-height: 44px;
+      min-width: 50px;
+      min-height: 50px;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .mobile-menu-toggle:hover {
+      background: #f8fafc;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+
+    .mobile-menu-toggle:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Kebab icon dots */
+    .mobile-menu-toggle::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: #6366f1;
+      border-radius: 50%;
+      margin: 2px 0;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-toggle::after {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: #6366f1;
+      border-radius: 50%;
+      margin: 2px 0;
+      transition: all 0.3s ease;
+    }
+
+    /* Create three dots for kebab icon */
+    .mobile-menu-toggle .kebab-dot {
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: #6366f1;
+      border-radius: 50%;
+      margin: 2px 0;
+      transition: all 0.3s ease;
     }
 
     .mobile-menu-toggle:hover {
@@ -1063,41 +1110,6 @@
       line-height: 1.5;
     }
 
-    /* Mobile Menu Button (Kebab) */
-    .mobile-menu-toggle {
-      display: flex;
-      position: fixed;
-      top: 12px;
-      left: 12px;
-      z-index: 1001;
-      background: white;
-      color: #6366f1;
-      border: 2px solid #e2e8f0;
-      padding: 10px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 1;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
-      min-width: 44px;
-      min-height: 44px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .mobile-menu-toggle:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-      transform: scale(1.05);
-      background: #f8fafc;
-    }
-
-    .mobile-menu-toggle:active {
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      transform: scale(0.98);
-    }
-
     /* Responsive */
     @media (max-width: 1024px) {
       .content-grid {
@@ -1149,7 +1161,11 @@
       }
 
       .mobile-menu-toggle {
-        display: flex;
+        display: flex !important;
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        z-index: 1001;
       }
 
       /* Header */
@@ -2328,7 +2344,9 @@
 <body>
   <!-- Mobile menu toggle button -->
   <button class="mobile-menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu" id="mobileMenuToggle">
-    ⋮
+    <span class="kebab-dot"></span>
+    <span class="kebab-dot"></span>
+    <span class="kebab-dot"></span>
   </button>
 
   <!-- Sidebar Overlay for Mobile -->
@@ -2985,16 +3003,33 @@
         const isMobile = window.innerWidth <= 768;
 
         if (isMobile) {
+          // Mobile: toggle sidebar open/closed
           const isOpen = sidebar.classList.toggle('open');
+
+          // Show/hide overlay
+          if (overlay) {
+            overlay.classList.toggle('active', isOpen);
+          }
+
+          // Don't hide the mobile toggle button - keep it visible
+          // This allows users to close the menu using the same button
           if (mobileToggle) {
-            mobileToggle.style.display = isOpen ? 'none' : 'block';
+            mobileToggle.style.display = 'flex';
+            // Change button appearance when menu is open
+            if (isOpen) {
+              mobileToggle.innerHTML = '✕'; // Show X when menu is open
+              mobileToggle.style.background = '#6366f1';
+              mobileToggle.style.color = 'white';
+            } else {
+              mobileToggle.innerHTML = '<span class="kebab-dot"></span><span class="kebab-dot"></span><span class="kebab-dot"></span>'; // Show kebab when closed
+              mobileToggle.style.background = 'white';
+              mobileToggle.style.color = '#6366f1';
+            }
           }
         } else {
+          // Desktop: toggle collapsed state
           sidebar.classList.toggle('collapsed');
         }
-      }
-      if (overlay) {
-        overlay.classList.toggle('active');
       }
     }
 
@@ -3003,15 +3038,24 @@
       const mobileToggle = document.getElementById('mobileMenuToggle');
 
       if (window.innerWidth > 768) {
+        // Desktop: reset mobile states
         if (sidebar) {
           sidebar.classList.remove('open');
         }
         if (mobileToggle) {
           mobileToggle.style.display = 'none';
         }
+        if (document.getElementById('sidebarOverlay')) {
+          document.getElementById('sidebarOverlay').classList.remove('active');
+        }
       } else {
-        if (mobileToggle && sidebar && !sidebar.classList.contains('open')) {
-          mobileToggle.style.display = 'block';
+        // Mobile: show toggle if sidebar is closed
+        if (mobileToggle) {
+          mobileToggle.style.display = 'flex';
+          // Reset button to kebab state
+          mobileToggle.innerHTML = '<span class="kebab-dot"></span><span class="kebab-dot"></span><span class="kebab-dot"></span>';
+          mobileToggle.style.background = 'white';
+          mobileToggle.style.color = '#6366f1';
         }
       }
     });
