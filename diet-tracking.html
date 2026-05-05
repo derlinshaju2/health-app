@@ -97,40 +97,13 @@
       color: rgba(255, 255, 255, 0.9);
     }
 
-    .sidebar-hamburger {
-      background: rgba(255, 255, 255, 0.25);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 20px;
-      line-height: 1;
-      transition: background 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 40px;
-      min-height: 40px;
-    }
-
-    .sidebar-hamburger:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .sidebar-hamburger:active {
-      background: rgba(255, 255, 255, 0.25);
-    }
-
     .sidebar.collapsed {
       transform: translateX(-100%) !important;
     }
 
     /* Hide hamburger button on desktop */
     @media (min-width: 769px) {
-      .sidebar-hamburger {
-        display: none;
-      }
+      /* No hamburger buttons to hide */
     }
 
     .sidebar-overlay {
@@ -1081,10 +1054,7 @@
         box-sizing: border-box;
       }
 
-      /* Hamburger Buttons */
-      .sidebar-hamburger {
-        display: flex;
-      }
+      /* No hamburger buttons */
 
       /* Header */
       .header-content {
@@ -1590,7 +1560,6 @@
       }
 
       /* Prevent text selection on touch */
-      .sidebar-hamburger,
       button {
         -webkit-user-select: none;
         user-select: none;
@@ -2254,9 +2223,6 @@
         <h2>🏥 HealthAI</h2>
         <p>Your Health Companion</p>
       </div>
-      <button class="sidebar-hamburger" onclick="toggleSidebar()" aria-label="Toggle menu">
-        ⋮
-      </button>
     </div>
 
     <div class="nav-section">
