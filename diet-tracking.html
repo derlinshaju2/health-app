@@ -6,7 +6,7 @@
   <title>Diet & Nutrition - HealthAI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta name="cache-buster" content="v34-20260505-kebab-button-fully-functional">
+  <meta name="cache-buster" content="v35-20260505-error-handling-fix">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -2977,86 +2977,120 @@
   </script>
 
   <script>
+    // Global error handlers to prevent extension-related errors
+    window.addEventListener('error', function(event) {
+      // Suppress errors from browser extensions
+      if (event.message && event.message.includes('message channel')) {
+        event.preventDefault();
+        return true;
+      }
+    });
+
+    window.addEventListener('unhandledrejection', function(event) {
+      // Handle promise rejections from extensions
+      if (event.reason && event.reason.toString().includes('message channel')) {
+        event.preventDefault();
+        return true;
+      }
+    });
+
     // Set active navigation item based on current page
     document.addEventListener('DOMContentLoaded', function() {
-      const currentPage = window.location.pathname.split('/').pop() || 'diet-tracking.html';
-      const navItems = document.querySelectorAll('.nav-item');
+      try {
+        const currentPage = window.location.pathname.split('/').pop() || 'diet-tracking.html';
+        const navItems = document.querySelectorAll('.nav-item');
 
-      navItems.forEach(item => {
-        const href = item.getAttribute('href');
-        if (href === currentPage) {
-          item.classList.add('active');
-        } else {
-          item.classList.remove('active');
-        }
-      });
+        navItems.forEach(item => {
+          const href = item.getAttribute('href');
+          if (href === currentPage) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        });
+      } catch (error) {
+        console.warn('Navigation initialization error:', error);
+      }
     });
 
     // Toggle sidebar for mobile and desktop
     function toggleSidebar() {
-      const sidebar = document.querySelector('.sidebar');
-      const overlay = document.getElementById('sidebarOverlay');
-      const mobileToggle = document.getElementById('mobileMenuToggle');
+      try {
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const mobileToggle = document.getElementById('mobileMenuToggle');
 
-      if (sidebar) {
-        const isMobile = window.innerWidth <= 768;
+        if (sidebar) {
+          const isMobile = window.innerWidth <= 768;
 
-        if (isMobile) {
-          // Mobile: toggle sidebar open/closed
-          const isOpen = sidebar.classList.toggle('open');
+          if (isMobile) {
+            // Mobile: toggle sidebar open/closed
+            const isOpen = sidebar.classList.toggle('open');
 
-          // Show/hide overlay
-          if (overlay) {
-            overlay.classList.toggle('active', isOpen);
+            // Show/hide overlay
+            if (overlay) {
+              overlay.classList.toggle('active', isOpen);
+            }
+
+            // Don't hide the mobile toggle button - keep it visible
+            // This allows users to close the menu using the same button
+            if (mobileToggle) {
+              mobileToggle.style.display = 'flex';
+              // Change button appearance when menu is open
+              if (isOpen) {
+                mobileToggle.innerHTML = '✕'; // Show X when menu is open
+                mobileToggle.style.background = '#6366f1';
+                mobileToggle.style.color = 'white';
+              } else {
+                mobileToggle.innerHTML = '<span class="kebab-dot"></span><span class="kebab-dot"></span><span class="kebab-dot"></span>'; // Show kebab when closed
+                mobileToggle.style.background = 'white';
+                mobileToggle.style.color = '#6366f1';
+              }
+            }
+          } else {
+            // Desktop: toggle collapsed state
+            sidebar.classList.toggle('collapsed');
           }
+        }
+      } catch (error) {
+        console.warn('Sidebar toggle error:', error);
+      }
+    }
 
-          // Don't hide the mobile toggle button - keep it visible
-          // This allows users to close the menu using the same button
-          if (mobileToggle) {
-            mobileToggle.style.display = 'flex';
-            // Change button appearance when menu is open
-            if (isOpen) {
-              mobileToggle.innerHTML = '✕'; // Show X when menu is open
-              mobileToggle.style.background = '#6366f1';
-              mobileToggle.style.color = 'white';
-            } else {
-              mobileToggle.innerHTML = '<span class="kebab-dot"></span><span class="kebab-dot"></span><span class="kebab-dot"></span>'; // Show kebab when closed
+    // Add debounce for resize events
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        try {
+          const sidebar = document.querySelector('.sidebar');
+          const mobileToggle = document.getElementById('mobileMenuToggle');
+
+          if (window.innerWidth > 768) {
+            // Desktop: reset mobile states
+            if (sidebar) {
+              sidebar.classList.remove('open');
+            }
+            if (mobileToggle) {
+              mobileToggle.style.display = 'none';
+            }
+            if (document.getElementById('sidebarOverlay')) {
+              document.getElementById('sidebarOverlay').classList.remove('active');
+            }
+          } else {
+            // Mobile: show toggle if sidebar is closed
+            if (mobileToggle) {
+              mobileToggle.style.display = 'flex';
+              // Reset button to kebab state
+              mobileToggle.innerHTML = '<span class="kebab-dot"></span><span class="kebab-dot"></span><span class="kebab-dot"></span>';
               mobileToggle.style.background = 'white';
               mobileToggle.style.color = '#6366f1';
             }
           }
-        } else {
-          // Desktop: toggle collapsed state
-          sidebar.classList.toggle('collapsed');
+        } catch (error) {
+          console.warn('Resize handler error:', error);
         }
-      }
-    }
-
-    window.addEventListener('resize', function() {
-      const sidebar = document.querySelector('.sidebar');
-      const mobileToggle = document.getElementById('mobileMenuToggle');
-
-      if (window.innerWidth > 768) {
-        // Desktop: reset mobile states
-        if (sidebar) {
-          sidebar.classList.remove('open');
-        }
-        if (mobileToggle) {
-          mobileToggle.style.display = 'none';
-        }
-        if (document.getElementById('sidebarOverlay')) {
-          document.getElementById('sidebarOverlay').classList.remove('active');
-        }
-      } else {
-        // Mobile: show toggle if sidebar is closed
-        if (mobileToggle) {
-          mobileToggle.style.display = 'flex';
-          // Reset button to kebab state
-          mobileToggle.innerHTML = '<span class="kebab-dot"></span><span class="kebab-dot"></span><span class="kebab-dot"></span>';
-          mobileToggle.style.background = 'white';
-          mobileToggle.style.color = '#6366f1';
-        }
-      }
+      }, 100); // Debounce resize events
     });
   </script>
 
@@ -3070,70 +3104,95 @@
 
     // Log meal function
     function logMeal(event) {
-      event.preventDefault();
+      try {
+        event.preventDefault();
 
-      const mealType = document.getElementById('mealType').value;
-      const foodItem = document.getElementById('foodItem').value;
-      const calories = parseInt(document.getElementById('calories').value);
-      const protein = parseInt(document.getElementById('protein').value) || 0;
-      const carbs = parseInt(document.getElementById('carbs').value) || 0;
-      const fats = parseInt(document.getElementById('fats').value) || 0;
+        const mealType = document.getElementById('mealType').value;
+        const foodItem = document.getElementById('foodItem').value;
+        const calories = parseInt(document.getElementById('calories').value);
+        const protein = parseInt(document.getElementById('protein').value) || 0;
+        const carbs = parseInt(document.getElementById('carbs').value) || 0;
+        const fats = parseInt(document.getElementById('fats').value) || 0;
 
-      // Update totals
-      totalCalories += calories;
-      totalProtein += protein;
-      totalCarbs += carbs;
-      totalFats += fats;
+        // Update totals
+        totalCalories += calories;
+        totalProtein += protein;
+        totalCarbs += carbs;
+        totalFats += fats;
 
-      // Update display
-      document.getElementById('totalCalories').textContent = totalCalories.toLocaleString();
-      document.getElementById('caloriesProgress').textContent = `${totalCalories}/2,000 kcal`;
-      document.getElementById('proteinProgress').textContent = `${totalProtein}g/120g`;
-      document.getElementById('carbsProgress').textContent = `${totalCarbs}g/200g`;
-      document.getElementById('fatsProgress').textContent = `${totalFats}g/65g`;
+        // Update display
+        const totalCalEl = document.getElementById('totalCalories');
+        const caloriesProgressEl = document.getElementById('caloriesProgress');
+        const proteinProgressEl = document.getElementById('proteinProgress');
+        const carbsProgressEl = document.getElementById('carbsProgress');
+        const fatsProgressEl = document.getElementById('fatsProgress');
 
-      // Add to meal list
-      const mealList = document.getElementById('mealList');
-      const mealIcons = {
-        breakfast: '🌅',
-        lunch: '☀️',
-        dinner: '🌙',
-        snack: '🍎'
-      };
+        if (totalCalEl) totalCalEl.textContent = totalCalories.toLocaleString();
+        if (caloriesProgressEl) caloriesProgressEl.textContent = `${totalCalories}/2,000 kcal`;
+        if (proteinProgressEl) proteinProgressEl.textContent = `${totalProtein}g/120g`;
+        if (carbsProgressEl) carbsProgressEl.textContent = `${totalCarbs}g/200g`;
+        if (fatsProgressEl) fatsProgressEl.textContent = `${totalFats}g/65g`;
 
-      const mealColors = {
-        breakfast: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
-        lunch: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
-        dinner: 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)',
-        snack: 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)'
-      };
+        // Add to meal list
+        const mealList = document.getElementById('mealList');
+        if (mealList) {
+          const mealIcons = {
+            breakfast: '🌅',
+            lunch: '☀️',
+            dinner: '🌙',
+            snack: '🍎'
+          };
 
-      const newMeal = document.createElement('div');
-      newMeal.className = 'activity-item';
-      newMeal.innerHTML = `
-        <div class="activity-icon" style="background: ${mealColors[mealType]};">${mealIcons[mealType]}</div>
-        <div class="activity-content">
-          <div class="activity-title">${foodItem}</div>
-          <div class="activity-time">${mealType.charAt(0).toUpperCase() + mealType.slice(1)} • Just now</div>
-        </div>
-        <div class="activity-value">${calories} kcal</div>
-      `;
+          const mealColors = {
+            breakfast: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+            lunch: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
+            dinner: 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)',
+            snack: 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)'
+          };
 
-      mealList.insertBefore(newMeal, mealList.firstChild);
+          const newMeal = document.createElement('div');
+          newMeal.className = 'activity-item';
+          newMeal.innerHTML = `
+            <div class="activity-icon" style="background: ${mealColors[mealType]};">${mealIcons[mealType]}</div>
+            <div class="activity-content">
+              <div class="activity-title">${foodItem}</div>
+              <div class="activity-time">${mealType.charAt(0).toUpperCase() + mealType.slice(1)} • Just now</div>
+            </div>
+            <div class="activity-value">${calories} kcal</div>
+          `;
 
-      // Reset form
-      document.getElementById('mealForm').reset();
-      alert('Meal logged successfully!');
+          mealList.insertBefore(newMeal, mealList.firstChild);
+        }
+
+        // Reset form
+        const mealForm = document.getElementById('mealForm');
+        if (mealForm) mealForm.reset();
+        alert('Meal logged successfully!');
+      } catch (error) {
+        console.error('Error logging meal:', error);
+        alert('There was an error logging your meal. Please try again.');
+      }
     }
 
     // Water intake function
     function addWater(amount) {
-      waterGlasses = Math.max(0, Math.min(12, waterGlasses + amount));
-      document.getElementById('waterCount').textContent = waterGlasses;
+      try {
+        waterGlasses = Math.max(0, Math.min(12, waterGlasses + amount));
+        const waterCountEl = document.getElementById('waterCount');
+        if (waterCountEl) {
+          waterCountEl.textContent = waterGlasses;
+        }
+      } catch (error) {
+        console.error('Error updating water intake:', error);
+      }
     }
 
     function saveMealLog() {
-      alert('Meal log saved successfully!');
+      try {
+        alert('Meal log saved successfully!');
+      } catch (error) {
+        console.error('Error saving meal log:', error);
+      }
     }
   </script>
 </body>
