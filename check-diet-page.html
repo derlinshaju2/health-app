@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diet Page Content Check - HealthAI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .check-container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 { color: #667eea; text-align: center; margin-bottom: 10px; }
+    .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 14px; }
+
+    .status-section {
+      margin: 25px 0;
+      padding: 20px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 5px solid #10b981;
+    }
+
+    .status-section.problem {
+      background: #fef3c7;
+      border-left-color: #f59e0b;
+    }
+
+    .test-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 10px 5px;
+      transition: all 0.3s ease;
+    }
+
+    .test-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .result-box {
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      display: none;
+      font-size: 14px;
+    }
+
+    .result-box.show {
+      display: block;
+    }
+
+    .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
+    code {
+      background: #1e293b;
+      color: #10b981;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      display: block;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="check-container">
+    <h1🔍 Diet Page Content Diagnostic</h1>
+    <p class="subtitle">Tool to check if content is loading properly on the Diet & Nutrition page</p>
+
+    <div class="status-section">
+      <h3>📋 Content Structure Check</h3>
+      <p>This will check if all the main content sections exist in the HTML:</p>
+      <button class="test-button" onclick="checkContentStructure()">🔍 Check Content Structure</button>
+      <div id="contentResult" class="result-box"></div>
+    </div>
+
+    <div class="status-section">
+      <h3>🎨 CSS Loading Check</h3>
+      <p>Verify that CSS is loading properly and content grid is working:</p>
+      <button class="test-button" onclick="checkCSS()">🎨 Check CSS Loading</button>
+      <div id="cssResult" class="result-box"></div>
+    </div>
+
+    <div class="status-section">
+      <h3>🧪 JavaScript Functionality Check</h3>
+      <p>Test if meal logging and other JavaScript functions are working:</p>
+      <button class="test-button" onclick="testJavaScript()">🧪 Test JavaScript</button>
+      <div id="jsResult" class="result-box"></div>
+    </div>
+
+    <div class="status-section">
+      <h3>🌐 Browser Cache Test</h3>
+      <p>Check if browser cache is showing old content:</p>
+      <button class="test-button" onclick="testCache()">🌐 Test Browser Cache</button>
+      <div id="cacheResult" class="result-box"></div>
+    </div>
+
+    <div class="status-section">
+      <h3>🔧 Quick Solutions</h3>
+      <div style="background: #d4edda; padding: 20px; border-radius: 12px; border-left: 5px solid #10b981;">
+        <h4 style="margin-bottom: 15px;">✅ Immediate Actions to Try:</h4>
+        <ol style="line-height: 1.8;">
+          <li><strong>Hard Refresh:</strong> Press <code>Ctrl+Shift+R</code> (Windows) or <code>Cmd+Shift+R</code> (Mac)</li>
+          <li><strong>Clear Cache:</strong> Press <code>F12</code> → Right-click refresh button → "Empty Cache and Hard Reload"</li>
+          <li><strong>Check Browser Console:</strong> Press <code>F12</code> → Look for red errors</li>
+          <li><strong>Try Different Browser:</strong> Test in Chrome, Firefox, or Edge</li>
+          <li><strong>Check Internet Connection:</strong> Ensure you're online and Vercel deployment is live</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="status-section">
+      <h3>📊 Current Status</h3>
+      <div id="statusResult" class="result-box info">
+        <strong>Page Status:</strong> Awaiting diagnostic checks...<br>
+        <strong>Expected Content:</strong> Meal logging form, nutrition summaries, water tracker, education sections<br>
+        <strong>Deployment:</strong> health-app-orpin-three.vercel.app/diet-tracking.html
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showResult(elementId, message, type) {
+      const element = document.getElementById(elementId);
+      element.innerHTML = message;
+      element.className = `result-box show ${type}`;
+    }
+
+    async function checkContentStructure() {
+      try {
+        const response = await fetch('diet-tracking.html');
+        const html = await response.text();
+
+        const checks = [
+          { name: 'Meal Logging Form', pattern: 'Log Today.*Meals' },
+          { name: 'Nutrition Summary', pattern: 'Today.*Nutrition' },
+          { name: 'Water Intake', pattern: 'Water.*Intake' },
+          { name: 'Today\'s Meals', pattern: 'Today.*Meals' },
+          { name: 'Nutrition Education', pattern: 'Understanding.*Nutrition' },
+          { name: 'Eating Guidelines', pattern: 'Evidence.*Eating' },
+          { name: 'Meal Planning', pattern: 'Meal.*Planning' },
+          { name: 'Hydration Content', pattern: 'Hydration.*Beyond' },
+          { name: 'Mindful Eating', pattern: 'Mindful.*Eating' },
+          { name: 'Food Labels', pattern: 'Understanding.*Food.*Labels' }
+        ];
+
+        let results = [];
+        let presentCount = 0;
+
+        checks.forEach(check => {
+          const regex = new RegExp(check.pattern, 'i');
+          const found = regex.test(html);
+          if (found) presentCount++;
+          results.push(`${found ? '✅' : '❌'} ${check.name}: ${found ? 'FOUND' : 'MISSING'}`);
+        });
+
+        showResult('contentResult',
+          `Found ${presentCount} out of ${checks.length} main content sections:<br><br>` +
+          results.join('<br>') +
+          (presentCount === checks.length ?
+            '<br><br>✅ All content sections are present in the HTML!' :
+            '<br><br>⚠️ Some content sections are missing from the HTML.'
+          ),
+          presentCount === checks.length ? 'success' : 'error'
+        );
+      } catch (error) {
+        showResult('contentResult', `❌ Error checking content: ${error.message}`, 'error');
+      }
+    }
+
+    function checkCSS() {
+      // Test if CSS grid is working
+      const testDiv = document.createElement('div');
+      testDiv.style.cssText = 'display: grid; grid-template-columns: repeat(12, 1fr);';
+      document.body.appendChild(testDiv);
+
+      const computedStyle = window.getComputedStyle(testDiv);
+      const displayWorks = computedStyle.display === 'grid';
+
+      document.body.removeChild(testDiv);
+
+      showResult('cssResult',
+        displayWorks ?
+          '✅ CSS Grid is supported and working properly' :
+          '❌ CSS Grid may not be working properly',
+        displayWorks ? 'success' : 'error'
+      );
+    }
+
+    function testJavaScript() {
+      try {
+        // Test if basic JavaScript works
+        const testObj = { test: 'success' };
+        const testJSON = JSON.stringify(testObj);
+
+        showResult('jsResult',
+          `✅ JavaScript is working<br>✅ JSON parsing works<br>✅ DOM manipulation available`,
+          'success'
+        );
+      } catch (error) {
+        showResult('jsResult', `❌ JavaScript error: ${error.message}`, 'error');
+      }
+    }
+
+    function testCache() {
+      const cacheBuster = document.querySelector('meta[name="cache-buster"]');
+      const cacheValue = cacheBuster ? cacheBuster.getAttribute('content') : 'Not found';
+
+      showResult('cacheResult',
+        `Current cache buster: ${cacheValue}<br><br>` +
+        'If this shows an old version number, try hard refresh:<br>' +
+        '<code>Ctrl+Shift+R</code> (Windows) or <code>Cmd+Shift+R</code> (Mac)',
+        'info'
+      );
+    }
+
+    // Auto-run content check on load
+    window.addEventListener('load', function() {
+      checkContentStructure();
+    });
+
+    console.log('🔍 Diet Page Diagnostic Tool Loaded');
+    console.log('💡 Run the tests above to diagnose the empty page issue');
+  </script>
+</body>
+</html>

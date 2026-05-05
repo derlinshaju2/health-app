@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kebab Button Verification - HealthAI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      min-height: 100vh;
+    }
+    .test-container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    h1 { color: #6366f1; text-align: center; margin-bottom: 20px; }
+    .test-section {
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 10px;
+      background: #f8fafc;
+      border-left: 5px solid #10b981;
+    }
+    .test-section.warning {
+      background: #fef3c7;
+      border-left-color: #f59e0b;
+    }
+    button {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .instructions {
+      background: #d1ecf1;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      border-left: 5px solid #0c5460;
+    }
+    .checklist {
+      background: #d4edda;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    .checklist-item {
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      background: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #10b981;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #10b981;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>✅ Kebab Button Verification Checklist</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 30px;">
+      Complete guide to verify your kebab button is working perfectly
+    </p>
+
+    <div class="instructions">
+      <h3>📋 How to Verify Your Kebab Button:</h3>
+      <ol style="line-height: 1.8;">
+        <li><strong>Open Browser DevTools:</strong> Press F12 or right-click → Inspect</li>
+        <li><strong>Enable Device Mode:</strong> Click the device icon or press Ctrl+Shift+M</li>
+        <li><strong>Select Mobile Device:</strong> Choose iPhone SE, iPhone 12, or any mobile device</li>
+        <li><strong>Test the Kebab Button:</strong> Follow the checklist below</li>
+      </ol>
+    </div>
+
+    <div class="checklist">
+      <h3 style="margin: 0 0 15px 0; color: #10b981;">🎯 Verification Checklist:</h3>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Kebab Button Visible:</strong>
+          <br><small>Look for the three-dot button (⋮) on the LEFT side of the screen</small>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Button Position:</strong>
+          <br><small>Should be positioned at top-left corner (16px from edges)</small>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Open Navigation Menu:</strong>
+          <br><small>Click the kebab button - navigation menu should slide in from LEFT</small>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Button Transforms to X:</strong>
+          <br><small>When menu opens, button should change from (⋮) to (✕)</small>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Navigation Menu Content:</strong>
+          <br><small>Menu should show: Dashboard, Diet & Nutrition, Yoga & Fitness, BMI Calculator, Disease Prediction</small>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Dark Overlay:</strong>
+          <br><small>Dark background should appear behind the navigation menu</small>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Close Menu with X:</strong>
+          <br><small>Click the X button - menu should slide out to the LEFT</small>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Button Returns to Dots:</strong>
+          <br><small>After closing, button should change back from (✕) to (⋮)</small>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Close Menu with Overlay:</strong>
+          <br><small>Open menu again, then click the dark overlay - menu should close</small>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <div class="checkbox">☐</div>
+        <div>
+          <strong>Smooth Animations:</strong>
+          <br><small>All transitions should be smooth (0.3s ease)</small>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align: center;">
+      <button onclick="window.open('diet-tracking.html', '_blank')">
+        📱 Open Diet Page to Test
+      </button>
+      <button onclick="showExpectedBehavior()">
+        📋 Show Expected Behavior
+      </button>
+    </div>
+
+    <div id="expectedBehavior" style="display: none; margin-top: 20px;">
+      <div class="test-section">
+        <h3 style="margin: 0 0 10px 0;">🎯 Expected Kebab Button Behavior:</h3>
+
+        <h4 style="color: #6366f1; margin: 15px 0 10px 0;">📍 Default State (Menu Closed):</h4>
+        <ul style="line-height: 1.6;">
+          <li><strong>Position:</strong> Top-left corner (16px from top, 16px from left)</li>
+          <li><strong>Icon:</strong> Three vertical dots (⋮)</li>
+          <li><strong>Background:</strong> White with purple border</li>
+          <li><strong>Size:</strong> 50×50 pixels</li>
+          <li><strong>State:</strong> Visible on mobile (≤768px), hidden on desktop</li>
+        </ul>
+
+        <h4 style="color: #6366f1; margin: 15px 0 10px 0;">📱 Active State (Menu Open):</h4>
+        <ul style="line-height: 1.6;">
+          <li><strong>Position:</strong> Same fixed position (doesn't move)</li>
+          <li><strong>Icon:</strong> Large X (✕)</li>
+          <li><strong>Background:</strong> Purple with white X</li>
+          <li><strong>Size:</strong> 50×50 pixels</li>
+          <li><strong>Function:</strong> Click to close menu</li>
+        </ul>
+
+        <h4 style="color: #6366f1; margin: 15px 0 10px 0;">🎨 Navigation Menu:</h4>
+        <ul style="line-height: 1.6;">
+          <li><strong>Position:</strong> Fixed on left side of screen</li>
+          <li><strong>Width:</strong> 250 pixels</li>
+          <li><strong>Animation:</strong> Slides in from left (0.3s ease)</li>
+          <li><strong>Content:</strong>
+            <ul>
+              <li>🏠 Dashboard</li>
+              <li>🥗 Diet & Nutrition (active)</li>
+              <li>🧘 Yoga & Fitness</li>
+              <li>⚖️ BMI Calculator</li>
+              <li>🤖 Disease Prediction</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h4 style="color: #6366f1; margin: 15px 0 10px 0;">🌙 Overlay:</h4>
+        <ul style="line-height: 1.6;">
+          <li><strong>Color:</strong> Dark semi-transparent (rgba(0,0,0,0.5))</li>
+          <li><strong>Function:</strong> Click to close menu</li>
+          <li><strong>z-index:</strong> 999 (below sidebar, above content)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="test-section warning">
+      <h3 style="margin: 0 0 10px 0;">⚠️ Troubleshooting:</h3>
+      <p style="margin: 5px 0;"><strong>If kebab button doesn't appear:</strong></p>
+      <ul style="line-height: 1.6;">
+        <li>Make sure browser width is ≤768px (mobile mode)</li>
+        <li>Hard refresh: Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)</li>
+        <li>Check browser console for errors (F12 → Console tab)</li>
+        <li>Clear browser cache and reload</li>
+      </ul>
+
+      <p style="margin: 15px 0 5px 0;"><strong>If menu doesn't open/close:</strong></p>
+      <ul style="line-height: 1.6;">
+        <li>Check if JavaScript is enabled</li>
+        <li>Look for console errors</li>
+        <li>Try clicking the button multiple times</li>
+        <li>Test in different browser (Chrome, Firefox, Edge)</li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h3 style="margin: 0 0 10px 0;">✨ Success Indicators:</h3>
+      <p style="margin: 5px 0;">When everything is working correctly, you should experience:</p>
+      <ul style="line-height: 1.8;">
+        <li>✅ Kebab button appears instantly on mobile view</li>
+        <li>✅ Clicking button smoothly opens navigation menu</li>
+        <li>✅ Button transforms to X indicating menu can be closed</li>
+        <li>✅ Navigation menu shows all module names clearly</li>
+        <li>✅ Dark overlay appears behind menu</li>
+        <li>✅ Clicking X closes menu smoothly</li>
+        <li>✅ Button returns to kebab dots when menu is closed</li>
+        <li>✅ All animations are smooth and professional</li>
+        <li>✅ No console errors or warnings</li>
+        <li>✅ Works consistently across different mobile devices</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function showExpectedBehavior() {
+      const behaviorDiv = document.getElementById('expectedBehavior');
+      behaviorDiv.style.display = behaviorDiv.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Auto-check checkboxes when clicked
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkboxes = document.querySelectorAll('.checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('click', function() {
+          this.textContent = this.textContent === '☐' ? '☑' : '☐';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
