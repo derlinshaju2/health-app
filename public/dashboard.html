@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - HealthAI</title>
-  <meta name="cache-buster" content="v5-20260505-matching-navigation">
+  <meta name="cache-buster" content="v6-20260505-smart-dashboard">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -785,23 +785,23 @@
     <!-- Onboarding Card (shown for new users) -->
     <div class="onboarding-card" id="onboardingCard">
       <div class="onboarding-content">
-        <h2 class="onboarding-title">👋 Let's Get Started!</h2>
-        <p class="onboarding-subtitle">Welcome to your personal health companion! Follow these simple steps to begin your wellness journey.</p>
+        <h2 class="onboarding-title">👋 Welcome to HealthAI!</h2>
+        <p class="onboarding-subtitle">Let's set up your personalized health journey in just a few simple steps</p>
 
         <div class="onboarding-steps">
           <div class="onboarding-step">
             <div class="step-number">1</div>
-            <div class="step-title">📊 Check Your Health</div>
-            <div class="step-description">Get your BMI and health score to understand your current status</div>
+            <div class="step-title">📊 Know Your Health Score</div>
+            <div class="step-description">Check your BMI and get a baseline health assessment</div>
             <div class="step-action">
-              <a href="bmi-calculator.html" class="step-btn">Check BMI Now</a>
+              <a href="bmi-calculator.html" class="step-btn">Check Now</a>
             </div>
           </div>
 
           <div class="onboarding-step">
             <div class="step-number">2</div>
-            <div class="step-title">🥗 Log Your First Meal</div>
-            <div class="step-description">Start tracking your nutrition to build healthy eating habits</div>
+            <div class="step-title">🥗 Log Today's Meal</div>
+            <div class="step-description">Start tracking your nutrition for healthier eating habits</div>
             <div class="step-action">
               <a href="diet-tracking.html" class="step-btn">Log Meal</a>
             </div>
@@ -809,8 +809,8 @@
 
           <div class="onboarding-step">
             <div class="step-number">3</div>
-            <div class="step-title">🧘 Try a Quick Workout</div>
-            <div class="step-description">Start with a beginner-friendly yoga session to get moving</div>
+            <div class="step-title">🧘 Quick 10-Min Workout</div>
+            <div class="step-description">Begin with an easy yoga session to get active</div>
             <div class="step-action">
               <a href="yoga-tracker.html" class="step-btn">Start Yoga</a>
             </div>
@@ -818,10 +818,10 @@
 
           <div class="onboarding-step">
             <div class="step-number">4</div>
-            <div class="step-title">🔮 Health Assessment</div>
-            <div class="step-description">Get personalized insights and health predictions</div>
+            <div class="step-title">🔮 Get Health Insights</div>
+            <div class="step-description">Receive personalized health predictions and tips</div>
             <div class="step-action">
-              <a href="disease-prediction.html" class="step-btn">Assess Now</a>
+              <a href="disease-prediction.html" class="step-btn">Get Insights</a>
             </div>
           </div>
         </div>
@@ -989,6 +989,11 @@
     function initializeDashboard() {
       const user = JSON.parse(localStorage.getItem('healthAIUser'));
 
+      // Set user join date if first time
+      if (!localStorage.getItem('userJoinDate')) {
+        localStorage.setItem('userJoinDate', new Date().toISOString());
+      }
+
       // Update welcome message
       if (user && user.firstName) {
         const hour = new Date().getHours();
@@ -1000,28 +1005,34 @@
         document.getElementById('welcomeSubtitle').textContent = 'Your personalized health journey starts here';
       }
 
-      // Check if user has completed onboarding
-      const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding');
+      // Smart dashboard: Check user experience level
+      const activities = JSON.parse(localStorage.getItem('activities')) || [];
+      const healthData = JSON.parse(localStorage.getItem('healthData')) || {};
+      const userJoinDate = localStorage.getItem('userJoinDate') || new Date().toISOString();
+      const daysSinceJoin = Math.floor((new Date() - new Date(userJoinDate)) / (1000 * 60 * 60 * 24));
 
-      if (hasCompletedOnboarding) {
-        // Show regular dashboard
+      // New user: less than 3 days OR less than 5 activities
+      const isNewUser = daysSinceJoin < 3 || activities.length < 5;
+
+      if (isNewUser) {
+        // Show helpful getting started guide
+        document.getElementById('onboardingCard').style.display = 'block';
+        document.getElementById('dashboardContent').style.display = 'none';
+      } else {
+        // Show full dashboard for daily users
         document.getElementById('onboardingCard').style.display = 'none';
         document.getElementById('dashboardContent').style.display = 'grid';
         loadDashboardData();
-      } else {
-        // Show onboarding
-        document.getElementById('onboardingCard').style.display = 'block';
-        document.getElementById('dashboardContent').style.display = 'none';
       }
     }
 
     function loadDashboardData() {
-      // Load health data from localStorage or set defaults
+      // Load health data from localStorage or set realistic defaults for daily users
       const healthData = JSON.parse(localStorage.getItem('healthData')) || {
-        steps: 2500,
-        calories: 850,
-        water: 3,
-        exerciseMinutes: 15
+        steps: 4532,
+        calories: 1680,
+        water: 5,
+        exerciseMinutes: 25
       };
 
       // Update stats with real data instead of 0%
